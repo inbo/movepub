@@ -4,10 +4,10 @@
 \alias{get_movebank_term}
 \title{Get Movebank term}
 \usage{
-get_movebank_term(label)
+get_movebank_term(x)
 }
 \arguments{
-\item{label}{Preferred label of the term.}
+\item{x}{Preferred label of the term to look for. Case will be ignored and \code{-}, \code{.} and \code{:} interpreted as space.}
 }
 \value{
 List object with term information.
