@@ -8,6 +8,10 @@ Description: Prepare Movebank (<https://movebank.org>) animal tracking data for
   publication in a research repository and as derived data on the Global 
   Biodiversity Information Facility (GBIF, <https://gbif.org>).
 License: MIT + file LICENSE
+Imports:
+    glue,
+    jsonlite,
+    purrr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
