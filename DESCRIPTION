@@ -8,6 +8,8 @@ Description: Prepare Movebank (<https://movebank.org>) animal tracking data for
   publication in a research repository and as derived data on the Global 
   Biodiversity Information Facility (GBIF, <https://gbif.org>).
 License: MIT + file LICENSE
+URL: https://github.com/inbo/movepub
+BugReports: https://github.com/inbo/movepub/issues
 Imports:
     glue,
     jsonlite,
