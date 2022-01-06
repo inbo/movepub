@@ -39,5 +39,8 @@ vignettes/*.pdf
 .Renviron
 .Rproj.user
 
+# pkgdown
+docs
+
 # Mac OS
 .DS_Store
