@@ -3,14 +3,16 @@
 #' Get information for a term in the [Movebank Attribute
 #' Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/).
 #'
-#' @param x Preferred label of the term to look for. Case will be ignored and `-`, `.` and `:` interpreted as space.
+#' @param label Preferred label of the term to look for. Case will be ignored
+#'   and `-`, `_`, `.` and `:` interpreted as space.
 #' @return List object with term information.
 #' @export
 #' @examples
-#' # Get information for term "animal ID"
-#' get_movebank_term("animal ID")
-get_movebank_term <- function(x) {
-  label <- gsub("(-|\\.|:)", " ", x)
+#' get_movebank_term("animal_id")
+#'
+#' get_movebank_term("Deploy.On.Date")
+get_movebank_term <- function(label) {
+  label_clean <- gsub("(-|_|\\.|:)", " ", label)
 
   # Get concepts
   vocab_url <- file.path(
@@ -20,14 +22,19 @@ get_movebank_term <- function(x) {
   vocab <- jsonlite::fromJSON(vocab_url, simplifyDataFrame = FALSE)
   concepts <- purrr::keep(vocab$`@graph`, ~.$`@type` == "skos:Concept")
 
-  # Search for concept
+  # Search for concept using prefLabel, and altLabel if not found
   concept <- purrr::keep(terms, function(x) {
-    tolower(x$prefLabel$`@value`) == label
+    tolower(x$prefLabel$`@value`) == label_clean
   })
+  if (length(concept) == 0) {
+    concept <- purrr::keep(terms, function(x) {
+      tolower(x$altLabel) == label_clean
+    })
+  }
   assertthat::assert_that(
     length(concept) > 0,
     msg = glue::glue(
-      "Can't find term with label `{label}` in Movebank Attribute Dictionary."
+      "Can't find term `{label_clean}` in Movebank Attribute Dictionary."
     )
   )
   concept <- concept[[1]]

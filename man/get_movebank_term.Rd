@@ -4,10 +4,11 @@
 \alias{get_movebank_term}
 \title{Get Movebank term}
 \usage{
-get_movebank_term(x)
+get_movebank_term(label)
 }
 \arguments{
-\item{x}{Preferred label of the term to look for. Case will be ignored and \code{-}, \code{.} and \code{:} interpreted as space.}
+\item{label}{Preferred label of the term to look for. Case will be ignored
+and \code{-}, \verb{_}, \code{.} and \code{:} interpreted as space.}
 }
 \value{
 List object with term information.
@@ -16,6 +17,7 @@ List object with term information.
 Get information for a term in the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary}.
 }
 \examples{
-# Get information for term "animal ID"
-get_movebank_term("animal ID")
+get_movebank_term("animal_id")
+
+get_movebank_term("Deploy.On.Date")
 }
