@@ -7,14 +7,16 @@
 get_movebank_term(label)
 }
 \arguments{
-\item{label}{Preferred label of the term to look for. Case will be ignored
-and \code{-}, \verb{_}, \code{.} and \code{:} interpreted as space.}
+\item{label}{Label of the term to look for. Case will be ignored and \code{-},
+\verb{_}, \code{.} and \code{:} interpreted as space.}
 }
 \value{
 List object with term information.
 }
 \description{
-Get information for a term in the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary}.
+Search a term by its label in the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary}. Returns in
+order: term with matching \code{prefLabel}, matching \code{altLabel} or error when no
+matching term is found.
 }
 \examples{
 get_movebank_term("animal_id")

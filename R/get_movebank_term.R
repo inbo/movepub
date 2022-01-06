@@ -1,10 +1,12 @@
 #' Get Movebank term
 #'
-#' Get information for a term in the [Movebank Attribute
-#' Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/).
+#' Search a term by its label in the [Movebank Attribute
+#' Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/). Returns in
+#' order: term with matching `prefLabel`, matching `altLabel` or error when no
+#' matching term is found.
 #'
-#' @param label Preferred label of the term to look for. Case will be ignored
-#'   and `-`, `_`, `.` and `:` interpreted as space.
+#' @param label Label of the term to look for. Case will be ignored and `-`,
+#'   `_`, `.` and `:` interpreted as space.
 #' @return List object with term information.
 #' @export
 #' @examples
@@ -12,63 +14,63 @@
 #'
 #' get_movebank_term("Deploy.On.Date")
 get_movebank_term <- function(label) {
-  label_clean <- gsub("(-|_|\\.|:)", " ", label)
+  label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
 
-  # Get concepts
+  # Get terms
   vocab_url <- file.path(
     "http://vocab.nerc.ac.uk/collection/MVB/current",
     "?_profile=nvs&_mediatype=application/ld+json"
   )
   vocab <- jsonlite::fromJSON(vocab_url, simplifyDataFrame = FALSE)
-  concepts <- purrr::keep(vocab$`@graph`, ~.$`@type` == "skos:Concept")
+  terms <- purrr::keep(vocab$`@graph`, ~.$`@type` == "skos:Concept")
 
   # Search for concept using prefLabel, and altLabel if not found
-  concept <- purrr::keep(terms, function(x) {
+  term <- purrr::keep(terms, function(x) {
     tolower(x$prefLabel$`@value`) == label_clean
   })
-  if (length(concept) == 0) {
-    concept <- purrr::keep(terms, function(x) {
+  if (length(term) == 0) {
+    term <- purrr::keep(terms, function(x) {
       tolower(x$altLabel) == label_clean
     })
   }
   assertthat::assert_that(
-    length(concept) > 0,
+    length(term) > 0,
     msg = glue::glue(
       "Can't find term `{label_clean}` in Movebank Attribute Dictionary."
     )
   )
-  concept <- concept[[1]]
+  term <- term[[1]]
 
   # Prepare output
   list(
     # Identifiers
-    id = concept$`@id`,
+    id = term$`@id`,
     # @type: "skos:Concept" for all
-    identifier = concept$identifier,
+    identifier = term$identifier,
     # dc:identifier: same as identifier
 
     # Labels
     # prefLabel$`@language`: "en" for all
-    prefLabel = concept$prefLabel$`@value`,
-    altLabel = concept$altLabel,
+    prefLabel = term$prefLabel$`@value`,
+    altLabel = term$altLabel,
 
     # Definition
     # definition$`@language`: "en" for all
-    definition = concept$definition$`@value`,
+    definition = term$definition$`@value`,
 
     # Date
-    date = concept$date,
+    date = term$date,
     # authoredOn: same as date
 
     # Versions
-    version = concept$version,
-    hasCurrentVersion = concept$hasCurrentVersion,
-    hasVersion = concept$hasVersion,
+    version = term$version,
+    hasCurrentVersion = term$hasCurrentVersion,
+    hasVersion = term$hasVersion,
     # inDataset: "http://vocab.nerc.ac.uk/.well-known/void" for all
-    deprecated = concept$deprecated,
+    deprecated = term$deprecated,
     # versionInfo: same as version
     # notation: same as identifier
     # note$`@language`: "en" for all
-    note = concept$note$`@value`
+    note = term$note$`@value`
   )
 }
