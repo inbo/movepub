@@ -15,6 +15,11 @@
 #' get_movebank_term("Deploy.On.Date")
 get_movebank_term <- function(label) {
   label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
+  label_clean <- ifelse(
+    label_clean == "bar barometric pressure",
+    "bar:barometric pressure",
+    label_clean
+  )
 
   # Get terms
   vocab_url <- file.path(
