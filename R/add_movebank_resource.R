@@ -22,9 +22,9 @@ add_movebank_resource <- function(package, resource_name, csv_files) {
       name = field$name,
       title = term$prefLabel,
       description = term$definition,
-      type = field$type,
+      type = type,
       format = ifelse(
-        grepl("timestamp", term$prefLabel),
+        grepl("Format: yyyy-MM-dd HH:mm:ss.SSS;", term$definition),
         "%Y-%m-%d %H:%M:%S.%f",
         "default"
       ),
