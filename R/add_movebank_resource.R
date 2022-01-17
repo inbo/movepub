@@ -17,6 +17,19 @@ add_movebank_resource <- function(package, resource_name, csv_files) {
   # Rebuild and extends field properties
   fields <- purrr::map(schema$fields, function(field) {
     term <- get_movebank_term(field$name)
+    type <- dplyr::recode(term$prefLabel,
+      "tag ID" = "string",
+      "tag local identifier" = "string",
+      "animal ID" = "string",
+      "individual local identifier" = "string",
+      "deployment ID" = "string",
+      "tag serial no" = "string",
+      "event ID" = "integer",
+      "GPS satellite count" = "integer",
+      "barometric pressure" = "number",
+      .missing = field$type,
+      .default = field$type
+    )
 
     list(
       name = field$name,
