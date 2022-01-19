@@ -8,7 +8,20 @@
 #'   this resource, as a character (vector).
 #' @return Provided `package` with one additional resource.
 #' @export
-add_movebank_resource <- function(package, resource_name, csv_files) {
+add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
+  # Check resource names
+  allowed_names <- c("reference-data", "gps", "acceleration",
+                     "accessory-measurements")
+  allowed_names_collapsed <- paste(allowed_names, collapse = "`, `")
+  assertthat::assert_that(
+    resource_name %in% allowed_names,
+    msg = glue::glue(
+      "`resource_name` must be a recognized Movebank data type:",
+      "`{allowed_names_collapsed}`.",
+      .sep = " "
+    )
+  )
+
   # Read last file and create schema
   last_file <- csv_files[length(csv_files)]
   df <- readr::read_csv(last_file, show_col_types = FALSE)
