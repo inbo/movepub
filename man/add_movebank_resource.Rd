@@ -7,8 +7,8 @@
 add_movebank_resource(package, resource_name, files, keys = TRUE)
 }
 \arguments{
-\item{package}{List object describing a Data Package, created with
-\code{\link[frictionless:read_package]{read_package()}} or \code{\link[frictionless:create_package]{create_package()}}.}
+\item{package}{List describing a Data Package, created with \code{\link[frictionless:read_package]{read_package()}}
+or \code{\link[frictionless:create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
 
