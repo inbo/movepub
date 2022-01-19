@@ -6,6 +6,8 @@
 #' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
 #'   this resource, as a character (vector).
+#' @param keys Should `primaryKey` and `foreignKey` properties be added to the
+#'   Table Schema?
 #' @return Provided `package` with one additional resource.
 #' @export
 add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
@@ -57,6 +59,24 @@ add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
     )
   })
   schema$fields <- fields
+
+  # Add keys
+  if (keys) {
+    if (resource_name == "reference-data") {
+      schema$primaryKey <- c("tag-id", "animal-id")
+    } else {
+      schema$primaryKey <- "event-id"
+      schema$foreignKeys <- list(
+        list(
+          fields = c("tag-local-identifier", "individual-local-identifier"),
+          reference = list(
+            resource = "reference-data",
+            fields = c("tag-id", "animal-id")
+          )
+        )
+      )
+    }
+  }
 
   # Add resource to package
   frictionless::add_resource(

@@ -4,7 +4,7 @@
 \alias{add_movebank_resource}
 \title{Add Movebank Data Resource}
 \usage{
-add_movebank_resource(package, resource_name, csv_files)
+add_movebank_resource(package, resource_name, files, keys = TRUE)
 }
 \arguments{
 \item{package}{List object describing a Data Package, created with
@@ -12,8 +12,11 @@ add_movebank_resource(package, resource_name, csv_files)
 
 \item{resource_name}{Name of the Data Resource.}
 
-\item{csv_files}{One or more paths to CSV file(s) that contain the data for
+\item{files}{One or more paths to CSV file(s) that contain the data for
 this resource, as a character (vector).}
+
+\item{keys}{Should \code{primaryKey} and \code{foreignKey} properties be added to the
+Table Schema?}
 }
 \value{
 Provided \code{package} with one additional resource.
