@@ -4,7 +4,7 @@
 #' data.
 #'
 #' @inheritParams frictionless::read_resource
-#' @param csv_files One or more paths to CSV file(s) that contain the data for
+#' @param files One or more paths to CSV file(s) that contain the data for
 #'   this resource, as a character (vector).
 #' @return Provided `package` with one additional resource.
 #' @export
@@ -23,7 +23,7 @@ add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
   )
 
   # Read last file and create schema
-  last_file <- csv_files[length(csv_files)]
+  last_file <- files[length(files)]
   df <- readr::read_csv(last_file, show_col_types = FALSE)
   schema <- frictionless::create_schema(df)
 
@@ -43,7 +43,6 @@ add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
       .missing = field$type,
       .default = field$type
     )
-
     list(
       name = field$name,
       title = term$prefLabel,
@@ -63,7 +62,7 @@ add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
   frictionless::add_resource(
     package = package,
     resource_name = resource_name,
-    data = csv_files,
+    data = files,
     schema = schema
   )
 }
