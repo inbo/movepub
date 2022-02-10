@@ -1,66 +1,63 @@
 /*
 Created by Peter Desmet (INBO)
 
-Based on https://rs.gbif.org/core/dwc_occurrence_2020-07-15.xml
+Based on https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml
 Static Darwin Core values are marked with FIXED VALUE.
 
-DEPLOYMENTS
+CAMTRAP DP DEPLOYMENTS
 
-deployment_id                           Y
-location_id                             Y
-location_name                           Y
-longitude                               Y
-latitude                                Y
-start                                   N: observation timestamp is used instead
-end                                     N: observation timestamp is used instead
-setup_by                                N
-camera_id                               N
-camera_model                            N
-camera_interval                         N
-camera_height                           N
-camera_tilt                             N
-camera_heading                          N
-timestamp_issues                        N
-bait_use                                Y
-session                                 N: sessions events (grouping deployments) are not retained
-array                                   N
-feature_type                            Y
-habitat                                 ENABLE
-tags                                    Y
-comments                                Y
-_id                                     N
+deploymentID                           Y
+locationID                             Y
+locationName                           Y
+longitude                              Y
+latitude                               Y
+coordinateUncertainty
+start                                  N: observation timestamp is used instead
+end                                    N: observation timestamp is used instead
+setupBy                                N
+cameraID                               N
+cameraModel                            N
+cameraInterval                         N
+cameraHeight                           N
+cameraTilt                             N
+cameraHeading                          N
+timestampIssues                        N
+baitUse                                Y
+session                                N: sessions events (grouping deployments) are not retained
+array                                  N
+featureType                            Y
+habitat                                ENABLE
+tags                                   Y
+comments                               Y
+_id                                    N
 
-OBSERVATIONS
+CAMTRAP DP OBSERVATIONS
 
-observation_id                          Y
-deployment_id                           Y
-sequence_id                             N: link is made in dwc_multimedia
-multimedia_id                           N: link is made in dwc_multimedia
-timestamp                               Y
-observation_type                        Y: as filter
-sensor_method                           Y
-camera_setup                            N
-scientific_name                         Y
-taxon_id                                Y
-count                                   Y
-count_new                               N: difficult to express
-age                                     Y
-sex                                     Y
-behaviour                               Y
-individual_id                           Y
-classification_method                   Y
-classified_by                           Y
-classification_timestamp                Y
-classification_confidence               Y
-comments                                Y
-_id                                     N
+observationID                          Y
+deploymentID                           Y
+sequenceID                             N: link is made in dwc_multimedia
+mediaID                                N: link is made in dwc_multimedia
+timestamp                              Y
+observationType                        Y: as filter
+cameraSetup                            N
+taxonID                                Y
+scientificName                         Y
+count                                  Y
+countNew                               N: difficult to express
+lifeStage                              Y
+sex                                    Y
+behaviour                              Y
+individualID                           Y
+classificationMethod                   Y
+classifiedBy                           Y
+classificationTimestamp                Y
+classificationConfidence               Y
+comments                               Y
+_id                                    N
 
 */
 
 SELECT
--- occurrenceID
-  obs."observation_id" AS "occurrenceID",
-
 -- RECORD-LEVEL
 -- type                                 FIXED VALUE
   'Event' AS "type",
@@ -84,14 +81,10 @@ SELECT
 -- dataGeneralizations
 -- dynamicProperties
 
--- MATERIALSAMPLE
--- Not applicable
-
 -- OCCURRENCE
--- occurrenceID                         Added as first field
+-- occurrenceID
+  obs."observationID" AS "occurrenceID",
 -- catalogNumber
--- occurrenceRemarks
-  obs."comments" AS "occurrenceRemarks",
 -- recordNumber
 -- recordedBy
 -- recordedByID
@@ -102,51 +95,47 @@ SELECT
 -- sex
   obs."sex" AS "sex",
 -- lifeStage
-  obs."age" AS "lifeStage",
+  obs."lifeStage" AS "lifeStage",
 -- reproductiveCondition
 -- behavior
   obs."behaviour" AS "behavior",
 -- establishmentMeans
+-- degreeOfEstablishment
+-- pathway
+-- georeferenceVerificationStatus
 -- occurrenceStatus                     FIXED VALUE
   'present' AS "occurrenceStatus",
 -- preparations
 -- disposition
--- otherCatalogNumbers
 -- associatedMedia
+-- associatedOccurrences
 -- associatedReferences
 -- associatedSequences
 -- associatedTaxa
+-- otherCatalogNumbers
+-- occurrenceRemarks
+  obs."comments" AS "occurrenceRemarks",
 
 -- ORGANISM
 -- organismID
-  obs."individual_id" AS "organismID",
+  obs."individualID" AS "organismID",
 -- organismName
 -- organismScope
--- associatedOccurrences
 -- associatedOrganisms
 -- previousIdentifications
 -- organismRemarks
 
+-- MATERIALSAMPLE
+-- Not applicable
+
 -- EVENT
 -- eventID
-  obs."deployment_id" AS "eventID",
+  obs."sequenceID" AS "eventID",
 -- parentEventID
--- samplingProtocol
-  'camera trap' ||
-  CASE
-    WHEN obs."sensor_method" IS NOT NULL THEN ' (' || obs."sensor_method" || ')'
-    ELSE ''
-  END ||
-  CASE
-    WHEN dep."bait_use" IS 'none' THEN ' without bait'
-    WHEN dep."bait_use" IS NOT NULL THEN ' with ' || dep."bait_use" || ' bait'
-    ELSE ''
-  END AS "samplingProtocol",
--- sampleSizeValue
--- sampleSizeUnit
--- samplingEffort
+  obs."deploymentID" AS "parentEventID",
+-- fieldNumber
 -- eventDate                            ISO-8601 in UTC
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', obs."timestamp") AS "eventDate",
+  strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.timestamp, 'unixepoch')) AS "eventDate",
 -- eventTime                            Included in eventDate
 -- startDayOfYear
 -- endDayOfYear
@@ -155,19 +144,35 @@ SELECT
 -- day
 -- verbatimEventDate
 -- habitat
---  dep."habitat" AS habitat,
--- fieldNumber
+  dep."habitat" AS habitat,
+-- samplingProtocol
+  'camera trap' ||
+  CASE
+    WHEN dep."baitUse" IS 'none' THEN ' without bait'
+    WHEN dep."baitUse" IS NOT NULL THEN ' with bait'
+    ELSE ''
+  END AS "samplingProtocol",
+-- sampleSizeValue
+-- sampleSizeUnit
+-- samplingEffort
+  strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.start, 'unixepoch')) ||
+  '/' ||
+  strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.end, 'unixepoch')) AS "samplingEffort",
 -- fieldNotes
 -- eventRemarks
   CASE
-    WHEN dep."comments" IS NOT NULL AND dep."tags" IS NOT NULL THEN dep."comments" || ' | tags: ' || dep."tags"
+    WHEN dep."comments" IS NOT NULL THEN 'comments: ' || dep."comments"
+  END ||
+  CASE
+    WHEN dep."comments" IS NOT NULL AND dep."tags" IS NOT NULL THEN ' | '
+  END ||
+  CASE
     WHEN dep."tags" IS NOT NULL THEN 'tags: ' || dep."tags"
-    ELSE dep."comments"
   END AS "eventRemarks",
 
 -- LOCATION
 -- locationID
-  dep."location_id" AS "locationID",
+  dep."locationID" AS "locationID",
 -- higherGeographyID
 -- higherGeography
 -- continent
@@ -180,24 +185,20 @@ SELECT
 -- county
 -- municipality
 -- locality
-  dep."location_name" AS "locality",
+  dep."locationName" AS "locality",
 -- verbatimLocality
--- verbatimElevation
 -- minimumElevationInMeters
 -- maximumElevationInMeters
--- verbatimDepth
+-- verbatimElevation
+-- verticalDatum
 -- minimumDepthInMeters
 -- maximumDepthInMeters
+-- verbatimDepth
 -- minimumDistanceAboveSurfaceInMeters
 -- maximumDistanceAboveSurfaceInMeters
 -- locationAccordingTo
 -- locationRemarks
-  dep."feature_type" AS "locationRemarks",
--- verbatimCoordinates
--- verbatimLatitude
--- verbatimLongitude
--- verbatimCoordinateSystem
--- verbatimSRS
+  dep."featureType" AS "locationRemarks",
 -- decimalLatitude
   dep."latitude" AS "decimalLatitude",
 -- decimalLongitude
@@ -205,8 +206,14 @@ SELECT
 -- geodeticDatum                        FIXED VALUE
   'WGS84' AS "geodeticDatum",
 -- coordinateUncertaintyInMeters
+  dep."coordinateUncertainty" AS "coordinateUncertaintyInMeters",
 -- coordinatePrecision
 -- pointRadiusSpatialFit
+-- verbatimCoordinates
+-- verbatimLatitude
+-- verbatimLongitude
+-- verbatimCoordinateSystem
+-- verbatimSRS
 -- footprintWKT
 -- footprintSRS
 -- footprintSpatialFit
@@ -214,7 +221,6 @@ SELECT
 -- georeferencedDate
 -- georeferenceProtocol
 -- georeferenceSources
--- georeferenceVerificationStatus
 -- georeferenceRemarks
 
 -- GEOLOGICAL CONTEXT
@@ -222,24 +228,30 @@ SELECT
 
 -- IDENTIFICATION
 -- identificationID
+-- verbatimIdentification
+-- identificationQualifier
+-- typeStatus
 -- identifiedBy
-  obs."classified_by" AS "identifiedBy",
+  obs."classifiedBy" AS "identifiedBy",
 -- identifiedByID
 -- dateIdentified                       ISO-8601 in UTC
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', obs."classification_timestamp") AS "dateIdentified",
+  strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.classificationTimestamp, 'unixepoch')) AS "dateIdentified",
 -- identificationReferences
+-- identificationVerificationStatus
 -- identificationRemarks
   CASE
-    WHEN obs."classification_method" IS NOT NULL THEN 'classification method: ' || obs."classification_method"
+    WHEN obs."classificationMethod" IS NOT NULL THEN 'classificationMethod: ' || obs."classificationMethod"
+  END ||
+  CASE
+    WHEN obs."classificationMethod" IS NOT NULL AND obs."classificationConfidence" IS NOT NULL THEN ' | '
+  END ||
+  CASE
+    WHEN obs."classificationConfidence" IS NOT NULL THEN 'classificationConfidence: ' || obs."classificationConfidence"
   END AS "identificationRemarks",
--- identificationQualifier
--- identificationVerificationStatus
-  obs."classification_confidence" AS "identificationVerificationStatus",
--- typeStatus
 
 -- TAXON
 -- taxonID                              The refence for the taxon_ids is only available in dataset metadata
-  obs."taxon_id" AS "taxonID",
+  obs."taxonID" AS "taxonID",
 -- scientificNameID
 -- acceptedNameUsageID
 -- parentNameUsageID
@@ -248,7 +260,7 @@ SELECT
 -- namePublishedInID
 -- taxonConceptID
 -- scientificName
-  obs."scientific_name" AS "scientificName",
+  obs."scientificName" AS "scientificName",
 -- acceptedNameUsage
 -- parentNameUsage
 -- originalNameUsage
@@ -263,9 +275,12 @@ SELECT
 -- order
 -- family
 -- genus
+-- genericName
 -- subgenus
+-- infragenericEpithet
 -- specificEpithet
 -- infraspecificEpithet
+-- cultivarEpithet
 -- taxonRank                            Only available in dataset metadata
 -- verbatimTaxonRank
 -- scientificNameAuthorship
@@ -279,12 +294,12 @@ FROM
   observations AS obs
 
   LEFT JOIN deployments AS dep
-    ON obs."deployment_id" = dep."deployment_id"
+    ON obs."deploymentID" = dep."deploymentID"
 
 WHERE
   -- Select biological observations only (excluding observations marked as human, empty, vehicle)
   -- Same filter should be used in dwc_multimedia.sql!
-  obs."observation_type" = 'animal'
+  obs."observationType" = 'animal'
 
 ORDER BY
-  obs."observation_id"
+  obs."observationID"
