@@ -113,6 +113,7 @@ SELECT
   CASE
     WHEN dep.baitUse IS 'none' THEN ' without bait'
     WHEN dep.baitUse IS NOT NULL THEN ' with bait'
+    ELSE ''
   END AS samplingProtocol,
 -- samplingEffort               Duration of deployment
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.start, 'unixepoch')) ||
@@ -121,12 +122,15 @@ SELECT
 -- eventRemarks
   CASE
     WHEN dep.comments IS NOT NULL THEN 'comments: ' || dep.comments
+    ELSE ''
   END ||
   CASE
     WHEN dep.comments IS NOT NULL AND dep.tags IS NOT NULL THEN ' | '
+    ELSE ''
   END ||
   CASE
     WHEN dep.tags IS NOT NULL THEN 'tags: ' || dep.tags
+    ELSE ''
   END AS eventRemarks,
 
 -- LOCATION
@@ -159,12 +163,15 @@ SELECT
 -- identificationRemarks
   CASE
     WHEN obs.classificationMethod IS NOT NULL THEN 'classificationMethod: ' || obs.classificationMethod
+    ELSE ''
   END ||
   CASE
     WHEN obs.classificationMethod IS NOT NULL AND obs.classificationConfidence IS NOT NULL THEN ' | '
+    ELSE ''
   END ||
   CASE
     WHEN obs.classificationConfidence IS NOT NULL THEN 'classificationConfidence: ' || obs.classificationConfidence
+    ELSE ''
   END AS identificationRemarks,
 
 -- TAXON
