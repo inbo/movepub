@@ -203,4 +203,4 @@ WHERE
   obs.observationType = 'animal'
 
 ORDER BY
-  obs.observationID
+  obs.timestamp
