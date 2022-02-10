@@ -63,12 +63,19 @@ SELECT
   'Event' AS type,
 -- language
 -- license
+  {metadata$dataLicense} AS license,
 -- rightsHolder
+  {metadata$rightsHolder} AS rightsHolder,
 -- bibliographicCitation
+  {metadata$bibliographicCitation} AS bibliographicCitation,
 -- datasetID
+  {metadata$id} AS datasetID,
 -- institutionCode
+  {metadata$organization} AS institutionCode,
 -- collectionCode
+  {metadata$source} AS collectionCode,
 -- datasetName
+  {metadata$projectTitle} AS datasetName,
 -- basisOfRecord                STATIC VALUE
   'MachineObservation' AS basisOfRecord,
 -- informationWithheld
