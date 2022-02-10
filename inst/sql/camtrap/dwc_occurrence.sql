@@ -121,7 +121,7 @@ SELECT
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.end, 'unixepoch')) AS samplingEffort,
 -- eventRemarks
   CASE
-    WHEN dep.comments IS NOT NULL THEN 'comments: ' || dep.comments
+    WHEN dep.comments IS NOT NULL THEN dep.comments
     ELSE ''
   END ||
   CASE
