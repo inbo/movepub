@@ -1,15 +1,27 @@
 #' Write camera trap Darwin Core Archive
 #'
-#' @param package A Camera Trap Data Package.
+#' Converts a [Camtrap DP](https://tdwg.github.io/camtrap-dp) dataset to Darwin
+#' Core formatted CSV files that can be uploaded to the IPT.
+#' Conversion is based on two SQL files:
+#' - [dwc_occurrence](https://github.com/inbo/movepub/blob/main/inst/sql/camtrap/dwc_occurrence.sql):
+#' A Darwin Core Occurrence core file.
+#' - [dwc_multimedia](https://github.com/inbo/movepub/blob/main/inst/sql/camtrap/dwc_multimedia.sql):
+#' Audubon Media Description extension file.
+#'
+#' @param package A Camera Trap Data Package, as read by
+#'   [frictionless::read_package()].
+#' @param directory Path to local directory to write files to.
 #' @param continent Continent that applies to the whole dataset.
 #' @param country_code Two-letter ISO 3166 country code that applies to the
 #'   whole dataset.
-#' @return A Darwin Core Archive written to disk.
+#' @return A Darwin Core formatted CSV files written to disk.
 #' @export
-write_camtrap_dwca <- function(package, continent = NULL, country_code = NULL) {
+write_camtrap_dwca <- function(package, directory, continent = NULL,
+                               country_code = NULL) {
   # Read data from Data Package
   deployments <- frictionless::read_resource(package, "deployments")
   observations <- frictionless::read_resource(package, "observations")
+  media <- frictionless::read_resource(package, "media")
 
   # Get user provided info
   provided <- list(
@@ -33,13 +45,29 @@ write_camtrap_dwca <- function(package, continent = NULL, country_code = NULL) {
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "deployments", deployments)
   DBI::dbWriteTable(con, "observations", observations)
+  DBI::dbWriteTable(con, "media", media)
 
   # Query DB
   dwc_occurrence_sql <- glue::glue_sql(
-    readr::read_file("inst/sql/camtrap/dwc_occurrence.sql"), .con = con
+    readr::read_file(
+      system.file("sql/camtrap/dwc_occurrence.sql", package = "movepub")
+    ), .con = con
+  )
+  dwc_multimedia_sql <- glue::glue_sql(
+    readr::read_file(
+      system.file("sql/camtrap/dwc_multimedia.sql", package = "movepub")
+    ), .con = con
   )
   dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  dwc_multimedia <- DBI::dbGetQuery(con, dwc_multimedia_sql)
   DBI::dbDisconnect(con)
 
-  dwc_occurrence
+  # Create directory if it doesn't exists yet
+  if (!dir.exists(directory)) {
+    dir.create(directory, recursive = TRUE)
+  }
+
+  # Write files
+  readr::write_csv(dwc_occurrence, file.path(directory, "dwc_occurrence.csv"), na = "")
+  readr::write_csv(dwc_multimedia, file.path(directory, "dwc_multimedia.csv"), na = "")
 }

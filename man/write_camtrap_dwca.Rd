@@ -4,10 +4,17 @@
 \alias{write_camtrap_dwca}
 \title{Write camera trap Darwin Core Archive}
 \usage{
-write_camtrap_dwca(package)
+write_camtrap_dwca(package, directory, continent = NULL, country_code = NULL)
 }
 \arguments{
-\item{A}{Camera Trap Data Package.}
+\item{package}{A Camera Trap Data Package.}
+
+\item{directory}{Path to local directory to write files to.}
+
+\item{continent}{Continent that applies to the whole dataset.}
+
+\item{country_code}{Two-letter ISO 3166 country code that applies to the
+whole dataset.}
 }
 \value{
 A Darwin Core Archive written to disk.
