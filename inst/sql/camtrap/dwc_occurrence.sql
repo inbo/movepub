@@ -144,7 +144,9 @@ SELECT
 -- locationID
   dep.locationID AS locationID,
 -- continent
+  {provided$continent} AS continent,
 -- countryCode
+  {provided$countryCode} AS countryCode,
 -- locality
   dep.locationName AS locality,
 -- locationRemarks

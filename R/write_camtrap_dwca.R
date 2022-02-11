@@ -1,11 +1,21 @@
 #' Write camera trap Darwin Core Archive
 #'
-#' @param A Camera Trap Data Package.
+#' @param package A Camera Trap Data Package.
+#' @param continent Continent that applies to the whole dataset.
+#' @param country_code Two-letter ISO 3166 country code that applies to the
+#'   whole dataset.
 #' @return A Darwin Core Archive written to disk.
 #' @export
+write_camtrap_dwca <- function(package, continent = NULL, country_code = NULL) {
   # Read data from Data Package
   deployments <- frictionless::read_resource(package, "deployments")
   observations <- frictionless::read_resource(package, "observations")
+
+  # Get user provided info
+  provided <- list(
+    continent = continent,
+    countryCode = toupper(country_code)
+  )
 
   # Get metadata
   metadata <- list(
