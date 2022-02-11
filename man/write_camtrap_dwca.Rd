@@ -7,7 +7,8 @@
 write_camtrap_dwca(package, directory, continent = NULL, country_code = NULL)
 }
 \arguments{
-\item{package}{A Camera Trap Data Package.}
+\item{package}{A Camera Trap Data Package, as read by
+\code{\link[frictionless:read_package]{frictionless::read_package()}}.}
 
 \item{directory}{Path to local directory to write files to.}
 
@@ -17,8 +18,16 @@ write_camtrap_dwca(package, directory, continent = NULL, country_code = NULL)
 whole dataset.}
 }
 \value{
-A Darwin Core Archive written to disk.
+A Darwin Core formatted CSV files written to disk.
 }
 \description{
-Write camera trap Darwin Core Archive
+Converts a \href{https://tdwg.github.io/camtrap-dp}{Camtrap DP} dataset to Darwin
+Core formatted CSV files that can be uploaded to the IPT.
+Conversion is based on two SQL files:
+\itemize{
+\item \href{https://github.com/inbo/movepub/blob/main/inst/sql/camtrap-dp/dwc_occurrence.sql}{dwc_occurrence}:
+A Darwin Core Occurrence core file.
+\item \href{https://github.com/inbo/movepub/blob/main/inst/sql/camtrap-dp/dwc_multimedia.sql}{dwc_multimedia}:
+Audubon Media Description extension file.
+}
 }

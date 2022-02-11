@@ -3,9 +3,9 @@
 #' Converts a [Camtrap DP](https://tdwg.github.io/camtrap-dp) dataset to Darwin
 #' Core formatted CSV files that can be uploaded to the IPT.
 #' Conversion is based on two SQL files:
-#' - [dwc_occurrence](https://github.com/inbo/movepub/blob/main/inst/sql/camtrap/dwc_occurrence.sql):
+#' - [dwc_occurrence](https://github.com/inbo/movepub/blob/main/inst/sql/camtrap-dp/dwc_occurrence.sql):
 #' A Darwin Core Occurrence core file.
-#' - [dwc_multimedia](https://github.com/inbo/movepub/blob/main/inst/sql/camtrap/dwc_multimedia.sql):
+#' - [dwc_multimedia](https://github.com/inbo/movepub/blob/main/inst/sql/camtrap-dp/dwc_multimedia.sql):
 #' Audubon Media Description extension file.
 #'
 #' @param package A Camera Trap Data Package, as read by
@@ -50,12 +50,12 @@ write_camtrap_dwca <- function(package, directory, continent = NULL,
   # Query DB
   dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(
-      system.file("sql/camtrap/dwc_occurrence.sql", package = "movepub")
+      system.file("sql/camtrap-dp/dwc_occurrence.sql", package = "movepub")
     ), .con = con
   )
   dwc_multimedia_sql <- glue::glue_sql(
     readr::read_file(
-      system.file("sql/camtrap/dwc_multimedia.sql", package = "movepub")
+      system.file("sql/camtrap-dp/dwc_multimedia.sql", package = "movepub")
     ), .con = con
   )
   dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
