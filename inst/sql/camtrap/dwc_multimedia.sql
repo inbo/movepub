@@ -1,72 +1,72 @@
 /*
 Created by Peter Desmet (INBO)
+Mapping from Camtrap DP: https://tdwg.github.io/camtrap-dp
+Y = included in DwC, N = not included in DwC
 
-Based on https://rs.gbif.org/extension/gbif/1.0/multimedia.xml
-Static Darwin Core values are marked with FIXED VALUE.
+CAMTRAP DP MEDIA
 
-MEDIA
-
-multimedia_id                           Y: as link to observation
-deployment_id                           N: included at observation level
-sequence_id                             Y: as link to observation
-timestamp                               Y
-file_path                               Y
-file_name                               N
-file_mediatype                          Y
-exif_data                               N
-favourite                               N
-comments                                N
-_id                                     N
+mediaID                         Y: as link to observation
+deploymentID                    N: included at observation level
+sequenceID                      Y: as link to observation
+captureMethod                   ?
+timestamp                       Y
+filePath                        Y
+fileName                        Y: to sort data
+fileMediatype                   Y
+exifData                        N
+favourite                       N
+comments                        N
+_id                             N
 
 */
 
--- Observations can be based on sequences (sequence_id) or individual files (multimedia_id)
+-- Observations can be based on sequences (sequenceID) or individual files (mediaID)
 -- Make two joins and union to capture both cases
-WITH obs_multimedia AS (
+WITH observations_media AS (
 -- Sequence based observations
   SELECT
-    obs."observation_id",
-    mm.*
+    obs.observationID,
+    med.*
   FROM
     observations AS obs
     LEFT JOIN
-      multimedia AS mm
-      ON obs."sequence_id" = mm."sequence_id"
+      media AS med
+      ON obs.sequenceID = med.sequenceID
   WHERE
-    obs."multimedia_id" IS NULL
-    AND obs."observation_type" = 'animal'
+    obs.mediaID IS NULL
+    AND obs.observationType = 'animal'
   UNION
--- Multimedia based observations
+-- Media based observations
   SELECT
-    obs."observation_id",
-    mm.*
+    obs.observationID,
+    med.*
   FROM
     observations AS obs
     LEFT JOIN
-      multimedia AS mm
-      ON obs."multimedia_id" = mm."multimedia_id"
+      media AS med
+      ON obs.mediaID = med.mediaID
   WHERE
-    obs."multimedia_id" IS NOT NULL
-    AND obs."observation_type" = 'animal'
+    obs.mediaID IS NOT NULL
+    AND obs.observationType = 'animal'
 )
 
 SELECT
 -- occurrenceID
-  obs_mm."observation_id" AS "occurrenceID",
+  obs_med.observationID AS occurrenceID,
 -- type
   CASE
-    WHEN obs_mm."file_mediatype" LIKE '%video%' THEN 'MovingImage'
+    WHEN obs_med.fileMediatype LIKE '%video%' THEN 'MovingImage'
     ELSE 'StillImage'
-  END AS "type",
+  END AS type,
 -- format
-  obs_mm."file_mediatype" AS "format",
+  obs_med.fileMediatype AS format,
 -- identifier
-  obs_mm."file_path" AS "identifier",
+  obs_med.filePath AS identifier,
 -- references
 -- title
 -- description
 -- created
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', obs_mm."timestamp") AS "created"
+  STRFTIME('%Y-%m-%dT%H:%M:%SZ', datetime(obs_med.timestamp, 'unixepoch')) AS created
 -- creator
 -- contributor
 -- publisher
@@ -77,10 +77,9 @@ SELECT
 -- datasetID                            Only available in dataset metadata
 
 FROM
-  obs_multimedia AS obs_mm
+  observations_media AS obs_med
 
 ORDER BY
--- Order is not retained in obs_multimedia, so important to sort
-  obs_mm."observation_id",
-  obs_mm."timestamp",
-  obs_mm."file_name"
+-- Order is not retained in observations_media, so important to sort
+  obs_med."timestamp",
+  obs_med."fileName"

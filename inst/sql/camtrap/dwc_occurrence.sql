@@ -1,8 +1,8 @@
 /*
 Created by Peter Desmet (INBO)
-Mapping from Camtrap DP
-Mapping to https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml
-Mapped fields: Y = included in DwC, N = field not included in DwC
+Mapping from Camtrap DP: https://tdwg.github.io/camtrap-dp
+Mapping to Darwin Core Occurrence: https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml
+Y = included in DwC, N = not included in DwC
 
 CAMTRAP DP DEPLOYMENTS
 
