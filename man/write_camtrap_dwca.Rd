@@ -18,7 +18,7 @@ write_camtrap_dwca(package, directory, continent = NULL, country_code = NULL)
 whole dataset.}
 }
 \value{
-A Darwin Core formatted CSV files written to disk.
+Darwin Core formatted CSV files written to disk.
 }
 \description{
 Converts a \href{https://tdwg.github.io/camtrap-dp}{Camtrap DP} dataset to Darwin

@@ -14,7 +14,7 @@
 #' @param continent Continent that applies to the whole dataset.
 #' @param country_code Two-letter ISO 3166 country code that applies to the
 #'   whole dataset.
-#' @return A Darwin Core formatted CSV files written to disk.
+#' @return Darwin Core formatted CSV files written to disk.
 #' @export
 write_camtrap_dwca <- function(package, directory, continent = NULL,
                                country_code = NULL) {
