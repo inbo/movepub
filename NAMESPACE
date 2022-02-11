@@ -2,3 +2,4 @@
 
 export(add_movebank_resource)
 export(get_movebank_term)
+export(write_camtrap_dwca)

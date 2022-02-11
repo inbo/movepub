@@ -12,12 +12,14 @@ URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Imports:
     assertthat,
+    DBI,
     dplyr,
     frictionless,
     glue,
     jsonlite,
     purrr,
     readr,
+    RSQLite,
     stringr
 Remotes:
     https://github.com/frictionlessdata/frictionless-r
