@@ -188,14 +188,13 @@ SELECT
   obs.taxonID AS taxonID,
 -- scientificName
   obs.scientificName AS scientificName,
--- kingdom                      STATIC VALUE: in almost all use cases, it is safe to assume all observations are animals
+-- kingdom                      STATIC VALUE: records are filtered on animals in WHERE clause
   'Animalia' AS kingdom
 -- taxonRank
 -- vernacularName
 
 FROM
   observations AS obs
-
   LEFT JOIN deployments AS dep
     ON obs.deploymentID = dep.deploymentID
 
