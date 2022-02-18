@@ -59,15 +59,15 @@ _id                             N
 
 SELECT
 -- RECORD-LEVEL
--- type                         STATIC VALUE
+-- type
+  -- Static value
   'Event' AS type,
--- language
 -- license
   {metadata$dataLicense} AS license,
 -- rightsHolder
   {metadata$rightsHolder} AS rightsHolder,
 -- bibliographicCitation
-  {metadata$bibliographicCitation} AS bibliographicCitation,
+  -- How *record* should be cited, don't use dataset-wide metadata$bibliographicCitation
 -- datasetID
   {metadata$id} AS datasetID,
 -- institutionCode
@@ -76,7 +76,8 @@ SELECT
   {metadata$source} AS collectionCode,
 -- datasetName
   {metadata$projectTitle} AS datasetName,
--- basisOfRecord                STATIC VALUE
+-- basisOfRecord
+  -- Static value
   'MachineObservation' AS basisOfRecord,
 -- informationWithheld
 -- dataGeneralizations
@@ -93,7 +94,8 @@ SELECT
   obs.lifeStage AS lifeStage,
 -- behavior
   obs.behaviour AS behavior,
--- occurrenceStatus             STATIC VALUE
+-- occurrenceStatus
+  -- Static value
   'present' AS occurrenceStatus,
 -- occurrenceRemarks
   obs.comments AS occurrenceRemarks,
@@ -103,16 +105,18 @@ SELECT
   obs.individualID AS organismID,
 
 -- MATERIALSAMPLE
--- Not applicable
+  -- Not applicable
 
 -- EVENT
 -- eventID
   obs.sequenceID AS eventID,
 -- parentEventID
   obs.deploymentID AS parentEventID,
--- eventDate                    ISO-8601 in UTC
+-- eventDate
+  -- ISO-8601 in UTC
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.timestamp, 'unixepoch')) AS eventDate,
--- eventTime                    Included in eventDate
+-- eventTime
+  -- Included in eventDate
 -- habitat
   dep.habitat AS habitat,
 -- samplingProtocol
@@ -122,7 +126,8 @@ SELECT
     WHEN dep.baitUse IS NOT NULL THEN ' with bait'
     ELSE ''
   END AS samplingProtocol,
--- samplingEffort               Duration of deployment
+-- samplingEffort
+  -- Duration of deployment
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.start, 'unixepoch')) ||
   '/' ||
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(dep.end, 'unixepoch')) AS samplingEffort,
@@ -143,10 +148,8 @@ SELECT
 -- LOCATION
 -- locationID
   dep.locationID AS locationID,
--- continent
-  {provided$continent} AS continent,
 -- countryCode
-  {provided$countryCode} AS countryCode,
+  -- Single value might not apply to whole dataset, assumes coordinates are provided.
 -- locality
   dep.locationName AS locality,
 -- locationRemarks
@@ -155,19 +158,21 @@ SELECT
   dep.latitude AS decimalLatitude,
 -- decimalLongitude
   dep.longitude AS decimalLongitude,
--- geodeticDatum                STATIC VALUE
+-- geodeticDatum
+  -- Static value
   'WGS84' AS geodeticDatum,
 -- coordinateUncertaintyInMeters
   dep.coordinateUncertainty AS coordinateUncertaintyInMeters,
 
 -- GEOLOGICAL CONTEXT
--- Not applicable
+  -- Not applicable
 
 -- IDENTIFICATION
 -- identifiedBy
   obs.classifiedBy AS identifiedBy,
 -- identifiedByID
--- dateIdentified               ISO-8601 in UTC
+-- dateIdentified
+  -- ISO-8601 in UTC
   strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.classificationTimestamp, 'unixepoch')) AS dateIdentified,
 -- identificationRemarks
   CASE
@@ -188,7 +193,8 @@ SELECT
   obs.taxonID AS taxonID,
 -- scientificName
   obs.scientificName AS scientificName,
--- kingdom                      STATIC VALUE: records are filtered on animals in WHERE clause
+-- kingdom
+  -- Static value: records are filtered on animals in WHERE clause
   'Animalia' AS kingdom
 -- taxonRank
 -- vernacularName

@@ -11,29 +11,18 @@
 #' @param package A Camera Trap Data Package, as read by
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write files to.
-#' @param continent Continent that applies to the whole dataset.
-#' @param country_code Two-letter ISO 3166 country code that applies to the
-#'   whole dataset.
 #' @return Darwin Core formatted CSV files written to disk.
 #' @export
-write_camtrap_dwca <- function(package, directory, continent = NULL,
-                               country_code = NULL) {
+write_camtrap_dwca <- function(package, directory) {
   # Read data from Data Package
   deployments <- frictionless::read_resource(package, "deployments")
   observations <- frictionless::read_resource(package, "observations")
   media <- frictionless::read_resource(package, "media")
 
-  # Get user provided info
-  provided <- list(
-    continent = continent,
-    countryCode = toupper(country_code)
-  )
-
   # Get metadata
   metadata <- list(
     id = package$id,
     rightsHolder = package$rightsHolder,
-    bibliographicCitation = package$bibliographicCitation,
     dataLicense = purrr::keep(package$licenses, ~ .$scope == "data")[[1]]$path,
     mediaLicense = purrr::keep(package$licenses, ~ .$scope == "media")[[1]]$path,
     organization = purrr::pluck(package$organizations, 1)$title,
