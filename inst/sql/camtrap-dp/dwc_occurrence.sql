@@ -34,10 +34,7 @@ _id                             N
 CAMTRAP DP OBSERVATIONS
 
 observationID                   Y
-deploymentID                    Y
-sequenceID                      Y
-mediaID                         N: see dwc_multimedia
-timestamp                       Y
+observationUnitID               Y
 observationType                 Y: as filter
 cameraSetup                     N
 taxonID                         Y
@@ -109,12 +106,12 @@ SELECT
 
 -- EVENT
 -- eventID
-  obs.sequenceID AS eventID,
+  obs.observationUnitID AS eventID,
 -- parentEventID
-  obs.deploymentID AS parentEventID,
+  dep.deploymentID AS parentEventID,
 -- eventDate
   -- ISO-8601 in UTC
-  strftime('%Y-%m-%dT%H:%M:%SZ', datetime(obs.timestamp, 'unixepoch')) AS eventDate,
+  strftime('%Y-%m-%dT%H:%M:%SZ', datetime(link.timestamp, 'unixepoch')) AS eventDate,
 -- eventTime
   -- Included in eventDate
 -- habitat
@@ -201,8 +198,22 @@ SELECT
 
 FROM
   observations AS obs
+  LEFT JOIN (
+    SELECT
+      obsu.observationUnitID,
+      med.deploymentID,
+      min(med.timestamp) AS timestamp
+    FROM
+     observationunits AS obsu
+     LEFT JOIN media AS med
+       ON obsu.mediaID = med.mediaID
+    GROUP BY
+      observationUnitID,
+      deploymentID
+  ) AS link
+  ON obs.observationUnitID = link.observationUnitID
   LEFT JOIN deployments AS dep
-    ON obs.deploymentID = dep.deploymentID
+    ON link.deploymentID = dep.deploymentID
 
 WHERE
   -- Select biological observations only (excluding observations marked as human, blank, vehicle)
@@ -210,4 +221,4 @@ WHERE
   obs.observationType = 'animal'
 
 ORDER BY
-  obs.timestamp
+  link.timestamp

@@ -17,6 +17,7 @@ write_camtrap_dwca <- function(package, directory) {
   # Read data from Data Package
   deployments <- frictionless::read_resource(package, "deployments")
   observations <- frictionless::read_resource(package, "observations")
+  observationunits <- frictionless::read_resource(package, "observationunits")
   media <- frictionless::read_resource(package, "media")
 
   # Get metadata
@@ -34,6 +35,7 @@ write_camtrap_dwca <- function(package, directory) {
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "deployments", deployments)
   DBI::dbWriteTable(con, "observations", observations)
+  DBI::dbWriteTable(con, "observationunits", observationunits)
   DBI::dbWriteTable(con, "media", media)
 
   # Query DB
