@@ -50,10 +50,10 @@ SELECT
 
 FROM
   observations AS obs
-  LEFT JOIN observationunits AS obsu
-    ON obs.observationUnitID = obsu.observationUnitID
+  LEFT JOIN mediagroups AS mg
+    ON obs.mediaGroupID = mg.mediaGroupID
   LEFT JOIN media AS med
-    ON obsu.mediaID = med.mediaID
+    ON mg.mediaID = med.mediaID
 
 WHERE
   obs.observationType = 'animal'

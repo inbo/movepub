@@ -34,9 +34,10 @@ _id                             N
 CAMTRAP DP OBSERVATIONS
 
 observationID                   Y
-observationUnitID               Y
+mediaGroupI     D               Y
 observationType                 Y: as filter
 cameraSetup                     N
+eventID                         Y
 taxonID                         Y
 scientificName                  Y
 count                           Y
@@ -105,7 +106,7 @@ SELECT
 
 -- EVENT
 -- eventID
-  obs.observationUnitID AS eventID,
+  obs.eventID AS eventID,
 -- parentEventID
   dep.deploymentID AS parentEventID,
 -- eventDate
@@ -199,18 +200,18 @@ FROM
   observations AS obs
   LEFT JOIN (
     SELECT
-      obsu.observationUnitID,
+      mg.mediaGroupID,
       med.deploymentID,
       min(med.timestamp) AS timestamp
     FROM
-     observationunits AS obsu
+     mediagroups AS mg
      LEFT JOIN media AS med
-       ON obsu.mediaID = med.mediaID
+       ON mg.mediaID = med.mediaID
     GROUP BY
-      observationUnitID,
+      mediaGroupID,
       deploymentID
   ) AS link
-  ON obs.observationUnitID = link.observationUnitID
+  ON obs.mediaGroupID = link.mediaGroupID
   LEFT JOIN deployments AS dep
     ON link.deploymentID = dep.deploymentID
 

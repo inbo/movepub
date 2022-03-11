@@ -16,9 +16,9 @@
 write_camtrap_dwca <- function(package, directory) {
   # Read data from Data Package
   deployments <- frictionless::read_resource(package, "deployments")
-  observations <- frictionless::read_resource(package, "observations")
-  observationunits <- frictionless::read_resource(package, "observationunits")
   media <- frictionless::read_resource(package, "media")
+  mediagroups <- frictionless::read_resource(package, "mediagroups")
+  observations <- frictionless::read_resource(package, "observations")
 
   # Get metadata
   metadata <- list(
@@ -34,9 +34,9 @@ write_camtrap_dwca <- function(package, directory) {
   # Create database
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "deployments", deployments)
-  DBI::dbWriteTable(con, "observations", observations)
-  DBI::dbWriteTable(con, "observationunits", observationunits)
   DBI::dbWriteTable(con, "media", media)
+  DBI::dbWriteTable(con, "mediagroups", mediagroups)
+  DBI::dbWriteTable(con, "observations", observations)
 
   # Query DB
   dwc_occurrence_sql <- glue::glue_sql(
