@@ -24,24 +24,18 @@ write_movebank_dwca <- function(package, directory = ".") {
 
   # Read data
   message("Reading data from `package`.")
-  reference_data <- frictionless::read_resource(package, "reference-data")
+  ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 
-  # Convert date and dttm columns to strings for easier handling in SQLite
+  # Convert all columns to characters for easier handling in SQLite
   # https://stackoverflow.com/a/13462536/2463806
-  date_to_chr <- function(x) {
-    dplyr::mutate(
-      x,
-      dplyr::across(where(~ inherits(., c("Date", "POSIXt"))), as.character)
-    )
-  }
-  reference_data <- date_to_chr(reference_data)
-  gps <- date_to_chr(gps)
+  ref <- dplyr::mutate(ref, dplyr::across(everything(), as.character))
+  gps <- dplyr::mutate(gps, dplyr::across(everything(), as.character))
 
   # Create database
   message("Transforming data to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "reference_data", reference_data)
+  DBI::dbWriteTable(con, "reference_data", ref)
   DBI::dbWriteTable(con, "gps", gps)
 
   # Query database
@@ -54,7 +48,7 @@ write_movebank_dwca <- function(package, directory = ".") {
   dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
   DBI::dbDisconnect(con)
 
-  # Create directory if it doesn't exists yet + write files
+  # Write files
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }

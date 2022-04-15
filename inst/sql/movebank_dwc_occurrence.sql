@@ -44,7 +44,7 @@ SELECT
   ref."deploy-on-latitude"              AS decimalLatitude,
   ref."deploy-on-longitude"             AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
-  30                                    AS coordinateUncertaintyInMeters,
+  'TODO'                                AS coordinateUncertaintyInMeters,
 -- TAXON
   ref."animal-taxon"                    AS scientificName,
   'Animalia'                            AS kingdom
@@ -61,7 +61,7 @@ SELECT
   'TODO'                                AS informationWithheld,
   'subsampled by hour: first of ' || gps."subsample-count" || ' records' AS dataGeneralizations,
 -- OCCURRENCE
-  gps."event-id" || ''                  AS occurrenceID,
+  gps."event-id"                        AS occurrenceID,
   NULL                                  AS sex,
   NULL                                  AS lifeStage,
   'present'                             AS occurrenceStatus,
@@ -89,14 +89,12 @@ FROM
       COUNT(*) AS "subsample-count"
     FROM gps
     WHERE
-    -- Exclude outliers
-      visible = 1
+      visible = 'TRUE' -- Exclude outliers
     GROUP BY
-    -- Group by date+hour
-      STRFTIME('%Y-%m-%dT%H', "timestamp")
+      STRFTIME('%Y-%m-%dT%H', timestamp) -- Group by date+hour
     HAVING
-    -- Take first record within group, i.e. first timestamp
-    -- Movebank data are sorted by timestamp: https://github.com/tdwg/dwc-for-biologging/issues/31
+    -- Take first record within date+hour group, i.e. first timestamp since
+    -- Movebank data are sorted by time: https://github.com/tdwg/dwc-for-biologging/issues/31
       ROWID = MIN(ROWID)
   ) AS gps
   LEFT JOIN reference_data AS ref
