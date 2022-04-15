@@ -21,7 +21,6 @@ formatted CSV files that can be uploaded to a
 \href{https://www.gbif.org/ipt}{GBIF IPT}.
 The conversion is expressed in SQL:
 \itemize{
-\item \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence_deployment.sql}{dwc_occurrence_deployment}
-\item \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence_positions.sql}{dwc_occurrence_positions}
+\item \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{dwc_occurrence}
 }
 }

@@ -4,8 +4,7 @@
 #' formatted CSV files that can be uploaded to a
 #' [GBIF IPT](https://www.gbif.org/ipt).
 #' The conversion is expressed in SQL:
-#' - [dwc_occurrence_deployment](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence_deployment.sql)
-#' - [dwc_occurrence_positions](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence_positions.sql)
+#' - [dwc_occurrence](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql)
 #'
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
@@ -13,6 +12,7 @@
 #' @return Darwin Core Archive formatted CSV files written to disk.
 #' @export
 write_movebank_dwca <- function(package, directory = ".") {
+  # Check for necessary resources
   assertthat::assert_that(
     c("reference-data") %in% frictionless::resources(package),
     msg = "`package` must contain resource `reference-data`."
@@ -22,15 +22,16 @@ write_movebank_dwca <- function(package, directory = ".") {
     msg = "`package` must contain resource `gps`."
   )
 
-  # Read data from Data Package
+  # Read data
   message("Reading data from `package`.")
   reference_data <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 
-  # Convert date and dttm columns to string for easier handling in SQLite:
+  # Convert date and dttm columns to strings for easier handling in SQLite
   # https://stackoverflow.com/a/13462536/2463806
   date_to_chr <- function(x) {
-    dplyr::mutate(x,
+    dplyr::mutate(
+      x,
       dplyr::across(where(~ inherits(., c("Date", "POSIXt"))), as.character)
     )
   }
@@ -44,12 +45,13 @@ write_movebank_dwca <- function(package, directory = ".") {
   DBI::dbWriteTable(con, "gps", gps)
 
   # Query database
-  dwc_occurrence_deployment_sql <- glue::glue_sql(
+  dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(
-      system.file("sql/movebank_dwc_occurrence_deployment.sql", package = "movepub")
-    ), .con = con
+      system.file("sql/movebank_dwc_occurrence.sql", package = "movepub")
+    ),
+    .con = con
   )
-  dwc_occurrence_deployment <- DBI::dbGetQuery(con, dwc_occurrence_deployment_sql)
+  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
   DBI::dbDisconnect(con)
 
   # Create directory if it doesn't exists yet + write files
@@ -57,8 +59,8 @@ write_movebank_dwca <- function(package, directory = ".") {
     dir.create(directory, recursive = TRUE)
   }
   readr::write_csv(
-    dwc_occurrence_deployment,
-    file.path(directory, "dwc_occurrence_deployment.csv"),
+    dwc_occurrence,
+    file.path(directory, "dwc_occurrence.csv"),
     na = ""
   )
 }
