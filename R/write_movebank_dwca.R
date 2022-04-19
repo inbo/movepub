@@ -27,11 +27,6 @@ write_movebank_dwca <- function(package, directory = ".") {
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 
-  # Convert all columns to characters for easier handling in SQLite
-  # https://stackoverflow.com/a/13462536/2463806
-  ref <- dplyr::mutate(ref, dplyr::across(everything(), as.character))
-  gps <- dplyr::mutate(gps, dplyr::across(everything(), as.character))
-
   # Create database
   message("Transforming data to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")

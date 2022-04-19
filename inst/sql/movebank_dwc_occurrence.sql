@@ -37,7 +37,7 @@ SELECT
 -- EVENT
   ref."tag-id" ||  '-' || ref."animal-id" AS eventID,
   'tag deployment'                      AS samplingProtocol,
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date") AS eventDate,
+  STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
   ref."deployment-comments"             AS eventRemarks,
 -- LOCATION
   NULL                                  AS minimumDistanceAboveSurfaceInMeters,
@@ -61,7 +61,7 @@ SELECT
   'TODO'                                AS informationWithheld,
   'subsampled by hour: first of ' || gps."subsample-count" || ' records' AS dataGeneralizations,
 -- OCCURRENCE
-  gps."event-id"                        AS occurrenceID,
+  CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
   NULL                                  AS sex,
   NULL                                  AS lifeStage,
   'present'                             AS occurrenceStatus,
@@ -71,7 +71,7 @@ SELECT
 -- EVENT
   ref."tag-id" ||  '-' || ref."animal-id" AS eventID,
   gps."sensor-type"                     AS samplingProtocol,
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp") AS eventDate,
+  STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp", 'unixepoch') AS eventDate,
   NULL                                  AS eventRemarks,
 -- LOCATION
   gps."height-above-msl"                AS minimumDistanceAboveSurfaceInMeters,
@@ -89,9 +89,9 @@ FROM
       COUNT(*) AS "subsample-count"
     FROM gps
     WHERE
-      visible = 'TRUE' -- Exclude outliers
+      visible -- Exclude outliers
     GROUP BY
-      STRFTIME('%Y-%m-%dT%H', timestamp) -- Group by date+hour
+      STRFTIME('%Y-%m-%dT%H', timestamp, 'unixepoch') -- Group by date+hour
     HAVING
     -- Take first record within date+hour group, i.e. first timestamp since
     -- Movebank data are sorted by time: https://github.com/tdwg/dwc-for-biologging/issues/31
