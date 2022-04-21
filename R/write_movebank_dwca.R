@@ -23,17 +23,18 @@ write_movebank_dwca <- function(package, directory = ".") {
   )
 
   # Read data
-  message("Reading data from `package`.")
+  message("Reading data from `package` ...")
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 
   # Create database
-  message("Transforming data to Darwin Core.")
+  message("Creating database ...")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "reference_data", ref)
   DBI::dbWriteTable(con, "gps", gps)
 
   # Query database
+  message("Transforming data to Darwin Core ...")
   dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(
       system.file("sql/movebank_dwc_occurrence.sql", package = "movepub")
