@@ -76,7 +76,7 @@ SELECT
 -- LOCATION
   gps."height-above-msl"                AS minimumDistanceAboveSurfaceInMeters,
   gps."location-lat"                    AS decimalLatitude,
-  gps."location-lat"                    AS decimalLongitude,
+  gps."location-long"                   AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
   gps."location-error-numerical"        AS coordinateUncertaintyInMeters,
 -- TAXON
