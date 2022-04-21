@@ -91,10 +91,13 @@ FROM
     WHERE
       visible -- Exclude outliers
     GROUP BY
-      STRFTIME('%Y-%m-%dT%H', timestamp, 'unixepoch') -- Group by date+hour
+    -- Group by tag+animal+date+hour combination
+      gps."tag-local-identifier" ||
+      gps."individual-local-identifier" ||
+      STRFTIME('%Y-%m-%dT%H', timestamp, 'unixepoch')
     HAVING
-    -- Take first record within date+hour group, i.e. first timestamp since
-    -- Movebank data are sorted by time: https://github.com/tdwg/dwc-for-biologging/issues/31
+    -- Take first record/timestamp within group
+    -- Movebank data are sorted by timestamp: https://github.com/tdwg/dwc-for-biologging/issues/31
       ROWID = MIN(ROWID)
   ) AS gps
   LEFT JOIN reference_data AS ref
