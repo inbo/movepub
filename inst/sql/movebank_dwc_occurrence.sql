@@ -44,7 +44,7 @@ SELECT
   ref."deploy-on-latitude"              AS decimalLatitude,
   ref."deploy-on-longitude"             AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
-  'TODO'                                AS coordinateUncertaintyInMeters,
+  30                                    AS coordinateUncertaintyInMeters,
 -- TAXON
   ref."animal-taxon"                    AS scientificName,
   'Animalia'                            AS kingdom
