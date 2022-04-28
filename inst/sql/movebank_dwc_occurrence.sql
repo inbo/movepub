@@ -1,5 +1,14 @@
 /*
 Created by Peter Desmet (INBO)
+
+Each record is its own event, but GPS records are child events of the
+capture/deployment.
+
+occurrenceID | eventID   | parentEventID | basisOfRecord | eventRemarks
+------------ | --------- | ------------- | ------------- | ------------------
+ani1_tag1    | ani1_tag1 | ani1_tag1     | HumanObs      | deployment remarks
+occ1         | occ1      | ani1_tag1     | MachineObs    |
+occ2         | occ2      | ani1_tag1     | MachineObs    |
 */
 
 /* RECORD-LEVEL */
@@ -36,7 +45,8 @@ SELECT
   ref."animal-nickname"                 AS organismName,
 -- EVENT
   ref."animal-id" || '_' || ref."tag-id" AS eventID,
-  'tag attachment'                      AS samplingProtocol,
+  NULL                                  AS parentEventID,
+  'tag deployment'                      AS samplingProtocol,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
   ref."deployment-comments"             AS eventRemarks,
 -- LOCATION
@@ -79,7 +89,8 @@ SELECT
   ref."animal-id"                       AS organismID,
   ref."animal-nickname"                 AS organismName,
 -- EVENT
-  ref."animal-id" || '_' || ref."tag-id" AS eventID,
+  CAST(CAST(gps."event-id" AS int) AS text) AS eventID,
+  ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
   gps."sensor-type"                     AS samplingProtocol,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp", 'unixepoch') AS eventDate,
   NULL                                  AS eventRemarks,
