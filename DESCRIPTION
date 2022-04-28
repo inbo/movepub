@@ -15,6 +15,7 @@ Imports:
     assertthat,
     DBI,
     dplyr,
+    EML,
     frictionless,
     glue,
     jsonlite,
