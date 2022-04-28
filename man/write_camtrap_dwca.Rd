@@ -4,18 +4,13 @@
 \alias{write_camtrap_dwca}
 \title{Write camera trap Darwin Core Archive}
 \usage{
-write_camtrap_dwca(package, directory, continent = NULL, country_code = NULL)
+write_camtrap_dwca(package, directory)
 }
 \arguments{
 \item{package}{A Camera Trap Data Package, as read by
 \code{\link[frictionless:read_package]{frictionless::read_package()}}.}
 
 \item{directory}{Path to local directory to write files to.}
-
-\item{continent}{Continent that applies to the whole dataset.}
-
-\item{country_code}{Two-letter ISO 3166 country code that applies to the
-whole dataset.}
 }
 \value{
 Darwin Core formatted CSV files written to disk.
