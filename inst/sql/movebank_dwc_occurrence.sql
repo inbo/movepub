@@ -39,6 +39,7 @@ SELECT
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
   ref."animal-life-stage"               AS lifeStage,
+  NULL                                  AS reproductiveCondition, -- Should become ref."animal-reproductive-condition"
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
@@ -84,6 +85,7 @@ SELECT
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
   NULL                                  AS lifeStage,
+  NULL                                  AS reproductiveCondition,
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
