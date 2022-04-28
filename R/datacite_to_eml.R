@@ -11,17 +11,17 @@ datacite_to_eml <- function(doi) {
   # Read metadata from DataCite
   doi <- gsub("https://doi.org/", "", doi)
   result <- jsonlite::read_json(paste0("https://api.datacite.org/dois/", doi))
-  attr <- result$data$attributes
+  metadata <- result$data$attributes
 
   # Remove null values and empty lists
-  attr <- clean_list(
-    attr,
+  metadata <- clean_list(
+    metadata,
     function(x) is.null(x) | length(x) == 0L,
     recursive = TRUE
   )
 
   # Get creators
-  creators <- purrr::map(attr$creators, ~ EML::set_responsibleParty(
+  creators <- purrr::map(metadata$creators, ~ EML::set_responsibleParty(
     givenName = .$givenName,
     surName = .$familyName,
     organizationName = .$affiliation,
@@ -31,14 +31,9 @@ datacite_to_eml <- function(doi) {
   # Create eml
   list(
     dataset = list(
-      alternateIdentifier = paste0("https://doi.org/", attr$doi), # TODO: test
-      title = attr$titles[[1]]$title,
-      creator = creators,
-      metadataProvider = NULL, # TODO
-      pubDate = attr$publicationYear, # TODO: test, or $dates[[1]]$date
-      language = attr$language, # TODO: en vs eng
+      title = metadata$titles[[1]]$title,
       abstract = list(
-        para = purrr::map_chr(attr$descriptions, function(x) {
+        para = purrr::map_chr(metadata$descriptions, function(x) {
           description <- x$description
           if (grepl("</", description)) { # Description contains HTML
             paste0("<![CDATA[", description, "]]>")
@@ -47,21 +42,26 @@ datacite_to_eml <- function(doi) {
           }
         })
       ),
+      contact = NULL, # TODO
+      creator = creators,
+      metadataProvider = NULL, # TODO
       keywordsSet = list(
         list(
           keywordThesaurus = "n/a",
-          keyword =  purrr::map_chr(attr$subjects, "subject")
+          keyword =  purrr::map_chr(metadata$subjects, "subject")
         )
       ),
-      intellectualRights = attr$rightsList[[1]]$rightsUri, # TODO: test
+      pubDate = metadata$publicationYear, # TODO: test, or $dates[[1]]$date
+      # language: not set, GBIF IPT will assume English
+      intellectualRights = metadata$rightsList[[1]]$rightsUri, # TODO: test
       distribution = list(
         online = list(
           url = "https://example.org" # TODO: test
         )
       ),
-      contact = NULL # TODO
-      # methods
-      # coverage
+      alternateIdentifier = paste0("https://doi.org/", metadata$doi) # TODO: test
+      # methods TODO
+      # coverage TODO
     )
   )
 }
