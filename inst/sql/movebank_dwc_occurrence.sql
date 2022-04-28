@@ -90,7 +90,7 @@ SELECT
     WHEN ref."animal-sex" = 'f' THEN 'female'
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
-  NULL                                  AS lifeStage,
+  NULL                                  AS lifeStage, -- Can change over time
   NULL                                  AS reproductiveCondition,
   'present'                             AS occurrenceStatus,
 -- ORGANISM
