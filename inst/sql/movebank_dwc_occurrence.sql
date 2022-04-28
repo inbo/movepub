@@ -48,8 +48,14 @@ SELECT
   ref."animal-id" || '_' || ref."tag-id" AS eventID,
   NULL                                  AS parentEventID,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
-  ref."deployment-comments"             AS eventRemarks,
   'tag deployment'                      AS samplingProtocol,
+  ref."tag-manufacturer-name" || ' tag attached by ' ||
+  ref."attachment-type" || ' to ' ||
+  CASE
+    WHEN ref."manipulation-type" = 'none' THEN 'free-ranging animal'
+    WHEN ref."manipulation-type" != 'none' THEN 'manipulated animal'
+  END ||
+  ' | ' || ref."deployment-comments"    AS eventRemarks,
 -- LOCATION
   NULL                                  AS minimumDistanceAboveSurfaceInMeters,
   ref."deploy-on-latitude"              AS decimalLatitude,
