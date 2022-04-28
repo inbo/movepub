@@ -9,8 +9,8 @@ SELECT
   'TODO'                                AS license,
   'TODO'                                AS rightsHolder,
   'TODO'                                AS datasetID,
-  'TODO'                                AS institionCode,
-  'TODO'                                AS collectionCode,
+  'MPIAB'                               AS institutionCode, -- Max Planck Institute of Animal Behavior
+  'Movebank'                            AS collectionCode,
   'TODO'                                AS datasetName,
   *
 FROM (
@@ -23,11 +23,11 @@ SELECT
   'TODO'                                AS informationWithheld,
   NULL                                  AS dataGeneralizations,
 -- OCCURRENCE
-  ref."deployment-id"                   AS occurrenceID,
+  ref."animal-id" || '_' || ref."tag-id" AS occurrenceID, -- Same as EventID
   CASE
     WHEN ref."animal-sex" = 'm' THEN 'male'
     WHEN ref."animal-sex" = 'f' THEN 'female'
-    WHEN ref."animal-sex" = 'u' THEN 'undetermined' -- unknown = undetermined for some reason
+    WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
   ref."animal-life-stage"               AS lifeStage,
   'present'                             AS occurrenceStatus,
@@ -35,16 +35,22 @@ SELECT
   ref."animal-id"                       AS organismID,
   ref."animal-nickname"                 AS organismName,
 -- EVENT
-  ref."tag-id" ||  '-' || ref."animal-id" AS eventID,
-  'tag deployment'                      AS samplingProtocol,
+  ref."animal-id" || '_' || ref."tag-id" AS eventID,
+  'tag attachment'                      AS samplingProtocol,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
   ref."deployment-comments"             AS eventRemarks,
 -- LOCATION
   NULL                                  AS minimumDistanceAboveSurfaceInMeters,
   ref."deploy-on-latitude"              AS decimalLatitude,
   ref."deploy-on-longitude"             AS decimalLongitude,
-  'WGS84'                               AS geodeticDatum,
-  30                                    AS coordinateUncertaintyInMeters,
+  CASE
+    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 'WGS84'
+    ELSE NULL
+  END                                   AS geodeticDatum,
+  CASE
+    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 1000 -- Capture coordinates are often set to those of study site
+    ELSE NULL
+  END                                   AS coordinateUncertaintyInMeters,
 -- TAXON
   ref."animal-taxon"                    AS scientificName,
   'Animalia'                            AS kingdom
@@ -59,17 +65,21 @@ SELECT
 -- RECORD-LEVEL
   'MachineObservation'                  AS basisOfRecord,
   'TODO'                                AS informationWithheld,
-  'subsampled by hour: first of ' || gps."subsample-count" || ' records' AS dataGeneralizations,
+  'subsampled by hour: first of ' || gps."subsample-count" || ' record(s)' AS dataGeneralizations,
 -- OCCURRENCE
   CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
-  NULL                                  AS sex,
+  CASE
+    WHEN ref."animal-sex" = 'm' THEN 'male'
+    WHEN ref."animal-sex" = 'f' THEN 'female'
+    WHEN ref."animal-sex" = 'u' THEN 'unknown'
+  END                                   AS sex,
   NULL                                  AS lifeStage,
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
   ref."animal-nickname"                 AS organismName,
 -- EVENT
-  ref."tag-id" ||  '-' || ref."animal-id" AS eventID,
+  ref."animal-id" || '_' || ref."tag-id" AS eventID,
   gps."sensor-type"                     AS samplingProtocol,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp", 'unixepoch') AS eventDate,
   NULL                                  AS eventRemarks,
@@ -91,9 +101,9 @@ FROM
     WHERE
       visible -- Exclude outliers
     GROUP BY
-    -- Group by tag+animal+date+hour combination
-      gps."tag-local-identifier" ||
+    -- Group by animal+tag+date+hour combination
       gps."individual-local-identifier" ||
+      gps."tag-local-identifier" ||
       STRFTIME('%Y-%m-%dT%H', timestamp, 'unixepoch')
     HAVING
     -- Take first record/timestamp within group
@@ -101,6 +111,6 @@ FROM
       ROWID = MIN(ROWID)
   ) AS gps
   LEFT JOIN reference_data AS ref
-    ON gps."tag-local-identifier" = ref."tag-id"
-    AND gps."individual-local-identifier" = ref."animal-id"
+    ON gps."individual-local-identifier" = ref."animal-id"
+    AND gps."tag-local-identifier" = ref."tag-id"
 )
