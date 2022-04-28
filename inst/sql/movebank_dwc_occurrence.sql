@@ -47,9 +47,9 @@ SELECT
 -- EVENT
   ref."animal-id" || '_' || ref."tag-id" AS eventID,
   NULL                                  AS parentEventID,
-  'tag deployment'                      AS samplingProtocol,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
   ref."deployment-comments"             AS eventRemarks,
+  'tag deployment'                      AS samplingProtocol,
 -- LOCATION
   NULL                                  AS minimumDistanceAboveSurfaceInMeters,
   ref."deploy-on-latitude"              AS decimalLatitude,
@@ -93,8 +93,8 @@ SELECT
 -- EVENT
   CAST(CAST(gps."event-id" AS int) AS text) AS eventID,
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
-  gps."sensor-type"                     AS samplingProtocol,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp", 'unixepoch') AS eventDate,
+  gps."sensor-type"                     AS samplingProtocol,
   NULL                                  AS eventRemarks,
 -- LOCATION
   gps."height-above-msl"                AS minimumDistanceAboveSurfaceInMeters,
