@@ -29,7 +29,7 @@ FROM (
 SELECT
 -- RECORD-LEVEL
   'HumanObservation'                    AS basisOfRecord,
-  'TODO'                                AS informationWithheld,
+  'see metadata'                        AS informationWithheld,
   NULL                                  AS dataGeneralizations,
 -- OCCURRENCE
   ref."animal-id" || '_' || ref."tag-id" AS occurrenceID, -- Same as EventID
