@@ -1,6 +1,6 @@
-#' Write Movebank Darwin Core Archive
+#' Write Movebank Darwin Core files
 #'
-#' Converts a Frictionless Data Package of Movebank data to Darwin Core Archive
+#' Converts a Frictionless Data Package of Movebank data to Darwin Core
 #' formatted CSV files that can be uploaded to a
 #' [GBIF IPT](https://www.gbif.org/ipt).
 #' The conversion is expressed in SQL:
@@ -9,10 +9,21 @@
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write files to.
-#' @return Darwin Core Archive formatted CSV files written to disk.
+#' @param doi DOI of the source dataset, used to populate record-level terms.
+#' @param rightsholder Acronym of the organization owning or managing rights
+#'   over the data.
+#' @return Darwin Core formatted CSV file(s) written to disk.
 #' @export
-write_movebank_dwca <- function(package, directory = ".") {
-  # Check for necessary resources
+write_movebank_dwca <- function(package, directory = ".", doi = package$id,
+                                rightsholder = NULL) {
+  # Read metadata
+  eml <- datacite_to_eml(doi)
+  dwc_doi <- eml$dataset$alternateIdentifier
+  dwc_title <- paste(eml$dataset$title, "[subsampled representation]")
+  dwc_license <- eml$dataset$intellectualRights
+  dwc_rightsholder <- rightsholder
+
+  # Read data
   assertthat::assert_that(
     c("reference-data") %in% frictionless::resources(package),
     msg = "`package` must contain resource `reference-data`."
@@ -21,20 +32,18 @@ write_movebank_dwca <- function(package, directory = ".") {
     c("gps") %in% frictionless::resources(package),
     msg = "`package` must contain resource `gps`."
   )
-
-  # Read data
-  message("Reading data from `package` ...")
+  message("Reading data from `package`.")
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 
   # Create database
-  message("Creating database ...")
+  message("Creating database.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "reference_data", ref)
   DBI::dbWriteTable(con, "gps", gps)
 
   # Query database
-  message("Transforming data to Darwin Core ...")
+  message("Transforming data to Darwin Core.")
   dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(
       system.file("sql/movebank_dwc_occurrence.sql", package = "movepub")

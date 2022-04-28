@@ -2,21 +2,31 @@
 % Please edit documentation in R/write_movebank_dwca.R
 \name{write_movebank_dwca}
 \alias{write_movebank_dwca}
-\title{Write Movebank Darwin Core Archive}
+\title{Write Movebank Darwin Core files}
 \usage{
-write_movebank_dwca(package, directory = ".")
+write_movebank_dwca(
+  package,
+  directory = ".",
+  doi = package$id,
+  rightsholder = NULL
+)
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as read by
 \code{\link[frictionless:read_package]{frictionless::read_package()}}.}
 
 \item{directory}{Path to local directory to write files to.}
+
+\item{doi}{DOI of the source dataset, used to populate record-level terms.}
+
+\item{rightsholder}{Acronym of the organization owning or managing rights
+over the data.}
 }
 \value{
-Darwin Core Archive formatted CSV files written to disk.
+Darwin Core formatted CSV file(s) written to disk.
 }
 \description{
-Converts a Frictionless Data Package of Movebank data to Darwin Core Archive
+Converts a Frictionless Data Package of Movebank data to Darwin Core
 formatted CSV files that can be uploaded to a
 \href{https://www.gbif.org/ipt}{GBIF IPT}.
 The conversion is expressed in SQL:
