@@ -29,7 +29,7 @@ FROM (
 SELECT
 -- RECORD-LEVEL
   'HumanObservation'                    AS basisOfRecord,
-  'TODO'                                AS informationWithheld,
+  'see metadata'                        AS informationWithheld,
   NULL                                  AS dataGeneralizations,
 -- OCCURRENCE
   ref."animal-id" || '_' || ref."tag-id" AS occurrenceID, -- Same as EventID
@@ -75,7 +75,7 @@ UNION
 SELECT
 -- RECORD-LEVEL
   'MachineObservation'                  AS basisOfRecord,
-  'TODO'                                AS informationWithheld,
+  'see metadata'                        AS informationWithheld,
   'subsampled by hour: first of ' || gps."subsample-count" || ' record(s)' AS dataGeneralizations,
 -- OCCURRENCE
   CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
