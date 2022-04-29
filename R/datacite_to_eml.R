@@ -24,8 +24,8 @@ datacite_to_eml <- function(doi) {
   creators <- purrr::map(metadata$creators, ~ EML::set_responsibleParty(
     givenName = .$givenName,
     surName = .$familyName,
-    userId = .$nameIdentifiers[[1]]$nameIdentifier
     # organizationName: not set to .$affilation, because intended for non-indiv.
+    id = .$nameIdentifiers[[1]]$nameIdentifier
   ))
 
   # Create eml
