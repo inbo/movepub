@@ -6,7 +6,7 @@ capture/deployment.
 
 occurrenceID | eventID   | parentEventID | basisOfRecord | eventRemarks
 ------------ | --------- | ------------- | ------------- | ------------------
-ani1_tag1    | ani1_tag1 | ani1_tag1     | HumanObs      | deployment remarks
+ani1_tag1    | ani1_tag1 |               | HumanObs      | deployment remarks
 occ1         | occ1      | ani1_tag1     | MachineObs    |
 occ2         | occ2      | ani1_tag1     | MachineObs    |
 */
