@@ -4,10 +4,16 @@
 \alias{datacite_to_eml}
 \title{Convert DataCite metadata to EML}
 \usage{
-datacite_to_eml(doi)
+datacite_to_eml(doi, contact, metadata_provider = contact)
 }
 \arguments{
 \item{doi}{DOI of a dataset.}
+
+\item{contact}{One or more persons to be set as resource contact. Provide as
+person objects, e.g. \code{person("Peter", "Desmet", , "fakeaddress@email.com", "mdc", c(ORCID = "0000-0002-8442-8025"))}.}
+
+\item{metadata_provider}{One or more person to be set as metadata provider.
+Same format as \code{contact}.}
 }
 \value{
 EML list that can be extended and/or written to file with
