@@ -67,7 +67,7 @@ datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
       contact = contacts,
       creator = creators,
       metadataProvider = metadata_providers,
-      keywordsSet = list(
+      keywordSet = list(
         list(
           keywordThesaurus = "n/a",
           keyword =  purrr::map_chr(metadata$subjects, "subject")
