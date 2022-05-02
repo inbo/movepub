@@ -25,12 +25,28 @@ datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
     recursive = TRUE
   )
 
-  # Get creators
-  creators <- purrr::map(metadata$creators, ~ EML::set_responsibleParty(
-    givenName = .$givenName,
-    surName = .$familyName,
-    # organizationName: not set to .$affilation, because intended for non-indiv.
-    id = .$nameIdentifiers[[1]]$nameIdentifier
+  # Set parties
+  create_party <- function(first_name, last_name, orcid, email = NULL) {
+    party <- list(
+      individualName = list(givenName = first_name, surName = last_name),
+      # organizationName: don't use for affiliation, intended for organizations
+      userId = if (!is.null(orcid)) {
+        list(directory = "https://orcid.org/", gsub("https://orcid.org/", "", orcid))
+      } else {
+        NULL
+      },
+      electronicMailAddress = email
+    )
+    party <- clean_list(party)
+  }
+  contacts <- purrr::map(contact, ~ create_party(
+    .$given, .$family, .$comment, .$email
+  ))
+  metadata_providers <- purrr::map(metadata_provider, ~ create_party(
+    .$given, .$family, .$comment, .$email
+  ))
+  creators <- purrr::map(metadata$creators, ~ create_party(
+    .$givenName, .$familyName, .$nameIdentifiers[[1]]$nameIdentifier, NULL
   ))
 
   # Create eml
