@@ -29,9 +29,10 @@ datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
   create_party <- function(first_name, last_name, orcid, email = NULL) {
     party <- list(
       individualName = list(givenName = first_name, surName = last_name),
-      # organizationName: don't use for affiliation, intended for organizations
+      # organizationName: reserved for organizations
       userId = if (!is.null(orcid)) {
-        list(directory = "https://orcid.org/", gsub("https://orcid.org/", "", orcid))
+        # Note that GBIF IPT sets directory to http, not https
+        list(directory = "http://orcid.org/", gsub("https://orcid.org/", "", orcid))
       } else {
         NULL
       },
