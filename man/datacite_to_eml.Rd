@@ -4,7 +4,7 @@
 \alias{datacite_to_eml}
 \title{Convert DataCite metadata to EML}
 \usage{
-datacite_to_eml(doi, contact, metadata_provider = contact)
+datacite_to_eml(doi, contact = NULL, metadata_provider = contact)
 }
 \arguments{
 \item{doi}{DOI of a dataset.}
@@ -20,6 +20,5 @@ EML list that can be extended and/or written to file with
 \code{\link[EML:write_eml]{EML::write_eml()}}.
 }
 \description{
-Gets metadata for a DOI from DataCite and converts it to EML that can be
-uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT}.
+Retrieves metadata from DataCite and converts to EML.
 }

@@ -1,7 +1,6 @@
 #' Convert DataCite metadata to EML
 #'
-#' Gets metadata for a DOI from DataCite and converts it to EML that can be
-#' uploaded to a [GBIF IPT](https://www.gbif.org/ipt).
+#' Retrieves metadata from DataCite and converts to EML.
 #'
 #' @param doi DOI of a dataset.
 #' @param contact One or more persons to be set as resource contact. Provide as
@@ -12,7 +11,7 @@
 #' @return EML list that can be extended and/or written to file with
 #' [EML::write_eml()].
 #' @export
-datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
+datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
   # Read metadata from DataCite
   doi <- gsub("https://doi.org/", "", doi)
   result <- jsonlite::read_json(paste0("https://api.datacite.org/dois/", doi))
@@ -25,7 +24,7 @@ datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
     recursive = TRUE
   )
 
-  # Set parties
+  # Create parties
   create_party <- function(first_name, last_name, orcid, email = NULL) {
     party <- list(
       individualName = list(givenName = first_name, surName = last_name),
@@ -50,7 +49,7 @@ datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
     .$givenName, .$familyName, .$nameIdentifiers[[1]]$nameIdentifier, NULL
   ))
 
-  # Create eml
+  # Create EML
   list(
     dataset = list(
       title = metadata$titles[[1]]$title,
@@ -73,17 +72,9 @@ datacite_to_eml <- function(doi, contact, metadata_provider = contact) {
           keyword =  purrr::map_chr(metadata$subjects, "subject")
         )
       ),
-      pubDate = metadata$publicationYear, # TODO: test, or $dates[[1]]$date
-      # language: not set, GBIF IPT will assume English
-      intellectualRights = metadata$rightsList[[1]]$rightsUri, # TODO: test
-      distribution = list(
-        online = list(
-          url = "https://example.org" # TODO: test
-        )
-      ),
-      alternateIdentifier = paste0("https://doi.org/", metadata$doi) # TODO: test
-      # methods TODO
-      # coverage TODO
+      pubDate = purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date ),
+      intellectualRights = metadata$rightsList[[1]]$rightsIdentifier,
+      alternateIdentifier = paste0("https://doi.org/", metadata$doi)
     )
   )
 }
