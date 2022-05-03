@@ -2,13 +2,16 @@
 % Please edit documentation in R/write_movebank_dwca.R
 \name{write_movebank_dwca}
 \alias{write_movebank_dwca}
-\title{Write Movebank Darwin Core files}
+\title{Convert Movebank data to Darwin Core}
 \usage{
 write_movebank_dwca(
   package,
   directory = ".",
   doi = package$id,
-  rightsholder = NULL
+  study_id,
+  contact = NULL,
+  metadata_provider = NULL,
+  rights_holder = NULL
 )
 }
 \arguments{
@@ -19,17 +22,25 @@ write_movebank_dwca(
 
 \item{doi}{DOI of the source dataset, used to populate record-level terms.}
 
-\item{rightsholder}{Acronym of the organization owning or managing rights
-over the data.}
+\item{study_id}{Movebank study ID of the source dataset, used for reference.}
+
+\item{rights_holder}{Acronym of the organization owning or managing the
+rights over the data.}
+
+\item{inheritParams}{datacite_to_eml}
 }
 \value{
-Darwin Core formatted CSV file(s) written to disk.
+CSV (data) and EML (metadata) files written to disk.
 }
 \description{
-Converts a Frictionless Data Package of Movebank data to Darwin Core
-formatted CSV files that can be uploaded to a
-\href{https://www.gbif.org/ipt}{GBIF IPT}.
-The conversion is expressed in SQL:
+Converts a published Movebank dataset (formatted as a Frictionless Data
+Package) to Darwin Core (CSV files) and EML (\code{eml.xml}).
+The resulting files can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT}
+for publication.
+A \code{meta.xml} file is not created.
+}
+\details{
+The conversion to Darwin Core is expressed in SQL:
 \itemize{
 \item \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{dwc_occurrence}
 }
