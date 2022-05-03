@@ -19,7 +19,7 @@
 #'   rights over the data.
 #' @return CSV (data) and EML (metadata) files written to disk.
 #' @export
-write_movebank_dwca <- function(package, directory = ".", doi = package$id,
+write_dwc <- function(package, directory = ".", doi = package$id,
                                 study_id, contact = NULL, metadata_provider =
                                 NULL, rights_holder = NULL) {
   # METADATA
