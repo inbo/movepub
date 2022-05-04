@@ -19,21 +19,6 @@ datacite_to_eml <- function(doi) {
     recursive = TRUE
   )
 
-  # Create helper function for parties
-  create_party <- function(first_name, last_name, orcid, email = NULL) {
-    party <- list(
-      individualName = list(givenName = first_name, surName = last_name),
-      # organizationName: reserved for organizations
-      userId = if (!is.null(orcid)) {
-        list(directory = "http://orcid.org/", gsub("https://orcid.org/", "", orcid))
-      } else {
-        NULL
-      },
-      electronicMailAddress = email
-    )
-    party <- clean_list(party)
-  }
-
   # Create attributes
   title <- metadata$titles[[1]]$title
   abstract <- list(
@@ -43,9 +28,17 @@ datacite_to_eml <- function(doi) {
     })
   )
   keywords <- purrr::map_chr(metadata$subjects, "subject")
-  creators <- purrr::map(metadata$creators, ~ create_party(
-    # Assumes first nameIdentifier (if any) is ORCID
-    .$givenName, .$familyName, .$nameIdentifiers[[1]]$nameIdentifier, NULL
+  creators <- purrr::map(metadata$creators, ~ EML::set_responsibleParty(
+    givenName = .$givenName,
+    surName = .$familyName,
+    userId = if (!is.null(.$nameIdentifiers[[1]]$nameIdentifier)) {
+      list(
+        directory = "http://orcid.org/",
+        gsub("https://orcid.org/", "", .$nameIdentifiers[[1]]$nameIdentifier)
+      )
+    } else {
+      NULL
+    }
   ))
   pub_date <- purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date)
   license_url <- metadata$rightsList[[1]]$rightsUri
