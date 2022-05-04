@@ -1,4 +1,4 @@
-test_that("get_movebank_term() returns information about at term", {
+test_that("get_mvb_term() returns information about at term", {
   expected_info <- list(
     id = "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/",
     identifier = "SDN:MVB::MVB000016",
@@ -17,33 +17,33 @@ test_that("get_movebank_term() returns information about at term", {
     deprecated = "false",
     note = "accepted"
   )
-  expect_identical(get_movebank_term("animal ID"), expected_info)
+  expect_identical(get_mvb_term("animal ID"), expected_info)
 })
 
-test_that("get_movebank_term() returns term with prefLabel first", {
+test_that("get_mvb_term() returns term with prefLabel first", {
   label <- "individual local identifier"
-  expect_identical(get_movebank_term(label)$prefLabel, label)
+  expect_identical(get_mvb_term(label)$prefLabel, label)
   # Not term http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/ with
   # animal ID as pref label
 })
 
-test_that("get_movebank_term() returns term with altLabel too", {
+test_that("get_mvb_term() returns term with altLabel too", {
   expect_identical(
-    get_movebank_term("deploy on timestamp"), # prefLabel
-    get_movebank_term("deploy on date") # altLabel
+    get_mvb_term("deploy on timestamp"), # prefLabel
+    get_mvb_term("deploy on date") # altLabel
   )
 })
 
-test_that("get_movebank_term() ignores case and converts to space", {
+test_that("get_mvb_term() ignores case and converts to space", {
   expect_identical(
-    get_movebank_term("ANIMAL-exact_date.of:birth")$prefLabel,
+    get_mvb_term("ANIMAL-exact_date.of:birth")$prefLabel,
     "animal exact date of birth"
   )
 })
 
-test_that("get_movebank_term() returns error when term cannot be found", {
+test_that("get_mvb_term() returns error when term cannot be found", {
   expect_error(
-    get_movebank_term("no-such term"),
+    get_mvb_term("no-such term"),
     "Can't find term `no such term` in Movebank Attribute Dictionary.",
     fixed = TRUE
   )

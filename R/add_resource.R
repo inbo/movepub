@@ -32,7 +32,7 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
 
   # Rebuild and extends field properties
   fields <- purrr::map(schema$fields, function(field) {
-    term <- get_movebank_term(field$name)
+    term <- get_mvb_term(field$name)
     type <- dplyr::recode(term$prefLabel,
       "tag ID" = "string",
       "tag local identifier" = "string",

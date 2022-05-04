@@ -2,6 +2,6 @@
 
 export(add_resource)
 export(datacite_to_eml)
-export(get_movebank_term)
+export(get_mvb_term)
 export(write_camtrap_dwca)
 export(write_dwc)

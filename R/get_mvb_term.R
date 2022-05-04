@@ -1,25 +1,31 @@
-#' Get Movebank term
+#' Get term from the Movebank Attribute Dictionary
 #'
 #' Search a term by its label in the [Movebank Attribute
-#' Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/). Returns in
-#' order: term with matching `prefLabel`, matching `altLabel` or error when no
-#' matching term is found.
+#' Dictionary (MVB)](http://vocab.nerc.ac.uk/collection/MVB/current/).
+#' Returns in order: term with matching `prefLabel`, matching `altLabel` or
+#' error when no matching term is found.
 #'
 #' @param label Label of the term to look for. Case will be ignored and `-`,
 #'   `_`, `.` and `:` interpreted as space.
-#' @return List object with term information.
+#' @return List with term information.
 #' @export
 #' @examples
-#' get_movebank_term("animal_id")
+#' get_mvb_term("animal_id")
 #'
-#' get_movebank_term("Deploy.On.Date")
-get_movebank_term <- function(label) {
+#' get_mvb_term("Deploy.On.Date")
+get_mvb_term <- function(label) {
   label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
   label_clean <- ifelse(
     label_clean == "bar barometric pressure",
     "bar:barometric pressure",
     label_clean
   )
+  label_clean <- ifelse(
+    label_clean == "behavior according to",
+    "behaviour according to",
+    label_clean
+  )
+
 
   # Get terms
   vocab_url <- file.path(
