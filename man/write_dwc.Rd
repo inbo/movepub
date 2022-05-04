@@ -2,13 +2,12 @@
 % Please edit documentation in R/write_dwc.R
 \name{write_dwc}
 \alias{write_dwc}
-\title{Convert Movebank data to Darwin Core}
+\title{Transform Movebank data to Darwin Core}
 \usage{
 write_dwc(
   package,
   directory = ".",
   doi = package$id,
-  study_id,
   contact = NULL,
   metadata_provider = NULL,
   rights_holder = NULL
@@ -22,8 +21,6 @@ write_dwc(
 
 \item{doi}{DOI of the source dataset, used to populate record-level terms.}
 
-\item{study_id}{Movebank study ID of the source dataset, used for reference.}
-
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
 
@@ -33,15 +30,22 @@ rights over the data.}
 CSV (data) and EML (metadata) files written to disk.
 }
 \description{
-Converts a published Movebank dataset (formatted as a Frictionless Data
-Package) to Darwin Core (CSV files) and EML (\code{eml.xml}).
-The resulting files can be uploaded to a \href{https://www.gbif.org/ipt}{GBIF IPT}
-for publication.
+Transforms a published Movebank dataset (formatted as a Frictionless Data
+Package) to Darwin Core and EML.
+The resulting CSV and \code{eml.xml} files can be uploaded to a
+\href{https://www.gbif.org/ipt}{GBIF IPT} for publication.
 A \code{meta.xml} file is not created.
 }
 \details{
-The conversion to Darwin Core is expressed in SQL:
+The transformation to Darwin Core is expressed in SQL:
 \itemize{
 \item \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{dwc_occurrence}
 }
+}
+\examples{
+package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
+write_dwc(
+  package,
+  contact = person("Peter", "Desmet", "fakeaddress@email.com", "mdc", c(ORCID = "0000-0002-8442-8025"))
+)
 }

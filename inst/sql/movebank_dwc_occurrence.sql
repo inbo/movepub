@@ -15,12 +15,12 @@ occ2         | occ2      | ani1_tag1     | MachineObs    |
 
 SELECT
   'Event'                               AS type,
-  {dwc_license}                         AS license,
+  {license_url}                         AS license,
   {rights_holder}                       AS rightsHolder,
   {doi_url}                             AS datasetID,
   'MPIAB'                               AS institutionCode, -- Max Planck Institute of Animal Behavior
   'Movebank'                            AS collectionCode,
-  {new_title}                           AS datasetName,
+  {title}                               AS datasetName,
   *
 FROM (
 

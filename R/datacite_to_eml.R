@@ -1,15 +1,15 @@
-#' Convert DataCite metadata to EML
+#' Get DataCite metadata as EML
 #'
-#' Retrieves metadata from DataCite and converts to EML.
+#' Get metadata from [DataCite](https://datacite.org/) and transform to EML.
 #'
 #' @param doi DOI of a dataset.
-#' @param contact One or more persons to be set as resource contact. Provide as
-#'   person objects, e.g. `person("Peter", "Desmet", , "fakeaddress@email.com",
-#'   "mdc", c(ORCID = "0000-0002-8442-8025"))`.
-#' @param metadata_provider One or more person to be set as metadata provider.
+#' @param contact One or more persons to be set as resource contact, e.g.
+#'   `person("Peter", "Desmet", , "fakeaddress@email.com", "mdc",
+#'   c(ORCID = "0000-0002-8442-8025"))`.
+#' @param metadata_provider One or more persons to be set as metadata provider.
 #'   Same format as `contact`.
 #' @return EML list that can be extended and/or written to file with
-#' [EML::write_eml()].
+#'   [EML::write_eml()].
 #' @export
 datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
   # Read metadata from DataCite
@@ -24,13 +24,12 @@ datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
     recursive = TRUE
   )
 
-  # Create parties
+  # Create helper function for parties
   create_party <- function(first_name, last_name, orcid, email = NULL) {
     party <- list(
       individualName = list(givenName = first_name, surName = last_name),
       # organizationName: reserved for organizations
       userId = if (!is.null(orcid)) {
-        # Note that GBIF IPT sets directory to http, not https
         list(directory = "http://orcid.org/", gsub("https://orcid.org/", "", orcid))
       } else {
         NULL
@@ -39,42 +38,49 @@ datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
     )
     party <- clean_list(party)
   }
+
+  # Create attributes
+  title <- metadata$titles[[1]]$title
+  abstract <- list(
+    para = purrr::map_chr(metadata$descriptions, function(x) {
+      desc <- x$description
+      if (grepl("</", desc)) paste0("<![CDATA[", desc, "]]>") else desc
+    })
+  )
+  keywords <- purrr::map_chr(metadata$subjects, "subject")
+  creators <- purrr::map(metadata$creators, ~ create_party(
+    # Assumes first nameIdentifier (if any) is ORCID
+    .$givenName, .$familyName, .$nameIdentifiers[[1]]$nameIdentifier, NULL
+  ))
   contacts <- purrr::map(contact, ~ create_party(
     .$given, .$family, .$comment, .$email
   ))
   metadata_providers <- purrr::map(metadata_provider, ~ create_party(
     .$given, .$family, .$comment, .$email
   ))
-  creators <- purrr::map(metadata$creators, ~ create_party(
-    .$givenName, .$familyName, .$nameIdentifiers[[1]]$nameIdentifier, NULL
-  ))
+  pub_date <- purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date)
+  license_url <- metadata$rightsList[[1]]$rightsUri
+  source_id <- if (length(metadata$relatedIdentifiers) > 0) {
+    unlist(purrr::map(
+      metadata$relatedIdentifiers,
+      ~ if(.$relationType == "IsDerivedFrom") .$relatedIdentifier
+    ))
+  } else {
+    NULL
+  }
 
   # Create EML
   list(
     dataset = list(
-      title = metadata$titles[[1]]$title,
-      abstract = list(
-        para = purrr::map_chr(metadata$descriptions, function(x) {
-          description <- x$description
-          if (grepl("</", description)) {
-            paste0("<![CDATA[", description, "]]>") # Wrap HTML
-          } else {
-            description
-          }
-        })
-      ),
-      contact = contacts,
+      title = title,
+      abstract = abstract,
+      keywordSet = list(list(keywordThesaurus = "n/a", keyword = keywords)),
       creator = creators,
+      contact = contacts,
       metadataProvider = metadata_providers,
-      keywordSet = list(
-        list(
-          keywordThesaurus = "n/a",
-          keyword =  purrr::map_chr(metadata$subjects, "subject")
-        )
-      ),
-      pubDate = purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date ),
-      intellectualRights = metadata$rightsList[[1]]$rightsIdentifier,
-      alternateIdentifier = paste0("https://doi.org/", metadata$doi)
+      pubDate = pub_date,
+      intellectualRights = license_url,
+      alternateIdentifier = list(paste0("https://doi.org/", doi), source_id)
     )
   )
 }
