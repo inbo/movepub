@@ -1,7 +1,8 @@
-#' Add Movebank Data Resource
+#' Add Movebank data to a Frictionless Data Package
 #'
-#' [frictionless::add_resource()] for [Movebank](https://www.movebank.org/)
-#' data.
+#' Adds Movebank data (`reference-data`, `gps`, `acceleration`,
+#' `accessory-measurements`) as a Data Resource to a Frictionless Data Package.
+#' This function extends and masks `[frictionless::add_resource()]`.
 #'
 #' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
@@ -10,7 +11,7 @@
 #'   Table Schema?
 #' @return Provided `package` with one additional resource.
 #' @export
-add_movebank_resource <- function(package, resource_name, files, keys = TRUE) {
+add_resource <- function(package, resource_name, files, keys = TRUE) {
   # Check resource names
   allowed_names <- c("reference-data", "gps", "acceleration",
                      "accessory-measurements")
