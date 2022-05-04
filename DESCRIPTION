@@ -1,13 +1,12 @@
 Package: movepub
-Title: Prepare biologging data for publication
+Title: Prepare Movebank data for publication
 Version: 0.0.0.9000
 Authors@R: 
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025"))
-Description: Prepare biologging data for publication in a research repository or
-    the Global Biodiversity Information Facility (GBIF, <https://gbif.org>).
-    It includes functionality to convert Movebank (<https://movebank.org>) and 
-    camera trap data to Darwin Core (<https//dwc.tdwg.org>).
+Description: Prepare 'Movebank' (<https://movebank.org>) animal tracking data 
+    for publication in a research repository or the Global Biodiversity 
+    Information Facility ('GBIF' <https://gbif.org>).
 License: MIT + file LICENSE
 URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
