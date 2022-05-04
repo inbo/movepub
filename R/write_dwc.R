@@ -85,7 +85,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
 
   # Update license
-  license_url <- eml$dataset$intellectualRights
+  license_url <- eml$dataset$intellectualRights$rightsUri
+  eml$dataset$intellectualRights$para <- switch(
+    eml$dataset$intellectualRights$rightsIdentifier,
+    "cc0-1.0" = "Public Domain (CC0 1.0)",
+    "cc-by-4.0" = "Creative Commons Attribution (CC-BY) 4.0",
+    "cc-by-nc-4.0" = "Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0",
+    NULL
+  )
 
   # Read data from package
   message("Reading data from `package`.")

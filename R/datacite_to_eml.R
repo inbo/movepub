@@ -41,7 +41,6 @@ datacite_to_eml <- function(doi) {
     }
   ))
   pub_date <- purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date)
-  license_url <- metadata$rightsList[[1]]$rightsUri
   source_id <- if (length(metadata$relatedIdentifiers) > 0) {
     unlist(purrr::map(
       metadata$relatedIdentifiers,
@@ -62,7 +61,7 @@ datacite_to_eml <- function(doi) {
       creator = creators,
       contact = creators[[1]], # First author,
       pubDate = pub_date,
-      intellectualRights = license_url,
+      intellectualRights = metadata$rightsList[[1]],
       alternateIdentifier = list(paste0("https://doi.org/", doi), source_id)
     )
   )
