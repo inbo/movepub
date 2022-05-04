@@ -65,7 +65,6 @@ A <code>meta.xml</code> file is not created.</p>
   directory <span class="op">=</span> <span class="st">"."</span>,
   doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,
   contact <span class="op">=</span> <span class="cn">NULL</span>,
-  metadata_provider <span class="op">=</span> <span class="cn">NULL</span>,
   rights_holder <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -79,11 +78,12 @@ A <code>meta.xml</code> file is not created.</p>
 <dd><p>Path to local directory to write files to.</p></dd>
 <dt>doi</dt>
 <dd><p>DOI of the source dataset, used to populate record-level terms.</p></dd>
+<dt>contact</dt>
+<dd><p>Person to be set as resource contact and metadata provider,
+e.g. <code>person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))</code>.</p></dd>
 <dt>rights_holder</dt>
 <dd><p>Acronym of the organization owning or managing the
 rights over the data.</p></dd>
-<dt>inheritParams</dt>
-<dd><p>datacite_to_eml</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -100,7 +100,7 @@ rights over the data.</p></dd>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in read_package("https://zenodo.org/record/5879096/files/datapackage.json"):</span> could not find function "read_package"</span>
 <span class="r-in"><span class="fu">write_dwc</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">package</span>,</span>
-<span class="r-in">  contact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span><span class="st">"Peter"</span>, <span class="st">"Desmet"</span>, <span class="st">"fakeaddress@email.com"</span>, <span class="st">"mdc"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"0000-0002-8442-8025"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">  contact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span><span class="st">"Peter"</span>, <span class="st">"Desmet"</span>, , <span class="st">"fakeaddress@email.com"</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"0000-0002-8442-8025"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating EML metadata.</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is.factor(x):</span> object 'package' not found</span>
