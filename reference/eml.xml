@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="47e952e9-96c7-4b2f-bc0a-f9cdb2838eff" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <alternateIdentifier>https://doi.org/10.5281/zenodo.5879096</alternateIdentifier>
+    <alternateIdentifier>https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1099562810</alternateIdentifier>
+    <title>O_WESTERSCHELDE - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in East Flanders (Belgium) [subsampled representation]</title>
+    <creator>
+      <individualName>
+        <givenName>Geert</givenName>
+        <surName>Spanoghe</surName>
+      </individualName>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Peter</givenName>
+        <surName>Desmet</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-8442-8025</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Tanja</givenName>
+        <surName>Milotic</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-3129-6196</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Gunther</givenName>
+        <surName>Van Ryckegem</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0001-8788-0001</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Joost</givenName>
+        <surName>Vanoverbeke</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-3893-9529</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Bruno J.</givenName>
+        <surName>Ens</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-4659-4807</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Willem</givenName>
+        <surName>Bouten</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-5250-8872</userId>
+    </creator>
+    <metadataProvider>
+      <individualName>
+        <givenName>Peter</givenName>
+        <surName>Desmet</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-8442-8025</userId>
+    </metadataProvider>
+    <pubDate>2022-01-19</pubDate>
+    <abstract>
+      <para><![CDATA[<span></span>This animal tracking dataset is derived from Spanoghe et al. (2022, <a href"https://doi.org/10.5281/zenodo.5879096">https://doi.org/10.5281/zenodo.5879096</a>) a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1099562810">https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1099562810</a>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled to the first GPS position per hour. The original dataset description follows.]]></para>
+      <para><![CDATA[<em>O_WESTERSCHELDE - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in East Flanders (Belgium)</em> is a bird tracking dataset published by the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected by the LifeWatch GPS tracking network for large birds (http://lifewatch.be/en/gps-tracking-network-large-birds) for the project/study <strong>O_WESTERSCHELDE</strong>, using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study has been operational since 2018. In total 13 individuals of Eurasian oystercatchers (<em>Haematopus ostralegus</em>) have been tagged in their breeding area in East Flanders (Belgium), west of the river Scheldt, mainly to study their habitat use on mudflats of the Western Scheldt (the Netherlands). Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected. Data in this package are exported from Movebank study <em>O_WESTERSCHELDE - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in East Flanders (Belgium)</em> (Movebank Study ID 1099562810), which can be viewed at https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1099562810. Fields in the data follow the Movebank Attribute Dictionary (http://vocab.nerc.ac.uk/collection/MVB) and are described in <code>datapackage.json</code>. <strong>Files</strong> Files are structured as a Frictionless Data Package. You can access all data in R via <code>https://zenodo.org/record/5879096/files/datapackage.json</code> using frictionless. <strong>datapackage.json</strong>: technical description of the data files. <strong>O_WESTERSCHELDE-reference-data.csv</strong>: reference data about the animals, tags and deployments. <strong>O_WESTERSCHELDE-gps-yyyy.csv.gz</strong>: GPS data recorded by the tags, grouped by year. <strong>O_WESTERSCHELDE-acceleration-yyyy.csv.gz</strong>: acceleration data recorded by the tags, grouped by year.]]></para>
+      <para>This dataset was collected using infrastructure provided by INBO and funded by Research Foundation - Flanders (FWO) as part of the Belgian contribution to LifeWatch. Additional funding was provided by the Sovon Dutch Centre for Field Ornithology.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>animal movement</keyword>
+      <keyword>animal tracking</keyword>
+      <keyword>gps tracking</keyword>
+      <keyword>accelerometer</keyword>
+      <keyword>altitude</keyword>
+      <keyword>temperature</keyword>
+      <keyword>biologging</keyword>
+      <keyword>birds</keyword>
+      <keyword>LifeWatch</keyword>
+      <keyword>UvA-BiTS</keyword>
+      <keyword>Movebank</keyword>
+      <keyword>frictionlessdata</keyword>
+      <keywordThesaurus>n/a</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>Public Domain (CC0 1.0)</para>
+      <rights>Creative Commons Zero v1.0 Universal</rights>
+      <rightsIdentifier>cc0-1.0</rightsIdentifier>
+      <rightsIdentifierScheme>SPDX</rightsIdentifierScheme>
+      <rightsUri>https://creativecommons.org/publicdomain/zero/1.0/legalcode</rightsUri>
+      <schemeUri>https://spdx.org/licenses/</schemeUri>
+    </intellectualRights>
+    <distribution scope="document">
+      <online>
+        <url function="information">https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1099562810</url>
+      </online>
+    </distribution>
+    <contact>
+      <individualName>
+        <givenName>Peter</givenName>
+        <surName>Desmet</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-8442-8025</userId>
+    </contact>
+  </dataset>
+</eml:eml>

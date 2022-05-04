@@ -96,14 +96,19 @@ rights over the data.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">read_package</span><span class="op">(</span><span class="st">"https://zenodo.org/record/5879096/files/datapackage.json"</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in read_package("https://zenodo.org/record/5879096/files/datapackage.json"):</span> could not find function "read_package"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="st">"https://zenodo.org/record/5879096/files/datapackage.json"</span></span>
+<span class="r-in"><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Please make sure you have the right to access data from this Data Package for your intended use.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Follow applicable norms or requirements to credit the dataset and its authors.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> For more information, see https://doi.org/10.5281/zenodo.5879096</span>
 <span class="r-in"><span class="fu">write_dwc</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">package</span>,</span>
 <span class="r-in">  contact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span><span class="st">"Peter"</span>, <span class="st">"Desmet"</span>, , <span class="st">"fakeaddress@email.com"</span>, , <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"0000-0002-8442-8025"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Creating EML metadata.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is.factor(x):</span> object 'package' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Reading data from `package`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Creating database and transforming to Darwin Core.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
