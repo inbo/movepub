@@ -43,7 +43,9 @@ The transformation to Darwin Core is expressed in SQL:
 }
 }
 \examples{
-package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
+package <- frictionless::read_package(
+  "https://zenodo.org/record/5879096/files/datapackage.json"
+)
 write_dwc(
   package,
   contact = person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))
