@@ -61,13 +61,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     NULL
   }
   first_para <- glue::glue(
-    "<p>This animal tracking dataset is derived from ",
+    # Add span to circumvent https://github.com/ropensci/EML/issues/342
+    "<span></span>This animal tracking dataset is derived from ",
     first_author, " et al. (", pub_year, ", <a href\"", doi_url, "\">", doi_url, "</a>) ",
     "a deposit of Movebank study <a href=\"", study_url, "\">", study_id, "</a>. ",
     "Data have been standardized to Darwin Core using the ",
     "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
     "and are downsampled to the first GPS position per hour. ",
-    "The original dataset description follows.</p>",
+    "The original dataset description follows.",
     .null = ""
   )
   eml$dataset$abstract$para <- purrr::prepend(
