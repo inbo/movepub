@@ -3,15 +3,10 @@
 #' Get metadata from [DataCite](https://datacite.org/) and transform to EML.
 #'
 #' @param doi DOI of a dataset.
-#' @param contact One or more persons to be set as resource contact, e.g.
-#'   `person("Peter", "Desmet", , "fakeaddress@email.com", "mdc",
-#'   c(ORCID = "0000-0002-8442-8025"))`.
-#' @param metadata_provider One or more persons to be set as metadata provider.
-#'   Same format as `contact`.
 #' @return EML list that can be extended and/or written to file with
 #'   [EML::write_eml()].
 #' @export
-datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
+datacite_to_eml <- function(doi) {
   # Read metadata from DataCite
   doi <- gsub("https://doi.org/", "", doi)
   result <- jsonlite::read_json(paste0("https://api.datacite.org/dois/", doi))
@@ -52,12 +47,6 @@ datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
     # Assumes first nameIdentifier (if any) is ORCID
     .$givenName, .$familyName, .$nameIdentifiers[[1]]$nameIdentifier, NULL
   ))
-  contacts <- purrr::map(contact, ~ create_party(
-    .$given, .$family, .$comment, .$email
-  ))
-  metadata_providers <- purrr::map(metadata_provider, ~ create_party(
-    .$given, .$family, .$comment, .$email
-  ))
   pub_date <- purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date)
   license_url <- metadata$rightsList[[1]]$rightsUri
   source_id <- if (length(metadata$relatedIdentifiers) > 0) {
@@ -71,13 +60,14 @@ datacite_to_eml <- function(doi, contact = NULL, metadata_provider = contact) {
 
   # Create EML
   list(
+    packageId = uuid::UUIDgenerate(),
+    system = "uuid",
     dataset = list(
       title = title,
       abstract = abstract,
       keywordSet = list(list(keywordThesaurus = "n/a", keyword = keywords)),
       creator = creators,
-      contact = contacts,
-      metadataProvider = metadata_providers,
+      contact = creators[[1]], # First author,
       pubDate = pub_date,
       intellectualRights = license_url,
       alternateIdentifier = list(paste0("https://doi.org/", doi), source_id)

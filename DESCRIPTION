@@ -22,7 +22,8 @@ Imports:
     purrr,
     readr,
     RSQLite,
-    stringr
+    stringr,
+    uuid
 Remotes:
     https://github.com/frictionlessdata/frictionless-r
 Suggests: 
