@@ -9,7 +9,6 @@ write_dwc(
   directory = ".",
   doi = package$id,
   contact = NULL,
-  metadata_provider = NULL,
   rights_holder = NULL
 )
 }
@@ -21,10 +20,11 @@ write_dwc(
 
 \item{doi}{DOI of the source dataset, used to populate record-level terms.}
 
+\item{contact}{Person to be set as resource contact and metadata provider,
+e.g. \code{person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))}.}
+
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
-
-\item{inheritParams}{datacite_to_eml}
 }
 \value{
 CSV (data) and EML (metadata) files written to disk.
@@ -46,6 +46,6 @@ The transformation to Darwin Core is expressed in SQL:
 package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 write_dwc(
   package,
-  contact = person("Peter", "Desmet", "fakeaddress@email.com", "mdc", c(ORCID = "0000-0002-8442-8025"))
+  contact = person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))
 )
 }

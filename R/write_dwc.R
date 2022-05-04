@@ -13,7 +13,9 @@
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write files to.
 #' @param doi DOI of the source dataset, used to populate record-level terms.
-#' @param inheritParams datacite_to_eml
+#' @param contact Person to be set as resource contact and metadata provider,
+#'   e.g. `person("Peter", "Desmet", , "fakeaddress@email.com", ,
+#'   c(ORCID = "0000-0002-8442-8025"))`.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @return CSV (data) and EML (metadata) files written to disk.
@@ -22,21 +24,36 @@
 #' package <- read_package("https://zenodo.org/record/5879096/files/datapackage.json")
 #' write_dwc(
 #'   package,
-#'   contact = person("Peter", "Desmet", "fakeaddress@email.com", "mdc", c(ORCID = "0000-0002-8442-8025"))
+#'   contact = person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))
 #' )
 write_dwc <- function(package, directory = ".", doi = package$id,
-                      contact = NULL, metadata_provider = NULL,
-                      rights_holder = NULL) {
+                      contact = NULL, rights_holder = NULL) {
   # Retrieve metadata from DataCite and build EML
   message("Creating EML metadata.")
   eml <- datacite_to_eml(doi)
 
-  # Create attributes
+  # Update contact and set metadata provider
+  if (!is.null(contact)) {
+    eml$dataset$contact <- EML::set_responsibleParty(
+      givenName = contact$given,
+      surName = contact$family,
+      userId = if (!is.null(contact$comment[["ORCID"]])) {
+        list(directory = "http://orcid.org/", contact$comment[["ORCID"]])
+      } else {
+        NULL
+      }
+    )
+  }
+  eml$dataset$metadataProvider <- eml$dataset$contact
+
+  # Update title
   title <- paste(eml$dataset$title, "[subsampled representation]")
+  eml$dataset$title <- title # Also used in DwC
+
+  # Add extra paragraph
   first_author <- eml$dataset$creator[[1]]$individualName$surName
   pub_year <- substr(eml$dataset$pubDate, 1, 4)
-  license_url <- eml$dataset$intellectualRights
-  doi_url <- eml$dataset$alternateIdentifier[[1]]
+  doi_url <- eml$dataset$alternateIdentifier[[1]] # Also used in DwC
   study_url <- eml$dataset$alternateIdentifier[[2]]
   study_id <- if (!is.null(study_url)) {
     sub("https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study", "", study_url)
@@ -53,13 +70,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     "The original dataset description follows.</p>",
     .null = ""
   )
-
-  # Update EML
-  eml$dataset$title <- title
   eml$dataset$abstract$para <- purrr::prepend(
     eml$dataset$abstract$para,
     paste0("<![CDATA[", first_para, "]]>")
   )
+
+  # Set external link to Movebank study ID
   if (!is.null(study_url)) {
     eml$dataset$distribution = list(
       scope = "document", online = list(
@@ -67,6 +83,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       )
     )
   }
+
+  # Update license
+  license_url <- eml$dataset$intellectualRights
 
   # Read data from package
   message("Reading data from `package`.")
