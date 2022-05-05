@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="47e952e9-96c7-4b2f-bc0a-f9cdb2838eff" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="6bf1b3b7-c3a0-43b6-9dd8-f817bc174bce" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
     <alternateIdentifier>https://doi.org/10.5281/zenodo.5879096</alternateIdentifier>
     <alternateIdentifier>https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1099562810</alternateIdentifier>
@@ -81,7 +81,6 @@
       <keywordThesaurus>n/a</keywordThesaurus>
     </keywordSet>
     <intellectualRights>
-      <para>Public Domain (CC0 1.0)</para>
       <rights>Creative Commons Zero v1.0 Universal</rights>
       <rightsIdentifier>cc0-1.0</rightsIdentifier>
       <rightsIdentifierScheme>SPDX</rightsIdentifierScheme>
