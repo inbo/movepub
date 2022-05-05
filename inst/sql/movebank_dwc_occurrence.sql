@@ -119,6 +119,7 @@ FROM
     FROM gps
     WHERE
       visible -- Exclude outliers
+      AND gps."location-lat" IS NOT NULL -- Exclude (rare) empty coordinates
     GROUP BY
     -- Group by animal+tag+date+hour combination
       gps."individual-local-identifier" ||
