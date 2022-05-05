@@ -34,6 +34,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   message("Creating EML metadata.")
   eml <- datacite_to_eml(doi)
 
+  # Get license
+  license_url <- eml$dataset$intellectualRights$rightsUri # Used in DwC
+
   # Update contact and set metadata provider
   if (!is.null(contact)) {
     eml$dataset$contact <- EML::set_responsibleParty(
@@ -50,12 +53,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Update title
   title <- paste(eml$dataset$title, "[subsampled representation]")
-  eml$dataset$title <- title # Also used in DwC
+  eml$dataset$title <- title # Used in DwC
 
   # Add extra paragraph
   first_author <- eml$dataset$creator[[1]]$individualName$surName
   pub_year <- substr(eml$dataset$pubDate, 1, 4)
-  doi_url <- eml$dataset$alternateIdentifier[[1]] # Also used in DwC
+  doi_url <- eml$dataset$alternateIdentifier[[1]] # Used in DwC
   study_url <- eml$dataset$alternateIdentifier[[2]]
   study_id <- if (!is.null(study_url)) {
     sub("https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study", "", study_url)
@@ -86,16 +89,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       )
     )
   }
-
-  # Update license
-  license_url <- eml$dataset$intellectualRights$rightsUri
-  eml$dataset$intellectualRights$para <- switch(
-    eml$dataset$intellectualRights$rightsIdentifier,
-    "cc0-1.0" = "Public Domain (CC0 1.0)",
-    "cc-by-4.0" = "Creative Commons Attribution (CC-BY) 4.0",
-    "cc-by-nc-4.0" = "Creative Commons Attribution Non Commercial (CC-BY-NC) 4.0",
-    NULL
-  )
 
   # Read data from package
   message("Reading data from `package`.")
