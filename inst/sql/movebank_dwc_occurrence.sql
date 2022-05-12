@@ -4,11 +4,13 @@ Created by Peter Desmet (INBO)
 Each record is its own event, but GPS records are child events of the
 capture/deployment.
 
-occurrenceID | eventID   | parentEventID | basisOfRecord | eventRemarks
------------- | --------- | ------------- | ------------- | ------------------
-ani1_tag1    | ani1_tag1 |               | HumanObs      | deployment remarks
-occ1         | occ1      | ani1_tag1     | MachineObs    |
-occ2         | occ2      | ani1_tag1     | MachineObs    |
+occurrenceID     | eventID         | parentEventID | basisOfRecord | eventRemarks
+---------------- | --------------- | ------------- | ------------- | ------------------
+ani1_tag1_start  | ani1_tag1_start | ani1_tag1     | HumanObs      | deploy-on remarks
+occ1             | occ1            | ani1_tag1     | MachineObs    |
+occ2             | occ2            | ani1_tag1     | MachineObs    |
+ani1_tag1_end    | ani1_tag1_end   | ani1_tag1     | HumanObs      | deploy-off remarks
+
 */
 
 /* RECORD-LEVEL */
@@ -24,7 +26,7 @@ SELECT
   *
 FROM (
 
-/* DEPLOYMENTS */
+/* DEPLOYMENT START */
 
 SELECT
 -- RECORD-LEVEL
@@ -32,23 +34,23 @@ SELECT
   'see metadata'                        AS informationWithheld,
   NULL                                  AS dataGeneralizations,
 -- OCCURRENCE
-  ref."animal-id" || '_' || ref."tag-id" AS occurrenceID, -- Same as EventID
+  ref."animal-id" || '_' || ref."tag-id" || '_start' AS occurrenceID, -- Same as EventID
   CASE
     WHEN ref."animal-sex" = 'm' THEN 'male'
     WHEN ref."animal-sex" = 'f' THEN 'female'
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
   ref."animal-life-stage"               AS lifeStage,
-  NULL                                  AS reproductiveCondition, -- Should become ref."animal-reproductive-condition"
+  ref."animal-reproductive-condition"   AS reproductiveCondition,
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
   ref."animal-nickname"                 AS organismName,
 -- EVENT
-  ref."animal-id" || '_' || ref."tag-id" AS eventID,
-  NULL                                  AS parentEventID,
+  ref."animal-id" || '_' || ref."tag-id" || '_start' AS eventID,
+  ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
-  'tag deployment'                      AS samplingProtocol,
+  'tag deployment start'                AS samplingProtocol,
   ref."tag-manufacturer-name" || ' tag attached by ' ||
   ref."attachment-type" || ' to ' ||
   CASE
@@ -65,7 +67,7 @@ SELECT
     ELSE NULL
   END                                   AS geodeticDatum,
   CASE
-    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 1000 -- Capture coordinates are often set to those of study site
+    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 1000 -- Deploy on coordinates not always precise
     ELSE NULL
   END                                   AS coordinateUncertaintyInMeters,
 -- TAXON
@@ -73,6 +75,8 @@ SELECT
   'Animalia'                            AS kingdom
 FROM
   reference_data AS ref
+WHERE
+  ref."deploy-on-date" IS NOT NULL
 
 UNION
 
@@ -91,7 +95,7 @@ SELECT
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
   NULL                                  AS lifeStage, -- Can change over time
-  NULL                                  AS reproductiveCondition,
+  NULL                                  AS reproductiveCondition,  -- Can change over time
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
@@ -133,4 +137,55 @@ FROM
   LEFT JOIN reference_data AS ref
     ON gps."individual-local-identifier" = ref."animal-id"
     AND gps."tag-local-identifier" = ref."tag-id"
+
+UNION
+
+/* DEPLOYMENT END */
+
+SELECT
+-- RECORD-LEVEL
+  'HumanObservation'                    AS basisOfRecord,
+  'see metadata'                        AS informationWithheld,
+  NULL                                  AS dataGeneralizations,
+-- OCCURRENCE
+  ref."animal-id" || '_' || ref."tag-id" || '_end' AS occurrenceID, -- Same as EventID
+  CASE
+    WHEN ref."animal-sex" = 'm' THEN 'male'
+    WHEN ref."animal-sex" = 'f' THEN 'female'
+    WHEN ref."animal-sex" = 'u' THEN 'unknown'
+  END                                   AS sex,
+  NULL                                  AS lifeStage, -- Can change over time
+  NULL                                  AS reproductiveCondition, -- Can change over time
+  'present'                             AS occurrenceStatus,
+-- ORGANISM
+  ref."animal-id"                       AS organismID,
+  ref."animal-nickname"                 AS organismName,
+-- EVENT
+  ref."animal-id" || '_' || ref."tag-id" || '_end' AS eventID,
+  ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
+  STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-off-date", 'unixepoch') AS eventDate,
+  'tag deployment end'                  AS samplingProtocol,
+  CASE
+    WHEN ref."deployment-end-type" IS NOT NULL THEN ref."deployment-end-type"
+  END                                   AS eventRemarks,
+-- LOCATION
+  NULL                                  AS minimumDistanceAboveSurfaceInMeters,
+  ref."deploy-off-latitude"             AS decimalLatitude,
+  ref."deploy-off-longitude"            AS decimalLongitude,
+  CASE
+    WHEN ref."deploy-off-latitude" IS NOT NULL THEN 'WGS84'
+    ELSE NULL
+  END                                   AS geodeticDatum,
+  CASE
+    WHEN ref."deploy-off-latitude" IS NOT NULL THEN 1000 -- Deploy off coordinates not always precise
+    ELSE NULL
+  END                                   AS coordinateUncertaintyInMeters,
+-- TAXON
+  ref."animal-taxon"                    AS scientificName,
+  'Animalia'                            AS kingdom
+FROM
+  reference_data AS ref
+WHERE
+  ref."deploy-off-date" IS NOT NULL
+
 )
