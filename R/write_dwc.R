@@ -103,6 +103,18 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 
+  # Expand data with all columns used in DwC mapping
+  ref_cols <- c(
+    "animal-id", "animal-life-stage","animal-nickname",
+    "animal-reproductive-condition", "animal-sex", "animal-taxon",
+    "attachment-type", "deploy-off-date", "deploy-off-latitude",
+    "deploy-off-longitude", "deploy-on-date", "deploy-on-latitude",
+    "deploy-on-longitude", "deployment-comments", "deployment-end-comments",
+    "deployment-end-type", "manipulation-type", "tag-id",
+    "tag-manufacturer-name"
+  )
+  ref <- expand_cols(ref, ref_cols)
+
   # Create database
   message("Creating database and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
