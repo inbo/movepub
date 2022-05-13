@@ -90,11 +90,5 @@ no GPS positions, e.g. if the tag malfunctioned right after deployment.
 }
 
 \examples{
-package <- frictionless::read_package(
-  "https://zenodo.org/record/5653311/files/datapackage.json"
-)
-write_dwc(
-  package,
-  contact = person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))
-)
+# See vignette("movepub")
 }

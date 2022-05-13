@@ -63,13 +63,7 @@
 #'   no GPS positions, e.g. if the tag malfunctioned right after deployment.
 #' - The exact deployment end is often unknown and thus not included.
 #' @examples
-#' package <- frictionless::read_package(
-#'   "https://zenodo.org/record/5653311/files/datapackage.json"
-#' )
-#' write_dwc(
-#'   package,
-#'   contact = person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))
-#' )
+#' # See vignette("movepub")
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL) {
   # Retrieve metadata from DataCite and build EML

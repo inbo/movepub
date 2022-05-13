@@ -1,0 +1,88 @@
+---
+title: "movepub"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{movepub}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(movepub)
+library(frictionless)
+library(magrittr)
+library(EML)
+library(readr)
+```
+
+## Convert a Movebank dataset to Darwin Core
+
+A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with a small dataset.
+
+**O_ASSEN** is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.5653311).
+
+`write_dwc()` requires the dataset to be structured as a [Frictionless Data Package](https://specs.frictionlessdata.io/data-package/) (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo, meaning it can be read with the [frictionless](https://frictionlessdata.github.io/frictionless-r/) R package.
+
+Let's create two directories:
+
+```{r}
+dir_source <- "o_assen/source" # Local directory for the source dataset
+dir_dwc    <- "o_assen/dwc"    # Local directory for the Darin Core dataset
+```
+
+And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data every time it is being read. We then create a `package` variable pointing to the local dataset:
+
+```{r}
+frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json") %>%
+  # Not applicable here, but one can speed up downloading by removing large
+  # resources that won't be used, e.g. remove_resource("acceleration")
+  frictionless::write_package(dir_source)
+
+package <- frictionless::read_package(file.path(dir_source, "datapackage.json"))
+```
+
+That covers the data. The metadata are derived from [DataCite](https://datacite.org/) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
+
+```{r}
+package$id
+```
+
+DataCite metadata does not include a contact person and rights holder, so we need to set those:
+
+```{r}
+contact <- person("Peter", "Desmet", , "peter.desmet@inbo.be", , c(ORCID = "0000-0002-8442-8025"))
+rights_holder <- "Vogelwerkgroep Assen"
+```
+
+We now have everything to convert the dataset to Darwin Core and EML:
+
+```{r}
+movepub::write_dwc(
+  package = package,
+  doi = package$id,
+  directory = dir_dwc,
+  contact = contact,
+  rights_holder = rights_holder
+)
+```
+
+The resulting `eml.xml` file includes the metadata:
+
+```{r}
+EML::read_eml(file.path(dir_dwc, "eml.xml"))
+```
+
+The resulting `dwc_occurrence.csv` contains the Darwin Core data:
+
+```{r}
+readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"))
+```
+
+Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset.
