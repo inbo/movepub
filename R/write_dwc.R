@@ -79,7 +79,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   doi_url <- eml$dataset$alternateIdentifier[[1]] # Used in DwC
   study_url <- eml$dataset$alternateIdentifier[[2]]
   study_id <- if (!is.null(study_url)) {
-    sub("https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study", "", study_url)
+    gsub("https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study", "", study_url, fixed = TRUE)
   } else {
     NULL
   }
