@@ -103,7 +103,10 @@ SELECT
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp", 'unixepoch') AS eventDate,
   gps."sensor-type"                     AS samplingProtocol,
-  NULL                                  AS eventRemarks,
+  COALESCE(
+    gps."comments",
+    ''
+  )                                     AS eventRemarks,
 -- LOCATION
   gps."height-above-msl"                AS minimumDistanceAboveSurfaceInMeters,
   gps."location-lat"                    AS decimalLatitude,
