@@ -153,7 +153,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     "deploy-off-longitude", "deploy-on-date", "deploy-on-latitude",
     "deploy-on-longitude", "deployment-comments", "deployment-end-comments",
     "deployment-end-type", "manipulation-type", "tag-id",
-    "tag-manufacturer-name"
+    "tag-manufacturer-name", "tag-model"
   )
   ref <- expand_cols(ref, ref_cols)
 

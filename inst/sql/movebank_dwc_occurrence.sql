@@ -36,13 +36,26 @@ SELECT
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
   'tag deployment start'                AS samplingProtocol,
-  ref."tag-manufacturer-name" || ' tag attached by ' ||
-  ref."attachment-type" || ' to ' ||
+  COALESCE(
+    ref."tag-manufacturer-name" || ' ' || ref."tag-model" || ' tag ',
+    ref."tag-manufacturer-name" || ' tag ',
+    ' tag '
+  ) ||
+  COALESCE(
+    'attached by ' || ref."attachment-type" || ' to ',
+    'attached to '
+  ) ||
   CASE
     WHEN ref."manipulation-type" = 'none' THEN 'free-ranging animal'
-    WHEN ref."manipulation-type" != 'none' THEN 'manipulated animal'
+    WHEN ref."manipulation-type" = 'confined' THEN 'confined animal'
+    WHEN ref."manipulation-type" = 'recolated' THEN 'relocated animal'
+    WHEN ref."manipulation-type" = 'manipulated other' THEN 'manipulated animal'
+    ELSE 'likely free-ranging animal'
   END ||
-  ' | ' || ref."deployment-comments"    AS eventRemarks,
+  COALESCE(
+    ' | ' || ref."deployment-comments",
+    ''
+  )                                     AS eventRemarks,
 -- LOCATION
   NULL                                  AS minimumDistanceAboveSurfaceInMeters,
   ref."deploy-on-latitude"              AS decimalLatitude,
@@ -150,9 +163,12 @@ SELECT
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-off-date", 'unixepoch') AS eventDate,
   'tag deployment end'                  AS samplingProtocol,
-  CASE
-    WHEN ref."deployment-end-type" IS NOT NULL THEN ref."deployment-end-type"
-  END                                   AS eventRemarks,
+  COALESCE(
+    ref."deployment-end-type" || ' | ' || ref."deployment-end-comments",
+    ref."deployment-end-type",
+    ref."deployment-end-comments",
+    ''
+  )                                     AS eventRemarks,
 -- LOCATION
   NULL                                  AS minimumDistanceAboveSurfaceInMeters,
   ref."deploy-off-latitude"             AS decimalLatitude,
