@@ -1,8 +1,10 @@
 ---
-title: "movepub"
+title: "Introduction to movepub"
+author: "Peter Desmet"
+date: 2022-05-13
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{movepub}
+  %\VignetteIndexEntry{Introduction to movepub}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,9 +16,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(movepub)
+```{r setup, message = FALSE}
 library(frictionless)
+library(movepub) # Load after frictionless
 library(magrittr)
 library(EML)
 library(readr)
@@ -42,13 +44,14 @@ And download the dataset from Zenodo to the local directory. Using a local packa
 ```{r}
 frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json") %>%
   # Not applicable here, but one can speed up downloading by removing large
-  # resources that won't be used, e.g. remove_resource("acceleration")
+  # resources that won't be used, e.g. with:
+  # remove_resource("acceleration") %>%
   frictionless::write_package(dir_source)
 
 package <- frictionless::read_package(file.path(dir_source, "datapackage.json"))
 ```
 
-That covers the data. The metadata are derived from [DataCite](https://datacite.org/) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
+That covers the data. The metadata are derived from [DataCite](https://api.datacite.org/dois/10.5281/zenodo.5879096) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
 
 ```{r}
 package$id
@@ -57,7 +60,12 @@ package$id
 DataCite metadata does not include a contact person and rights holder, so we need to set those:
 
 ```{r}
-contact <- person("Peter", "Desmet", , "peter.desmet@inbo.be", , c(ORCID = "0000-0002-8442-8025"))
+contact <- person(
+  given = "Peter",
+  family = "Desmet",
+  email = "peter.desmet@inbo.be",
+  comment = c(ORCID = "0000-0002-8442-8025")
+)
 rights_holder <- "Vogelwerkgroep Assen"
 ```
 
@@ -82,7 +90,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 The resulting `dwc_occurrence.csv` contains the Darwin Core data:
 
 ```{r}
-readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"))
+readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"), show_col_types = FALSE)
 ```
 
 Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset.

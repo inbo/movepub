@@ -10,9 +10,8 @@
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write files to.
 #' @param doi DOI of the original dataset, used to get metadata.
-#' @param contact Person to be set as resource contact and metadata provider,
-#'   e.g. `person("Peter", "Desmet", , "fakeaddress@email.com", ,
-#'   c(ORCID = "0000-0002-8442-8025"))`.
+#' @param contact Person to be set as resource contact and metadata provider.
+#'   To be provided as a `person()`.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @return CSV (data) and EML (metadata) files written to disk.
@@ -105,6 +104,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     eml$dataset$contact <- EML::set_responsibleParty(
       givenName = contact$given,
       surName = contact$family,
+      electronicMailAddress = contact$email,
       userId = if (!is.null(contact$comment[["ORCID"]])) {
         list(directory = "http://orcid.org/", contact$comment[["ORCID"]])
       } else {
