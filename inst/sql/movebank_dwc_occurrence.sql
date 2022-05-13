@@ -1,18 +1,3 @@
-/*
-Created by Peter Desmet (INBO)
-
-Each record is its own event, but GPS records are child events of the
-capture/deployment.
-
-occurrenceID     | eventID         | parentEventID | basisOfRecord | eventRemarks
----------------- | --------------- | ------------- | ------------- | ------------------
-ani1_tag1_start  | ani1_tag1_start | ani1_tag1     | HumanObs      | deploy-on remarks
-occ1             | occ1            | ani1_tag1     | MachineObs    |
-occ2             | occ2            | ani1_tag1     | MachineObs    |
-ani1_tag1_end    | ani1_tag1_end   | ani1_tag1     | HumanObs      | deploy-off remarks
-
-*/
-
 /* RECORD-LEVEL */
 
 SELECT
