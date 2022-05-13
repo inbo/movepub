@@ -1,18 +1,15 @@
 #' Transform Movebank data to Darwin Core
 #'
-#' Transforms a published Movebank dataset (formatted as a Frictionless Data
-#' Package) to Darwin Core and EML.
-#' The resulting CSV and `eml.xml` files can be uploaded to a
+#' Transforms a published Movebank dataset (formatted as a
+#' [Frictionless Data Package](https://specs.frictionlessdata.io/data-package/))
+#' to Darwin Core CSV and EML files that can be uploaded to a
 #' [GBIF IPT](https://www.gbif.org/ipt) for publication.
 #' A `meta.xml` file is not created.
-#'
-#' The transformation to Darwin Core is expressed in SQL:
-#' - [dwc_occurrence](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql)
 #'
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write files to.
-#' @param doi DOI of the source dataset, used to populate record-level terms.
+#' @param doi DOI of the original dataset, used to get metadata.
 #' @param contact Person to be set as resource contact and metadata provider,
 #'   e.g. `person("Peter", "Desmet", , "fakeaddress@email.com", ,
 #'   c(ORCID = "0000-0002-8442-8025"))`.
@@ -20,9 +17,54 @@
 #'   rights over the data.
 #' @return CSV (data) and EML (metadata) files written to disk.
 #' @export
+#' @section Metadata:
+#'
+#' Metadata are derived from the original dataset by looking up its `doi` in
+#' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
+#' and transforming these to EML.
+#' Uses `datacite_to_eml()` under the hood.
+#' The following properties are set:
+#'
+#' - **title**: Original title + `[subsampled representation]`.
+#' - **description**: Automatically created first paragraph describing this is
+#'   a derived dataset, followed by the original dataset description.
+#' - **creators**: Creators of the original dataset.
+#' - **contact**: `contact` or first creator of the original dataset.
+#' - **metadata provider**: `contact` or first creator of the original dataset.
+#' - **keywords**: Keywords of the original dataset.
+#' - **alternative identifier**: DOI of original dataset. This way, no new DOI
+#'   will be created when publishing to GBIF.
+#' - **external link** (and alternative identifier): URL of the Movebank study.
+#'
+#' To be set manually in the GBIF IPT: **license** (currently not recognized by
+#' the IPT), **type**, **subtype**, **update frequency**, and **publishing
+#' organization**.
+#'
+#' Not set: geographic, taxonomic, temporal coverage, associated parties,
+#' project data, sampling methods, and citations. Not applicable: collection
+#' data.
+#'
+#' @section Data:
+#'
+#' A `reference-data` and `gps` resource are expected to be found in `package`.
+#' Their CSV data are loaded in to a SQLite database,
+#' [transformed to Darwin Core using SQL](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql)
+#' and written to disk as CSV file(s).
+#'
+#' Key features of the Darwin Core transformation:
+#' - Animal+tag deployments are parent events, with deployment start (a human
+#' observation), GPS positions (machine observations), and optional deployment
+#' end (a human observation) as child events. The parent event itself does not
+#' contain any information other than an ID.
+#' - The deployment start event often metadata about the animal (sex, lifestage,
+#'  comments) and deployment as a whole.
+#' - GPS positions are downsampled to the first GPS position per hour, to reduce
+#'   the size of high-frequency data. It is possible for a deployment to contain
+#'   no GPS positions, e.g. if the tag malfunctioned right after deployment.
+#' - The exact deployment end is often unknown and thus not included.
 #' @examples
 #' package <- frictionless::read_package(
-#'   "https://zenodo.org/record/5879096/files/datapackage.json"
+#'   "https://zenodo.org/record/5653311/files/datapackage.json"
 #' )
 #' write_dwc(
 #'   package,
@@ -33,23 +75,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Retrieve metadata from DataCite and build EML
   message("Creating EML metadata.")
   eml <- datacite_to_eml(doi)
-
-  # Get license
-  license_url <- eml$dataset$intellectualRights$rightsUri # Used in DwC
-
-  # Update contact and set metadata provider
-  if (!is.null(contact)) {
-    eml$dataset$contact <- EML::set_responsibleParty(
-      givenName = contact$given,
-      surName = contact$family,
-      userId = if (!is.null(contact$comment[["ORCID"]])) {
-        list(directory = "http://orcid.org/", contact$comment[["ORCID"]])
-      } else {
-        NULL
-      }
-    )
-  }
-  eml$dataset$metadataProvider <- eml$dataset$contact
 
   # Update title
   title <- paste(eml$dataset$title, "[subsampled representation]")
@@ -81,6 +106,20 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     paste0("<![CDATA[", first_para, "]]>")
   )
 
+  # Update contact and set metadata provider
+  if (!is.null(contact)) {
+    eml$dataset$contact <- EML::set_responsibleParty(
+      givenName = contact$given,
+      surName = contact$family,
+      userId = if (!is.null(contact$comment[["ORCID"]])) {
+        list(directory = "http://orcid.org/", contact$comment[["ORCID"]])
+      } else {
+        NULL
+      }
+    )
+  }
+  eml$dataset$metadataProvider <- eml$dataset$contact
+
   # Set external link to Movebank study ID
   if (!is.null(study_url)) {
     eml$dataset$distribution = list(
@@ -89,6 +128,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       )
     )
   }
+
+  # Get license
+  license_url <- eml$dataset$intellectualRights$rightsUri # Used in DwC
 
   # Read data from package
   message("Reading data from `package`.")

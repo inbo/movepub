@@ -18,7 +18,7 @@ write_dwc(
 
 \item{directory}{Path to local directory to write files to.}
 
-\item{doi}{DOI of the source dataset, used to populate record-level terms.}
+\item{doi}{DOI of the original dataset, used to get metadata.}
 
 \item{contact}{Person to be set as resource contact and metadata provider,
 e.g. \code{person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))}.}
@@ -30,21 +30,68 @@ rights over the data.}
 CSV (data) and EML (metadata) files written to disk.
 }
 \description{
-Transforms a published Movebank dataset (formatted as a Frictionless Data
-Package) to Darwin Core and EML.
-The resulting CSV and \code{eml.xml} files can be uploaded to a
+Transforms a published Movebank dataset (formatted as a
+\href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package})
+to Darwin Core CSV and EML files that can be uploaded to a
 \href{https://www.gbif.org/ipt}{GBIF IPT} for publication.
 A \code{meta.xml} file is not created.
 }
-\details{
-The transformation to Darwin Core is expressed in SQL:
+\section{Metadata}{
+
+
+Metadata are derived from the original dataset by looking up its \code{doi} in
+DataCite (\href{https://api.datacite.org/dois/10.5281/zenodo.5879096}{example})
+and transforming these to EML.
+Uses \code{datacite_to_eml()} under the hood.
+The following properties are set:
 \itemize{
-\item \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{dwc_occurrence}
+\item \strong{title}: Original title + \verb{[subsampled representation]}.
+\item \strong{description}: Automatically created first paragraph describing this is
+a derived dataset, followed by the original dataset description.
+\item \strong{creators}: Creators of the original dataset.
+\item \strong{contact}: \code{contact} or first creator of the original dataset.
+\item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
+\item \strong{keywords}: Keywords of the original dataset.
+\item \strong{alternative identifier}: DOI of original dataset. This way, no new DOI
+will be created when publishing to GBIF.
+\item \strong{external link} (and alternative identifier): URL of the Movebank study.
+}
+
+To be set manually in the GBIF IPT: \strong{license} (currently not recognized by
+the IPT), \strong{type}, \strong{subtype}, \strong{update frequency}, and \strong{publishing
+organization}.
+
+Not set: geographic, taxonomic, temporal coverage, associated parties,
+project data, sampling methods, and citations. Not applicable: collection
+data.
+}
+
+\section{Data}{
+
+
+A \code{reference-data} and \code{gps} resource are expected to be found in \code{package}.
+Their CSV data are loaded in to a SQLite database,
+\href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{transformed to Darwin Core using SQL}
+and written to disk as CSV file(s).
+
+Key features of the Darwin Core transformation:
+\itemize{
+\item Animal+tag deployments are parent events, with deployment start (a human
+observation), GPS positions (machine observations), and optional deployment
+end (a human observation) as child events. The parent event itself does not
+contain any information other than an ID.
+\item The deployment start event often metadata about the animal (sex, lifestage,
+comments) and deployment as a whole.
+\item GPS positions are downsampled to the first GPS position per hour, to reduce
+the size of high-frequency data. It is possible for a deployment to contain
+no GPS positions, e.g. if the tag malfunctioned right after deployment.
+\item The exact deployment end is often unknown and thus not included.
 }
 }
+
 \examples{
 package <- frictionless::read_package(
-  "https://zenodo.org/record/5879096/files/datapackage.json"
+  "https://zenodo.org/record/5653311/files/datapackage.json"
 )
 write_dwc(
   package,
