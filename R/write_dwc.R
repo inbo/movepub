@@ -56,7 +56,9 @@
 #' end (a human observation) as child events. The parent event itself does not
 #' contain any information other than an ID.
 #' - The deployment start event often metadata about the animal (sex, lifestage,
-#'  comments) and deployment as a whole.
+#'   comments) and deployment as a whole.
+#' - Only `visible` (nonoutlier) GPS records that fall within a deployment are
+#'   included.
 #' - GPS positions are downsampled to the first GPS position per hour, to reduce
 #'   the size of high-frequency data. It is possible for a deployment to contain
 #'   no GPS positions, e.g. if the tag malfunctioned right after deployment.

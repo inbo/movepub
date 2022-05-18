@@ -20,8 +20,8 @@ write_dwc(
 
 \item{doi}{DOI of the original dataset, used to get metadata.}
 
-\item{contact}{Person to be set as resource contact and metadata provider,
-e.g. \code{person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))}.}
+\item{contact}{Person to be set as resource contact and metadata provider.
+To be provided as a \code{person()}.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
@@ -82,6 +82,8 @@ end (a human observation) as child events. The parent event itself does not
 contain any information other than an ID.
 \item The deployment start event often metadata about the animal (sex, lifestage,
 comments) and deployment as a whole.
+\item Only \code{visible} GPS records within a deployment are included (excluding
+outliers).
 \item GPS positions are downsampled to the first GPS position per hour, to reduce
 the size of high-frequency data. It is possible for a deployment to contain
 no GPS positions, e.g. if the tag malfunctioned right after deployment.

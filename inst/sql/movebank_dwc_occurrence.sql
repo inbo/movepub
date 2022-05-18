@@ -125,6 +125,7 @@ FROM
     WHERE
       visible -- Exclude outliers
       AND gps."location-lat" IS NOT NULL -- Exclude (rare) empty coordinates
+      AND ref."animal-taxon" IS NOT NULL -- Exclude (rare) records outside a deployment
     GROUP BY
     -- Group by animal+tag+date+hour combination
       gps."individual-local-identifier" ||
