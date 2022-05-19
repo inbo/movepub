@@ -92,8 +92,8 @@ SELECT
     WHEN ref."animal-sex" = 'f' THEN 'female'
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
-  NULL                                  AS lifeStage, -- Can change over time
-  NULL                                  AS reproductiveCondition,  -- Can change over time
+  NULL                                  AS lifeStage, -- Value at start of deployment might not apply to all records
+  NULL                                  AS reproductiveCondition, -- Value at start of deployment might not apply to all records
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
@@ -161,8 +161,8 @@ SELECT
     WHEN ref."animal-sex" = 'f' THEN 'female'
     WHEN ref."animal-sex" = 'u' THEN 'unknown'
   END                                   AS sex,
-  NULL                                  AS lifeStage, -- Can change over time
-  NULL                                  AS reproductiveCondition, -- Can change over time
+  NULL                                  AS lifeStage, -- Value at start of deployment might not apply to all records
+  NULL                                  AS reproductiveCondition, -- Value at start of deployment might not apply to all records
   'present'                             AS occurrenceStatus,
 -- ORGANISM
   ref."animal-id"                       AS organismID,
@@ -197,5 +197,8 @@ FROM
   reference_data AS ref
 WHERE
   ref."deploy-off-date" IS NOT NULL
-
 )
+
+ORDER BY
+  eventID,
+  eventDate
