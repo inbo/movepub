@@ -25,7 +25,7 @@ get_mvb_term <- function(label) {
     "behaviour according to",
     label_clean
   )
-
+  label_clean <- gsub("^mag ", "", label_clean)
 
   # Get terms
   vocab_url <- file.path(
