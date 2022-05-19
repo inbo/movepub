@@ -82,8 +82,8 @@ A <code>meta.xml</code> file is not created.</p>
 <dt>doi</dt>
 <dd><p>DOI of the original dataset, used to get metadata.</p></dd>
 <dt>contact</dt>
-<dd><p>Person to be set as resource contact and metadata provider,
-e.g. <code>person("Peter", "Desmet", , "fakeaddress@email.com", , c(ORCID = "0000-0002-8442-8025"))</code>.</p></dd>
+<dd><p>Person to be set as resource contact and metadata provider.
+To be provided as a <code><a href="https://rdrr.io/r/utils/person.html" class="external-link">person()</a></code>.</p></dd>
 <dt>rights_holder</dt>
 <dd><p>Acronym of the organization owning or managing the
 rights over the data.</p></dd>
@@ -133,6 +133,8 @@ end (a human observation) as child events. The parent event itself does not
 contain any information other than an ID.</p></li>
 <li><p>The deployment start event often metadata about the animal (sex, lifestage,
 comments) and deployment as a whole.</p></li>
+<li><p>Only <code>visible</code> GPS records within a deployment are included (excluding
+outliers).</p></li>
 <li><p>GPS positions are downsampled to the first GPS position per hour, to reduce
 the size of high-frequency data. It is possible for a deployment to contain
 no GPS positions, e.g. if the tag malfunctioned right after deployment.</p></li>
