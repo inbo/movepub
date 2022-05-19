@@ -153,10 +153,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   )
   ref <- expand_cols(ref, ref_cols)
   gps_cols <- c(
-    "comments", "event-id", "height-above-msl", "individual-local-identifier",
-    "individual-taxon-canonical-name", "location-error-numerical",
-    "location-lat", "location-long", "sensor-type", "tag-local-identifier",
-    "timestamp", "visible"
+    "comments", "event-id", "height-above-ellipsoid", "height-above-msl",
+    "individual-local-identifier", "individual-taxon-canonical-name",
+    "location-error-numerical", "location-lat", "location-long", "sensor-type",
+    "tag-local-identifier", "timestamp", "visible"
   )
   gps <- expand_cols(gps, gps_cols)
 

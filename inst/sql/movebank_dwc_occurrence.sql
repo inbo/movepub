@@ -108,7 +108,11 @@ SELECT
     ''
   )                                     AS eventRemarks,
 -- LOCATION
-  gps."height-above-msl"                AS minimumDistanceAboveSurfaceInMeters,
+  COALESCE(
+    gps."height-above-ellipsoid",
+    gps."height-above-msl",
+    NULL
+  )                                     AS minimumDistanceAboveSurfaceInMeters,
   gps."location-lat"                    AS decimalLatitude,
   gps."location-long"                   AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
