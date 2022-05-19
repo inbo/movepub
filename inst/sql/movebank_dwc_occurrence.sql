@@ -200,5 +200,5 @@ WHERE
 )
 
 ORDER BY
-  eventID,
+  parentEventID,
   eventDate
