@@ -34,8 +34,9 @@ SELECT
 -- EVENT
   ref."animal-id" || '_' || ref."tag-id" || '_start' AS eventID,
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
+  'tag attachment'                      AS eventType,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
-  'tag attachement'                     AS samplingProtocol,
+  'tag attachment'                      AS samplingProtocol,
   COALESCE(
     ref."tag-manufacturer-name" || ' ' || ref."tag-model" || ' tag ',
     ref."tag-manufacturer-name" || ' tag ',
@@ -101,6 +102,7 @@ SELECT
 -- EVENT
   CAST(CAST(gps."event-id" AS int) AS text) AS eventID,
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
+  'gps'                                 AS eventType,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', gps."timestamp", 'unixepoch') AS eventDate,
   gps."sensor-type"                     AS samplingProtocol,
   COALESCE(
