@@ -79,8 +79,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   eml <- datacite_to_eml(doi)
 
   # Update title
-  title <- paste(eml$dataset$title, "[subsampled representation]")
-  eml$dataset$title <- title # Used in DwC
+  title <- paste(eml$dataset$title, "[subsampled representation]") # Used in DwC
+  eml$dataset$title <- title
 
   # Add extra paragraph
   first_author <- eml$dataset$creator[[1]]$individualName$surName
@@ -95,8 +95,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   first_para <- glue::glue(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This animal tracking dataset is derived from ",
-    first_author, " et al. (", pub_year, ", <a href=\"", doi_url, "\">", doi_url, "</a>) ",
-    "a deposit of Movebank study <a href=\"", study_url, "\">", study_id, "</a>. ",
+    "{first_author} et al. ({pub_year}, <a href=\"{doi_url}\">{doi_url}</a>) ",
+    "a deposit of Movebank study <a href=\"{study_url}\">{study_id}</a>. ",
     "Data have been standardized to Darwin Core using the ",
     "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
     "and are downsampled to the first GPS position per hour. ",

@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 ```{r setup, message = FALSE}
 library(frictionless)
-library(movepub) # Load after frictionless
+library(movepub)
 library(magrittr)
 library(EML)
 library(readr)
