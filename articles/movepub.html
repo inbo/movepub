@@ -314,13 +314,13 @@
 <span class="co">#&gt;     userId:</span>
 <span class="co">#&gt;       directory: http://orcid.org/</span>
 <span class="co">#&gt;       userId: 0000-0002-4659-4807</span>
-<span class="co">#&gt; packageId: 5de7af30-934d-4cec-92fc-b37389c7a63f</span>
+<span class="co">#&gt; packageId: 62a3f1ee-00bc-4d80-b950-30e493df494b</span>
 <span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span>
 <span class="co">#&gt; system: uuid</span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"dwc_occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 29</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 30</span></span>
 <span class="co">#&gt;    type  license           rightsHolder datasetID institutionCode collectionCode</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
@@ -333,12 +333,12 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5,817 more rows, and 23 more variables: datasetName &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 5,817 more rows, and 24 more variables: datasetName &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   basisOfRecord &lt;chr&gt;, informationWithheld &lt;chr&gt;, dataGeneralizations &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   occurrenceID &lt;chr&gt;, sex &lt;chr&gt;, lifeStage &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   reproductiveCondition &lt;lgl&gt;, occurrenceStatus &lt;chr&gt;, organismID &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   organismName &lt;lgl&gt;, eventID &lt;chr&gt;, parentEventID &lt;chr&gt;, eventDate &lt;dttm&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   samplingProtocol &lt;chr&gt;, eventRemarks &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   organismName &lt;lgl&gt;, eventID &lt;chr&gt;, parentEventID &lt;chr&gt;, eventType &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eventDate &lt;dttm&gt;, samplingProtocol &lt;chr&gt;, eventRemarks &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   minimumDistanceAboveSurfaceInMeters &lt;dbl&gt;, decimalLatitude &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset.</p>
 </div>
