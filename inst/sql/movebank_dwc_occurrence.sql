@@ -35,7 +35,7 @@ SELECT
   ref."animal-id" || '_' || ref."tag-id" || '_start' AS eventID,
   ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
   STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-on-date", 'unixepoch') AS eventDate,
-  'tag deployment start'                AS samplingProtocol,
+  'tag attachement'                     AS samplingProtocol,
   COALESCE(
     ref."tag-manufacturer-name" || ' ' || ref."tag-model" || ' tag ',
     ref."tag-manufacturer-name" || ' tag ',
@@ -135,8 +135,7 @@ FROM
       gps."tag-local-identifier" ||
       STRFTIME('%Y-%m-%dT%H', timestamp, 'unixepoch')
     HAVING
-    -- Take first record/timestamp within group
-    -- Movebank data are sorted by timestamp: https://github.com/tdwg/dwc-for-biologging/issues/31
+    -- Take first record/timestamp within group (Movebank data are sorted chronologically)
       ROWID = MIN(ROWID)
   ) AS gps
   LEFT JOIN reference_data AS ref
@@ -144,59 +143,6 @@ FROM
     AND gps."tag-local-identifier" = ref."tag-id"
 WHERE
   ref."animal-taxon" IS NOT NULL -- Exclude (rare) records outside a deployment
-
-UNION
-
-/* DEPLOYMENT END */
-
-SELECT
--- RECORD-LEVEL
-  'HumanObservation'                    AS basisOfRecord,
-  'see metadata'                        AS informationWithheld,
-  NULL                                  AS dataGeneralizations,
--- OCCURRENCE
-  ref."animal-id" || '_' || ref."tag-id" || '_end' AS occurrenceID, -- Same as EventID
-  CASE
-    WHEN ref."animal-sex" = 'm' THEN 'male'
-    WHEN ref."animal-sex" = 'f' THEN 'female'
-    WHEN ref."animal-sex" = 'u' THEN 'unknown'
-  END                                   AS sex,
-  NULL                                  AS lifeStage, -- Value at start of deployment might not apply to all records
-  NULL                                  AS reproductiveCondition, -- Value at start of deployment might not apply to all records
-  'present'                             AS occurrenceStatus,
--- ORGANISM
-  ref."animal-id"                       AS organismID,
-  ref."animal-nickname"                 AS organismName,
--- EVENT
-  ref."animal-id" || '_' || ref."tag-id" || '_end' AS eventID,
-  ref."animal-id" || '_' || ref."tag-id" AS parentEventID,
-  STRFTIME('%Y-%m-%dT%H:%M:%SZ', ref."deploy-off-date", 'unixepoch') AS eventDate,
-  'tag deployment end'                  AS samplingProtocol,
-  COALESCE(
-    ref."deployment-end-type" || ' | ' || ref."deployment-end-comments",
-    ref."deployment-end-type",
-    ref."deployment-end-comments",
-    ''
-  )                                     AS eventRemarks,
--- LOCATION
-  NULL                                  AS minimumDistanceAboveSurfaceInMeters,
-  ref."deploy-off-latitude"             AS decimalLatitude,
-  ref."deploy-off-longitude"            AS decimalLongitude,
-  CASE
-    WHEN ref."deploy-off-latitude" IS NOT NULL THEN 'WGS84'
-    ELSE NULL
-  END                                   AS geodeticDatum,
-  CASE
-    WHEN ref."deploy-off-latitude" IS NOT NULL THEN 1000 -- Deploy off coordinates not always precise
-    ELSE NULL
-  END                                   AS coordinateUncertaintyInMeters,
--- TAXON
-  ref."animal-taxon"                    AS scientificName,
-  'Animalia'                            AS kingdom
-FROM
-  reference_data AS ref
-WHERE
-  ref."deploy-off-date" IS NOT NULL
 )
 
 ORDER BY

@@ -51,23 +51,30 @@
 #' and written to disk as CSV file(s).
 #'
 #' Key features of the Darwin Core transformation:
-#' - Animal+tag deployments are parent events, with deployment start (a human
-#' observation), GPS positions (machine observations), and optional deployment
-#' end (a human observation) as child events. The parent event itself does not
-#' contain any information other than an ID.
-#' - The deployment start event often metadata about the animal (sex, lifestage,
-#'   comments) and deployment as a whole.
+#' - Deployments (animal+tag associations) are parent events, with tag
+#' attachment (a human observation) and GPS positions (machine observations) as
+#' child events.
+#' The parent event itself does not contain any information other than an ID.
+#' - The tag attachment event often contains metadata about the animal (sex,
+#'   lifestage, comments) and deployment as a whole.
+#' - No event/occurrence is created for the deployment end, since the end date
+#'   is often undefined, unreliable and/or does not represent an animal
+#'   occurrence.
 #' - Only `visible` (nonoutlier) GPS records that fall within a deployment are
 #'   included.
 #' - GPS positions are downsampled to the first GPS position per hour, to reduce
-#'   the size of high-frequency data. It is possible for a deployment to contain
-#'   no GPS positions, e.g. if the tag malfunctioned right after deployment.
-#' - The exact deployment end is often unknown and thus not included.
+#'   the size of high-frequency data.
+#'   It is possible for a deployment to contain no GPS positions, e.g. if the
+#'   tag malfunctioned right after deployment.
 #' @examples
 #' # See vignette("movepub")
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL) {
   # Retrieve metadata from DataCite and build EML
+  assertthat::assert_that(
+    !is.null(doi),
+    msg = "No DOI found in `package$id`, provide one in `doi` parameter."
+  )
   message("Creating EML metadata.")
   eml <- datacite_to_eml(doi)
 
@@ -145,10 +152,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   ref_cols <- c(
     "animal-id", "animal-life-stage","animal-nickname",
     "animal-reproductive-condition", "animal-sex", "animal-taxon",
-    "attachment-type", "deploy-off-date", "deploy-off-latitude",
-    "deploy-off-longitude", "deploy-on-date", "deploy-on-latitude",
-    "deploy-on-longitude", "deployment-comments", "deployment-end-comments",
-    "deployment-end-type", "manipulation-type", "tag-id",
+    "attachment-type", "deploy-on-date", "deploy-on-latitude",
+    "deploy-on-longitude", "deployment-comments", "manipulation-type", "tag-id",
     "tag-manufacturer-name", "tag-model"
   )
   ref <- expand_cols(ref, ref_cols)

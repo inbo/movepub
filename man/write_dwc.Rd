@@ -76,18 +76,21 @@ and written to disk as CSV file(s).
 
 Key features of the Darwin Core transformation:
 \itemize{
-\item Animal+tag deployments are parent events, with deployment start (a human
-observation), GPS positions (machine observations), and optional deployment
-end (a human observation) as child events. The parent event itself does not
-contain any information other than an ID.
-\item The deployment start event often metadata about the animal (sex, lifestage,
-comments) and deployment as a whole.
-\item Only \code{visible} GPS records within a deployment are included (excluding
-outliers).
+\item Deployments (animal+tag associations) are parent events, with tag
+attachment (a human observation) and GPS positions (machine observations) as
+child events.
+The parent event itself does not contain any information other than an ID.
+\item The tag attachment event often contains metadata about the animal (sex,
+lifestage, comments) and deployment as a whole.
+\item No event/occurrence is created for the deployment end, since the end date
+is often undefined, unreliable and/or does not represent an animal
+occurrence.
+\item Only \code{visible} (nonoutlier) GPS records that fall within a deployment are
+included.
 \item GPS positions are downsampled to the first GPS position per hour, to reduce
-the size of high-frequency data. It is possible for a deployment to contain
-no GPS positions, e.g. if the tag malfunctioned right after deployment.
-\item The exact deployment end is often unknown and thus not included.
+the size of high-frequency data.
+It is possible for a deployment to contain no GPS positions, e.g. if the
+tag malfunctioned right after deployment.
 }
 }
 
