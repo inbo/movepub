@@ -77,7 +77,7 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/frictionlessdata/frictionless-r" class="external-link">frictionless</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/movepub" class="external-link">movepub</a></span><span class="op">)</span> <span class="co"># Load after frictionless</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/movepub" class="external-link">movepub</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/EML/" class="external-link">EML</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></code></pre></div>
@@ -154,7 +154,7 @@
 <span class="co">#&gt;   abstract:</span>
 <span class="co">#&gt;     para:</span>
 <span class="co">#&gt;     - &lt;![CDATA[&lt;span&gt;&lt;/span&gt;This animal tracking dataset is derived from Dijkstra</span>
-<span class="co">#&gt;       et al. (2022, &lt;a href"https://doi.org/10.5281/zenodo.5653311"&gt;https://doi.org/10.5281/zenodo.5653311&lt;/a&gt;)</span>
+<span class="co">#&gt;       et al. (2022, &lt;a href="https://doi.org/10.5281/zenodo.5653311"&gt;https://doi.org/10.5281/zenodo.5653311&lt;/a&gt;)</span>
 <span class="co">#&gt;       a deposit of Movebank study &lt;a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"&gt;1605797471&lt;/a&gt;.</span>
 <span class="co">#&gt;       Data have been standardized to Darwin Core using the &lt;a href="https://inbo.github.io/movepub/"&gt;movepub&lt;/a&gt;</span>
 <span class="co">#&gt;       R package and are downsampled to the first GPS position per hour. The original</span>
@@ -262,13 +262,13 @@
 <span class="co">#&gt;     userId:</span>
 <span class="co">#&gt;       directory: http://orcid.org/</span>
 <span class="co">#&gt;       userId: 0000-0002-4659-4807</span>
-<span class="co">#&gt; packageId: dad53bab-efa8-4089-bcbf-a947e6448bca</span>
+<span class="co">#&gt; packageId: 932ee2ce-eaae-4c5b-96ec-7cf171a5a475</span>
 <span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span>
 <span class="co">#&gt; system: uuid</span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"dwc_occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,829 × 29</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 29</span></span>
 <span class="co">#&gt;    type  license           rightsHolder datasetID institutionCode collectionCode</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
@@ -281,7 +281,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5,819 more rows, and 23 more variables: datasetName &lt;chr&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 5,817 more rows, and 23 more variables: datasetName &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   basisOfRecord &lt;chr&gt;, informationWithheld &lt;chr&gt;, dataGeneralizations &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   occurrenceID &lt;chr&gt;, sex &lt;chr&gt;, lifeStage &lt;chr&gt;,</span></span>
 <span class="co">#&gt; <span style="color: #949494;">#   reproductiveCondition &lt;lgl&gt;, occurrenceStatus &lt;chr&gt;, organismID &lt;dbl&gt;,</span></span>

@@ -127,18 +127,21 @@ data.</p>
 Their CSV data are loaded in to a SQLite database,
 <a href="https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql" class="external-link">transformed to Darwin Core using SQL</a>
 and written to disk as CSV file(s).</p>
-<p>Key features of the Darwin Core transformation:</p><ul><li><p>Animal+tag deployments are parent events, with deployment start (a human
-observation), GPS positions (machine observations), and optional deployment
-end (a human observation) as child events. The parent event itself does not
-contain any information other than an ID.</p></li>
-<li><p>The deployment start event often metadata about the animal (sex, lifestage,
-comments) and deployment as a whole.</p></li>
-<li><p>Only <code>visible</code> GPS records within a deployment are included (excluding
-outliers).</p></li>
+<p>Key features of the Darwin Core transformation:</p><ul><li><p>Deployments (animal+tag associations) are parent events, with tag
+attachment (a human observation) and GPS positions (machine observations) as
+child events.
+The parent event itself does not contain any information other than an ID.</p></li>
+<li><p>The tag attachment event often contains metadata about the animal (sex,
+lifestage, comments) and deployment as a whole.</p></li>
+<li><p>No event/occurrence is created for the deployment end, since the end date
+is often undefined, unreliable and/or does not represent an animal
+occurrence.</p></li>
+<li><p>Only <code>visible</code> (nonoutlier) GPS records that fall within a deployment are
+included.</p></li>
 <li><p>GPS positions are downsampled to the first GPS position per hour, to reduce
-the size of high-frequency data. It is possible for a deployment to contain
-no GPS positions, e.g. if the tag malfunctioned right after deployment.</p></li>
-<li><p>The exact deployment end is often unknown and thus not included.</p></li>
+the size of high-frequency data.
+It is possible for a deployment to contain no GPS positions, e.g. if the
+tag malfunctioned right after deployment.</p></li>
 </ul></div>
 
     <div class="section level2">
