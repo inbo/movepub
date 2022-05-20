@@ -69,6 +69,13 @@
 </h1></div>
 <!-- badges: start -->
 <p>Movepub is an R package to prepare <a href="https://movebank.org" class="external-link">Movebank</a> animal tracking data for publication in a research repository or the <a href="https://gbif.org" class="external-link">Global Biodiversity Information Facility (GBIF)</a>.</p>
+<p>To get started, see:</p>
+<ul>
+<li>
+<a href="https://inbo.github.io/movepub/articles/movepub.html" class="external-link">Get started</a>: an introduction to the package’s main functionalities.</li>
+<li>
+<a href="https://docs.ropensci.org/frictionless/reference/index.html" class="external-link">Function reference</a>: overview of all functions.</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -76,6 +83,17 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"inbo/movepub"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>This package supports two use cases:</p>
+<ul>
+<li>
+<a href="https://inbo.github.io/movepub/articles/movepub.html#make-a-movebank-dataset-frictionless" class="external-link">Make a Movebank dataset “frictionless”</a> with <code><a href="reference/add_resource.html">add_resource()</a></code>. This is useful when publishing a dataset on e.g. <a href="https://zenodo.org" class="external-link">Zenodo</a>.</li>
+<li>
+<a href="https://inbo.github.io/movepub/articles/movepub.html#transform-a-movebank-dataset-to-darwin-core" class="external-link">Transform a Movebank dataset to Darwin Core</a> with <code><a href="reference/write_dwc.html">write_dwc()</a></code>. This is necessary when publishing a dataset to <a href="https://www.gbif.org" class="external-link">GBIF</a>.</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -113,7 +131,7 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://CRAN.R-project.org/package=movepub" class="external-link"><img src="https://www.r-pkg.org/badges/version/movepub" alt="CRAN status"></a></li>
-<li><a href="https://www.repostatus.org/#concept" class="external-link"><img src="https://www.repostatus.org/badges/latest/concept.svg" alt="repo status"></a></li>
+<li><a href="https://www.repostatus.org/#wip" class="external-link"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="repo status"></a></li>
 </ul>
 </div>
 
