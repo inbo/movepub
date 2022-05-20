@@ -11,6 +11,8 @@
 #'   Table Schema?
 #' @return Provided `package` with one additional resource.
 #' @export
+#' @examples
+#' # See vignette("movepub")
 add_resource <- function(package, resource_name, files, keys = TRUE) {
   # Check resource names
   allowed_names <- c("reference-data", "gps", "acceleration",

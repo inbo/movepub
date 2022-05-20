@@ -24,13 +24,65 @@ library(EML)
 library(readr)
 ```
 
-## Convert a Movebank dataset to Darwin Core
+[fdp]: https://specs.frictionlessdata.io/data-package/
+[frictionless-r]: https://frictionlessdata.github.io/frictionless-r/
+
+## Make a Movebank dataset "Frictionless"
+
+By transforming a Movebank dataset into a [Frictionless Data Package][fdp], it is better documented and easier to read programmatically. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
+
+A Frictionless Data Package is created by adding a `datapackage.json` file with the CSV data. Let's try that on an existing dataset, published in the Movebank Data Repository:
+
+> Hernández-Pliego J, Rodriguez C, Bustamante J (2015) Data from: Why do kestrels soar? Movebank Data Repository. [doi:10.5441/001/1.sj8t3r11](https://doi.org/10.5441/001/1.sj8t3r11)
+
+It consists of:
+
+```{r}
+reference_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.488/Lesser%20Kestrels%20EBD-reference-data.csv?sequence=1"
+gps_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.487/Lesser%20Kestrels%20EBD.csv?sequence=1"
+```
+
+And its DOI:
+
+```{r}
+doi <- "https://doi.org/10.5441/001/1.sj8t3r11" # Don't use a http://dx.doi URL
+```
+
+Let's bundle that into a Frictionless Data Package:
+
+```{r}
+package <-
+  frictionless::create_package() %>%
+  movepub::add_resource("reference-data", reference_data) %>%
+  movepub::add_resource("gps", gps_data)
+package$id <- doi
+```
+
+Here's what we did:
+
+- Initiate a package with `frictionless::create_package()`.
+- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the default `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary).
+- Add the DOI as package ID.
+
+Here's an example of how a field is documented:
+
+```{r}
+package$resources[[1]]$schema$fields[[2]]
+```
+
+`package` can now be used to transform to Darwin Core (in the next step) or written down as a `datapackage.json` file:
+
+```{r}
+frictionless::write_package(package, "my_dir")
+```
+
+## Transform a Movebank dataset to Darwin Core
 
 A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with a small dataset.
 
 **O_ASSEN** is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.5653311).
 
-`write_dwc()` requires the dataset to be structured as a [Frictionless Data Package](https://specs.frictionlessdata.io/data-package/) (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo, meaning it can be read with the [frictionless](https://frictionlessdata.github.io/frictionless-r/) R package.
+`write_dwc()` requires the dataset to be structured as a [Frictionless Data Package][fdp] (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo, meaning it can be read with the [frictionless][frictionless-r] R package.
 
 Let's create two directories:
 
