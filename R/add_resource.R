@@ -2,7 +2,7 @@
 #'
 #' Adds Movebank data (`reference-data`, `gps`, `acceleration`,
 #' `accessory-measurements`) as a Data Resource to a Frictionless Data Package.
-#' This function extends and masks `[frictionless::add_resource()]`.
+#' This function extends and masks `frictionless::add_resource()`.
 #'
 #' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
