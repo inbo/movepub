@@ -15,11 +15,7 @@
 #' get_mvb_term("Deploy.On.Date")
 get_mvb_term <- function(label) {
   label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
-  label_clean <- ifelse(
-    label_clean == "bar barometric pressure",
-    "bar:barometric pressure",
-    label_clean
-  )
+  label_clean <- gsub("^bar ", "bar:", label_clean)
   label_clean <- ifelse(
     label_clean == "behavior according to",
     "behaviour according to",
