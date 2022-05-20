@@ -100,14 +100,14 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">package</span> <span class="op">&lt;-</span>
   <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span>
-<span class="va">package</span><span class="op">$</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="va">doi</span></code></pre></div>
+  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
 <li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">frictionless::create_package()</a></code>.</li>
-<li>Add our data as two resources: <code>reference-data</code> and <code>gps</code>. These names are standardized. By using the <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the definition for each field in the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary" class="external-link">Movebank Attribute Dictionary</a>.</li>
 <li>Add the DOI as package ID.</li>
+<li>Add our data as two resources: <code>reference-data</code> and <code>gps</code>. These names are standardized. By using the <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the definition for each field in the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary" class="external-link">Movebank Attribute Dictionary</a>.</li>
 </ul>
 <p>Here’s an example of how a field is documented:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -314,7 +314,7 @@
 <span class="co">#&gt;     userId:</span>
 <span class="co">#&gt;       directory: http://orcid.org/</span>
 <span class="co">#&gt;       userId: 0000-0002-4659-4807</span>
-<span class="co">#&gt; packageId: a139f2b5-8485-45b7-b56e-d8c0ce9c3762</span>
+<span class="co">#&gt; packageId: f7f64d4b-7989-4a84-b85f-2cfa75a9cf9a</span>
 <span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span>
 <span class="co">#&gt; system: uuid</span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
