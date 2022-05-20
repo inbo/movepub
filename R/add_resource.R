@@ -12,7 +12,7 @@
 #' @return Provided `package` with one additional resource.
 #' @export
 #' @examples
-#' # See vignette("movepub")
+#' # See https://inbo.github.io/movepub/articles/movepub.html#frictionless
 add_resource <- function(package, resource_name, files, keys = TRUE) {
   # Check resource names
   allowed_names <- c("reference-data", "gps", "acceleration",

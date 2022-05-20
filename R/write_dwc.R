@@ -67,7 +67,7 @@
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
 #' @examples
-#' # See vignette("movepub")
+#' # See https://inbo.github.io/movepub/articles/movepub.html#dwc
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL) {
   # Retrieve metadata from DataCite and build EML

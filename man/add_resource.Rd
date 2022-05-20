@@ -27,5 +27,5 @@ Adds Movebank data (\code{reference-data}, \code{gps}, \code{acceleration},
 This function extends and masks \code{frictionless::add_resource()}.
 }
 \examples{
-# See vignette("movepub")
+# See https://inbo.github.io/movepub/articles/movepub.html#frictionless
 }

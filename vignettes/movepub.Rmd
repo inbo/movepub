@@ -27,7 +27,7 @@ library(readr)
 [fdp]: https://specs.frictionlessdata.io/data-package/
 [frictionless-r]: https://frictionlessdata.github.io/frictionless-r/
 
-## Make a Movebank dataset "frictionless"
+## Make a Movebank dataset "frictionless" {#frictionless}
 
 By transforming a Movebank dataset into a [Frictionless Data Package][fdp], it is better documented and easier to read programmatically. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
 
@@ -76,7 +76,7 @@ package$resources[[1]]$schema$fields[[2]]
 frictionless::write_package(package, "my_dir")
 ```
 
-## Transform a Movebank dataset to Darwin Core
+## Transform a Movebank dataset to Darwin Core {#dwc}
 
 A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with a small dataset.
 

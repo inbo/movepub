@@ -95,5 +95,5 @@ tag malfunctioned right after deployment.
 }
 
 \examples{
-# See vignette("movepub")
+# See https://inbo.github.io/movepub/articles/movepub.html#dwc
 }

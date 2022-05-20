@@ -38,10 +38,10 @@ devtools::install_github("inbo/movepub")
 This package supports two use cases:
 
 -   [Make a Movebank dataset
-    “frictionless”](https://inbo.github.io/movepub/articles/movepub.html#make-a-movebank-dataset-frictionless)
+    “frictionless”](https://inbo.github.io/movepub/articles/movepub.html#frictionless)
     with `add_resource()`. This is useful when publishing a dataset on
     e.g. [Zenodo](https://zenodo.org).
 -   [Transform a Movebank dataset to Darwin
-    Core](https://inbo.github.io/movepub/articles/movepub.html#transform-a-movebank-dataset-to-darwin-core)
-    with `write_dwc()`. This is necessary when publishing a dataset to
+    Core](https://inbo.github.io/movepub/articles/movepub.html#dwc) with
+    `write_dwc()`. This is necessary when publishing a dataset to
     [GBIF](https://www.gbif.org).
