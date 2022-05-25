@@ -99,15 +99,15 @@
 <p>Let’s bundle that into a Frictionless Data Package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">package</span> <span class="op">&lt;-</span>
-  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/frictionless/man/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
-<li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">frictionless::create_package()</a></code>.</li>
+<li>Initiate a package with <code><a href="https://rdrr.io/pkg/frictionless/man/create_package.html" class="external-link">frictionless::create_package()</a></code>.</li>
 <li>Add the DOI as package ID.</li>
-<li>Add our data as two resources: <code>reference-data</code> and <code>gps</code>. These names are standardized. By using the <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the definition for each field in the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary" class="external-link">Movebank Attribute Dictionary</a>.</li>
+<li>Add our data as two resources: <code>reference-data</code> and <code>gps</code>. These names are standardized. By using the <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default <code><a href="https://rdrr.io/pkg/frictionless/man/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the definition for each field in the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary" class="external-link">Movebank Attribute Dictionary</a>.</li>
 </ul>
 <p>Here’s an example of how a field is documented:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -131,7 +131,7 @@
 <span class="co">#&gt; [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/"</span></code></pre></div>
 <p><code>package</code> can now be used to transform to Darwin Core (in the next step) or written down as a <code>datapackage.json</code> file:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"my_dir"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/frictionless/man/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"my_dir"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="dwc">Transform a Movebank dataset to Darwin Core<a class="anchor" aria-label="anchor" href="#dwc"></a>
@@ -145,11 +145,11 @@
 <span class="va">dir_dwc</span>    <span class="op">&lt;-</span> <span class="st">"o_assen/dwc"</span>    <span class="co"># Local directory for the Darin Core dataset</span></code></pre></div>
 <p>And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data every time it is being read. We then create a <code>package</code> variable pointing to the local dataset:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5653311/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+<code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/frictionless/man/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5653311/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Not applicable here, but one can speed up downloading by removing large</span>
   <span class="co"># resources that won't be used, e.g. with:</span>
   <span class="co"># remove_resource("acceleration") %&gt;%</span>
-  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span>
+  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/frictionless/man/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span>
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5653311</span>
@@ -159,7 +159,7 @@
 <span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-acceleration-2018.csv.gz</span>
 <span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-acceleration-2019.csv.gz</span>
 
-<span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/frictionless/man/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5653311</span></code></pre></div>
@@ -190,7 +190,7 @@
 <span class="co">#&gt; Creating database and transforming to Darwin Core.</span></code></pre></div>
 <p>The resulting <code>eml.xml</code> file includes the metadata:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/EML/reference/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/EML/man/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; dataset:</span>
 <span class="co">#&gt;   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)</span>
 <span class="co">#&gt;     breeding in Assen (the Netherlands) [subsampled representation]</span>
@@ -258,11 +258,7 @@
 <span class="co">#&gt;     - Movebank</span>
 <span class="co">#&gt;     - frictionlessdata</span>
 <span class="co">#&gt;   intellectualRights:</span>
-<span class="co">#&gt;     rights: Creative Commons Zero v1.0 Universal</span>
-<span class="co">#&gt;     rightsIdentifier: cc0-1.0</span>
-<span class="co">#&gt;     rightsIdentifierScheme: SPDX</span>
-<span class="co">#&gt;     rightsUri: https://creativecommons.org/publicdomain/zero/1.0/legalcode</span>
-<span class="co">#&gt;     schemeUri: https://spdx.org/licenses/</span>
+<span class="co">#&gt;     para: cc0-1.0</span>
 <span class="co">#&gt;   distribution:</span>
 <span class="co">#&gt;     scope: document</span>
 <span class="co">#&gt;     online:</span>
@@ -314,7 +310,7 @@
 <span class="co">#&gt;     userId:</span>
 <span class="co">#&gt;       directory: http://orcid.org/</span>
 <span class="co">#&gt;       userId: 0000-0002-4659-4807</span>
-<span class="co">#&gt; packageId: f3b772b6-c7b1-4332-aba9-25e6f31eb775</span>
+<span class="co">#&gt; packageId: 458fd4a6-98ca-4f6b-9d81-8d932b98bc23</span>
 <span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span>
 <span class="co">#&gt; system: uuid</span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
