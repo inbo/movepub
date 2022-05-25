@@ -16,12 +16,14 @@
 get_mvb_term <- function(label) {
   label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
   label_clean <- gsub("^bar ", "bar:", label_clean)
+  label_clean <- gsub("^gls ", "gls:", label_clean)
+  label_clean <- gsub("^orn ", "orn:", label_clean)
+  label_clean <- gsub("^mag ", "", label_clean)
   label_clean <- ifelse(
     label_clean == "behavior according to",
     "behaviour according to",
     label_clean
   )
-  label_clean <- gsub("^mag ", "", label_clean)
 
   # Get terms
   vocab_url <- file.path(
