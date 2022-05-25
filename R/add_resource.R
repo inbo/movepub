@@ -36,15 +36,19 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   fields <- purrr::map(schema$fields, function(field) {
     term <- get_mvb_term(field$name)
     type <- dplyr::recode(term$prefLabel,
-      "tag ID" = "string",
-      "tag local identifier" = "string",
+      "algorithm marked outlier" = "boolean",
       "animal ID" = "string",
-      "individual local identifier" = "string",
+      "barometric height" = "number",
+      "barometric pressure" = "number",
+      "compass heading" = "number",
       "deployment ID" = "string",
-      "tag serial no" = "string",
       "event ID" = "integer",
       "GPS satellite count" = "integer",
-      "barometric pressure" = "number",
+      "GPS VDOP" = "number",
+      "individual local identifier" = "string",
+      "tag ID" = "string",
+      "tag local identifier" = "string",
+      "tag serial no" = "string",
       .missing = field$type,
       .default = field$type
     )
