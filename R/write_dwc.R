@@ -82,7 +82,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   title <- paste(eml$dataset$title, "[subsampled representation]") # Used in DwC
   eml$dataset$title <- title
 
-  # Add extra paragraph
+  # Update license
+  license_url <- eml$dataset$intellectualRights$rightsUri # Used in DwC
+  license_code <- eml$dataset$intellectualRights$rightsIdentifier
+  eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
+  eml$dataset$intellectualRights$para <- license_code
+
+  # Add extra paragraph to description
   first_author <- eml$dataset$creator[[1]]$individualName$surName
   pub_year <- substr(eml$dataset$pubDate, 1, 4)
   doi_url <- eml$dataset$alternateIdentifier[[1]] # Used in DwC
@@ -131,9 +137,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       )
     )
   }
-
-  # Get license
-  license_url <- eml$dataset$intellectualRights$rightsUri # Used in DwC
 
   # Read data from package
   message("Reading data from `package`.")
