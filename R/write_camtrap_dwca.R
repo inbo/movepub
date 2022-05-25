@@ -12,6 +12,7 @@
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write files to.
 #' @return Darwin Core formatted CSV files written to disk.
+#' @noRd
 write_camtrap_dwca <- function(package, directory) {
   # Read data from Data Package
   deployments <- frictionless::read_resource(package, "deployments")
