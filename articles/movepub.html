@@ -85,17 +85,17 @@
 <h2 id="frictionless">Make a Movebank dataset “frictionless”<a class="anchor" aria-label="anchor" href="#frictionless"></a>
 </h2>
 <p>By transforming a Movebank dataset into a <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless Data Package</a>, it is better documented and easier to read programmatically. It is also a necessary step before transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>, because it standardizes file and field names.</p>
-<p>A Frictionless Data Package is created by adding a <code>datapackage.json</code> file with the CSV data. Let’s try that on an existing dataset, published in the Movebank Data Repository:</p>
+<p>A Frictionless Data Package is created by adding a <code>datapackage.json</code> file next to the CSV data. Let’s try that on an existing dataset, published in the Movebank Data Repository:</p>
 <blockquote>
-<p>Hernández-Pliego J, Rodriguez C, Bustamante J (2015) Data from: Why do kestrels soar? Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.sj8t3r11" class="external-link">doi:10.5441/001/1.sj8t3r11</a></p>
+<p>Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.5k6b1364" class="external-link">doi:10.5441/001/1.5k6b1364</a></p>
 </blockquote>
 <p>It consists of:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">reference_data</span> <span class="op">&lt;-</span> <span class="st">"https://www.datarepository.movebank.org/bitstream/handle/10255/move.488/Lesser%20Kestrels%20EBD-reference-data.csv?sequence=1"</span>
-<span class="va">gps_data</span> <span class="op">&lt;-</span> <span class="st">"https://www.datarepository.movebank.org/bitstream/handle/10255/move.487/Lesser%20Kestrels%20EBD.csv?sequence=1"</span></code></pre></div>
+<code class="sourceCode R"><span class="va">reference_data</span> <span class="op">&lt;-</span> <span class="st">"https://www.datarepository.movebank.org/bitstream/handle/10255/move.379/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29-reference-data.csv?sequence=3"</span>
+<span class="va">gps_data</span> <span class="op">&lt;-</span> <span class="st">"https://www.datarepository.movebank.org/bitstream/handle/10255/move.378/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29.csv?sequence=3"</span></code></pre></div>
 <p>And its DOI:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5441/001/1.sj8t3r11"</span> <span class="co"># Don't use a http://dx.doi URL</span></code></pre></div>
+<code class="sourceCode R"><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5441/001/1.5k6b1364"</span> <span class="co"># Don't use a http://dx.doi URL</span></code></pre></div>
 <p>Let’s bundle that into a Frictionless Data Package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">package</span> <span class="op">&lt;-</span>
@@ -131,7 +131,7 @@
 <span class="co">#&gt; [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/"</span></code></pre></div>
 <p><code>package</code> can now be used to transform to Darwin Core (in the next step) or written down as a <code>datapackage.json</code> file:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"my_dir"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"data/my_dataset"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="dwc">Transform a Movebank dataset to Darwin Core<a class="anchor" aria-label="anchor" href="#dwc"></a>
@@ -141,34 +141,32 @@
 <p><code><a href="../reference/write_dwc.html">write_dwc()</a></code> requires the dataset to be structured as a <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless Data Package</a> (recognizable by the presence of a <code>datapackage.json</code> file). That is the case for O_ASSEN on Zenodo, meaning it can be read with the <a href="https://frictionlessdata.github.io/frictionless-r/" class="external-link">frictionless</a> R package.</p>
 <p>Let’s create two directories:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_source</span> <span class="op">&lt;-</span> <span class="st">"o_assen/source"</span> <span class="co"># Local directory for the source dataset</span>
-<span class="va">dir_dwc</span>    <span class="op">&lt;-</span> <span class="st">"o_assen/dwc"</span>    <span class="co"># Local directory for the Darin Core dataset</span></code></pre></div>
-<p>And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data every time it is being read. We then create a <code>package</code> variable pointing to the local dataset:</p>
+<code class="sourceCode R"><span class="va">dir_source</span> <span class="op">&lt;-</span> <span class="st">"data/o_assen/source"</span> <span class="co"># Local directory for the source dataset</span>
+<span class="va">dir_dwc</span>    <span class="op">&lt;-</span> <span class="st">"data/o_assen/dwc"</span>    <span class="co"># Local directory for the Darin Core dataset</span></code></pre></div>
+<p>And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data again when you encounter an issue:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5653311/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="co"># Not applicable here, but one can speed up downloading by removing large</span>
-  <span class="co"># resources that won't be used, e.g. with:</span>
-  <span class="co"># remove_resource("acceleration") %&gt;%</span>
+  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span>
+  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span>
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5653311</span>
 <span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-reference-data.csv</span>
 <span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-gps-2018.csv.gz</span>
-<span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-gps-2019.csv.gz</span>
-<span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-acceleration-2018.csv.gz</span>
-<span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-acceleration-2019.csv.gz</span>
-
-<span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-gps-2019.csv.gz</span></code></pre></div>
+<p>We then create a <code>package</code> variable pointing to the local dataset:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span>
 <span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span>
 <span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5653311</span></code></pre></div>
-<p>That covers the data. The metadata are derived from <a href="https://api.datacite.org/dois/10.5281/zenodo.5879096" class="external-link">DataCite</a> using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>That covers the data. The metadata are derived from <a href="https://api.datacite.org/dois/10.5281/zenodo.5653311" class="external-link">DataCite</a> using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">package</span><span class="op">$</span><span class="va">id</span>
 <span class="co">#&gt; [1] "https://doi.org/10.5281/zenodo.5653311"</span></code></pre></div>
 <p>DataCite metadata does not include a contact person and rights holder, so we need to set those:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">contact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span>
   given <span class="op">=</span> <span class="st">"Peter"</span>,
   family <span class="op">=</span> <span class="st">"Desmet"</span>,
@@ -177,7 +175,7 @@
 <span class="op">)</span>
 <span class="va">rights_holder</span> <span class="op">&lt;-</span> <span class="st">"Vogelwerkgroep Assen"</span></code></pre></div>
 <p>We now have everything to convert the dataset to Darwin Core and EML:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_dwc.html">write_dwc</a></span><span class="op">(</span>
   package <span class="op">=</span> <span class="va">package</span>,
   doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,
@@ -189,7 +187,7 @@
 <span class="co">#&gt; Reading data from `package`.</span>
 <span class="co">#&gt; Creating database and transforming to Darwin Core.</span></code></pre></div>
 <p>The resulting <code>eml.xml</code> file includes the metadata:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/EML/reference/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; dataset:</span>
 <span class="co">#&gt;   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)</span>
@@ -218,7 +216,7 @@
 <span class="co">#&gt;       Nature and Forest (INBO). It contains animal tracking data collected for the</span>
 <span class="co">#&gt;       study &lt;strong&gt;O_ASSEN&lt;/strong&gt; using trackers developed by the University of</span>
 <span class="co">#&gt;       Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study</span>
-<span class="co">#&gt;       has been operational in 2018 and 2019. In total 6 individuals of Eurasian oystercatchers</span>
+<span class="co">#&gt;       was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers</span>
 <span class="co">#&gt;       (&lt;em&gt;Haematopus ostralegus&lt;/em&gt;) have been tagged as a breeding bird in the</span>
 <span class="co">#&gt;       city of Assen (the Netherlands), mainly to study space use of oystercatchers</span>
 <span class="co">#&gt;       breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank</span>
@@ -310,11 +308,11 @@
 <span class="co">#&gt;     userId:</span>
 <span class="co">#&gt;       directory: http://orcid.org/</span>
 <span class="co">#&gt;       userId: 0000-0002-4659-4807</span>
-<span class="co">#&gt; packageId: c0b07d7c-23ea-48ba-8af9-1c30ebdcb62f</span>
+<span class="co">#&gt; packageId: 1692c994-98c3-4595-b841-8f47c1233e1a</span>
 <span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span>
 <span class="co">#&gt; system: uuid</span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"dwc_occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 30</span></span>
 <span class="co">#&gt;    type  license           rightsHolder datasetID institutionCode collectionCode</span>
