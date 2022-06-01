@@ -31,21 +31,21 @@ library(readr)
 
 By transforming a Movebank dataset into a [Frictionless Data Package][fdp], it is better documented and easier to read programmatically. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
 
-A Frictionless Data Package is created by adding a `datapackage.json` file with the CSV data. Let's try that on an existing dataset, published in the Movebank Data Repository:
+A Frictionless Data Package is created by adding a `datapackage.json` file next to the CSV data. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
-> Hernández-Pliego J, Rodriguez C, Bustamante J (2015) Data from: Why do kestrels soar? Movebank Data Repository. [doi:10.5441/001/1.sj8t3r11](https://doi.org/10.5441/001/1.sj8t3r11)
+> Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. [doi:10.5441/001/1.5k6b1364](https://doi.org/10.5441/001/1.5k6b1364)
 
 It consists of:
 
 ```{r}
-reference_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.488/Lesser%20Kestrels%20EBD-reference-data.csv?sequence=1"
-gps_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.487/Lesser%20Kestrels%20EBD.csv?sequence=1"
+reference_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.379/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29-reference-data.csv?sequence=3"
+gps_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.378/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29.csv?sequence=3"
 ```
 
 And its DOI:
 
 ```{r}
-doi <- "https://doi.org/10.5441/001/1.sj8t3r11" # Don't use a http://dx.doi URL
+doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL
 ```
 
 Let's bundle that into a Frictionless Data Package:
@@ -73,7 +73,7 @@ package$resources[[1]]$schema$fields[[2]]
 `package` can now be used to transform to Darwin Core (in the next step) or written down as a `datapackage.json` file:
 
 ```{r}
-frictionless::write_package(package, "my_dir")
+frictionless::write_package(package, "data/my_dataset")
 ```
 
 ## Transform a Movebank dataset to Darwin Core {#dwc}
@@ -87,23 +87,26 @@ A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's tr
 Let's create two directories:
 
 ```{r}
-dir_source <- "o_assen/source" # Local directory for the source dataset
-dir_dwc    <- "o_assen/dwc"    # Local directory for the Darin Core dataset
+dir_source <- "data/o_assen/source" # Local directory for the source dataset
+dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darin Core dataset
 ```
 
-And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data every time it is being read. We then create a `package` variable pointing to the local dataset:
+And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data again when you encounter an issue:
 
 ```{r}
 frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json") %>%
-  # Not applicable here, but one can speed up downloading by removing large
-  # resources that won't be used, e.g. with:
-  # remove_resource("acceleration") %>%
+  # Remove the large acceleration resource we won't use (and thus won't download)
+  frictionless::remove_resource("acceleration") %>%
   frictionless::write_package(dir_source)
+```
 
+We then create a `package` variable pointing to the local dataset:
+
+```{r}
 package <- frictionless::read_package(file.path(dir_source, "datapackage.json"))
 ```
 
-That covers the data. The metadata are derived from [DataCite](https://api.datacite.org/dois/10.5281/zenodo.5879096) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
+That covers the data. The metadata are derived from [DataCite](https://api.datacite.org/dois/10.5281/zenodo.5653311) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
 
 ```{r}
 package$id
