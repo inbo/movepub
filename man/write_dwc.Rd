@@ -48,6 +48,7 @@ The following properties are set:
 \item \strong{title}: Original title + \verb{[subsampled representation]}.
 \item \strong{description}: Automatically created first paragraph describing this is
 a derived dataset, followed by the original dataset description.
+\item \strong{license}: License of the original dataset.
 \item \strong{creators}: Creators of the original dataset.
 \item \strong{contact}: \code{contact} or first creator of the original dataset.
 \item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
@@ -57,9 +58,8 @@ will be created when publishing to GBIF.
 \item \strong{external link} (and alternative identifier): URL of the Movebank study.
 }
 
-To be set manually in the GBIF IPT: \strong{license} (currently not recognized by
-the IPT), \strong{type}, \strong{subtype}, \strong{update frequency}, and \strong{publishing
-organization}.
+To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
+\strong{update frequency}, and \strong{publishing organization}.
 
 Not set: geographic, taxonomic, temporal coverage, associated parties,
 project data, sampling methods, and citations. Not applicable: collection
@@ -69,7 +69,7 @@ data.
 \section{Data}{
 
 
-A \code{reference-data} and \code{gps} resource are expected to be found in \code{package}.
+\code{package} is expected to contain a \code{reference-data} and \code{gps} resource.
 Their CSV data are loaded in to a SQLite database,
 \href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{transformed to Darwin Core using SQL}
 and written to disk as CSV file(s).

@@ -27,6 +27,7 @@
 #' - **title**: Original title + `[subsampled representation]`.
 #' - **description**: Automatically created first paragraph describing this is
 #'   a derived dataset, followed by the original dataset description.
+#' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
@@ -35,9 +36,8 @@
 #'   will be created when publishing to GBIF.
 #' - **external link** (and alternative identifier): URL of the Movebank study.
 #'
-#' To be set manually in the GBIF IPT: **license** (currently not recognized by
-#' the IPT), **type**, **subtype**, **update frequency**, and **publishing
-#' organization**.
+#' To be set manually in the GBIF IPT: **type**, **subtype**,
+#' **update frequency**, and **publishing organization**.
 #'
 #' Not set: geographic, taxonomic, temporal coverage, associated parties,
 #' project data, sampling methods, and citations. Not applicable: collection
@@ -45,7 +45,7 @@
 #'
 #' @section Data:
 #'
-#' A `reference-data` and `gps` resource are expected to be found in `package`.
+#' `package` is expected to contain a `reference-data` and `gps` resource.
 #' Their CSV data are loaded in to a SQLite database,
 #' [transformed to Darwin Core using SQL](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql)
 #' and written to disk as CSV file(s).
