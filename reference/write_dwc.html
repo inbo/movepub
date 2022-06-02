@@ -104,6 +104,7 @@ Uses <code><a href="datacite_to_eml.html">datacite_to_eml()</a></code> under the
 The following properties are set:</p><ul><li><p><strong>title</strong>: Original title + <code>[subsampled representation]</code>.</p></li>
 <li><p><strong>description</strong>: Automatically created first paragraph describing this is
 a derived dataset, followed by the original dataset description.</p></li>
+<li><p><strong>license</strong>: License of the original dataset.</p></li>
 <li><p><strong>creators</strong>: Creators of the original dataset.</p></li>
 <li><p><strong>contact</strong>: <code>contact</code> or first creator of the original dataset.</p></li>
 <li><p><strong>metadata provider</strong>: <code>contact</code> or first creator of the original dataset.</p></li>
@@ -111,9 +112,8 @@ a derived dataset, followed by the original dataset description.</p></li>
 <li><p><strong>alternative identifier</strong>: DOI of original dataset. This way, no new DOI
 will be created when publishing to GBIF.</p></li>
 <li><p><strong>external link</strong> (and alternative identifier): URL of the Movebank study.</p></li>
-</ul><p>To be set manually in the GBIF IPT: <strong>license</strong> (currently not recognized by
-the IPT), <strong>type</strong>, <strong>subtype</strong>, <strong>update frequency</strong>, and <strong>publishing
-organization</strong>.</p>
+</ul><p>To be set manually in the GBIF IPT: <strong>type</strong>, <strong>subtype</strong>,
+<strong>update frequency</strong>, and <strong>publishing organization</strong>.</p>
 <p>Not set: geographic, taxonomic, temporal coverage, associated parties,
 project data, sampling methods, and citations. Not applicable: collection
 data.</p>
@@ -123,7 +123,7 @@ data.</p>
     
 
 
-<p>A <code>reference-data</code> and <code>gps</code> resource are expected to be found in <code>package</code>.
+<p><code>package</code> is expected to contain a <code>reference-data</code> and <code>gps</code> resource.
 Their CSV data are loaded in to a SQLite database,
 <a href="https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql" class="external-link">transformed to Darwin Core using SQL</a>
 and written to disk as CSV file(s).</p>
