@@ -9,6 +9,7 @@
 status](https://www.r-pkg.org/badges/version/movepub)](https://CRAN.R-project.org/package=movepub)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![funding](https://img.shields.io/static/v1?label=funded+by&message=NLBIF&labelColor=2e9228&color=87b950)](https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/)
 <!-- badges: end -->
 
 Movepub is an R package to prepare [Movebank](https://movebank.org)
