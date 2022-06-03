@@ -47,7 +47,7 @@
 #'
 #' `package` is expected to contain a `reference-data` and `gps` resource.
 #' Their CSV data are loaded in to a SQLite database,
-#' [transformed to Darwin Core using SQL](https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql)
+#' [transformed to Darwin Core using SQL](https://github.com/inbo/movepub/blob/main/inst/sql/dwc_occurrence.sql)
 #' and written to disk as CSV file(s).
 #'
 #' Key features of the Darwin Core transformation:
@@ -177,7 +177,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(
-      system.file("sql/movebank_dwc_occurrence.sql", package = "movepub")
+      system.file("sql/dwc_occurrence.sql", package = "movepub")
     ),
     .con = con
   )

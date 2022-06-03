@@ -71,7 +71,7 @@ Not applicable: collection data.
 
 \code{package} is expected to contain a \code{reference-data} and \code{gps} resource.
 Their CSV data are loaded in to a SQLite database,
-\href{https://github.com/inbo/movepub/blob/main/inst/sql/movebank_dwc_occurrence.sql}{transformed to Darwin Core using SQL}
+\href{https://github.com/inbo/movepub/blob/main/inst/sql/dwc_occurrence.sql}{transformed to Darwin Core using SQL}
 and written to disk as CSV file(s).
 
 Key features of the Darwin Core transformation:
