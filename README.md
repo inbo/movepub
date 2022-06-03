@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/movepub)](https://CRAN.R-project.org/package=movepub)
 [![repo
-status](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
 Movepub is an R package to prepare [Movebank](https://movebank.org)
@@ -20,7 +20,7 @@ To get started, see:
 -   [Get started](https://inbo.github.io/movepub/articles/movepub.html):
     an introduction to the package’s main functionalities.
 -   [Function
-    reference](https://docs.ropensci.org/frictionless/reference/index.html):
+    reference](https://inbo.github.io/movepub/reference/index.html):
     overview of all functions.
 
 ## Installation
