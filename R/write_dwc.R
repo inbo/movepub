@@ -32,16 +32,16 @@
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
 #' - **keywords**: Keywords of the original dataset.
-#' - **alternative identifier**: DOI of original dataset. This way, no new DOI
-#'   will be created when publishing to GBIF.
+#' - **alternative identifier**: DOI of the original dataset. This way, no new
+#'   DOI will be created when publishing to GBIF.
 #' - **external link** (and alternative identifier): URL of the Movebank study.
 #'
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
 #' **update frequency**, and **publishing organization**.
 #'
 #' Not set: geographic, taxonomic, temporal coverage, associated parties,
-#' project data, sampling methods, and citations. Not applicable: collection
-#' data.
+#' project data, sampling methods, and citations.
+#' Not applicable: collection data.
 #'
 #' @section Data:
 #'

@@ -53,8 +53,8 @@ a derived dataset, followed by the original dataset description.
 \item \strong{contact}: \code{contact} or first creator of the original dataset.
 \item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
 \item \strong{keywords}: Keywords of the original dataset.
-\item \strong{alternative identifier}: DOI of original dataset. This way, no new DOI
-will be created when publishing to GBIF.
+\item \strong{alternative identifier}: DOI of the original dataset. This way, no new
+DOI will be created when publishing to GBIF.
 \item \strong{external link} (and alternative identifier): URL of the Movebank study.
 }
 
@@ -62,8 +62,8 @@ To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
 \strong{update frequency}, and \strong{publishing organization}.
 
 Not set: geographic, taxonomic, temporal coverage, associated parties,
-project data, sampling methods, and citations. Not applicable: collection
-data.
+project data, sampling methods, and citations.
+Not applicable: collection data.
 }
 
 \section{Data}{
