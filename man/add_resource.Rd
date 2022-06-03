@@ -29,3 +29,4 @@ This function extends and masks \code{frictionless::add_resource()}.
 \examples{
 # See https://inbo.github.io/movepub/articles/movepub.html#frictionless
 }
+\concept{frictionless functions}

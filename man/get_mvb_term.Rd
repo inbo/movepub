@@ -23,3 +23,8 @@ get_mvb_term("animal_id")
 
 get_mvb_term("Deploy.On.Date")
 }
+\seealso{
+Other support functions: 
+\code{\link{datacite_to_eml}()}
+}
+\concept{support functions}

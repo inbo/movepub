@@ -5,6 +5,7 @@
 #' @param doi DOI of a dataset.
 #' @return EML list that can be extended and/or written to file with
 #'   [EML::write_eml()].
+#' @family support functions
 #' @export
 datacite_to_eml <- function(doi) {
   # Read metadata from DataCite

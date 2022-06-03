@@ -16,3 +16,8 @@ EML list that can be extended and/or written to file with
 \description{
 Get metadata from \href{https://datacite.org/}{DataCite} and transform to EML.
 }
+\seealso{
+Other support functions: 
+\code{\link{get_mvb_term}()}
+}
+\concept{support functions}

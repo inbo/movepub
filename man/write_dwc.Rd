@@ -97,3 +97,4 @@ tag malfunctioned right after deployment.
 \examples{
 # See https://inbo.github.io/movepub/articles/movepub.html#dwc
 }
+\concept{dwc functions}

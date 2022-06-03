@@ -15,6 +15,7 @@
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @return CSV (data) and EML (metadata) files written to disk.
+#' @family dwc functions
 #' @export
 #' @section Metadata:
 #'

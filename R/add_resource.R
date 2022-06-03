@@ -10,6 +10,7 @@
 #' @param keys Should `primaryKey` and `foreignKey` properties be added to the
 #'   Table Schema?
 #' @return Provided `package` with one additional resource.
+#' @family frictionless functions
 #' @export
 #' @examples
 #' # See https://inbo.github.io/movepub/articles/movepub.html#frictionless

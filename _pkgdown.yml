@@ -5,3 +5,18 @@ template:
 
 navbar:
   bg: dark
+
+authors:
+  Peter Desmet:
+    href: https://twitter.com/peterdesmet
+
+reference:
+- title: "Make a Movebank dataset \"frictionless\""
+  contents:
+  - has_concept("frictionless functions")
+- title: "Transform a Movebank dataset to Darwin Core"
+  contents:
+  - has_concept("dwc functions")
+- title: "Support functions"
+  contents:
+  - has_concept("support functions")
