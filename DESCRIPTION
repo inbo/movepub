@@ -2,10 +2,12 @@ Package: movepub
 Title: Prepare Movebank data for publication
 Version: 0.1.0
 Authors@R: c(
-    person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-8442-8025")),
-    person("Research Institute for Nature and Forest (INBO)", , , , 
-           role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/")
+    person("Peter", "Desmet", email = "peter.desmet@inbo.be",
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
+    person("Research Institute for Nature and Forest (INBO)",
+           role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
+    person("Stichting NLBIF - Netherlands Biodiversity Information Facility",
+           role = "fnd", comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/")
   )
 Description: Prepare 'Movebank' (<https://movebank.org>) animal tracking data 
     for publication in a research repository or the Global Biodiversity 
