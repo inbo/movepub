@@ -45,3 +45,14 @@ This package supports two use cases:
     Core](https://inbo.github.io/movepub/articles/movepub.html#dwc) with
     `write_dwc()`. This is necessary when publishing a dataset to
     [GBIF](https://www.gbif.org).
+
+## Meta
+
+-   We welcome [contributions](.github/CONTRIBUTING.md) including bug
+    reports.
+-   License: MIT
+-   Get citation information for movepub in R doing
+    `citation("movepub")`.
+-   Please note that this project is released with a [Contributor Code
+    of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this
+    project you agree to abide by its terms.
