@@ -308,32 +308,32 @@
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: http://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: 61280cd3-2466-475d-8275-9d3c36d77a78</span></span>
+<span><span class="co">#&gt; packageId: b6bf78f6-c1f9-415a-b962-050e9c5a145d</span></span>
 <span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
 <span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"dwc_occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 32</span></span></span>
-<span><span class="co">#&gt;    type  license right…¹ datas…² insti…³ colle…⁴ datas…⁵ basis…⁶ infor…⁷ dataG…⁸</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 31</span></span></span>
+<span><span class="co">#&gt;    type  license right…¹ datas…² insti…³ colle…⁴ datas…⁵ basis…⁶ dataG…⁷ occur…⁸</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… HumanO… see me… <span style="color: #BB0000;">NA</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… see me… subsam…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,817 more rows, 22 more variables: occurrenceID &lt;chr&gt;, sex &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   lifeStage &lt;chr&gt;, reproductiveCondition &lt;lgl&gt;, occurrenceStatus &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   organismID &lt;dbl&gt;, organismName &lt;lgl&gt;, eventID &lt;chr&gt;, parentEventID &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   eventType &lt;chr&gt;, eventDate &lt;dttm&gt;, samplingProtocol &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   eventRemarks &lt;chr&gt;, minimumElevationInMeters &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   maximumElevationInMeters &lt;dbl&gt;, locationRemarks &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   decimalLatitude &lt;dbl&gt;, decimalLongitude &lt;dbl&gt;, geodeticDatum &lt;chr&gt;, …</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… HumanO… <span style="color: #BB0000;">NA</span>      551585…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Event https:… Vogelw… https:… MPIAB   Moveba… O_ASSE… Machin… subsam… 204324…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,817 more rows, 21 more variables: sex &lt;chr&gt;, lifeStage &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   reproductiveCondition &lt;lgl&gt;, occurrenceStatus &lt;chr&gt;, organismID &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   organismName &lt;lgl&gt;, eventID &lt;chr&gt;, parentEventID &lt;chr&gt;, eventType &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   eventDate &lt;dttm&gt;, samplingProtocol &lt;chr&gt;, eventRemarks &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   minimumElevationInMeters &lt;dbl&gt;, maximumElevationInMeters &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   locationRemarks &lt;chr&gt;, decimalLatitude &lt;dbl&gt;, decimalLongitude &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   geodeticDatum &lt;chr&gt;, coordinateUncertaintyInMeters &lt;dbl&gt;, …</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
 <p>Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset. See the O_ASSEN example on an <a href="https://ipt.inbo.be/resource?r=o_assen" class="external-link">IPT</a> and at <a href="https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc" class="external-link">GBIF</a>.</p>
 </div>
