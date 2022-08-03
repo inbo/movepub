@@ -62,7 +62,9 @@ SELECT
     ''
   )                                     AS eventRemarks,
 -- LOCATION
-  NULL                                  AS minimumDistanceAboveSurfaceInMeters,
+  NULL                                  AS minimumElevationInMeters,
+  NULL                                  AS maximumElevationInMeters,
+  NULL                                  AS locationRemarks,
   ref."deploy-on-latitude"              AS decimalLatitude,
   ref."deploy-on-longitude"             AS decimalLongitude,
   CASE
@@ -115,10 +117,19 @@ SELECT
   )                                     AS eventRemarks,
 -- LOCATION
   COALESCE(
-    gps."height-above-ellipsoid",
     gps."height-above-msl",
+    gps."height-above-ellipsoid",
     NULL
-  )                                     AS minimumDistanceAboveSurfaceInMeters,
+  )                                     AS minimumElevationInMeters,
+  COALESCE(
+    gps."height-above-msl",
+    gps."height-above-ellipsoid",
+    NULL
+  )                                     AS maximumElevationInMeters,
+  CASE
+    WHEN gps."height-above-msl" IS NOT NULL THEN 'elevations are altitude above mean sea level'
+    WHEN gps."height-above-ellipsoid" IS NOT NULL THEN 'elevations are altitude above above'
+  END                                   AS locationRemarks,
   gps."location-lat"                    AS decimalLatitude,
   gps."location-long"                   AS decimalLongitude,
   'WGS84'                               AS geodeticDatum,
