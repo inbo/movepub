@@ -29,11 +29,11 @@ library(readr)
 
 ## Make a Movebank dataset "frictionless" {#frictionless}
 
-By transforming a Movebank dataset into a [Frictionless Data Package][fdp], it is better documented and easier to read programmatically. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
+Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
 
-A Frictionless Data Package is created by adding a `datapackage.json` file next to the CSV data. Let's try that on an existing dataset, published in the Movebank Data Repository:
+Here we build a Frictionless Data Package by creating a folder containing CSV data files in Movebank format, including data and reference data from the same study, and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
-> Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. [doi:10.5441/001/1.5k6b1364](https://doi.org/10.5441/001/1.5k6b1364)
+> Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. [https://doi.org/10.5441/001/1.5k6b1364](https://doi.org/10.5441/001/1.5k6b1364)
 
 It consists of:
 
@@ -45,7 +45,7 @@ gps_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move
 And its DOI:
 
 ```{r}
-doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL
+doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL and exclude “www.”
 ```
 
 Let's bundle that into a Frictionless Data Package:
@@ -62,7 +62,7 @@ Here's what we did:
 
 - Initiate a package with `frictionless::create_package()`.
 - Add the DOI as package ID.
-- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the default `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary).
+- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the default `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current).
 
 Here's an example of how a field is documented:
 
@@ -70,7 +70,7 @@ Here's an example of how a field is documented:
 package$resources[[1]]$schema$fields[[2]]
 ```
 
-`package` can now be used to transform to Darwin Core (in the next step) or written down as a `datapackage.json` file:
+`package` can now be used to transform to Darwin Core (in the next step) or saved as a `datapackage.json` file for other uses:
 
 ```{r}
 frictionless::write_package(package, "data/my_dataset")
@@ -88,7 +88,7 @@ Let's create two directories:
 
 ```{r}
 dir_source <- "data/o_assen/source" # Local directory for the source dataset
-dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darin Core dataset
+dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darwin Core dataset
 ```
 
 And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data again when you encounter an issue:
@@ -142,7 +142,7 @@ The resulting `eml.xml` file includes the metadata:
 EML::read_eml(file.path(dir_dwc, "eml.xml"))
 ```
 
-The resulting `dwc_occurrence.csv` contains the Darwin Core data:
+The resulting `dwc_occurrence.csv` contains the Darwin Core data, combining information from the frictionless data package and including rights_holder:
 
 ```{r}
 readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"), show_col_types = FALSE)
