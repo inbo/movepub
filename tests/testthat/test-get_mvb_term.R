@@ -6,14 +6,17 @@ test_that("get_mvb_term() returns information about at term", {
     altLabel = "individual local identifier",
     definition = paste(
       "An individual identifier for the animal, provided by the data owner.",
-      "If the data owner does not provide an Animal ID, an internal Movebank",
-      "animal identifier is sometimes shown. Example: '91876A, Gary';",
-      "Units: none; Entity described: individual"
+      "Values are unique within the study. If the data owner does not provide",
+      "an Animal ID, an internal Movebank animal identifier is sometimes shown.",
+      "Example: 'TUSC_CV5'; Units: none; Entity described: individual"
     ),
     date = "2022-08-15 10:20:18.0",
     version = "3",
     hasCurrentVersion = "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/3/",
-    hasVersion = "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/",
+    hasVersion = c(
+      "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/",
+      "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/1/"
+    ),
     deprecated = "false",
     note = "accepted"
   )
