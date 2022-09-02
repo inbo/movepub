@@ -84,10 +84,10 @@
 <div class="section level2">
 <h2 id="frictionless">Make a Movebank dataset “frictionless”<a class="anchor" aria-label="anchor" href="#frictionless"></a>
 </h2>
-<p>By transforming a Movebank dataset into a <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless Data Package</a>, it is better documented and easier to read programmatically. It is also a necessary step before transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>, because it standardizes file and field names.</p>
-<p>A Frictionless Data Package is created by adding a <code>datapackage.json</code> file next to the CSV data. Let’s try that on an existing dataset, published in the Movebank Data Repository:</p>
+<p>Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a “Frictionless Data Package” (<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Walsch and Pollock, 2017</a>), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>, because it standardizes file and field names.</p>
+<p>Here we build a Frictionless Data Package by starting from a directory containing CSV data files in Movebank format (reference data and GPS data), and adding a <code>datapackage.json</code> file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let’s try that on an existing dataset, published in the Movebank Data Repository:</p>
 <blockquote>
-<p>Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.5k6b1364" class="external-link">doi:10.5441/001/1.5k6b1364</a></p>
+<p>Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.5k6b1364" class="external-link uri">https://doi.org/10.5441/001/1.5k6b1364</a></p>
 </blockquote>
 <p>It consists of:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -95,7 +95,7 @@
 <span><span class="va">gps_data</span> <span class="op">&lt;-</span> <span class="st">"https://www.datarepository.movebank.org/bitstream/handle/10255/move.378/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29.csv?sequence=3"</span></span></code></pre></div>
 <p>And its DOI:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5441/001/1.5k6b1364"</span> <span class="co"># Don't use a http://dx.doi URL</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5441/001/1.5k6b1364"</span> <span class="co"># Don't use a http://dx.doi URL and exclude "www."</span></span></code></pre></div>
 <p>Let’s bundle that into a Frictionless Data Package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span></span>
@@ -107,7 +107,7 @@
 <ul>
 <li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">frictionless::create_package()</a></code>.</li>
 <li>Add the DOI as package ID.</li>
-<li>Add our data as two resources: <code>reference-data</code> and <code>gps</code>. These names are standardized. By using the <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the definition for each field in the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary" class="external-link">Movebank Attribute Dictionary</a>.</li>
+<li>Add our data as two resources: <code>reference-data</code> and <code>gps</code>. These names are standardized. By using the <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the definition for each field in the <a href="http://vocab.nerc.ac.uk/collection/MVB/current" class="external-link">Movebank Attribute Dictionary</a>.</li>
 </ul>
 <p>Here’s an example of how a field is documented:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -119,7 +119,7 @@
 <span><span class="co">#&gt; [1] "animal ID"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $description</span></span>
-<span><span class="co">#&gt; [1] "An individual identifier for the animal, provided by the data owner. If the data owner does not provide an Animal ID, an internal Movebank animal identifier is sometimes shown. Example: '91876A, Gary'; Units: none; Entity described: individual"</span></span>
+<span><span class="co">#&gt; [1] "An individual identifier for the animal, provided by the data owner. Values are unique within the study. If the data owner does not provide an Animal ID, an internal Movebank animal identifier is sometimes shown. Example: 'TUSC_CV5'; Units: none; Entity described: individual"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $type</span></span>
 <span><span class="co">#&gt; [1] "string"</span></span>
@@ -128,8 +128,8 @@
 <span><span class="co">#&gt; [1] "default"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $`skos:exactMatch`</span></span>
-<span><span class="co">#&gt; [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/"</span></span></code></pre></div>
-<p><code>package</code> can now be used to transform to Darwin Core (in the next step) or written down as a <code>datapackage.json</code> file:</p>
+<span><span class="co">#&gt; [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/3/"</span></span></code></pre></div>
+<p><code>package</code> can now be used to transform to Darwin Core (in the next step) or saved as a <code>datapackage.json</code> file for other uses:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"data/my_dataset"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -142,7 +142,7 @@
 <p>Let’s create two directories:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir_source</span> <span class="op">&lt;-</span> <span class="st">"data/o_assen/source"</span> <span class="co"># Local directory for the source dataset</span></span>
-<span><span class="va">dir_dwc</span>    <span class="op">&lt;-</span> <span class="st">"data/o_assen/dwc"</span>    <span class="co"># Local directory for the Darin Core dataset</span></span></code></pre></div>
+<span><span class="va">dir_dwc</span>    <span class="op">&lt;-</span> <span class="st">"data/o_assen/dwc"</span>    <span class="co"># Local directory for the Darwin Core dataset</span></span></code></pre></div>
 <p>And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data again when you encounter an issue:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5653311/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -204,7 +204,7 @@
 <span><span class="co">#&gt;   abstract:</span></span>
 <span><span class="co">#&gt;     para:</span></span>
 <span><span class="co">#&gt;     - &lt;![CDATA[&lt;span&gt;&lt;/span&gt;This animal tracking dataset is derived from Dijkstra</span></span>
-<span><span class="co">#&gt;       et al. (2022, &lt;a href="https://doi.org/10.5281/zenodo.5653311"&gt;https://doi.org/10.5281/zenodo.5653311&lt;/a&gt;)</span></span>
+<span><span class="co">#&gt;       et al. (2022, &lt;a href="https://doi.org/10.5281/zenodo.5653311"&gt;https://doi.org/10.5281/zenodo.5653311&lt;/a&gt;),</span></span>
 <span><span class="co">#&gt;       a deposit of Movebank study &lt;a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"&gt;1605797471&lt;/a&gt;.</span></span>
 <span><span class="co">#&gt;       Data have been standardized to Darwin Core using the &lt;a href="https://inbo.github.io/movepub/"&gt;movepub&lt;/a&gt;</span></span>
 <span><span class="co">#&gt;       R package and are downsampled to the first GPS position per hour. The original</span></span>
@@ -308,10 +308,10 @@
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: http://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: b6bf78f6-c1f9-415a-b962-050e9c5a145d</span></span>
+<span><span class="co">#&gt; packageId: e5f4c2c4-c1f2-48ba-a479-fa940a4c7c0b</span></span>
 <span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
 <span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
-<p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data:</p>
+<p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data, created by transforming the <code>package</code> data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided <code>rights_holder</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"dwc_occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5,827 × 31</span></span></span>
@@ -333,8 +333,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   eventDate &lt;dttm&gt;, samplingProtocol &lt;chr&gt;, eventRemarks &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   minimumElevationInMeters &lt;dbl&gt;, maximumElevationInMeters &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   locationRemarks &lt;chr&gt;, decimalLatitude &lt;dbl&gt;, decimalLongitude &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   geodeticDatum &lt;chr&gt;, coordinateUncertaintyInMeters &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   geodeticDatum &lt;chr&gt;, coordinateUncertaintyInMeters &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset. See the O_ASSEN example on an <a href="https://ipt.inbo.be/resource?r=o_assen" class="external-link">IPT</a> and at <a href="https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc" class="external-link">GBIF</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
