@@ -4,6 +4,8 @@ Version: 0.1.0
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
+    person("Sarah", "Davidson", email = "sdavidson@ab.mpg.de",
+           role = c("ctb"), comment = c(ORCID = "0000-0002-2766-9201")),
     person("Research Institute for Nature and Forest (INBO)",
            role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("NLBIF",
