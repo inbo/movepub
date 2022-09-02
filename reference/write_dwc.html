@@ -68,7 +68,8 @@ A <code>meta.xml</code> file is not created.</p>
 <span>  directory <span class="op">=</span> <span class="st">"."</span>,</span>
 <span>  doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>  contact <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  rights_holder <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  rights_holder <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study_id <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -96,6 +97,12 @@ To be provided as a <code><a href="https://rdrr.io/r/utils/person.html" class="e
 <dd><p>Acronym of the organization owning or managing the
 rights over the data.</p></dd>
 
+
+<dt>study_id</dt>
+<dd><p>Identifier of the Movebank study from which the dataset was
+derived (e.g. <code>1605797471</code> for
+<a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747" class="external-link">this study</a>).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -122,7 +129,9 @@ a derived dataset, followed by the original dataset description.</p></li>
 <li><p><strong>keywords</strong>: Keywords of the original dataset.</p></li>
 <li><p><strong>alternative identifier</strong>: DOI of the original dataset. This way, no new
 DOI will be created when publishing to GBIF.</p></li>
-<li><p><strong>external link</strong> (and alternative identifier): URL of the Movebank study.</p></li>
+<li><p><strong>external link</strong> and <strong>alternative identifier</strong>: URL created from
+<code>study_id</code> or the first "derived from" related identifier in the original
+dataset.</p></li>
 </ul><p>To be set manually in the GBIF IPT: <strong>type</strong>, <strong>subtype</strong>,
 <strong>update frequency</strong>, and <strong>publishing organization</strong>.</p>
 <p>Not set: geographic, taxonomic, temporal coverage, associated parties,
