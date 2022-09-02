@@ -63,7 +63,7 @@ datacite_to_eml <- function(doi) {
       contact = creators[[1]], # First author,
       pubDate = pub_date,
       intellectualRights = metadata$rightsList[[1]],
-      alternateIdentifier = list(paste0("https://doi.org/", doi), source_id)
+      alternateIdentifier = append(paste0("https://doi.org/", doi), source_id)
     )
   )
 }
