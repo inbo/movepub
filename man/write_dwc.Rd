@@ -9,7 +9,8 @@ write_dwc(
   directory = ".",
   doi = package$id,
   contact = NULL,
-  rights_holder = NULL
+  rights_holder = NULL,
+  study_id = NULL
 )
 }
 \arguments{
@@ -25,6 +26,10 @@ To be provided as a \code{person()}.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
+
+\item{study_id}{Identifier of the Movebank study from which the dataset was
+derived (e.g. \code{1605797471} for
+\href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747}{this study}).}
 }
 \value{
 CSV (data) and EML (metadata) files written to disk.
@@ -55,7 +60,9 @@ a derived dataset, followed by the original dataset description.
 \item \strong{keywords}: Keywords of the original dataset.
 \item \strong{alternative identifier}: DOI of the original dataset. This way, no new
 DOI will be created when publishing to GBIF.
-\item \strong{external link} (and alternative identifier): URL of the Movebank study.
+\item \strong{external link} and \strong{alternative identifier}: URL created from
+\code{study_id} or the first "derived from" related identifier in the original
+dataset.
 }
 
 To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},

@@ -14,6 +14,9 @@
 #'   To be provided as a `person()`.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
+#' @param study_id Identifier of the Movebank study from which the dataset was
+#'   derived (e.g. `1605797471` for
+#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)).
 #' @return CSV (data) and EML (metadata) files written to disk.
 #' @family dwc functions
 #' @export
@@ -35,7 +38,9 @@
 #' - **keywords**: Keywords of the original dataset.
 #' - **alternative identifier**: DOI of the original dataset. This way, no new
 #'   DOI will be created when publishing to GBIF.
-#' - **external link** (and alternative identifier): URL of the Movebank study.
+#' - **external link** and **alternative identifier**: URL created from
+#'   `study_id` or the first "derived from" related identifier in the original
+#'   dataset.
 #'
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
 #' **update frequency**, and **publishing organization**.
@@ -70,7 +75,7 @@
 #' @examples
 #' # See https://inbo.github.io/movepub/articles/movepub.html#dwc
 write_dwc <- function(package, directory = ".", doi = package$id,
-                      contact = NULL, rights_holder = NULL) {
+                      contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   assertthat::assert_that(
     !is.null(doi),
@@ -89,16 +94,30 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
 
-  # Add extra paragraph to description
-  first_author <- eml$dataset$creator[[1]]$individualName$surName
-  pub_year <- substr(eml$dataset$pubDate, 1, 4)
+  # Get DOI URL
   doi_url <- eml$dataset$alternateIdentifier[[1]] # Used in DwC
-  study_url <- eml$dataset$alternateIdentifier[[2]]
-  study_id <- if (!is.null(study_url)) {
-    gsub("https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study", "", study_url, fixed = TRUE)
+
+  # Get/set study url
+  study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
+  if (!is.null(study_id)) {
+    # Provided as parameter
+    study_url <- paste0(study_url_prefix, study_id)
+    eml$dataset$alternateIdentifier[[2]] <- study_url # Set as second identifier
   } else {
-    NULL
+    # Get from first "derived from" related identifier (2nd alternateIdentifier)
+    study_url <- eml$dataset$alternateIdentifier[[2]]
+    study_id <- if (!is.null(study_url)) {
+      gsub(study_url_prefix, "", study_url, fixed = TRUE)
+    } else {
+      NA_character_
+    }
   }
+  assertthat::assert_that(
+    !is.na(as.integer(study_id)),
+    msg = glue::glue("`study_id` ({study_id}) must be an integer.")
+  )
+
+  # Add extra paragraph to description
   first_para <- glue::glue(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This animal tracking dataset is derived from ",
@@ -108,6 +127,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
     "and are downsampled to the first GPS position per hour. ",
     "The original dataset description follows.",
+    first_author = eml$dataset$creator[[1]]$individualName$surName,
+    pub_year = substr(eml$dataset$pubDate, 1, 4),
     .null = ""
   )
   eml$dataset$abstract$para <- purrr::prepend(
@@ -130,7 +151,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
   eml$dataset$metadataProvider <- eml$dataset$contact
 
-  # Set external link to Movebank study ID
+  # Set external link to Movebank study URL
   if (!is.null(study_url)) {
     eml$dataset$distribution = list(
       scope = "document", online = list(
