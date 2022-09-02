@@ -7,6 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/movepub)](https://CRAN.R-project.org/package=movepub)
+[![R-CMD-check](https://github.com/inbo/movepub/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/movepub/actions/workflows/R-CMD-check.yaml)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
