@@ -31,9 +31,9 @@ library(readr)
 
 Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
 
-Here we build a Frictionless Data Package by creating a folder containing CSV data files in Movebank format, including data and reference data from the same study, and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
+Here we build a Frictionless Data Package by starting from a directory containing CSV data files in Movebank format (reference data and GPS data), and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
-> Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. [https://doi.org/10.5441/001/1.5k6b1364](https://doi.org/10.5441/001/1.5k6b1364)
+> Griffin L (2014) Data from: Forecasting spring from afar? Timing of migration and predictability of phenology along different migration routes of an avian herbivore [Svalbard data]. Movebank Data Repository. <https://doi.org/10.5441/001/1.5k6b1364>
 
 It consists of:
 
@@ -45,7 +45,7 @@ gps_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move
 And its DOI:
 
 ```{r}
-doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL and exclude “www.”
+doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL and exclude "www."
 ```
 
 Let's bundle that into a Frictionless Data Package:
@@ -142,7 +142,7 @@ The resulting `eml.xml` file includes the metadata:
 EML::read_eml(file.path(dir_dwc, "eml.xml"))
 ```
 
-The resulting `dwc_occurrence.csv` contains the Darwin Core data, combining information from the frictionless data package and including rights_holder:
+The resulting `dwc_occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
 
 ```{r}
 readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"), show_col_types = FALSE)
