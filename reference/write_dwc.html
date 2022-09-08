@@ -148,9 +148,11 @@ Their CSV data are loaded in to a SQLite database,
 <a href="https://github.com/inbo/movepub/blob/main/inst/sql/dwc_occurrence.sql" class="external-link">transformed to Darwin Core using SQL</a>
 and written to disk as CSV file(s).</p>
 <p>Key features of the Darwin Core transformation:</p><ul><li><p>Deployments (animal+tag associations) are parent events, with tag
-attachment (a human observation) and GPS positions (machine observations) as
-child events.
-The parent event itself does not contain any information other than an ID.</p></li>
+attachment (a human observation) and GPS positions (machine observations)
+as child events.
+The parent event itself does not contain any information other than an ID,
+meaning that data can be expressed in an Occurrence Core with one row per
+observation and <code>parentEventID</code> shared by all occurrences in a deployment.</p></li>
 <li><p>The tag attachment event often contains metadata about the animal (sex,
 lifestage, comments) and deployment as a whole.</p></li>
 <li><p>No event/occurrence is created for the deployment end, since the end date
