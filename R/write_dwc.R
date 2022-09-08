@@ -58,9 +58,11 @@
 #'
 #' Key features of the Darwin Core transformation:
 #' - Deployments (animal+tag associations) are parent events, with tag
-#' attachment (a human observation) and GPS positions (machine observations) as
-#' child events.
-#' The parent event itself does not contain any information other than an ID.
+#'   attachment (a human observation) and GPS positions (machine observations)
+#'   as child events.
+#'   No information about the parent event is provided other than its ID,
+#'   meaning that data can be expressed in an Occurrence Core with one row per
+#'   observation and `parentEventID` shared by all occurrences in a deployment.
 #' - The tag attachment event often contains metadata about the animal (sex,
 #'   lifestage, comments) and deployment as a whole.
 #' - No event/occurrence is created for the deployment end, since the end date
