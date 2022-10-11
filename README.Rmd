@@ -21,7 +21,9 @@ knitr::opts_chunk$set(
 [![repo status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
-Movepub is an R package to prepare [Movebank](https://movebank.org) animal tracking data for publication in a research repository or the [Global Biodiversity Information Facility (GBIF)](https://gbif.org).
+Movepub is an R package to prepare animal tracking data from [Movebank](https://movebank.org) for publication in a research repository or the [Global Biodiversity Information Facility (GBIF)](https://gbif.org). 
+
+Prior to using this package, data owners should prepare the study in Movebank for archiving ([see guidance](https://www.movebank.org/cms/movebank-content/archiving-movebank#general_best_practice_tips)). Movebank users retain ownership of their data, and use should follow the [general Movebank terms of use](https://www.movebank.org/cms/movebank-content/general-movebank-terms-of-use) and any other license terms set by the owner.
 
 To get started, see:
 
