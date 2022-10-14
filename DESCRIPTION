@@ -11,9 +11,9 @@ Authors@R: c(
     person("NLBIF",
            role = "fnd", comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/")
   )
-Description: Prepare 'Movebank' (<https://movebank.org>) animal tracking data 
-    for publication in a research repository or the Global Biodiversity 
-    Information Facility ('GBIF' <https://www.gbif.org>).
+Description: Prepare animal tracking data from 'Movebank' 
+    (<https://movebank.org>) for publication in a research repository or the 
+    Global Biodiversity Information Facility ('GBIF' <https://www.gbif.org>).
 License: MIT + file LICENSE
 URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
