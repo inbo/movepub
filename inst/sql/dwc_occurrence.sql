@@ -43,7 +43,7 @@ SELECT
   COALESCE(
     ref."tag-manufacturer-name" || ' ' || ref."tag-model" || ' tag ',
     ref."tag-manufacturer-name" || ' tag ',
-    ' tag '
+    'tag '
   ) ||
   COALESCE(
     'attached by ' || ref."attachment-type" || ' to ',
