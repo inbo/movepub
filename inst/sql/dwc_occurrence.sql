@@ -2,7 +2,7 @@
 Schema: https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml
 */
 
-/* RECORD-LEVEL */
+/* DATASET-LEVEL */
 
 SELECT
   'Event'                               AS type,
