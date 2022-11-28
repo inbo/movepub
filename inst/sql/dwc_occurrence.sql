@@ -67,7 +67,7 @@ SELECT
   ref."deploy-on-latitude"              AS decimalLatitude,
   ref."deploy-on-longitude"             AS decimalLongitude,
   CASE
-    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 'WGS84'
+    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 'EPSG:4326'
     ELSE NULL
   END                                   AS geodeticDatum,
   CASE
@@ -130,7 +130,7 @@ SELECT
   END                                   AS locationRemarks,
   gps."location-lat"                    AS decimalLatitude,
   gps."location-long"                   AS decimalLongitude,
-  'WGS84'                               AS geodeticDatum,
+  'EPSG:4326'                           AS geodeticDatum,
   gps."location-error-numerical"        AS coordinateUncertaintyInMeters,
 -- TAXON
   ref."animal-taxon"                    AS scientificName,
