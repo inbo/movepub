@@ -17,7 +17,7 @@ write_dwc(
 \item{package}{A Frictionless Data Package of Movebank data, as read by
 \code{\link[frictionless:read_package]{frictionless::read_package()}}.}
 
-\item{directory}{Path to local directory to write files to.}
+\item{directory}{Path to local directory to write file(s) to.}
 
 \item{doi}{DOI of the original dataset, used to get metadata.}
 
@@ -35,14 +35,11 @@ derived (e.g. \code{1605797471} for
 CSV (data) and EML (metadata) files written to disk.
 }
 \description{
-Transforms a published Movebank dataset (formatted as a
-\href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package})
-to Darwin Core CSV and EML files that can be uploaded to a
-\href{https://www.gbif.org/ipt}{GBIF IPT} for publication.
+Transforms data from a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to \href{https://dwc.tdwg.org/}{Darwin Core}.
+The resulting CSV and EML files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF and/or OBIS.
 A \code{meta.xml} file is not created.
 }
 \section{Metadata}{
-
 
 Metadata are derived from the original dataset by looking up its \code{doi} in
 DataCite (\href{https://api.datacite.org/dois/10.5281/zenodo.5879096}{example})
@@ -75,11 +72,12 @@ Not applicable: collection data.
 
 \section{Data}{
 
-
 \code{package} is expected to contain a \code{reference-data} and \code{gps} resource.
-Their CSV data are loaded in to a SQLite database,
-\href{https://github.com/inbo/movepub/blob/main/inst/sql/dwc_occurrence.sql}{transformed to Darwin Core using SQL}
-and written to disk as CSV file(s).
+Data are transformed into an \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
+This \strong{follows recommendations} discussed and created by Peter Desmet,
+Sarah Davidson, John Wieczorek and others.
+See the \href{https://github.com/inbo/movepub/tree/main/inst/sql}{SQL file(s)}
+used by this function for details.
 
 Key features of the Darwin Core transformation:
 \itemize{

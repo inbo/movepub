@@ -1,14 +1,15 @@
 #' Transform Movebank data to Darwin Core
 #'
-#' Transforms a published Movebank dataset (formatted as a
-#' [Frictionless Data Package](https://specs.frictionlessdata.io/data-package/))
-#' to Darwin Core CSV and EML files that can be uploaded to a
-#' [GBIF IPT](https://www.gbif.org/ipt) for publication.
+#' Transforms data from a Movebank dataset (formatted as a [Frictionless Data
+#' Package](https://specs.frictionlessdata.io/data-package/)) to [Darwin Core](
+#' https://dwc.tdwg.org/).
+#' The resulting CSV and EML files can be uploaded to an [IPT](
+#' https://www.gbif.org/ipt) for publication to GBIF and/or OBIS.
 #' A `meta.xml` file is not created.
 #'
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
-#' @param directory Path to local directory to write files to.
+#' @param directory Path to local directory to write file(s) to.
 #' @param doi DOI of the original dataset, used to get metadata.
 #' @param contact Person to be set as resource contact and metadata provider.
 #'   To be provided as a `person()`.
@@ -21,7 +22,6 @@
 #' @family dwc functions
 #' @export
 #' @section Metadata:
-#'
 #' Metadata are derived from the original dataset by looking up its `doi` in
 #' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
 #' and transforming these to EML.
@@ -50,11 +50,12 @@
 #' Not applicable: collection data.
 #'
 #' @section Data:
-#'
 #' `package` is expected to contain a `reference-data` and `gps` resource.
-#' Their CSV data are loaded in to a SQLite database,
-#' [transformed to Darwin Core using SQL](https://github.com/inbo/movepub/blob/main/inst/sql/dwc_occurrence.sql)
-#' and written to disk as CSV file(s).
+#' Data are transformed into an [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' This **follows recommendations** discussed and created by Peter Desmet,
+#' Sarah Davidson, John Wieczorek and others.
+#' See the [SQL file(s)](https://github.com/inbo/movepub/tree/main/inst/sql)
+#' used by this function for details.
 #'
 #' Key features of the Darwin Core transformation:
 #' - Deployments (animal+tag associations) are parent events, with tag
