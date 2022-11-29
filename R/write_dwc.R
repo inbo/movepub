@@ -71,8 +71,8 @@
 #'   occurrence.
 #' - Only `visible` (nonoutlier) GPS records that fall within a deployment are
 #'   included.
-#' - GPS positions are downsampled to the first GPS position per hour, to reduce
-#'   the size of high-frequency data.
+#' - GPS positions are downsampled to the **first GPS position per hour**, to
+#'   reduce the size of high-frequency data.
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
 #' @examples
@@ -87,17 +87,19 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   eml <- datacite_to_eml(doi)
 
   # Update title
-  title <- paste(eml$dataset$title, "[subsampled representation]") # Used in DwC
+  title <- paste(eml$dataset$title, "[subsampled representation]")
   eml$dataset$title <- title
+  dataset_name <- title # Used in DwC
 
   # Update license
-  license_url <- eml$dataset$intellectualRights$rightsUri # Used in DwC
+  license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
 
   # Get DOI URL
-  doi_url <- eml$dataset$alternateIdentifier[[1]] # Used in DwC
+  doi_url <- eml$dataset$alternateIdentifier[[1]]
+  dataset_id <- doi_url # Used in DwC
 
   # Get/set study url
   study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"

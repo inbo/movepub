@@ -6,12 +6,12 @@ Schema: https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml
 
 SELECT
   'Event'                               AS type,
-  {license_url}                         AS license,
+  {license}                             AS license,
   {rights_holder}                       AS rightsHolder,
-  {doi_url}                             AS datasetID,
+  {dataset_id}                          AS datasetID,
   'MPIAB'                               AS institutionCode, -- Max Planck Institute of Animal Behavior
   'Movebank'                            AS collectionCode,
-  {title}                               AS datasetName,
+  {dataset_name}                        AS datasetName,
   *
 FROM (
 
@@ -68,11 +68,9 @@ SELECT
   ref."deploy-on-longitude"             AS decimalLongitude,
   CASE
     WHEN ref."deploy-on-latitude" IS NOT NULL THEN 'EPSG:4326'
-    ELSE NULL
   END                                   AS geodeticDatum,
   CASE
     WHEN ref."deploy-on-latitude" IS NOT NULL THEN 1000 -- Deploy on coordinates not always precise
-    ELSE NULL
   END                                   AS coordinateUncertaintyInMeters,
 -- TAXON
   ref."animal-taxon"                    AS scientificName,
