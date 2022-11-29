@@ -84,7 +84,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     !is.null(doi),
     msg = "No DOI found in `package$id`, provide one in `doi` parameter."
   )
-  message("Creating EML metadata.")
   eml <- datacite_to_eml(doi)
 
   # Update title
@@ -156,7 +155,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Set external link to Movebank study URL
   if (!is.null(study_url)) {
-    eml$dataset$distribution = list(
+    eml$dataset$distribution <- list(
       scope = "document", online = list(
         url = list("function" = "information", study_url)
       )
@@ -164,7 +163,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
 
   # Read data from package
-  message("Reading data from `package`.")
+  message("Reading data and transforming to Darwin Core.")
   assertthat::assert_that(
     c("reference-data") %in% frictionless::resources(package),
     msg = "`package` must contain resource `reference-data`."
@@ -178,7 +177,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Expand data with all columns used in DwC mapping
   ref_cols <- c(
-    "animal-id", "animal-life-stage","animal-nickname",
+    "animal-id", "animal-life-stage", "animal-nickname",
     "animal-reproductive-condition", "animal-sex", "animal-taxon",
     "attachment-type", "deploy-on-date", "deploy-on-latitude",
     "deploy-on-longitude", "deployment-comments", "manipulation-type", "tag-id",
@@ -194,7 +193,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   gps <- expand_cols(gps, gps_cols)
 
   # Create database
-  message("Creating database and transforming to Darwin Core.")
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "reference_data", ref)
   DBI::dbWriteTable(con, "gps", gps)
@@ -210,13 +208,17 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   DBI::dbDisconnect(con)
 
   # Write files
+  eml_path <- file.path(directory, "eml.xml")
+  dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
+  message(glue::glue(
+    "Writing (meta)data to:",
+    eml_path,
+    dwc_occurrence_path,
+    .sep = "\n"
+  ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
-  EML::write_eml(eml, file.path(directory, "eml.xml"))
-  readr::write_csv(
-    dwc_occurrence,
-    file.path(directory, "dwc_occurrence.csv"),
-    na = ""
-  )
+  EML::write_eml(eml, eml_path)
+  readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
 }
