@@ -183,9 +183,10 @@
 <span>  contact <span class="op">=</span> <span class="va">contact</span>,</span>
 <span>  rights_holder <span class="op">=</span> <span class="va">rights_holder</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Creating EML metadata.</span></span>
-<span><span class="co">#&gt; Reading data from `package`.</span></span>
-<span><span class="co">#&gt; Creating database and transforming to Darwin Core.</span></span></code></pre></div>
+<span><span class="co">#&gt; Reading data and transforming to Darwin Core.</span></span>
+<span><span class="co">#&gt; Writing (meta)data to:</span></span>
+<span><span class="co">#&gt; data/o_assen/dwc/eml.xml</span></span>
+<span><span class="co">#&gt; data/o_assen/dwc/dwc_occurrence.csv</span></span></code></pre></div>
 <p>The resulting <code>eml.xml</code> file includes the metadata:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/EML/reference/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span></span>
@@ -309,7 +310,7 @@
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: http://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: 1eaae52a-a762-4abb-ad2b-bd24a21272ac</span></span>
+<span><span class="co">#&gt; packageId: b62cba91-7119-4b1c-951d-fa240749c916</span></span>
 <span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
 <span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin Core data, created by transforming the <code>package</code> data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided <code>rights_holder</code>:</p>
