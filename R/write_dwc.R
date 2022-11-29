@@ -116,7 +116,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     }
   }
   assertthat::assert_that(
-    !is.na(as.integer(study_id)),
+    grepl("^\\d+$", study_id), # Works for non 32 bit integers
     msg = glue::glue("`study_id` ({study_id}) must be an integer.")
   )
 
