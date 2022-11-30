@@ -4,6 +4,10 @@
 #' `accessory-measurements`) as a Data Resource to a Frictionless Data Package.
 #' This function extends and masks `frictionless::add_resource()`.
 #'
+#' See [Get started
+#' ](https://inbo.github.io/movepub/articles/movepub.html#frictionless) for
+#' examples.
+#'
 #' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
 #'   this resource, as a character (vector).
@@ -12,8 +16,6 @@
 #' @return Provided `package` with one additional resource.
 #' @family frictionless functions
 #' @export
-#' @examples
-#' # See https://inbo.github.io/movepub/articles/movepub.html#frictionless
 add_resource <- function(package, resource_name, files, keys = TRUE) {
   # Check resource names
   allowed_names <- c("reference-data", "gps", "acceleration",

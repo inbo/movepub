@@ -39,6 +39,10 @@ Transforms data from a Movebank dataset (formatted as a \href{https://specs.fric
 The resulting CSV and EML files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF and/or OBIS.
 A \code{meta.xml} file is not created.
 }
+\details{
+See \href{https://inbo.github.io/movepub/articles/movepub.html#dwc}{Get started}
+for examples.
+}
 \section{Metadata}{
 
 Metadata are derived from the original dataset by looking up its \code{doi} in
@@ -101,7 +105,4 @@ tag malfunctioned right after deployment.
 }
 }
 
-\examples{
-# See https://inbo.github.io/movepub/articles/movepub.html#dwc
-}
 \concept{dwc functions}

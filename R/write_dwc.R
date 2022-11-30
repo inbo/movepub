@@ -7,6 +7,9 @@
 #' https://www.gbif.org/ipt) for publication to GBIF and/or OBIS.
 #' A `meta.xml` file is not created.
 #'
+#' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
+#' for examples.
+#'
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
 #' @param directory Path to local directory to write file(s) to.
@@ -75,8 +78,6 @@
 #'   reduce the size of high-frequency data.
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
-#' @examples
-#' # See https://inbo.github.io/movepub/articles/movepub.html#dwc
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
