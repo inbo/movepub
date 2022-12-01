@@ -1,5 +1,5 @@
 Package: movepub
-Title: Prepare Movebank data for publication
+Title: Prepare Movebank Data for Publication
 Version: 0.1.0
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
