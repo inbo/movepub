@@ -70,7 +70,8 @@ SELECT
     WHEN ref."deploy-on-latitude" IS NOT NULL THEN 'EPSG:4326'
   END                                   AS geodeticDatum,
   CASE
-    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 1000 -- Deploy on coordinates not always precise
+    -- Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
+    WHEN ref."deploy-on-latitude" IS NOT NULL THEN 187
   END                                   AS coordinateUncertaintyInMeters,
 -- TAXON
   ref."animal-taxon"                    AS scientificName,
