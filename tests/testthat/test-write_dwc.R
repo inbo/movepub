@@ -48,3 +48,10 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
     )
   )
 })
+
+test_that("write_dwc() returns the expected Darwin Core mapping for a known dataset", {
+  expect_snapshot_file(file.path(temp_dir,"dwc_occurrence.csv"),
+                       transform = ~gsub("\\/tmp\\/[a-zA-Z]+\\/movepub","path"))
+  expect_snapshot_file(file.path(temp_dir,"eml.xml"),
+                       transform = ~gsub("\\/tmp\\/[a-zA-Z]+\\/movepub","path"))
+})
