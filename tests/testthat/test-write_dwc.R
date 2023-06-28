@@ -55,3 +55,8 @@ test_that("write_dwc() returns the expected Darwin Core mapping for a known data
   expect_snapshot_file(file.path(temp_dir,"eml.xml"),
                        transform = ~gsub("\\/tmp\\/[a-zA-Z]+\\/movepub","path"))
 })
+
+test_that("write_dwc() returns expected messaging to console", {
+
+})
+
