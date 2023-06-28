@@ -60,3 +60,4 @@ test_that("write_dwc() returns expected messaging to console", {
 
 })
 
+unlink(temp_dir)
