@@ -7,3 +7,44 @@ test_that("write_dwc() writes csv file to a path", {
 test_that("write_dwc() writes EML file to a path", {
   expect_true(file.exists(file.path(temp_dir, "eml.xml")))
 })
+
+test_that("write_dwc() returns the expected Darwin Core terms as columns", {
+  expect_identical(
+    colnames(readr::read_csv(file.path(temp_dir, "dwc_occurrence.csv"),
+                             n_max = 1,
+                             show_col_types = FALSE)),
+    c(
+      "type",
+      "license",
+      "rightsHolder",
+      "datasetID",
+      "institutionCode",
+      "collectionCode",
+      "datasetName",
+      "basisOfRecord",
+      "dataGeneralizations",
+      "occurrenceID",
+      "sex",
+      "lifeStage",
+      "reproductiveCondition",
+      "occurrenceStatus",
+      "organismID",
+      "organismName",
+      "eventID",
+      "parentEventID",
+      "eventType",
+      "eventDate",
+      "samplingProtocol",
+      "eventRemarks",
+      "minimumElevationInMeters",
+      "maximumElevationInMeters",
+      "locationRemarks",
+      "decimalLatitude",
+      "decimalLongitude",
+      "geodeticDatum",
+      "coordinateUncertaintyInMeters",
+      "scientificName",
+      "kingdom"
+    )
+  )
+})
