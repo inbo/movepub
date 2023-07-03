@@ -78,4 +78,5 @@ test_that("write_dwc() returns the expected DwC mapping for a known dataset", {
 })
 
 
-unlink(temp_dir)
+# remove temporary files
+unlink(temp_dir, recursive = TRUE)
