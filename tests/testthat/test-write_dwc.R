@@ -12,6 +12,15 @@ package_to_write <-
       )
     )
   )
+
+test_that("write_dwc() returns expected messaging to console", {
+  expect_snapshot(
+    write_dwc(package_to_write, directory = temp_dir),
+    transform = remove_temp_path
+  )
+})
+
+
 test_that("write_dwc() writes csv file to a path", {
   expect_true(file.exists(file.path(temp_dir, "dwc_occurrence.csv")))
 })
@@ -68,8 +77,5 @@ test_that("write_dwc() returns the expected Darwin Core mapping for a known data
                        transform = ~gsub("\\/tmp\\/[a-zA-Z]+\\/movepub","path"))
 })
 
-test_that("write_dwc() returns expected messaging to console", {
-
-})
 
 unlink(temp_dir)
