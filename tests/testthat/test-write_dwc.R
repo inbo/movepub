@@ -1,5 +1,17 @@
 dir.create(file.path(tempdir()), "movepub")
 temp_dir <- file.path(tempdir(), "movepub")
+
+package_to_write <-
+  suppressMessages(
+    frictionless::read_package(
+      system.file(
+        "extdata",
+        "o_assen",
+        "datapackage.json",
+        package = "movepub"
+      )
+    )
+  )
 test_that("write_dwc() writes csv file to a path", {
   expect_true(file.exists(file.path(temp_dir, "dwc_occurrence.csv")))
 })
