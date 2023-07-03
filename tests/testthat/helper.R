@@ -16,7 +16,7 @@
 #'                   sep = "\n")
 #' remove_temp_path(to_clean)
 remove_temp_path <- function(string, replacement = "temporary_path") {
-  gsub("\\/tmp\\/[a-zA-Z]+\\/movepub",replacement,string)
+  gsub("\\/tmp\\/[a-zA-Z0-9]+\\/movepub",replacement,string)
 }
 
 #' Remove a UUID from a character
