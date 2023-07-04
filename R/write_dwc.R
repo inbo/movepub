@@ -15,7 +15,7 @@
 #' @param directory Path to local directory to write file(s) to.
 #' @param doi DOI of the original dataset, used to get metadata.
 #' @param contact Person to be set as resource contact and metadata provider.
-#'   To be provided as a `person()`.
+#'   To be provided as a [person()].
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @param study_id Identifier of the Movebank study from which the dataset was

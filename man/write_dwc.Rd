@@ -22,7 +22,7 @@ write_dwc(
 \item{doi}{DOI of the original dataset, used to get metadata.}
 
 \item{contact}{Person to be set as resource contact and metadata provider.
-To be provided as a \code{person()}.}
+To be provided as a \code{\link[=person]{person()}}.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
