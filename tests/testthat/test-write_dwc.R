@@ -113,6 +113,31 @@ test_that("write_dwc() returns error on invalid contact information", {
   )
 })
 
+test_that("write_dwc() supports setting custom contact information", {
+  suppressMessages(
+    write_dwc(
+      package = package_to_write,
+      directory = temp_dir,
+      contact = person(
+        given = "Jean Luc",
+        family = "Picard",
+        email = "cptn@enterprise.trek",
+        comment = c(ORCID = "0000-0001-2345-6789")
+      )
+    )
+  )
+  eml <- EML::read_eml(file.path(temp_dir, "eml.xml"))
+  expect_identical(
+    eml$dataset$contact,
+    list(
+      individualName = list(givenName = "Jean Luc", surName = "Picard"),
+      electronicMailAddress = "cptn@enterprise.trek", userId = list(
+        directory = "http://orcid.org/", userId = "0000-0001-2345-6789"
+      )
+    )
+  )
+})
+
 test_that("write_dwc() returns error on missing or malformed doi", {
   package_no_doi <- package_to_write
   package_no_doi$id <- NULL
