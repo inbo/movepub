@@ -139,7 +139,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     pub_year = substr(eml$dataset$pubDate, 1, 4),
     .null = ""
   )
-  eml$dataset$abstract$para <- purrr::prepend(
+  eml$dataset$abstract$para <- append(
+    after = 0,
     eml$dataset$abstract$para,
     paste0("<![CDATA[", first_para, "]]>")
   )
