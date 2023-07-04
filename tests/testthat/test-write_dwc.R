@@ -121,5 +121,21 @@ test_that("write_dwc() returns error on missing or malformed doi", {
   )
 })
 
+test_that("write_dwc() returns error on missing reference-data", {
+  # create data package with no reference-data
+  package_no_ref_data <-
+    purrr::discard(package_to_write$resources, ~ .x$name == "reference-data")
+  expect_error(
+    suppressMessages(
+      write_dwc(package_no_ref_data,
+        directory = temp_dir,
+        doi = "10.5281/zenodo.5653311"
+      )
+    ),
+    regexp = "`package` must contain resource `reference-data`.",
+    fixed = TRUE
+  )
+})
+
 # remove temporary files
 unlink(temp_dir, recursive = TRUE)
