@@ -85,6 +85,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     !is.null(doi),
     msg = "No DOI found in `package$id`, provide one in `doi` parameter."
   )
+  assertthat::assert_that(
+    assertthat::is.string(doi)
+  )
   eml <- datacite_to_eml(doi)
 
   # Update title
