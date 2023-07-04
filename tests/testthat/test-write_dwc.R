@@ -70,7 +70,7 @@ test_that("write_dwc() returns the expected DwC mapping for a known dataset", {
                        transform = remove_UUID)
 })
 
-test_that("write_dwc() returns error on non integer study_id", {
+test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
     write_dwc(package_to_write,
               directory = temp_dir,
@@ -78,6 +78,22 @@ test_that("write_dwc() returns error on non integer study_id", {
     regexp = "`study_id` (<NOT_A_VALID_STUDY_ID>) must be an integer.",
     fixed = TRUE
   )
+  expect_error(
+    write_dwc(package_to_write,
+              directory = temp_dir,
+              study_id = c("4",pi)),
+    regexp = "more elements supplied than there are to replace",
+    fixed = TRUE
+  )
+})
+
+test_that("write_dwc() supports setting custom study_id", {
+  suppressMessages(
+  write_dwc(package_to_write,
+            directory = temp_dir,
+            study_id = 42))
+  eml <- EML::read_eml(file.path(temp_dir,"eml.xml"))
+  expect_true(grepl(42,x = eml$dataset$alternateIdentifier[[2]]))
 })
 
 # remove temporary files
