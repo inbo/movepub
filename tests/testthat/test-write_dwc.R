@@ -25,8 +25,9 @@ test_that("write_dwc() returns expected files and messaging", {
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   expect_identical(
     colnames(readr::read_csv(file.path(temp_dir, "dwc_occurrence.csv"),
-                             n_max = 1,
-                             show_col_types = FALSE)),
+      n_max = 1,
+      show_col_types = FALSE
+    )),
     c(
       "type",
       "license",
@@ -64,24 +65,28 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
 })
 
 test_that("write_dwc() returns the expected DwC mapping for a known dataset", {
-  expect_snapshot_file(file.path(temp_dir,"dwc_occurrence.csv"),
-                       transform = remove_temp_path)
-  expect_snapshot_file(file.path(temp_dir,"eml.xml"),
-                       transform = remove_UUID)
+  expect_snapshot_file(file.path(temp_dir, "dwc_occurrence.csv"),
+    transform = remove_temp_path
+  )
+  expect_snapshot_file(file.path(temp_dir, "eml.xml"),
+    transform = remove_UUID
+  )
 })
 
 test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
     write_dwc(package_to_write,
-              directory = temp_dir,
-              study_id = "<NOT_A_VALID_STUDY_ID>"),
+      directory = temp_dir,
+      study_id = "<NOT_A_VALID_STUDY_ID>"
+    ),
     regexp = "`study_id` (<NOT_A_VALID_STUDY_ID>) must be an integer.",
     fixed = TRUE
   )
   expect_error(
     write_dwc(package_to_write,
-              directory = temp_dir,
-              study_id = c("4",pi)),
+      directory = temp_dir,
+      study_id = c("4", pi)
+    ),
     regexp = "more elements supplied than there are to replace",
     fixed = TRUE
   )
@@ -89,25 +94,30 @@ test_that("write_dwc() returns error on invalid study_id", {
 
 test_that("write_dwc() supports setting custom study_id", {
   suppressMessages(
-  write_dwc(package_to_write,
-            directory = temp_dir,
-            study_id = 42))
-  eml <- EML::read_eml(file.path(temp_dir,"eml.xml"))
-  expect_true(grepl(42,x = eml$dataset$alternateIdentifier[[2]]))
+    write_dwc(package_to_write,
+      directory = temp_dir,
+      study_id = 42
+    )
+  )
+  eml <- EML::read_eml(file.path(temp_dir, "eml.xml"))
+  expect_true(grepl(42, x = eml$dataset$alternateIdentifier[[2]]))
 })
 
 test_that("write_dwc() returns error on invalid contact information", {
   expect_error(
     write_dwc(package_to_write,
-              directory = temp_dir,
-              contact = list(not_a = "person_object")),
+      directory = temp_dir,
+      contact = list(not_a = "person_object")
+    ),
     regexp = "`contact` is a list, but should be a person as provided by `person()`",
     fixed = TRUE
   )
   expect_error(
-    write_dwc(package = package_to_write,
-              directory = temp_dir,
-              contact = "pineapple"),
+    write_dwc(
+      package = package_to_write,
+      directory = temp_dir,
+      contact = "pineapple"
+    ),
     regexp = "`contact` is a character, but should be a person as provided by `person()`",
     fixed = TRUE
   )
@@ -157,21 +167,24 @@ test_that("write_dwc() returns error on missing or malformed doi", {
   package_no_doi$id <- NULL
   expect_error(
     write_dwc(package_no_doi,
-              directory = temp_dir),
+      directory = temp_dir
+    ),
     regexp = "No DOI found in `package$id`, provide one in `doi` parameter.",
     fixed = TRUE
   )
   expect_error(
     write_dwc(package_no_doi,
-              directory = temp_dir,
-              doi = c("a","b","c")),
+      directory = temp_dir,
+      doi = c("a", "b", "c")
+    ),
     regexp = "doi is not a string (a length one character vector).",
     fixed = TRUE
   )
   expect_error(
     write_dwc(package_no_doi,
-              directory = temp_dir,
-              doi = 10.5281),
+      directory = temp_dir,
+      doi = 10.5281
+    ),
     regexp = "doi is not a string (a length one character vector).",
     fixed = TRUE
   )
@@ -197,8 +210,8 @@ test_that("write_dwc() returns error on missing resources", {
   expect_error(
     suppressMessages(
       write_dwc(package_no_gps,
-                directory = temp_dir,
-                doi = "10.5281/zenodo.5653311"
+        directory = temp_dir,
+        doi = "10.5281/zenodo.5653311"
       )
     ),
     regexp = "`package` must contain resource `reference-data`.",
