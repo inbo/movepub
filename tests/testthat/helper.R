@@ -12,11 +12,18 @@
 #' @family helper functions
 #' @examples
 #' to_clean <- paste("Writing (meta)data to:",
-#'                   "    /tmp/RtmpxEkUiz/movepub/eml.xml",
-#'                   sep = "\n")
+#'   "    /tmp/RtmpxEkUiz/movepub/eml.xml",
+#'   sep = "\n"
+#' )
 #' remove_temp_path(to_clean)
 remove_temp_path <- function(string, replacement = "temporary_path") {
-  gsub("\\/tmp\\/[a-zA-Z0-9]+\\/movepub",replacement,string)
+  gsub(glue::glue(
+    "{root}[a-zA-Z0-9]+.+(?=\\/)",
+    root = gsub("[a-zA-Z0-9]+$", "", tempdir())
+  ),
+  replacement,
+  string,
+  perl = TRUE)
 }
 
 #' Remove a UUID from a character
