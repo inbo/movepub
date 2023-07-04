@@ -17,13 +17,15 @@
 #' )
 #' remove_temp_path(to_clean)
 remove_temp_path <- function(string, replacement = "temporary_path") {
-  gsub(glue::glue(
-    "{root}[a-zA-Z0-9]+.+(?=\\/)",
-    root = gsub("[a-zA-Z0-9]+$", "", tempdir())
-  ),
-  replacement,
-  string,
-  perl = TRUE)
+  gsub(
+    glue::glue(
+      "{root}[a-zA-Z0-9]+.+(?=\\/)",
+      root = gsub("[a-zA-Z0-9]+$", "", tempdir())
+    ),
+    replacement,
+    string,
+    perl = TRUE
+  )
 }
 
 #' Remove a UUID from a character
@@ -42,16 +44,19 @@ remove_temp_path <- function(string, replacement = "temporary_path") {
 #'
 #' @examples
 #' to_clean <- paste(
-#'     'encoding=\"UTF-8\"?>",',
-#'     '"<eml:eml xmlns:eml=\"https://eml.ecoinformatics.org/eml-2.2.0\"',
-#'     'packageId=\"39272b1c-4174-4a86-a2d2-f48c4f29e6de\"',
-#'     'system=\"uuid\"',
-#'     collapse = " ")
+#'   'encoding=\"UTF-8\"?>",',
+#'   '"<eml:eml xmlns:eml=\"https://eml.ecoinformatics.org/eml-2.2.0\"',
+#'   'packageId=\"39272b1c-4174-4a86-a2d2-f48c4f29e6de\"',
+#'   'system=\"uuid\"',
+#'   collapse = " "
+#' )
 #' remove_UUID(to_clean)
 remove_UUID <- function(string, replacement = "RANDOM_UUID") {
-  gsub("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
-       replacement,
-       string)
+  gsub(
+    "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
+    replacement,
+    string
+  )
 }
 
 
