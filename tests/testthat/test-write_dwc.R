@@ -77,6 +77,15 @@ test_that("write_dwc() returns the expected DwC mapping for a known dataset", {
                        transform = remove_UUID)
 })
 
+test_that("write_dwc() returns error on non integer study_id", {
+  expect_error(
+    write_dwc(package_to_write,
+              directory = temp_dir,
+              study_id = "<NOT_A_VALID_STUDY_ID>"),
+    regexp = "`study_id` (<NOT_A_VALID_STUDY_ID>) must be an integer.",
+    fixed = TRUE
+  )
+})
 
 # remove temporary files
 unlink(temp_dir, recursive = TRUE)
