@@ -1,4 +1,4 @@
-# write_dwc() returns expected messaging to console
+# write_dwc() returns expected files and messaging
 
     Code
       write_dwc(package_to_write, directory = temp_dir)

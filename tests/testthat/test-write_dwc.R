@@ -13,19 +13,12 @@ package_to_write <-
     )
   )
 
-test_that("write_dwc() returns expected messaging to console", {
+test_that("write_dwc() returns expected files and messaging", {
   expect_snapshot(
     write_dwc(package_to_write, directory = temp_dir),
     transform = remove_temp_path
   )
-})
-
-
-test_that("write_dwc() writes csv file to a path", {
   expect_true(file.exists(file.path(temp_dir, "dwc_occurrence.csv")))
-})
-
-test_that("write_dwc() writes EML file to a path", {
   expect_true(file.exists(file.path(temp_dir, "eml.xml")))
 })
 
