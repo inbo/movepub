@@ -96,6 +96,23 @@ test_that("write_dwc() supports setting custom study_id", {
   expect_true(grepl(42,x = eml$dataset$alternateIdentifier[[2]]))
 })
 
+test_that("write_dwc() returns error on invalid contact information", {
+  expect_error(
+    write_dwc(package_to_write,
+              directory = temp_dir,
+              contact = list(not_a = "person_object")),
+    regexp = "`contact` is a list, but should be a person as provided by `person()`",
+    fixed = TRUE
+  )
+  expect_error(
+    write_dwc(package = package_to_write,
+              directory = temp_dir,
+              contact = "pineapple"),
+    regexp = "`contact` is a character, but should be a person as provided by `person()`",
+    fixed = TRUE
+  )
+})
+
 test_that("write_dwc() returns error on missing or malformed doi", {
   package_no_doi <- package_to_write
   package_no_doi$id <- NULL

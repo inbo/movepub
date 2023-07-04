@@ -146,6 +146,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
+    assertthat::assert_that(
+      class(contact) == "person",
+      msg = glue::glue("`contact` is a {class(contact)}, ",
+                       "but should be a person as provided by `person()`")
+      )
     eml$dataset$contact <- EML::set_responsibleParty(
       givenName = contact$given,
       surName = contact$family,
