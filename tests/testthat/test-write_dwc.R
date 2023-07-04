@@ -96,5 +96,30 @@ test_that("write_dwc() supports setting custom study_id", {
   expect_true(grepl(42,x = eml$dataset$alternateIdentifier[[2]]))
 })
 
+test_that("write_dwc() returns error on missing or malformed doi", {
+  package_no_doi <- package_to_write
+  package_no_doi$id <- NULL
+  expect_error(
+    write_dwc(package_no_doi,
+              directory = temp_dir),
+    regexp = "No DOI found in `package$id`, provide one in `doi` parameter.",
+    fixed = TRUE
+  )
+  expect_error(
+    write_dwc(package_no_doi,
+              directory = temp_dir,
+              doi = c("a","b","c")),
+    regexp = "doi is not a string (a length one character vector).",
+    fixed = TRUE
+  )
+  expect_error(
+    write_dwc(package_no_doi,
+              directory = temp_dir,
+              doi = 10.5281),
+    regexp = "doi is not a string (a length one character vector).",
+    fixed = TRUE
+  )
+})
+
 # remove temporary files
 unlink(temp_dir, recursive = TRUE)
