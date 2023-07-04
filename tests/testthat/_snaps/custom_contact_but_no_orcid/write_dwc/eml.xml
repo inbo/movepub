@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="RANDOM_UUID" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <alternateIdentifier>https://doi.org/10.5281/zenodo.5653311</alternateIdentifier>
+    <alternateIdentifier>https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471</alternateIdentifier>
+    <title>O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) [subsampled representation]</title>
+    <creator>
+      <individualName>
+        <givenName>Bert</givenName>
+        <surName>Dijkstra</surName>
+      </individualName>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Rinus</givenName>
+        <surName>Dillerop</surName>
+      </individualName>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Kees</givenName>
+        <surName>Oosterbeek</surName>
+      </individualName>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Willem</givenName>
+        <surName>Bouten</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-5250-8872</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Peter</givenName>
+        <surName>Desmet</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-8442-8025</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Henk-Jan</givenName>
+        <surName>van der Kolk</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-8023-379X</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Bruno J.</givenName>
+        <surName>Ens</surName>
+      </individualName>
+      <userId directory="http://orcid.org/">0000-0002-4659-4807</userId>
+    </creator>
+    <metadataProvider>
+      <individualName>
+        <givenName>Kathryn</givenName>
+        <surName>Janeway</surName>
+      </individualName>
+    </metadataProvider>
+    <pubDate>2022-01-17</pubDate>
+    <abstract>
+      <para><![CDATA[<span></span>This animal tracking dataset is derived from Dijkstra et al. (2022, <a href="https://doi.org/10.5281/zenodo.5653311">https://doi.org/10.5281/zenodo.5653311</a>), a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled to the first GPS position per hour. The original dataset description follows.]]></para>
+      <para><![CDATA[<em>O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)</em> is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study <strong>O_ASSEN</strong> using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (<em>Haematopus ostralegus</em>) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected. See van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset. Data in this package are exported from Movebank study <em>O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)</em> (Movebank Study ID 1605797471), which can be viewed at https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471. Fields in the data follow the Movebank Attribute Dictionary (http://vocab.nerc.ac.uk/collection/MVB) and are described in <code>datapackage.json</code>. <strong>Files</strong> Files are structured as a Frictionless Data Package. You can access all data in R via <code>https://zenodo.org/record/5653311/files/datapackage.json</code> using frictionless. <strong>datapackage.json</strong>: technical description of the data files. <strong>O_ASSEN-reference-data.csv</strong>: reference data about the animals, tags and deployments. <strong>O_ASSEN-gps-yyyy.csv.gz</strong>: GPS data recorded by the tags, grouped by year. <strong>O_ASSEN-acceleration-yyyy.csv.gz</strong>: acceleration data recorded by the tags, grouped by year.]]></para>
+      <para>These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>animal movement</keyword>
+      <keyword>animal tracking</keyword>
+      <keyword>gps tracking</keyword>
+      <keyword>accelerometer</keyword>
+      <keyword>altitude</keyword>
+      <keyword>temperature</keyword>
+      <keyword>biologging</keyword>
+      <keyword>birds</keyword>
+      <keyword>UvA-BiTS</keyword>
+      <keyword>Movebank</keyword>
+      <keyword>frictionlessdata</keyword>
+      <keywordThesaurus>n/a</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>cc0-1.0</para>
+    </intellectualRights>
+    <distribution scope="document">
+      <online>
+        <url function="information">https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471</url>
+      </online>
+    </distribution>
+    <contact>
+      <individualName>
+        <givenName>Kathryn</givenName>
+        <surName>Janeway</surName>
+      </individualName>
+    </contact>
+  </dataset>
+</eml:eml>
