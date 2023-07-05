@@ -194,7 +194,7 @@ test_that("write_dwc() returns error on missing or malformed doi", {
 })
 
 test_that("write_dwc() returns error on missing resources", {
-  # create data package with no reference-data
+  # create data package with no reference-data resource
   package_no_ref_data <-
     purrr::discard(package_to_write$resources, ~ .x$name == "reference-data")
 
@@ -208,6 +208,7 @@ test_that("write_dwc() returns error on missing resources", {
     regexp = "`package` must contain resource `reference-data`.",
     fixed = TRUE
   )
+  # create package with no gps resource
   package_no_gps <-
     purrr::discard(package_to_write$resources, ~ .x$name == "gps")
   expect_error(
