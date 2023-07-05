@@ -5,6 +5,6 @@
     Message <simpleMessage>
       Reading data and transforming to Darwin Core.
       Writing (meta)data to:
-      temporary_path/eml.xml
-      temporary_path/dwc_occurrence.csv
+      <temporary_path>/movepub/eml.xml
+      <temporary_path>/movepub/dwc_occurrence.csv
 
