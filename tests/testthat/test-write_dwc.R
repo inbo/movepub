@@ -16,16 +16,19 @@ package_to_write <-
 test_that("write_dwc() returns expected files and messaging", {
   expect_snapshot(
     write_dwc(package_to_write, directory = temp_dir),
-    transform = remove_temp_path
+    transform = remove_temp_path,
+    variant = "write_dwc_message"
   )
   expect_snapshot_file(
-    write_dwc_snapshot(package_to_write,file = "occurrence"),
+    write_dwc_snapshot(package_to_write, file = "occurrence"),
     transform = remove_UUID,
-    variant = "occurrence_valid")
+    variant = "occurrence"
+  )
   expect_snapshot_file(
-    write_dwc_snapshot(package_to_write,file = "eml"),
+    write_dwc_snapshot(package_to_write, file = "eml"),
     transform = remove_UUID,
-    variant = "eml_valid")
+    variant = "eml"
+  )
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
@@ -93,7 +96,7 @@ test_that("write_dwc() returns error on invalid study_id", {
 test_that("write_dwc() supports setting custom study_id", {
   suppressMessages(
     write_dwc(package_to_write,
-      directory = file.path(temp_dir,"study_id"),
+      directory = file.path(temp_dir, "study_id"),
       study_id = 42
     )
   )
@@ -125,7 +128,7 @@ test_that("write_dwc() supports setting custom contact information", {
   suppressMessages(
     write_dwc(
       package = package_to_write,
-      directory = file.path(temp_dir,"custom_contact"),
+      directory = file.path(temp_dir, "custom_contact"),
       contact = person(
         given = "Jean Luc",
         family = "Picard",
@@ -154,7 +157,9 @@ test_that("write_dwc() supports setting custom contact information", {
   expect_null(EML::read_eml(
     file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml")
   )$dataset$contact$userId)
-  expect_snapshot_file(file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml"),
+
+  expect_snapshot_file(
+    file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml"),
     transform = remove_UUID,
     variant = "custom_contact_but_no_orcid"
   )
