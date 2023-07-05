@@ -20,6 +20,12 @@ test_that("write_dwc() returns expected files and messaging", {
   )
   expect_true(file.exists(file.path(temp_dir, "dwc_occurrence.csv")))
   expect_true(file.exists(file.path(temp_dir, "eml.xml")))
+  expect_snapshot_file(file.path(temp_dir, "dwc_occurrence.csv"),
+                       transform = remove_temp_path
+  )
+  expect_snapshot_file(file.path(temp_dir, "eml.xml"),
+                       transform = remove_UUID
+  )
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
@@ -64,14 +70,6 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   )
 })
 
-test_that("write_dwc() returns the expected DwC mapping for a known dataset", {
-  expect_snapshot_file(file.path(temp_dir, "dwc_occurrence.csv"),
-    transform = remove_temp_path
-  )
-  expect_snapshot_file(file.path(temp_dir, "eml.xml"),
-    transform = remove_UUID
-  )
-})
 
 test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
@@ -95,11 +93,11 @@ test_that("write_dwc() returns error on invalid study_id", {
 test_that("write_dwc() supports setting custom study_id", {
   suppressMessages(
     write_dwc(package_to_write,
-      directory = temp_dir,
+      directory = file.path(temp_dir,"study_id"),
       study_id = 42
     )
   )
-  eml <- EML::read_eml(file.path(temp_dir, "eml.xml"))
+  eml <- EML::read_eml(file.path(temp_dir, "study_id", "eml.xml"))
   expect_true(grepl(42, x = eml$dataset$alternateIdentifier[[2]]))
 })
 
@@ -127,7 +125,7 @@ test_that("write_dwc() supports setting custom contact information", {
   suppressMessages(
     write_dwc(
       package = package_to_write,
-      directory = temp_dir,
+      directory = file.path(temp_dir,"custom_contact"),
       contact = person(
         given = "Jean Luc",
         family = "Picard",
@@ -136,7 +134,7 @@ test_that("write_dwc() supports setting custom contact information", {
       )
     )
   )
-  eml <- EML::read_eml(file.path(temp_dir, "eml.xml"))
+  eml <- EML::read_eml(file.path(temp_dir, "custom_contact", "eml.xml"))
   expect_identical(
     eml$dataset$contact,
     list(
