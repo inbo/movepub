@@ -67,7 +67,7 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 #' @return Path of selected output file.
 #' @noRd
 #' @examples write_dwc_snapshot(mica, tempdir(), "occurrence")
-write_dwc_snapshot <- function(package, directory, file, ...) {
+write_dwc_snapshot <- function(package, directory = tempdir(), file, ...) {
   suppressMessages(write_dwc(package, directory, ...))
   switch(file,
     occurrence = file.path(directory, "dwc_occurrence.csv"),
