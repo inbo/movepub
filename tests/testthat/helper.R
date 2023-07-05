@@ -16,16 +16,11 @@
 #'   sep = "\n"
 #' )
 #' remove_temp_path(to_clean)
-remove_temp_path <- function(string, replacement = "temporary_path") {
-  gsub(
-    glue::glue(
-      "{root}[a-zA-Z0-9]+.+(?=\\/)",
-      root = gsub("[a-zA-Z0-9]+$", "", tempdir())
-    ),
-    replacement,
-    string,
-    perl = TRUE
-  )
+remove_temp_path <- function(string, replacement = "<temporary_path>") {
+  # compare against the output of tempdir() to be able to remove paths on any os
+  stringr::str_replace_all(string,
+                           pattern = stringr::str_escape(tempdir()),
+                           replacement = replacement)
 }
 
 #' Remove a UUID from a character
@@ -60,3 +55,22 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 }
 
 
+#' Get snapshot for write_dwc()
+#'
+#' Wrapper of `write_dwc()` that returns path of selected output file.
+#' Needed for `testthat::expect_snapshot_file()` which expects the path of a
+#' single file to compare against snapshot.
+#' @inheritParams write_dwc
+#' @param file Either `occurrence` or `eml` to select which output file of
+#'   `write_dwc()` to return.
+#' @param ... forwarded to [write_dwc()]
+#' @return Path of selected output file.
+#' @noRd
+#' @examples write_dwc_snapshot(mica, tempdir(), "occurrence")
+write_dwc_snapshot <- function(package, directory, file, ...) {
+  suppressMessages(write_dwc(package, directory, ...))
+  switch(file,
+    occurrence = file.path(directory, "dwc_occurrence.csv"),
+    eml = file.path(directory, "eml.xml")
+  )
+}
