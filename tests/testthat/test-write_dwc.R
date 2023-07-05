@@ -18,14 +18,14 @@ test_that("write_dwc() returns expected files and messaging", {
     write_dwc(package_to_write, directory = temp_dir),
     transform = remove_temp_path
   )
-  expect_true(file.exists(file.path(temp_dir, "dwc_occurrence.csv")))
-  expect_true(file.exists(file.path(temp_dir, "eml.xml")))
-  expect_snapshot_file(file.path(temp_dir, "dwc_occurrence.csv"),
-                       transform = remove_temp_path
-  )
-  expect_snapshot_file(file.path(temp_dir, "eml.xml"),
-                       transform = remove_UUID
-  )
+  expect_snapshot_file(
+    write_dwc_snapshot(package_to_write,file = "occurrence"),
+    transform = remove_UUID,
+    variant = "occurrence_valid")
+  expect_snapshot_file(
+    write_dwc_snapshot(package_to_write,file = "eml"),
+    transform = remove_UUID,
+    variant = "eml_valid")
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
