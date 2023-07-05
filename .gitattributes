@@ -1,4 +1,4 @@
-# Declare files that will always have LF line endings on checkout.
+# Declare files that will always have LF line endings on checkout. Except EML
 * text=lf
 *.csv eol=lf
-*.eml eol=lf
+*.eml eol=crlf
