@@ -1,2 +1,2 @@
 # Declare files that will always have LF line endings on checkout.
-tests/testthat/_snaps/*/*.csv text eol=lf
+tests/testthat/_snaps/* text eol=lf
