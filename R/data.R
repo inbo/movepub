@@ -12,10 +12,10 @@
 #' @examples
 #' \dontrun{
 #' # the data in o_assen was created with the code below
-#' o_assen <-
-#'   frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json")
-#' frictionless::write_package(frictionless::remove_resource(package,
-#'                                                           "acceleration"))
+#' o_assen <- frictionless::remove_resource(
+#'   frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json"),
+#'   "acceleration"
+#' )
 #' usethis::use_data(o_assen)
 #' }
 "o_assen"
