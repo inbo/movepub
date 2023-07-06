@@ -18,9 +18,10 @@
 #' remove_temp_path(to_clean)
 remove_temp_path <- function(string, replacement = "<temporary_path>") {
   # compare against the output of tempdir() to be able to remove paths on any os
-  stringr::str_replace_all(string,
-                           pattern = stringr::str_escape(tempdir()),
-                           replacement = replacement)
+  # stringr::str_replace_all(string,
+  #                          pattern = stringr::str_escape(tempdir()),
+  #                          replacement = replacement)
+  gsub(tempdir(),replacement = replacement,x = string)
 }
 
 #' Remove a UUID from a character
