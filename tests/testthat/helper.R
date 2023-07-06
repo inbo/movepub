@@ -66,6 +66,7 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 #'   `write_dwc()` to return.
 #' @param ... forwarded to [write_dwc()]
 #' @return Path of selected output file.
+#' @family helper functions
 #' @noRd
 #' @examples write_dwc_snapshot(mica, tempdir(), "occurrence")
 write_dwc_snapshot <- function(package, directory = tempdir(), file, ...) {
