@@ -1,17 +1,7 @@
 dir.create(file.path(tempdir()), "movepub")
 temp_dir <- file.path(tempdir(), "movepub")
 
-package_to_write <-
-  suppressMessages(
-    frictionless::read_package(
-      system.file(
-        "extdata",
-        "o_assen",
-        "datapackage.json",
-        package = "movepub"
-      )
-    )
-  )
+package_to_write <- o_assen
 
 test_that("write_dwc() returns expected files and messaging", {
   expect_snapshot(
