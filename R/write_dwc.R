@@ -78,6 +78,8 @@
 #'   reduce the size of high-frequency data.
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
+#'   @examples
+#'   \dontrun{write_dwc(o_assen)}
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
