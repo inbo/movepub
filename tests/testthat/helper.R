@@ -72,7 +72,29 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 write_dwc_snapshot <- function(package, directory = tempdir(), file, ...) {
   suppressMessages(write_dwc(package, directory, ...))
   switch(file,
-    occurrence = file.path(directory, "dwc_occurrence.csv"),
-    eml = file.path(directory, "eml.xml")
+         occurrence = file.path(directory, "dwc_occurrence.csv"),
+         eml = file.path(directory, "eml.xml")
+  )
+}
+
+
+#' Wrapper to snapshot output of write_dwc()
+#'
+#' @inheritParams write_dwc()
+#' @noRd
+#' @family helper functions
+expect_dwc_snapshot <- function(package, file, directory = tempdir(), ...) {
+  # announce the snapshot, so if write_dwc_snapshot() fails, testthat will not
+  # auto-delete the corresponding snapshot file
+  announce_snapshot_file(switch(file,
+                                occurrence = file.path(directory, "dwc_occurrence.csv"),
+                                eml = file.path(directory, "eml.xml")
+  ))
+  # evaluate and compare against snapshot, store in variant of either eml or
+  # occurrence
+  expect_snapshot_file(
+    write_dwc_snapshot(package, directory, file, ...),
+    transform = remove_UUID,
+    variant = file
   )
 }
