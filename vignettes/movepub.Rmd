@@ -38,8 +38,8 @@ Here we build a Frictionless Data Package by starting from a directory containin
 It consists of:
 
 ```{r}
-reference_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.379/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29-reference-data.csv?sequence=3"
-gps_data <- "https://www.datarepository.movebank.org/bitstream/handle/10255/move.378/Migration%20timing%20in%20barnacle%20geese%20%28Svalbard%29%20%28data%20from%20Ko%cc%88lzsch%20et%20al.%20and%20Shariatinajafabadi%20et%20al.%202014%29.csv?sequence=3"
+reference_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content"
+gps_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content"
 ```
 
 And its DOI:
