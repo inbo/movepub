@@ -148,7 +148,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       surName = contact$family,
       electronicMailAddress = contact$email,
       userId = if (!is.null(contact$comment[["ORCID"]])) {
-        list(directory = "http://orcid.org/", contact$comment[["ORCID"]])
+        list(directory = "https://orcid.org/", contact$comment[["ORCID"]])
       } else {
         NULL
       }
