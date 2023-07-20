@@ -34,7 +34,7 @@ datacite_to_eml <- function(doi) {
     surName = .$familyName,
     userId = if (!is.null(.$nameIdentifiers[[1]]$nameIdentifier)) {
       list(
-        directory = "http://orcid.org/",
+        directory = "https://orcid.org/",
         gsub("https://orcid.org/", "", .$nameIdentifiers[[1]]$nameIdentifier)
       )
     } else {
