@@ -14,19 +14,19 @@ https://zenodo.org/record/5653311
 o_assen
 }
 \description{
-A sample \href{https://specs.frictionlessdata.io/data-package/}{frictionless data package} of Movebank data, as read by \code{\link[frictionless:read_package]{frictionless::read_package()}}.
+A sample \href{https://specs.frictionlessdata.io/data-package/}{frictionless data package} of Movebank data, as read
+by \code{\link[frictionless:read_package]{frictionless::read_package()}}.
 }
 \details{
 It is derived from a dataset on \href{https://zenodo.org/record/5653311}{Zenodo},
-but excludes \verb{O_ASSEN-acceleration-2018.csv.gz} and \verb{O_ASSEN-acceleration-2019.csv.gz}.
+but excludes the acceleration data.
 }
 \examples{
 \dontrun{
-# the data in o_assen was created with the code below
-o_assen <- frictionless::remove_resource(
-  frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json"),
-  "acceleration"
-)
+# The data in o_assen was created with the code below
+o_assen <-
+  frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json") \%>\%
+  frictionless::remove_resource("acceleration")
 usethis::use_data(o_assen)
 }
 }

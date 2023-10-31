@@ -1,6 +1,6 @@
-dir.create(file.path(tempdir()), "movepub")
+# Create temporary files
 temp_dir <- file.path(tempdir(), "movepub")
-
+dir.create(temp_dir)
 package_to_write <- o_assen
 
 test_that("write_dwc() returns expected files and messaging", {
@@ -22,11 +22,14 @@ test_that("write_dwc() returns expected files and messaging", {
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
+  result <- readr::read_csv(
+    file.path(temp_dir, "dwc_occurrence.csv"),
+    n_max = 1,
+    show_col_types = FALSE
+  )
+
   expect_identical(
-    colnames(readr::read_csv(file.path(temp_dir, "dwc_occurrence.csv"),
-      n_max = 1,
-      show_col_types = FALSE
-    )),
+    colnames(result),
     c(
       "type",
       "license",
@@ -63,18 +66,19 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   )
 })
 
-
 test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
-    write_dwc(package_to_write,
+    write_dwc(
+      package_to_write,
       directory = temp_dir,
-      study_id = "<NOT_A_VALID_STUDY_ID>"
+      study_id = "NOT_A_VALID_STUDY_ID"
     ),
-    regexp = "`study_id` (<NOT_A_VALID_STUDY_ID>) must be an integer.",
+    regexp = "`study_id` (NOT_A_VALID_STUDY_ID) must be an integer.",
     fixed = TRUE
   )
   expect_error(
-    write_dwc(package_to_write,
+    write_dwc(
+      package_to_write,
       directory = temp_dir,
       study_id = c("4", pi)
     ),
@@ -85,7 +89,8 @@ test_that("write_dwc() returns error on invalid study_id", {
 
 test_that("write_dwc() supports setting custom study_id", {
   suppressMessages(
-    write_dwc(package_to_write,
+    write_dwc(
+      package_to_write,
       directory = file.path(temp_dir, "study_id"),
       study_id = 42
     )
@@ -96,7 +101,8 @@ test_that("write_dwc() supports setting custom study_id", {
 
 test_that("write_dwc() returns error on invalid contact information", {
   expect_error(
-    write_dwc(package_to_write,
+    write_dwc(
+      package_to_write,
       directory = temp_dir,
       contact = list(not_a = "person_object")
     ),
@@ -137,9 +143,11 @@ test_that("write_dwc() supports setting custom contact information", {
       )
     )
   )
-  # test case where custom contact information is provided, but no orcid
+
+  # Test where custom contact information is provided, but no orcid
   suppressMessages(
-    write_dwc(package_to_write,
+    write_dwc(
+      package_to_write,
       directory = file.path(temp_dir, "custom_contact_but_no_orcid"),
       contact = person(given = "Kathryn", family = "Janeway")
     )
@@ -147,7 +155,6 @@ test_that("write_dwc() supports setting custom contact information", {
   expect_null(EML::read_eml(
     file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml")
   )$dataset$contact$userId)
-
   expect_snapshot_file(
     file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml"),
     transform = remove_UUID,
@@ -159,14 +166,16 @@ test_that("write_dwc() returns error on missing or malformed doi", {
   package_no_doi <- package_to_write
   package_no_doi$id <- NULL
   expect_error(
-    write_dwc(package_no_doi,
+    write_dwc(
+      package_no_doi,
       directory = temp_dir
     ),
     regexp = "No DOI found in `package$id`, provide one in `doi` parameter.",
     fixed = TRUE
   )
   expect_error(
-    write_dwc(package_no_doi,
+    write_dwc(
+      package_no_doi,
       directory = temp_dir,
       doi = c("a", "b", "c")
     ),
@@ -174,7 +183,8 @@ test_that("write_dwc() returns error on missing or malformed doi", {
     fixed = TRUE
   )
   expect_error(
-    write_dwc(package_no_doi,
+    write_dwc(
+      package_no_doi,
       directory = temp_dir,
       doi = 10.5281
     ),
@@ -184,13 +194,14 @@ test_that("write_dwc() returns error on missing or malformed doi", {
 })
 
 test_that("write_dwc() returns error on missing resources", {
-  # create data package with no reference-data resource
+  # Create data package with no reference-data resource
   package_no_ref_data <-
     purrr::discard(package_to_write$resources, ~ .x$name == "reference-data")
 
   expect_error(
     suppressMessages(
-      write_dwc(package_no_ref_data,
+      write_dwc(
+        package_no_ref_data,
         directory = temp_dir,
         doi = "10.5281/zenodo.5653311"
       )
@@ -198,12 +209,13 @@ test_that("write_dwc() returns error on missing resources", {
     regexp = "`package` must contain resource `reference-data`.",
     fixed = TRUE
   )
-  # create package with no gps resource
+  # Create package with no GPS resource
   package_no_gps <-
     purrr::discard(package_to_write$resources, ~ .x$name == "gps")
   expect_error(
     suppressMessages(
-      write_dwc(package_no_gps,
+      write_dwc(
+        package_no_gps,
         directory = temp_dir,
         doi = "10.5281/zenodo.5653311"
       )
@@ -213,5 +225,5 @@ test_that("write_dwc() returns error on missing resources", {
   )
 })
 
-# remove temporary files
+# Remove temporary files
 unlink(temp_dir, recursive = TRUE)
