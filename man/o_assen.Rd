@@ -3,7 +3,7 @@
 \docType{data}
 \name{o_assen}
 \alias{o_assen}
-\title{Sample of a frictionless data package containing a bird tracking dataset}
+\title{Sample Movebank dataset with GPS tracking data}
 \format{
 An object of class \code{list} of length 4.
 }
@@ -14,12 +14,14 @@ https://zenodo.org/record/5653311
 o_assen
 }
 \description{
-A sample \href{https://specs.frictionlessdata.io/data-package/}{frictionless data package} of Movebank data, as read
-by \code{\link[frictionless:read_package]{frictionless::read_package()}}.
+A sample Movebank dataset with GPS tracking data, formatted as a
+\href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package} and read by
+\code{\link[frictionless:read_package]{frictionless::read_package()}}.
 }
 \details{
-It is derived from a dataset on \href{https://zenodo.org/record/5653311}{Zenodo},
-but excludes the acceleration data.
+This sample is derived from the Zenodo-deposited dataset
+\href{https://doi.org/10.5281/zenodo.5653311}{Dijkstra et al. (2022)}, but
+excludes the acceleration data.
 }
 \examples{
 \dontrun{

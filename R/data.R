@@ -1,11 +1,13 @@
-#' Sample of a frictionless data package containing a bird tracking dataset
+#' Sample Movebank dataset with GPS tracking data
 #'
-#' A sample [frictionless data package](
-#' https://specs.frictionlessdata.io/data-package/) of Movebank data, as read
-#' by [frictionless::read_package()].
+#' A sample Movebank dataset with GPS tracking data, formatted as a
+#' [Frictionless Data Package](
+#' https://specs.frictionlessdata.io/data-package/) and read by
+#' [frictionless::read_package()].
 #'
-#' It is derived from a dataset on [Zenodo](https://zenodo.org/record/5653311),
-#' but excludes the acceleration data.
+#' This sample is derived from the Zenodo-deposited dataset
+#' [Dijkstra et al. (2022)](https://doi.org/10.5281/zenodo.5653311), but
+#' excludes the acceleration data.
 #' @source https://zenodo.org/record/5653311
 #' @family sample data
 #' @examples
