@@ -137,7 +137,7 @@ test_that("write_dwc() supports setting custom contact information", {
     list(
       individualName = list(givenName = "Jean Luc", surName = "Picard"),
       electronicMailAddress = "cptn@enterprise.trek", userId = list(
-        directory = "http://orcid.org/", userId = "0000-0001-2345-6789"
+        directory = "https://orcid.org/", userId = "0000-0001-2345-6789"
       )
     )
   )

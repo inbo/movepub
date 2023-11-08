@@ -27,28 +27,28 @@
         <givenName>Willem</givenName>
         <surName>Bouten</surName>
       </individualName>
-      <userId directory="http://orcid.org/">0000-0002-5250-8872</userId>
+      <userId directory="https://orcid.org/">0000-0002-5250-8872</userId>
     </creator>
     <creator>
       <individualName>
         <givenName>Peter</givenName>
         <surName>Desmet</surName>
       </individualName>
-      <userId directory="http://orcid.org/">0000-0002-8442-8025</userId>
+      <userId directory="https://orcid.org/">0000-0002-8442-8025</userId>
     </creator>
     <creator>
       <individualName>
         <givenName>Henk-Jan</givenName>
         <surName>van der Kolk</surName>
       </individualName>
-      <userId directory="http://orcid.org/">0000-0002-8023-379X</userId>
+      <userId directory="https://orcid.org/">0000-0002-8023-379X</userId>
     </creator>
     <creator>
       <individualName>
         <givenName>Bruno J.</givenName>
         <surName>Ens</surName>
       </individualName>
-      <userId directory="http://orcid.org/">0000-0002-4659-4807</userId>
+      <userId directory="https://orcid.org/">0000-0002-4659-4807</userId>
     </creator>
     <metadataProvider>
       <individualName>
