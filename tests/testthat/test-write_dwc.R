@@ -22,14 +22,12 @@ test_that("write_dwc() returns expected files and messaging", {
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
-  result <- readr::read_csv(
-    file.path(temp_dir, "dwc_occurrence.csv"),
-    n_max = 1,
-    show_col_types = FALSE
-  )
-
-  expect_identical(
-    colnames(result),
+  expect_named(
+    readr::read_csv(
+      file.path(temp_dir, "dwc_occurrence.csv"),
+      n_max = 1,
+      show_col_types = FALSE
+    ),
     c(
       "type",
       "license",
