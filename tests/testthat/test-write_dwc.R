@@ -146,17 +146,16 @@ test_that("write_dwc() supports setting custom contact information", {
   suppressMessages(
     write_dwc(
       package_to_write,
-      directory = file.path(temp_dir, "custom_contact_but_no_orcid"),
+      directory = file.path(temp_dir, "custom_contact_no_orcid"),
       contact = person(given = "Kathryn", family = "Janeway")
     )
   )
-  expect_null(EML::read_eml(
-    file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml")
-  )$dataset$contact$userId)
-  expect_snapshot_file(
-    file.path(temp_dir, "custom_contact_but_no_orcid", "eml.xml"),
-    transform = remove_UUID,
-    variant = "custom_contact_but_no_orcid"
+  eml <- EML::read_eml(file.path(temp_dir, "custom_contact_no_orcid", "eml.xml"))
+  expect_identical(
+    eml$dataset$contact,
+    list(
+      individualName = list(givenName = "Kathryn", surName = "Janeway")
+    )
   )
 })
 
