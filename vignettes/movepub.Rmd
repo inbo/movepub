@@ -94,7 +94,7 @@ dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darwin Core datase
 And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data again when you encounter an issue:
 
 ```{r}
-frictionless::read_package("https://zenodo.org/record/10053903/files/datapackage.json") %>%
+frictionless::read_package("https://zenodo.org/records/10053903/files/datapackage.json") %>%
   # Remove the large acceleration resource we won't use (and thus won't download)
   frictionless::remove_resource("acceleration") %>%
   frictionless::write_package(dir_source)
