@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">movepub</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
                         <h4 data-toc-skip class="author">Peter
 Desmet</h4>
             
-            <h4 data-toc-skip class="date">2022-05-13</h4>
+            <h4 data-toc-skip class="date">2023-11-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/inbo/movepub/blob/HEAD/vignettes/movepub.Rmd" class="external-link"><code>vignettes/movepub.Rmd</code></a></small>
       <div class="d-none name"><code>movepub.Rmd</code></div>
@@ -165,7 +165,7 @@ other uses:</p>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code>. Let’s try it out with a small dataset.</p>
 <p><strong>O_ASSEN</strong> is a bird GPS tracking study and dataset,
 available on <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471" class="external-link">Movebank</a>
-and deposited on <a href="https://doi.org/10.5281/zenodo.5653311" class="external-link">Zenodo</a>.</p>
+and deposited on <a href="https://doi.org/10.5281/zenodo.10053903" class="external-link">Zenodo</a>.</p>
 <p><code><a href="../reference/write_dwc.html">write_dwc()</a></code> requires the dataset to be structured as a
 <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless
 Data Package</a> (recognizable by the presence of a
@@ -180,29 +180,29 @@ R package.</p>
 local package avoids having to download the data again when you
 encounter an issue:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/5653311/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/record/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span></span>
 <span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span></span>
 <span><span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span></span>
-<span><span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5653311</span></span>
-<span><span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-reference-data.csv</span></span>
-<span><span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-gps-2018.csv.gz</span></span>
-<span><span class="co">#&gt; Downloading file from https://zenodo.org/record/5653311/files/O_ASSEN-gps-2019.csv.gz</span></span></code></pre></div>
+<span><span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.10053903</span></span>
+<span><span class="co">#&gt; Downloading file from https://zenodo.org/record/10053903/files/O_ASSEN-reference-data.csv</span></span>
+<span><span class="co">#&gt; Downloading file from https://zenodo.org/record/10053903/files/O_ASSEN-gps-2018.csv.gz</span></span>
+<span><span class="co">#&gt; Downloading file from https://zenodo.org/record/10053903/files/O_ASSEN-gps-2019.csv.gz</span></span></code></pre></div>
 <p>We then create a <code>package</code> variable pointing to the local
 dataset:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Please make sure you have the right to access data from this Data Package for your intended use.</span></span>
 <span><span class="co">#&gt; Follow applicable norms or requirements to credit the dataset and its authors.</span></span>
-<span><span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.5653311</span></span></code></pre></div>
-<p>That covers the data. The metadata are derived from <a href="https://api.datacite.org/dois/10.5281/zenodo.5653311" class="external-link">DataCite</a>
+<span><span class="co">#&gt; For more information, see https://doi.org/10.5281/zenodo.10053903</span></span></code></pre></div>
+<p>That covers the data. The metadata are derived from <a href="https://api.datacite.org/dois/10.5281/zenodo.10053903" class="external-link">DataCite</a>
 using the dataset DOI. For O_ASSEN, the DOI is already stored in the
 package metadata:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span><span class="op">$</span><span class="va">id</span></span>
-<span><span class="co">#&gt; [1] "https://doi.org/10.5281/zenodo.5653311"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "https://doi.org/10.5281/zenodo.10053903"</span></span></code></pre></div>
 <p>DataCite metadata does not include a contact person and rights
 holder, so we need to set those:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -241,48 +241,29 @@ EML:</p>
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-8442-8025</span></span>
-<span><span class="co">#&gt;   pubDate: '2022-01-17'</span></span>
+<span><span class="co">#&gt;   pubDate: '2023-10-30'</span></span>
 <span><span class="co">#&gt;   abstract:</span></span>
 <span><span class="co">#&gt;     para:</span></span>
 <span><span class="co">#&gt;     - &lt;![CDATA[&lt;span&gt;&lt;/span&gt;This animal tracking dataset is derived from Dijkstra</span></span>
-<span><span class="co">#&gt;       et al. (2022, &lt;a href="https://doi.org/10.5281/zenodo.5653311"&gt;https://doi.org/10.5281/zenodo.5653311&lt;/a&gt;),</span></span>
+<span><span class="co">#&gt;       et al. (2023, &lt;a href="https://doi.org/10.5281/zenodo.10053903"&gt;https://doi.org/10.5281/zenodo.10053903&lt;/a&gt;),</span></span>
 <span><span class="co">#&gt;       a deposit of Movebank study &lt;a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"&gt;1605797471&lt;/a&gt;.</span></span>
 <span><span class="co">#&gt;       Data have been standardized to Darwin Core using the &lt;a href="https://inbo.github.io/movepub/"&gt;movepub&lt;/a&gt;</span></span>
 <span><span class="co">#&gt;       R package and are downsampled to the first GPS position per hour. The original</span></span>
 <span><span class="co">#&gt;       dataset description follows.]]&gt;</span></span>
-<span><span class="co">#&gt;     - '&lt;![CDATA[&lt;em&gt;O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)</span></span>
-<span><span class="co">#&gt;       breeding in Assen (the Netherlands)&lt;/em&gt; is a bird tracking dataset published</span></span>
-<span><span class="co">#&gt;       by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon,</span></span>
-<span><span class="co">#&gt;       Radboud University, the University of Amsterdam and the Research Institute for</span></span>
-<span><span class="co">#&gt;       Nature and Forest (INBO). It contains animal tracking data collected for the</span></span>
-<span><span class="co">#&gt;       study &lt;strong&gt;O_ASSEN&lt;/strong&gt; using trackers developed by the University of</span></span>
-<span><span class="co">#&gt;       Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study</span></span>
-<span><span class="co">#&gt;       was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers</span></span>
-<span><span class="co">#&gt;       (&lt;em&gt;Haematopus ostralegus&lt;/em&gt;) have been tagged as a breeding bird in the</span></span>
-<span><span class="co">#&gt;       city of Assen (the Netherlands), mainly to study space use of oystercatchers</span></span>
-<span><span class="co">#&gt;       breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank</span></span>
-<span><span class="co">#&gt;       and from there archived on Zenodo (see https://github.com/inbo/bird-tracking).</span></span>
-<span><span class="co">#&gt;       No new data are expected. See van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623)</span></span>
-<span><span class="co">#&gt;       for a more detailed description of this dataset. Data in this package are exported</span></span>
-<span><span class="co">#&gt;       from Movebank study &lt;em&gt;O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus,</span></span>
-<span><span class="co">#&gt;       Haematopodidae) breeding in Assen (the Netherlands)&lt;/em&gt; (Movebank Study ID</span></span>
-<span><span class="co">#&gt;       1605797471), which can be viewed at https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471.</span></span>
-<span><span class="co">#&gt;       Fields in the data follow the Movebank Attribute Dictionary (http://vocab.nerc.ac.uk/collection/MVB)</span></span>
-<span><span class="co">#&gt;       and are described in &lt;code&gt;datapackage.json&lt;/code&gt;. &lt;strong&gt;Files&lt;/strong&gt; Files</span></span>
-<span><span class="co">#&gt;       are structured as a Frictionless Data Package. You can access all data in R</span></span>
-<span><span class="co">#&gt;       via &lt;code&gt;https://zenodo.org/record/5653311/files/datapackage.json&lt;/code&gt; using</span></span>
-<span><span class="co">#&gt;       frictionless. &lt;strong&gt;datapackage.json&lt;/strong&gt;: technical description of the</span></span>
-<span><span class="co">#&gt;       data files. &lt;strong&gt;O_ASSEN-reference-data.csv&lt;/strong&gt;: reference data about</span></span>
-<span><span class="co">#&gt;       the animals, tags and deployments. &lt;strong&gt;O_ASSEN-gps-yyyy.csv.gz&lt;/strong&gt;:</span></span>
-<span><span class="co">#&gt;       GPS data recorded by the tags, grouped by year. &lt;strong&gt;O_ASSEN-acceleration-yyyy.csv.gz&lt;/strong&gt;:</span></span>
-<span><span class="co">#&gt;       acceleration data recorded by the tags, grouped by year.]]&gt;'</span></span>
-<span><span class="co">#&gt;     - These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep</span></span>
-<span><span class="co">#&gt;       Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW),</span></span>
-<span><span class="co">#&gt;       Sovon, Radboud University and the University of Amsterdam (UvA). Funding was</span></span>
-<span><span class="co">#&gt;       provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds</span></span>
-<span><span class="co">#&gt;       (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding</span></span>
-<span><span class="co">#&gt;       Maatschappij Drenthe. The dataset was published with funding from Stichting</span></span>
-<span><span class="co">#&gt;       NLBIF - Netherlands Biodiversity Information Facility.</span></span>
+<span><span class="co">#&gt;     - |-</span></span>
+<span><span class="co">#&gt;       O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.</span></span>
+<span><span class="co">#&gt;       See van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset.</span></span>
+<span><span class="co">#&gt;       Files</span></span>
+<span><span class="co">#&gt;       Data in this package are exported from Movebank study 1605797471. Fields in the data follow the Movebank Attribute Dictionary and are described in datapackage.json. Files are structured as a Frictionless Data Package. You can access all data in R via https://zenodo.org/records/10053903/files/datapackage.json using frictionless.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;       datapackage.json: technical description of the data files.</span></span>
+<span><span class="co">#&gt;       O_ASSEN-reference-data.csv: reference data about the animals, tags and deployments.</span></span>
+<span><span class="co">#&gt;       O_ASSEN-gps-yyyy.csv.gz: GPS data recorded by the tags, grouped by year.</span></span>
+<span><span class="co">#&gt;       O_ASSEN-acceleration-yyyy.csv.gz: acceleration data recorded by the tags, grouped by year.</span></span>
+<span><span class="co">#&gt;       Acknowledgements</span></span>
+<span><span class="co">#&gt;       These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</span></span>
+<span><span class="co">#&gt;     - This version adds alt-project-id to the reference-data and references the latest</span></span>
+<span><span class="co">#&gt;       Movebank Attribute Dictionary.</span></span>
 <span><span class="co">#&gt;   keywordSet:</span></span>
 <span><span class="co">#&gt;     keywordThesaurus: n/a</span></span>
 <span><span class="co">#&gt;     keyword:</span></span>
@@ -314,7 +295,7 @@ EML:</p>
 <span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-8442-8025</span></span>
 <span><span class="co">#&gt;   alternateIdentifier:</span></span>
-<span><span class="co">#&gt;   - https://doi.org/10.5281/zenodo.5653311</span></span>
+<span><span class="co">#&gt;   - https://doi.org/10.5281/zenodo.10053903</span></span>
 <span><span class="co">#&gt;   - https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471</span></span>
 <span><span class="co">#&gt;   creator:</span></span>
 <span><span class="co">#&gt;   - individualName:</span></span>
@@ -350,7 +331,7 @@ EML:</p>
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: f572ec4f-dd05-48cd-b525-ad6c9e98eb45</span></span>
+<span><span class="co">#&gt; packageId: 074ca772-37e6-44f9-95dd-a4cabfedd5a5</span></span>
 <span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
 <span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin
