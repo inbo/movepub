@@ -6,18 +6,15 @@ package_to_write <- o_assen
 test_that("write_dwc() returns expected files and messaging", {
   expect_snapshot(
     write_dwc(package_to_write, directory = temp_dir),
-    transform = remove_temp_path,
-    variant = "write_dwc_message"
+    transform = remove_temp_path
   )
   expect_snapshot_file(
     write_dwc_snapshot(package_to_write, file = "occurrence"),
-    transform = remove_UUID,
-    variant = "occurrence"
+    transform = remove_UUID
   )
   expect_snapshot_file(
     write_dwc_snapshot(package_to_write, file = "eml"),
-    transform = remove_UUID,
-    variant = "eml"
+    transform = remove_UUID
   )
 })
 

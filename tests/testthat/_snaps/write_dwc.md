@@ -1,7 +1,7 @@
 # write_dwc() returns expected files and messaging
 
     Code
-      write_dwc(package_to_write, directory = temp_dir)
+      write_dwc(package_to_write, temp_dir)
     Message <simpleMessage>
       Reading data and transforming to Darwin Core.
       Writing (meta)data to:
