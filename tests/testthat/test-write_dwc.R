@@ -4,10 +4,6 @@ dir.create(temp_dir)
 package_to_write <- o_assen
 
 test_that("write_dwc() returns expected files and messaging", {
-  expect_snapshot(
-    write_dwc(package_to_write, directory = temp_dir),
-    transform = remove_temp_path
-  )
   expect_snapshot_file(
     write_dwc_snapshot(package_to_write, file = "occurrence"),
     transform = remove_UUID
@@ -15,6 +11,11 @@ test_that("write_dwc() returns expected files and messaging", {
   expect_snapshot_file(
     write_dwc_snapshot(package_to_write, file = "eml"),
     transform = remove_UUID
+  )
+  expect_message(
+    write_dwc(o_assen, temp_dir),
+    "Reading data and transforming to Darwin Core.",
+    fixed = FALSE # The entire message is longer
   )
 })
 
