@@ -42,7 +42,7 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 #' @family helper functions
 #' @noRd
 #' @examples write_dwc_snapshot(mica, tempdir(), "occurrence")
-write_dwc_snapshot <- function(package, directory = tempdir(), file, ...) {
+write_dwc_snapshot <- function(package, directory, file, ...) {
   suppressMessages(write_dwc(package, directory, ...))
   switch(
     file,
@@ -56,7 +56,7 @@ write_dwc_snapshot <- function(package, directory = tempdir(), file, ...) {
 #' @inheritParams write_dwc()
 #' @noRd
 #' @family helper functions
-expect_dwc_snapshot <- function(package, file, directory = tempdir(), ...) {
+expect_dwc_snapshot <- function(package, file, directory, ...) {
   # Announce the snapshot, so if write_dwc_snapshot() fails, testthat will not
   # auto-delete the corresponding snapshot file
   announce_snapshot_file(
