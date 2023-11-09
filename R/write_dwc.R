@@ -15,7 +15,7 @@
 #' @param directory Path to local directory to write file(s) to.
 #' @param doi DOI of the original dataset, used to get metadata.
 #' @param contact Person to be set as resource contact and metadata provider.
-#'   To be provided as a `person()`.
+#'   To be provided as a [person()].
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @param study_id Identifier of the Movebank study from which the dataset was
@@ -78,12 +78,19 @@
 #'   reduce the size of high-frequency data.
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
+#' @examples
+#' \dontrun{
+#'   write_dwc(o_assen)
+#' }
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   assertthat::assert_that(
     !is.null(doi),
     msg = "No DOI found in `package$id`, provide one in `doi` parameter."
+  )
+  assertthat::assert_that(
+    assertthat::is.string(doi)
   )
   eml <- datacite_to_eml(doi)
 
@@ -136,13 +143,21 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     pub_year = substr(eml$dataset$pubDate, 1, 4),
     .null = ""
   )
-  eml$dataset$abstract$para <- purrr::prepend(
+  eml$dataset$abstract$para <- append(
+    after = 0,
     eml$dataset$abstract$para,
     paste0("<![CDATA[", first_para, "]]>")
   )
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
+    assertthat::assert_that(
+      class(contact) == "person",
+      msg = glue::glue(
+        "`contact` is a {class(contact)}, ",
+        "but should be a person as provided by `person()`"
+      )
+    )
     eml$dataset$contact <- EML::set_responsibleParty(
       givenName = contact$given,
       surName = contact$family,

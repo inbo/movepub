@@ -16,11 +16,13 @@ authors:
 reference:
 - title: "Make a Movebank dataset \"frictionless\""
   contents:
-  - add_resource
+  - has_concept("frictionless functions")
 - title: "Transform a Movebank dataset to Darwin Core"
   contents:
-  - write_dwc
+  - has_concept("dwc functions")
 - title: "Support functions"
   contents:
-  - get_mvb_term
-  - datacite_to_eml
+  - has_concept("support functions")
+- title: "Sample data"
+  contents:
+  - has_concept("sample data")
