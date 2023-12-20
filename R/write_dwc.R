@@ -210,10 +210,15 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   )
   gps <- expand_cols(gps, gps_cols)
 
+  # Lookup AphiaIDs for taxa
+  names <- dplyr::pull(dplyr::distinct(ref, `animal-taxon`))
+  taxa <- get_aphia_id(names)
+
   # Create database
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "reference_data", ref)
   DBI::dbWriteTable(con, "gps", gps)
+  DBI::dbWriteTable(con, "taxa", taxa)
 
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(
