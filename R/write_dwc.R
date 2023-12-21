@@ -158,7 +158,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
-    if (class(contact) != "person") {
+    if (!inherits(contact, "person")) {
       cli::cli_abort(c(
         "{.arg contact} must be person as provided by {.fn person}.",
         "x" = "{.code {contact}} is not."
