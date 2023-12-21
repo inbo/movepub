@@ -2,6 +2,7 @@
 
 export(add_resource)
 export(datacite_to_eml)
+export(get_aphia_id)
 export(get_mvb_term)
 export(write_dwc)
 importFrom(dplyr,"%>%")

@@ -25,6 +25,7 @@ get_mvb_term("Deploy.On.Date")
 }
 \seealso{
 Other support functions: 
-\code{\link{datacite_to_eml}()}
+\code{\link{datacite_to_eml}()},
+\code{\link{get_aphia_id}()}
 }
 \concept{support functions}
