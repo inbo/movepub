@@ -24,6 +24,7 @@
 #' @return CSV (data) and EML (metadata) files written to disk.
 #' @family dwc functions
 #' @export
+#' @importFrom dplyr .data
 #' @section Metadata:
 #' Metadata are derived from the original dataset by looking up its `doi` in
 #' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
@@ -215,10 +216,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   gps <- expand_cols(gps, gps_cols)
 
   # Lookup AphiaIDs for taxa
-  names <- dplyr::pull(dplyr::distinct(ref, `animal-taxon`))
+  names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))
   taxa <- get_aphia_id(names)
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
-  cli::cli_dl(dplyr::pull(taxa, aphia_id, name))
+  cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
   # Create database
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")

@@ -7,8 +7,8 @@
 #' @param x A (vector with) taxonomic name(s).
 #' @return Data frame with `name` and `aphia_id`.
 #' @family support functions
-#' @importFrom dplyr %>%
 #' @export
+#' @importFrom dplyr %>%
 #' @examples
 #' get_aphia_id("Mola mola")
 #' get_aphia_id(c("Mola mola", "not_a_name"))
@@ -18,7 +18,7 @@ get_aphia_id <- function(x) {
     purrr::discard(is.list) %>% # Remove x$message: "Not found" for e.g. "?"
     dplyr::as_tibble() %>%
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
-    dplyr::rename(aphia_id = value)
+    dplyr::rename("aphia_id" = "value")
   # Join resulting taxa (with aphia_id) and input names to get df with all names
   taxa %>%
     dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value"))

@@ -19,7 +19,7 @@ It also silences "not found" warnings, returning \code{NA} instead
 }
 \examples{
 get_aphia_id("Mola mola")
-get_aphia_id("Mola mola", "not_a_name")
+get_aphia_id(c("Mola mola", "not_a_name"))
 }
 \seealso{
 Other support functions: 
