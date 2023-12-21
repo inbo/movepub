@@ -2,7 +2,7 @@
 temp_dir <- file.path(tempdir(), "movepub")
 dir.create(temp_dir)
 
-test_that("write_dwc() returns expected files and messaging", {
+test_that("write_dwc() returns expected files", {
   expect_snapshot_file(
     write_dwc_snapshot(o_assen, temp_dir, file = "occurrence"),
     transform = remove_UUID
@@ -11,10 +11,19 @@ test_that("write_dwc() returns expected files and messaging", {
     write_dwc_snapshot(o_assen, temp_dir, file = "eml"),
     transform = remove_UUID
   )
+})
+
+test_that("write_dwc() returns expected messages" , {
   expect_message(
     write_dwc(o_assen, temp_dir),
-    "Reading data and transforming to Darwin Core.",
-    fixed = FALSE # The entire message is longer
+    "Transforming data to Darwin Core", # Part of the messages
+    fixed = FALSE
+  )
+
+  expect_message(
+    write_dwc(o_assen, temp_dir),
+    "Haematopus ostralegus: 147436", # Inform on AphiaID matching
+    fixed = FALSE
   )
 })
 

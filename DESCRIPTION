@@ -19,6 +19,7 @@ URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Imports:
     assertthat,
+    cli,
     DBI,
     dplyr,
     EML,

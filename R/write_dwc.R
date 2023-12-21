@@ -181,7 +181,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
 
   # Read data from package
-  message("Reading data and transforming to Darwin Core.")
+  cli::cli_h2("Reading data")
   assertthat::assert_that(
     c("reference-data") %in% frictionless::resources(package),
     msg = "`package` must contain resource `reference-data`."
@@ -213,12 +213,15 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Lookup AphiaIDs for taxa
   names <- dplyr::pull(dplyr::distinct(ref, `animal-taxon`))
   taxa <- get_aphia_id(names)
+  cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
+  cli::cli_dl(dplyr::pull(taxa, aphia_id, name))
 
   # Create database
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   DBI::dbWriteTable(con, "reference_data", ref)
   DBI::dbWriteTable(con, "gps", gps)
   DBI::dbWriteTable(con, "taxa", taxa)
+  cli::cli_h2("Transforming data to Darwin Core")
 
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(
@@ -233,12 +236,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Write files
   eml_path <- file.path(directory, "eml.xml")
   dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
-  message(glue::glue(
-    "Writing (meta)data to:",
-    eml_path,
-    dwc_occurrence_path,
-    .sep = "\n"
-  ))
+  cli::cli_h2("Writing files")
+  cli::cli_ul(c(eml_path, dwc_occurrence_path))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
