@@ -28,10 +28,16 @@
     <loc>https://inbo.github.io/movepub/index.html</loc>
   </url>
   <url>
+    <loc>https://inbo.github.io/movepub/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://inbo.github.io/movepub/reference/add_resource.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/movepub/reference/datacite_to_eml.html</loc>
+  </url>
+  <url>
+    <loc>https://inbo.github.io/movepub/reference/get_aphia_id.html</loc>
   </url>
   <url>
     <loc>https://inbo.github.io/movepub/reference/get_mvb_term.html</loc>
