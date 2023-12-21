@@ -5,6 +5,7 @@ template:
 
 navbar:
   bg: dark
+  type: light
 
 authors:
   Peter Desmet:
