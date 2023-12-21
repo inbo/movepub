@@ -85,13 +85,18 @@
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
-  assertthat::assert_that(
-    !is.null(doi),
-    msg = "No DOI found in `package$id`, provide one in `doi` parameter."
-  )
-  assertthat::assert_that(
-    assertthat::is.string(doi)
-  )
+  if (is.null(doi)) {
+    cli::cli_abort(c(
+      "Can't find a DOI in {.code package$id}.",
+      "i" = "Provide one in {.arg doi}."
+    ))
+  }
+  if (!is.character(doi) || length(doi) != 1) {
+    cli::cli_abort(c(
+      "{.arg doi} must be a character (vector of length one).",
+      "x" = "{.code {doi}} is not."
+    ))
+  }
   eml <- datacite_to_eml(doi)
 
   # Update title
@@ -124,10 +129,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       NA_character_
     }
   }
-  assertthat::assert_that(
-    grepl("^\\d+$", study_id), # Works for non 32 bit integers
-    msg = glue::glue("`study_id` ({study_id}) must be an integer.")
-  )
+  if (!grepl("^\\d+$", study_id)) { # Works for non 32 bit integers
+    cli::cli_abort(c(
+      "{.arg study_id} must be an integer.",
+      "x" = "{.code {study_id}} is not."
+    ))
+  }
 
   # Add extra paragraph to description
   first_para <- glue::glue(
@@ -151,13 +158,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
-    assertthat::assert_that(
-      class(contact) == "person",
-      msg = glue::glue(
-        "`contact` is a {class(contact)}, ",
-        "but should be a person as provided by `person()`"
-      )
-    )
+    if (class(contact) != "person") {
+      cli::cli_abort(c(
+        "{.arg contact} must be person as provided by {.fn person}.",
+        "x" = "{.code {contact}} is not."
+      ))
+    }
     eml$dataset$contact <- EML::set_responsibleParty(
       givenName = contact$given,
       surName = contact$family,
@@ -182,14 +188,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Read data from package
   cli::cli_h2("Reading data")
-  assertthat::assert_that(
-    c("reference-data") %in% frictionless::resources(package),
-    msg = "`package` must contain resource `reference-data`."
-  )
-  assertthat::assert_that(
-    c("gps") %in% frictionless::resources(package),
-    msg = "`package` must contain resource `gps`."
-  )
+  if (!"reference-data" %in% frictionless::resources(package)) {
+    cli::cli_abort("{.arg package} must contain resource {.code reference-data}.")
+  }
+  if(!"gps" %in% frictionless::resources(package)) {
+    cli::cli_abort("{.arg package} must contain resource {.code gps}.")
+  }
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
 

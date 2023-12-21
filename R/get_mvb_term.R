@@ -34,12 +34,9 @@ get_mvb_term <- function(label) {
       tolower(x$altLabel) == label_clean
     })
   }
-  assertthat::assert_that(
-    length(term) > 0,
-    msg = glue::glue(
-      "Can't find term `{label_clean}` in Movebank Attribute Dictionary."
-    )
-  )
+  if (length(term) == 0) {
+    cli::cli_abort("Can't find term {.code {label_clean}} in Movebank Attribute Dictionary.")
+  }
   term <- term[[1]]
 
   # Prepare output
