@@ -1,6 +1,6 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
@@ -18,7 +18,7 @@ License: MIT + file LICENSE
 URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Imports:
-    assertthat,
+    cli,
     DBI,
     dplyr,
     EML,

@@ -8,7 +8,7 @@
 An object of class \code{list} of length 4.
 }
 \source{
-https://zenodo.org/record/5653311
+https://doi.org/10.5281/zenodo.10053903
 }
 \usage{
 o_assen
@@ -20,14 +20,14 @@ A sample Movebank dataset with GPS tracking data, formatted as a
 }
 \details{
 This sample is derived from the Zenodo-deposited dataset
-\href{https://doi.org/10.5281/zenodo.5653311}{Dijkstra et al. (2022)}, but
+\href{https://doi.org/10.5281/zenodo.10053903}{Dijkstra et al. (2022)}, but
 excludes the acceleration data.
 }
 \examples{
 \dontrun{
 # The data in o_assen was created with the code below
 o_assen <-
-  frictionless::read_package("https://zenodo.org/record/5653311/files/datapackage.json") \%>\%
+  frictionless::read_package("https://zenodo.org/records/10053903/files/datapackage.json") \%>\%
   frictionless::remove_resource("acceleration")
 usethis::use_data(o_assen)
 }

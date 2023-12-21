@@ -25,15 +25,13 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   # Check resource names
   allowed_names <- c("reference-data", "gps", "acceleration",
                      "accessory-measurements")
-  allowed_names_collapsed <- paste(allowed_names, collapse = "`, `")
-  assertthat::assert_that(
-    resource_name %in% allowed_names,
-    msg = glue::glue(
-      "`resource_name` must be a recognized Movebank data type:",
-      "`{allowed_names_collapsed}`.",
-      .sep = " "
-    )
-  )
+  if (!resource_name %in% allowed_names) {
+    cli::cli_abort(c(
+      "{.arg resource_name} must be a recognized Movebank data type.",
+      "x" = "{.code {resource_name}} is not.",
+      "i" = "Allowed: {.code {allowed_names}}."
+    ))
+  }
 
   # Read last file and create schema
   last_file <- files[length(files)]

@@ -2,7 +2,7 @@
 temp_dir <- file.path(tempdir(), "movepub")
 dir.create(temp_dir)
 
-test_that("write_dwc() returns expected files and messaging", {
+test_that("write_dwc() returns expected files", {
   expect_snapshot_file(
     write_dwc_snapshot(o_assen, temp_dir, file = "occurrence"),
     transform = remove_UUID
@@ -11,10 +11,21 @@ test_that("write_dwc() returns expected files and messaging", {
     write_dwc_snapshot(o_assen, temp_dir, file = "eml"),
     transform = remove_UUID
   )
+})
+
+test_that("write_dwc() returns expected messages" , {
+  # One of the headings
   expect_message(
     write_dwc(o_assen, temp_dir),
-    "Reading data and transforming to Darwin Core.",
-    fixed = FALSE # The entire message is longer
+    "Transforming data to Darwin Core",
+    fixed = TRUE
+  )
+
+  # AphiaID matching
+  expect_message(
+    write_dwc(o_assen, temp_dir),
+    "Haematopus ostralegus: 147436",
+    fixed = TRUE
   )
 })
 
@@ -65,12 +76,12 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
 test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
     write_dwc(o_assen, temp_dir, study_id = "NOT_A_VALID_STUDY_ID"),
-    regexp = "`study_id` (NOT_A_VALID_STUDY_ID) must be an integer.",
+    "`study_id` must be an integer.",
     fixed = TRUE
   )
   expect_error(
     write_dwc(o_assen, temp_dir, study_id = c("4", pi)),
-    regexp = "more elements supplied than there are to replace",
+    "more elements supplied than there are to replace",
     fixed = TRUE
   )
 })
@@ -86,12 +97,12 @@ test_that("write_dwc() supports setting custom study_id", {
 test_that("write_dwc() returns error on invalid contact information", {
   expect_error(
     write_dwc(o_assen, temp_dir, contact = list(not_a = "person_object")),
-    regexp = "`contact` is a list, but should be a person as provided by `person()`",
+    "`contact` must be person as provided by `person()`.",
     fixed = TRUE
   )
   expect_error(
     write_dwc( o_assen, temp_dir, contact = "pineapple"),
-    regexp = "`contact` is a character, but should be a person as provided by `person()`",
+    "`contact` must be person as provided by `person()`.",
     fixed = TRUE
   )
 })
@@ -142,17 +153,17 @@ test_that("write_dwc() returns error on missing or malformed doi", {
   package_no_doi$id <- NULL
   expect_error(
     write_dwc(package_no_doi, temp_dir),
-    regexp = "No DOI found in `package$id`, provide one in `doi` parameter.",
+    "Can't find a DOI in `package$id`.",
     fixed = TRUE
   )
   expect_error(
     write_dwc(package_no_doi, temp_dir, doi = c("a", "b", "c")),
-    regexp = "doi is not a string (a length one character vector).",
+    "`doi` must be a character (vector of length one).",
     fixed = TRUE
   )
   expect_error(
     write_dwc(package_no_doi, temp_dir, doi = 10.5281),
-    regexp = "doi is not a string (a length one character vector).",
+    "`doi` must be a character (vector of length one).",
     fixed = TRUE
   )
 })
@@ -160,23 +171,24 @@ test_that("write_dwc() returns error on missing or malformed doi", {
 test_that("write_dwc() returns error on missing resources", {
   # Create data package with no reference-data resource
   package_no_ref_data <-
-    purrr::discard(o_assen$resources, ~ .x$name == "reference-data")
+    frictionless::remove_resource(o_assen, "reference-data")
 
   expect_error(
     suppressMessages(
       write_dwc(package_no_ref_data, temp_dir, doi = "10.5281/zenodo.5653311")
     ),
-    regexp = "`package` must contain resource `reference-data`.",
+    "`package` must contain resource `reference-data`.",
     fixed = TRUE
   )
+
   # Create package with no GPS resource
   package_no_gps <-
-    purrr::discard(o_assen$resources, ~ .x$name == "gps")
+    frictionless::remove_resource(o_assen, "gps")
   expect_error(
     suppressMessages(
       write_dwc(package_no_gps, temp_dir, doi = "10.5281/zenodo.5653311")
     ),
-    regexp = "`package` must contain resource `reference-data`.",
+    "`package` must contain resource `gps`.",
     fixed = TRUE
   )
 })
