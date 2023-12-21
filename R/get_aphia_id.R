@@ -1,8 +1,8 @@
-#' Get AphiaID from a taxonomic name
+#' Get WoRMS AphiaID from a taxonomic name
 #'
 #' This function wraps [worrms::wm_name2id_()] so that it returns a data frame
 #' rather than a list.
-#' It also silences "not found" warnings, returning `NA` instead
+#' It also silences "not found" warnings, returning `NA` instead.
 #'
 #' @param x A (vector with) taxonomic name(s).
 #' @return Data frame with `name` and `aphia_id`.

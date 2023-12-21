@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_aphia_id.R
 \name{get_aphia_id}
 \alias{get_aphia_id}
-\title{Get AphiaID from a taxonomic name}
+\title{Get WoRMS AphiaID from a taxonomic name}
 \usage{
 get_aphia_id(x)
 }
@@ -15,7 +15,7 @@ Data frame with \code{name} and \code{aphia_id}.
 \description{
 This function wraps \code{\link[worrms:wm_name2id]{worrms::wm_name2id_()}} so that it returns a data frame
 rather than a list.
-It also silences "not found" warnings, returning \code{NA} instead
+It also silences "not found" warnings, returning \code{NA} instead.
 }
 \examples{
 get_aphia_id("Mola mola")
