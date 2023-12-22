@@ -10,7 +10,7 @@ get_aphia_id(x)
 \item{x}{A (vector with) taxonomic name(s).}
 }
 \value{
-Data frame with \code{name} and \code{aphia_id}.
+Data frame with \code{name}, \code{aphia_id}, \code{aphia_lsid} and \code{aphia_url}.
 }
 \description{
 This function wraps \code{\link[worrms:wm_name2id]{worrms::wm_name2id_()}} so that it returns a data frame

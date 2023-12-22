@@ -74,7 +74,7 @@ SELECT
     WHEN ref."deploy-on-latitude" IS NOT NULL THEN 187
   END                                   AS coordinateUncertaintyInMeters,
 -- TAXON
-  'urn:lsid:marinespecies.org:taxname:' || taxon."aphia_id" AS scientificNameID,
+  taxon."aphia_lsid"                    AS scientificNameID,
   ref."animal-taxon"                    AS scientificName,
   'Animalia'                            AS kingdom
 FROM
@@ -135,7 +135,7 @@ SELECT
   'EPSG:4326'                           AS geodeticDatum,
   gps."location-error-numerical"        AS coordinateUncertaintyInMeters,
 -- TAXON
-  'urn:lsid:marinespecies.org:taxname:' || taxon."aphia_id" AS scientificNameID,
+  taxon."aphia_lsid"                    AS scientificNameID,
   ref."animal-taxon"                    AS scientificName,
   'Animalia'                            AS kingdom
 FROM

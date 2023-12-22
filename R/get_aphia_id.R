@@ -5,7 +5,7 @@
 #' It also silences "not found" warnings, returning `NA` instead.
 #'
 #' @param x A (vector with) taxonomic name(s).
-#' @return Data frame with `name` and `aphia_id`.
+#' @return Data frame with `name`, `aphia_id`, `aphia_lsid` and `aphia_url`.
 #' @family support functions
 #' @export
 #' @importFrom dplyr %>%
@@ -21,5 +21,17 @@ get_aphia_id <- function(x) {
     dplyr::rename("aphia_id" = "value")
   # Join resulting taxa (with aphia_id) and input names to get df with all names
   taxa %>%
-    dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value"))
+    dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) %>%
+    dplyr::mutate(
+      aphia_lsid = ifelse(
+        !is.na(.data$aphia_id),
+        paste0("urn:lsid:marinespecies.org:taxname:", .data$aphia_id),
+        NA_character_
+      ),
+      aphia_url = ifelse(
+        !is.na(.data$aphia_id),
+        paste0("https://www.marinespecies.org/aphia.php?p=taxdetails&id=", .data$aphia_id),
+        NA_character_
+      )
+    )
 }
