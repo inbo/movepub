@@ -35,7 +35,10 @@ get_mvb_term <- function(label) {
     })
   }
   if (length(term) == 0) {
-    cli::cli_abort("Can't find term {.code {label_clean}} in Movebank Attribute Dictionary.")
+    cli::cli_abort(
+      "Can't find term {.val {label_clean}} in {.href [Movebank Attribute
+       Dictionary](https://vocab.nerc.ac.uk/collection/MVB/current/)}."
+    )
   }
   term <- term[[1]]
 

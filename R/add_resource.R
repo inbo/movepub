@@ -28,8 +28,8 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   if (!resource_name %in% allowed_names) {
     cli::cli_abort(c(
       "{.arg resource_name} must be a recognized Movebank data type.",
-      "x" = "{.code {resource_name}} is not.",
-      "i" = "Allowed: {.code {allowed_names}}."
+      "x" = "{.val {resource_name}} is not.",
+      "i" = "Allowed: {.val {allowed_names}}."
     ))
   }
 

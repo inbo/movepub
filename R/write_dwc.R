@@ -88,14 +88,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
     cli::cli_abort(c(
-      "Can't find a DOI in {.code package$id}.",
+      "Can't find a DOI in {.field package$id}.",
       "i" = "Provide one in {.arg doi}."
     ))
   }
   if (!is.character(doi) || length(doi) != 1) {
     cli::cli_abort(c(
       "{.arg doi} must be a character (vector of length one).",
-      "x" = "{.code {doi}} is not."
+      "x" = "{.val {doi}} is {.obj_type_friendly {doi}}."
     ))
   }
   eml <- datacite_to_eml(doi)
@@ -133,7 +133,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   if (!grepl("^\\d+$", study_id)) { # Works for non 32 bit integers
     cli::cli_abort(c(
       "{.arg study_id} must be an integer.",
-      "x" = "{.code {study_id}} is not."
+      "x" = "{.val {study_id}} is {.obj_type_friendly {study_id}}."
     ))
   }
 
@@ -162,7 +162,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     if (!inherits(contact, "person")) {
       cli::cli_abort(c(
         "{.arg contact} must be person as provided by {.fn person}.",
-        "x" = "{.code {contact}} is not."
+        "x" = "{.val {contact}} is {.obj_type_friendly {contact}}."
       ))
     }
     eml$dataset$contact <- EML::set_responsibleParty(
@@ -190,10 +190,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Read data from package
   cli::cli_h2("Reading data")
   if (!"reference-data" %in% frictionless::resources(package)) {
-    cli::cli_abort("{.arg package} must contain resource {.code reference-data}.")
+    cli::cli_abort("{.arg package} must contain resource {.val reference-data}.")
   }
   if(!"gps" %in% frictionless::resources(package)) {
-    cli::cli_abort("{.arg package} must contain resource {.code gps}.")
+    cli::cli_abort("{.arg package} must contain resource {.val gps}.")
   }
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
@@ -242,7 +242,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   eml_path <- file.path(directory, "eml.xml")
   dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
   cli::cli_h2("Writing files")
-  cli::cli_ul(c(eml_path, dwc_occurrence_path))
+  cli::cli_ul(c(
+    "{.file eml_path}",
+    "{.file dwc_occurrence_path}"
+  ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }

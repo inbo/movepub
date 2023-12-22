@@ -75,7 +75,7 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
 
 test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
-    write_dwc(o_assen, temp_dir, study_id = "NOT_A_VALID_STUDY_ID"),
+    write_dwc(o_assen, temp_dir, study_id = "not_a_study_id"),
     "`study_id` must be an integer.",
     fixed = TRUE
   )
@@ -153,7 +153,7 @@ test_that("write_dwc() returns error on missing or malformed doi", {
   package_no_doi$id <- NULL
   expect_error(
     write_dwc(package_no_doi, temp_dir),
-    "Can't find a DOI in `package$id`.",
+    "Can't find a DOI in package$id.",
     fixed = TRUE
   )
   expect_error(
@@ -177,7 +177,7 @@ test_that("write_dwc() returns error on missing resources", {
     suppressMessages(
       write_dwc(package_no_ref_data, temp_dir, doi = "10.5281/zenodo.5653311")
     ),
-    "`package` must contain resource `reference-data`.",
+    "`package` must contain resource \"reference-data\".",
     fixed = TRUE
   )
 
@@ -188,7 +188,7 @@ test_that("write_dwc() returns error on missing resources", {
     suppressMessages(
       write_dwc(package_no_gps, temp_dir, doi = "10.5281/zenodo.5653311")
     ),
-    "`package` must contain resource `gps`.",
+    "`package` must contain resource \"gps\".",
     fixed = TRUE
   )
 })

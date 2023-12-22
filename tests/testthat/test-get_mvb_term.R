@@ -69,7 +69,10 @@ test_that("get_mvb_terms() makes use of MVB version 4 changes", {
 test_that("get_mvb_term() returns error when term cannot be found", {
   expect_error(
     get_mvb_term("no-such term"),
-    "Can't find term `no such term` in Movebank Attribute Dictionary.",
+    paste(
+      "Can't find term \"no such term\" in Movebank Attribute Dictionary",
+      "(<https://vocab.nerc.ac.uk/collection/MVB/current/>)."
+    ),
     fixed = TRUE
   )
 })
