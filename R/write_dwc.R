@@ -95,7 +95,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   if (!is.character(doi) || length(doi) != 1) {
     cli::cli_abort(c(
       "{.arg doi} must be a character (vector of length one).",
-      "x" = "{.val {doi}} is {.obj_type_friendly {doi}}."
+      "x" = "{.val {doi}} is {.type {doi}}."
     ))
   }
   eml <- datacite_to_eml(doi)
@@ -133,7 +133,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   if (!grepl("^\\d+$", study_id)) { # Works for non 32 bit integers
     cli::cli_abort(c(
       "{.arg study_id} must be an integer.",
-      "x" = "{.val {study_id}} is {.obj_type_friendly {study_id}}."
+      "x" = "{.val {study_id}} is {.obj {study_id}}."
     ))
   }
 
@@ -162,7 +162,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     if (!inherits(contact, "person")) {
       cli::cli_abort(c(
         "{.arg contact} must be person as provided by {.fn person}.",
-        "x" = "{.val {contact}} is {.obj_type_friendly {contact}}."
+        "x" = "{.val {contact}} is {.type {contact}}."
       ))
     }
     eml$dataset$contact <- EML::set_responsibleParty(
