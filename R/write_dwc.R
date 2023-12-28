@@ -243,8 +243,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
-    "{.file eml_path}",
-    "{.file dwc_occurrence_path}"
+    "{.file {eml_path}}",
+    "{.file {dwc_occurrence_path}}"
   ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
