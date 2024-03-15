@@ -104,9 +104,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   title <- paste(eml$dataset$title, "[subsampled representation]")
   eml$dataset$title <- title
   dataset_name <- title # Used in DwC
+  if(is.null(dataset_name)){dataset_name <- NA}
 
   # Update license
   license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
+  if(is.null(license)){ license <- NA}
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
@@ -114,6 +116,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Get DOI URL
   doi_url <- eml$dataset$alternateIdentifier[[1]]
   dataset_id <- doi_url # Used in DwC
+  if(is.null(dataset_id)){dataset_id <- NA}
 
   # Get/set study url
   study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
@@ -228,6 +231,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   DBI::dbWriteTable(con, "taxa", taxa)
   cli::cli_h2("Transforming data to Darwin Core")
 
+  if(is.null(rights_holder)){ rights_holder <- NA}
   # Query database
   dwc_occurrence_sql <- glue::glue_sql(
     readr::read_file(
