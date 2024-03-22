@@ -144,18 +144,19 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
 
   # Add extra paragraph to description
-  first_para <- glue::glue(
+  first_author = eml$dataset$creator[[1]]$individualName$surName
+  pub_year = substr(eml$dataset$pubDate, 1, 4)
+  first_para <- paste(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This animal tracking dataset is derived from ",
-    "{first_author} et al. ({pub_year}, <a href=\"{doi_url}\">{doi_url}</a>), ",
-    "a deposit of Movebank study <a href=\"{study_url}\">{study_id}</a>. ",
+    first_author, " et al. (", pub_year,
+    ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
+    "a deposit of Movebank study <a href=\"", study_url, "\">", study_id, "</a>. ",
     "Data have been standardized to Darwin Core using the ",
     "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
     "and are downsampled to the first GPS position per hour. ",
     "The original dataset description follows.",
-    first_author = eml$dataset$creator[[1]]$individualName$surName,
-    pub_year = substr(eml$dataset$pubDate, 1, 4),
-    .null = ""
+    sep = ""
   )
   eml$dataset$abstract$para <- append(
     after = 0,
