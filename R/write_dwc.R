@@ -286,6 +286,51 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       ), by = "scientificName") %>%
     relocate(scientificNameID, .before = scientificName)
 
+  dwc_occurrence_part2 <- gps %>%
+    mutate(
+      basisOfRecords = "MachineObservation",
+      dataGeneralizations = paste("subsampke by hour: first of ", "CALCULATE",
+                                  " record(s)"), #TODO ####
+      occurenceID = `event-id`, # CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
+      sex = "", # ? van ref. lijn 97-101
+      lifeStage = NULL,
+      reproductiveCOndition = NULL,
+      occurrenceStatus = "present",
+      organismID = "", # ref.`animal-id`,
+      organismName = "", # ref.`animal-nickname`,
+      eventID = `event-id`, # CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
+      parentEventID = "", # ref.paste(`animal-id`, `tag-id`, sep = "_"),
+      eventType = "gps",
+      eventDate = "", # TODO ####
+      samplingProtocol = "sensor-type",
+      eventRemarks = "", # TODO ####
+      minimumElevationInMeters = "", # TODO ####
+      maximumElevationInMeters = "", # TODO ####
+      locationRemarks = case_when(
+        !is.null(`height-above-msl`) ~ "elevations are altitude above mean sea
+        level",
+        !is.null(`height-above-ellipsoid`) ~ "elevations are altitude above above" # ???? 2 times above in SQL file
+      ),
+      decimalLatitude = `location-lat`,
+      decimalLongitude = `location-long`,
+      geodeticDatum = "EPSG:4326",
+      coordinateUncertaintyInMeters = `location-error-numerical`,
+      scientificName = "", # ref.`animal-taxon`,
+      kingdom = "Animalia",
+      .keep = "none"
+    ) %>%
+    left_join(taxa %>%
+                mutate(
+                  scientificNameID = aphia_lsid,
+                  scientificName = name,
+                  .keep = "none"
+                ), by = "scientificName") %>%
+    relocate(scientificNameID, .before = scientificName)
+
+  # to do: left_join(dwc_occurence_part2 & ref)
+  # union part 1 & 2
+  # calculations
+
   # Create database
   # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
   # DBI::dbWriteTable(con, "reference_data", ref)
