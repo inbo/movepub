@@ -81,7 +81,7 @@
 #'   tag malfunctioned right after deployment.
 #' @examples
 #' \dontrun{
-#'   write_dwc(o_assen)
+#' write_dwc(o_assen)
 #' }
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
@@ -109,7 +109,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
   if (is.null(license)) {
     license <- NA_character_
-    }
+  }
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
@@ -119,7 +119,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   dataset_id <- doi_url # Used in DwC
   if (is.null(dataset_id)) {
     dataset_id <- NA_character_
-    }
+  }
 
   # Get/set study url
   study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
@@ -144,8 +144,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   }
 
   # Add extra paragraph to description
-  first_author = eml$dataset$creator[[1]]$individualName$surName
-  pub_year = substr(eml$dataset$pubDate, 1, 4)
+  first_author <- eml$dataset$creator[[1]]$individualName$surName
+  pub_year <- substr(eml$dataset$pubDate, 1, 4)
   first_para <- paste(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This animal tracking dataset is derived from ",
@@ -197,14 +197,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Set rights_holder
   if (is.null(rights_holder)) {
     rights_holder <- NA_character_
-    }
+  }
 
   # Read data from package
   cli::cli_h2("Reading data")
   if (!"reference-data" %in% frictionless::resources(package)) {
     cli::cli_abort("{.arg package} must contain resource {.val reference-data}.")
   }
-  if(!"gps" %in% frictionless::resources(package)) {
+  if (!"gps" %in% frictionless::resources(package)) {
     cli::cli_abort("{.arg package} must contain resource {.val gps}.")
   }
   ref <- frictionless::read_resource(package, "reference-data")
@@ -233,22 +233,75 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
-  # Create database
-  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "reference_data", ref)
-  DBI::dbWriteTable(con, "gps", gps)
-  DBI::dbWriteTable(con, "taxa", taxa)
-  cli::cli_h2("Transforming data to Darwin Core")
+  # Data transformation to Darwin Core
+  dwc_occurrence_part1 <- ref %>%
+    filter(!is.null(`deploy-on-date`)) %>%
+    mutate(
+      type = "Event",
+      license = license,
+      rights_holder = rights_holder,
+      datasetID = dataset_id,
+      institutioneCode = "MPIAB",
+      collectionCode = "Movebank",
+      datasetName = dataset_name,
+      basisOfRecord = "HumanObservation",
+      dataGeneralizations = NULL,
+      OccurenceID = paste(`animal-id`, `tag-id`, "start", sep = "_"),
+      sex = case_when(
+        `animal-sex` == "m" ~ "male",
+        `animal-sex` == "f" ~ "female",
+        `animal-sex` == "u" ~ "unknown"
+      ),
+      lifeStage = `animal-life-stage`,
+      reproductiveCOndition = `animal-reproductive-condition`,
+      occurrenceStatus = "present",
+      organismID = `animal-id`,
+      organismName = `animal-nickname`,
+      eventID = paste(`animal-id`, `tag-id`, "start", sep = "_"),
+      parentEventID = paste(`animal-id`, `tag-id`, sep = "_"),
+      eventType = "tag attachment",
+      eventDate = "", # TODO ####
+      samplingProtocol = "tag attachment",
+      eventRemarks = "", # TODO ####
+      minimumElevationInMeters = NULL,
+      maximumElevationInMeters = NULL,
+      locationRemarks = NULL,
+      decimalLatitude = `deploy-on-latitude`,
+      decimalLongitude = `deploy-on-longitude`,
+      geodeticDatum = case_when(
+        !is.null(`deploy-on-latitude`) ~ "EPSG:4326"
+      ),
+      coordinateUncertaintyInMeters = case_when(
+        !is.null(`deploy-on-latitude`) ~ 187
+      ),
+      scientificName = `animal-taxon`,
+      kingdom = "Animalia",
+      .keep = "none"
+    ) %>%
+    left_join(taxa %>%
+      mutate(
+        scientificNameID = aphia_lsid,
+        scientificName = name,
+        .keep = "none"
+      ), by = "scientificName") %>%
+    relocate(scientificNameID, .before = scientificName)
 
-  # Query database
-  dwc_occurrence_sql <- glue::glue_sql(
-    readr::read_file(
-      system.file("sql/dwc_occurrence.sql", package = "movepub")
-    ),
-    .con = con
-  )
-  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  DBI::dbDisconnect(con)
+  # Create database
+  # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  # DBI::dbWriteTable(con, "reference_data", ref)
+  # DBI::dbWriteTable(con, "gps", gps)
+  # DBI::dbWriteTable(con, "taxa", taxa)
+  # cli::cli_h2("Transforming data to Darwin Core")
+  #
+  # # Query database
+  # dwc_occurrence_sql <- glue::glue_sql(
+  #   readr::read_file(
+  #     system.file("sql/dwc_occurrence.sql", package = "movepub")
+  #   ),
+  #   .con = con
+  # )
+  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  # DBI::dbDisconnect(con)
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
