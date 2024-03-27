@@ -151,8 +151,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     "<span></span>This animal tracking dataset is derived from ",
     first_author, " et al. (", pub_year,
     ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
-    "a deposit of Movebank study <a href=\"", study_url, "\">", study_id, "</a>. ",
-    "Data have been standardized to Darwin Core using the ",
+    "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
+    "</a>. ", "Data have been standardized to Darwin Core using the ",
     "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
     "and are downsampled to the first GPS position per hour. ",
     "The original dataset description follows.",
@@ -234,26 +234,19 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
   # Data transformation to Darwin Core
-  dwc_occurrence_part1 <- ref %>%
+  dwc_occurrence2 <- ref %>%
     filter(!is.null(`deploy-on-date`)) %>%
     mutate(
-      type = "Event",
-      license = license,
-      rights_holder = rights_holder,
-      datasetID = dataset_id,
-      institutioneCode = "MPIAB",
-      collectionCode = "Movebank",
-      datasetName = dataset_name,
       basisOfRecord = "HumanObservation",
-      dataGeneralizations = NULL,
-      OccurenceID = paste(`animal-id`, `tag-id`, "start", sep = "_"),
+      dataGeneralizations = NA_character_,
+      occurrenceID = paste(`animal-id`, `tag-id`, "start", sep = "_"),
       sex = case_when(
         `animal-sex` == "m" ~ "male",
         `animal-sex` == "f" ~ "female",
         `animal-sex` == "u" ~ "unknown"
       ),
       lifeStage = `animal-life-stage`,
-      reproductiveCOndition = `animal-reproductive-condition`,
+      reproductiveCondition = as.logical(`animal-reproductive-condition`),
       occurrenceStatus = "present",
       organismID = `animal-id`,
       organismName = `animal-nickname`,
@@ -263,9 +256,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       eventDate = "", # TODO ####
       samplingProtocol = "tag attachment",
       eventRemarks = "", # TODO ####
-      minimumElevationInMeters = NULL,
-      maximumElevationInMeters = NULL,
-      locationRemarks = NULL,
+      minimumElevationInMeters = NA_integer_,
+      maximumElevationInMeters = NA_integer_,
+      locationRemarks = NA_character_,
       decimalLatitude = `deploy-on-latitude`,
       decimalLongitude = `deploy-on-longitude`,
       geodeticDatum = case_when(
@@ -284,69 +277,88 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         scientificName = name,
         .keep = "none"
       ), by = "scientificName") %>%
-    relocate(scientificNameID, .before = scientificName)
-
-  dwc_occurrence_part2 <- gps %>%
-    mutate(
-      basisOfRecords = "MachineObservation",
-      dataGeneralizations = paste("subsampke by hour: first of ", "CALCULATE",
-                                  " record(s)"), #TODO ####
-      occurenceID = `event-id`, # CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
-      sex = "", # ? van ref. lijn 97-101
-      lifeStage = NULL,
-      reproductiveCOndition = NULL,
-      occurrenceStatus = "present",
-      organismID = "", # ref.`animal-id`,
-      organismName = "", # ref.`animal-nickname`,
-      eventID = `event-id`, # CAST(CAST(gps."event-id" AS int) AS text) AS occurrenceID, -- Avoid .0 format
-      parentEventID = "", # ref.paste(`animal-id`, `tag-id`, sep = "_"),
-      eventType = "gps",
-      eventDate = "", # TODO ####
-      samplingProtocol = "sensor-type",
-      eventRemarks = "", # TODO ####
-      minimumElevationInMeters = "", # TODO ####
-      maximumElevationInMeters = "", # TODO ####
-      locationRemarks = case_when(
-        !is.null(`height-above-msl`) ~ "elevations are altitude above mean sea
+    relocate(scientificNameID, .before = scientificName) %>%
+    # Union with gps data
+    union_all(gps %>%
+      left_join(ref, by = join_by(
+        "individual-local-identifier" == "animal-id",
+        "tag-local-identifier" == "tag-id"
+      )) %>%
+      filter(!is.null(`animal-taxon`)) %>%
+      left_join(taxa, by = join_by("animal-taxon" == "name")) %>%
+      # filter(visible & !is.null(`location-lat`)) %>% > lijn 145, calculations
+      mutate(
+        basisOfRecord = "MachineObservation",
+        dataGeneralizations = paste(
+          "subsample by hour: first of ", "CALCULATE", " record(s)"
+        ), # TODO ####
+        occurrenceID = as.character(`event-id`),
+        sex = case_when(
+          `animal-sex` == "m" ~ "male",
+          `animal-sex` == "f" ~ "female",
+          `animal-sex` == "u" ~ "unknown"
+        ),
+        lifeStage = NA_character_,
+        reproductiveCondition = NA,
+        occurrenceStatus = "present",
+        organismID = `individual-local-identifier`,
+        organismName = `animal-nickname`,
+        eventID = as.character(`event-id`),
+        parentEventID = paste(`individual-local-identifier`,
+                              `tag-local-identifier`, sep = "_"),
+        eventType = "gps",
+        eventDate = "", # TODO ####
+        samplingProtocol = "sensor-type",
+        eventRemarks = coalesce("comments", ""),
+        minimumElevationInMeters =
+          coalesce(`height-above-msl`,as.numeric(`height-above-ellipsoid`), NA_integer_),
+        maximumElevationInMeters =
+          coalesce(`height-above-msl`, as.numeric(`height-above-ellipsoid`), NA_integer_),
+        locationRemarks = case_when(
+          !is.null("height-above-msl") ~ "elevations are altitude above mean sea
         level",
-        !is.null(`height-above-ellipsoid`) ~ "elevations are altitude above above" # ???? 2 times above in SQL file
-      ),
-      decimalLatitude = `location-lat`,
-      decimalLongitude = `location-long`,
-      geodeticDatum = "EPSG:4326",
-      coordinateUncertaintyInMeters = `location-error-numerical`,
-      scientificName = "", # ref.`animal-taxon`,
-      kingdom = "Animalia",
-      .keep = "none"
-    ) %>%
-    left_join(taxa %>%
-                mutate(
-                  scientificNameID = aphia_lsid,
-                  scientificName = name,
-                  .keep = "none"
-                ), by = "scientificName") %>%
-    relocate(scientificNameID, .before = scientificName)
+          !is.null("height-above-ellipsoid") ~ "elevations are altitude above above" # ???? 2 times above in SQL file
+        ),
+        decimalLatitude = `location-lat`,
+        decimalLongitude = `location-long`,
+        geodeticDatum = "EPSG:4326",
+        coordinateUncertaintyInMeters = `location-error-numerical`,
+        scientificNameID = aphia_lsid,
+        scientificName = `animal-taxon`,
+        kingdom = "Animalia",
+        .keep = "none"
+      )) %>%
+    mutate(
+      type = "Event",
+      license = license,
+      rights_holder = as.logical(rights_holder),
+      datasetID = dataset_id,
+      institutioneCode = "MPIAB",
+      collectionCode = "Movebank",
+      datasetName = dataset_name,
+      .before = "basisOfRecord"
+    )
 
-  # to do: left_join(dwc_occurence_part2 & ref)
+  # to do:
   # union part 1 & 2
   # calculations
 
   # Create database
-  # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  # DBI::dbWriteTable(con, "reference_data", ref)
-  # DBI::dbWriteTable(con, "gps", gps)
-  # DBI::dbWriteTable(con, "taxa", taxa)
-  # cli::cli_h2("Transforming data to Darwin Core")
-  #
-  # # Query database
-  # dwc_occurrence_sql <- glue::glue_sql(
-  #   readr::read_file(
-  #     system.file("sql/dwc_occurrence.sql", package = "movepub")
-  #   ),
-  #   .con = con
-  # )
-  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  # DBI::dbDisconnect(con)
+  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  DBI::dbWriteTable(con, "reference_data", ref)
+  DBI::dbWriteTable(con, "gps", gps)
+  DBI::dbWriteTable(con, "taxa", taxa)
+  cli::cli_h2("Transforming data to Darwin Core")
+
+  # Query database
+  dwc_occurrence_sql <- glue::glue_sql(
+    readr::read_file(
+      system.file("sql/dwc_occurrence.sql", package = "movepub")
+    ),
+    .con = con
+  )
+  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  DBI::dbDisconnect(con)
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
