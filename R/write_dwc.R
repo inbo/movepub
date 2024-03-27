@@ -233,13 +233,15 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
-  tst <- gps %>%
+  # grouping per hour
+  test <- gps %>%
     dplyr::filter(visible & !is.null(`location-lat`)) %>%
     dplyr::mutate(timePerHour = strftime(timestamp, "%y-%m-%d %H %Z", tz = "UTC")) %>%
-    dplyr::relocate(c(`individual-local-identifier`, `tag-local-identifier`, timePerHour), .before = `event-id`) %>%
+    # dplyr::relocate(c(`individual-local-identifier`, `tag-local-identifier`, timePerHour, timestamp), .before = `event-id`) %>%
     dplyr::group_by(`individual-local-identifier`, `tag-local-identifier`, timePerHour) %>%
     dplyr::arrange(timestamp) %>%
-    # dplyr::count()
+    dplyr::mutate(`subsample-count` = n()) %>%
+    # dplyr::relocate(`subsample-count`, .after = timestamp ) %>%
     dplyr::filter(dplyr::row_number() == 1)
 
   write.csv()
@@ -248,9 +250,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   dwc_occurrence2 <- ref %>%
     dplyr::filter(!is.null(.data$`deploy-on-date`)) %>%
     dplyr::mutate(
+      # RECORD LEVEL
       basisOfRecord = "HumanObservation",
       dataGeneralizations = NA_character_,
-      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"),
+      # OCCURRENCE
+      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"), # Same as EventID
       sex = dplyr::case_when(
         `animal-sex` == "m" ~ "male",
         `animal-sex` == "f" ~ "female",
@@ -259,8 +263,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       lifeStage = .data$`animal-life-stage`,
       reproductiveCondition = as.logical(.data$`animal-reproductive-condition`),
       occurrenceStatus = "present",
+      # ORGANISM
       organismID = .data$`animal-id`,
       organismName = .data$`animal-nickname`,
+      # EVENT
       eventID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"),
       parentEventID = paste(.data$`animal-id`, .data$`tag-id`, sep = "_"),
       eventType = "tag attachment",
@@ -283,6 +289,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         ),
         "|", .data$`deployment-comments`, ""
       ),
+      # LOCATION
       minimumElevationInMeters = NA_integer_,
       maximumElevationInMeters = NA_integer_,
       locationRemarks = NA_character_,
@@ -292,8 +299,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         !is.null(.data$`deploy-on-latitude`) ~ "EPSG:4326"
       ),
       coordinateUncertaintyInMeters = case_when(
-        !is.null(.data$`deploy-on-latitude`) ~ 187
+        !is.null(.data$`deploy-on-latitude`) ~ 187 # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
       ),
+      # TAXON
       scientificName = `animal-taxon`,
       kingdom = "Animalia",
       .keep = "none"
@@ -305,88 +313,113 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         .keep = "none"
       ), by = "scientificName") %>%
     dplyr::relocate(.data$scientificNameID, .before = .data$scientificName) %>%
-    # Union with gps data
-    dplyr::union_all(gps %>%
-      dplyr::left_join(ref, by = join_by(
-        "individual-local-identifier" == "animal-id",
-        "tag-local-identifier" == "tag-id"
-      )) %>%
-      dplyr::filter(!is.null(`animal-taxon`)) %>%
-      dplyr::left_join(taxa, by = join_by("animal-taxon" == "name")) %>%
-      dplyr::mutate(
-        basisOfRecord = "MachineObservation",
-        dataGeneralizations = paste(
-          "subsample by hour: first of ", "CALCULATE", " record(s)"
-        ), # TODO ####
-        occurrenceID = as.character(.data$`event-id`),
-        sex = dplyr::case_when(
-          .data$`animal-sex` == "m" ~ "male",
-          .data$`animal-sex` == "f" ~ "female",
-          .data$`animal-sex` == "u" ~ "unknown"
-        ),
-        lifeStage = NA_character_,
-        reproductiveCondition = NA,
-        occurrenceStatus = "present",
-        organismID = .data$`individual-local-identifier`,
-        organismName = .data$`animal-nickname`,
-        eventID = as.character(.data$`event-id`),
-        parentEventID = paste(.data$`individual-local-identifier`,
-          .data$`tag-local-identifier`,
-          sep = "_"
-        ),
-        eventType = "gps",
-        eventDate = "", # TODO ####
-        samplingProtocol = "sensor-type",
-        eventRemarks = dplyr::coalesce(.data$`comments`, ""),
-        minimumElevationInMeters =
-          coalesce(.data$`height-above-msl`, as.numeric(.data$`height-above-ellipsoid`), NA_integer_),
-        maximumElevationInMeters =
-          coalesce(.data$`height-above-msl`, as.numeric(.data$`height-above-ellipsoid`), NA_integer_),
-        locationRemarks = case_when(
-          !is.null(.data$`height-above-msl`) ~ "elevations are altitude above mean sea
-        level",
-          !is.null(.data$`height-above-ellipsoid`) ~ "elevations are altitude above above" # ???? 2 times above in SQL file
-        ),
-        decimalLatitude = .data$`location-lat`,
-        decimalLongitude = .data$`location-long`,
-        geodeticDatum = "EPSG:4326",
-        coordinateUncertaintyInMeters = .data$`location-error-numerical`,
-        scientificNameID = .data$aphia_lsid,
-        scientificName = .data$`animal-taxon`,
-        kingdom = "Animalia",
-        .keep = "none"
-      )) %>%
+    # GPS POSITIONS
+    dplyr::union_all(
+      gps %>%
+        dplyr::filter(visible & !is.null(.data$`location-lat`)) %>% # Exclude outliers & (rare) empty coordinates
+        dplyr::mutate(timePerHour = strftime(timestamp, "%y-%m-%d %H %Z",
+                                             tz = "UTC")) %>%
+        # Group by animal+tag+date+hour combination
+        dplyr::group_by(.data$`individual-local-identifier`,
+                        .data$`tag-local-identifier`, .data$timePerHour) %>%
+        dplyr::arrange(.data$timestamp) %>%
+        dplyr::mutate(subsampleCount = n()) %>%
+        # Take first record/timestamp within group
+        dplyr::filter(dplyr::row_number() == 1) %>%
+        # Join with reference data
+        dplyr::left_join(ref, by = join_by(
+          "individual-local-identifier" == "animal-id",
+          "tag-local-identifier" == "tag-id"
+        )) %>%
+        dplyr::filter(!is.null(`animal-taxon`)) %>% # Exclude (rare) records outside a deployment
+        dplyr::left_join(taxa, by = join_by("animal-taxon" == "name")) %>%
+        dplyr::mutate(
+          # RECORD-LEVEL
+          basisOfRecord = "MachineObservation",
+          dataGeneralizations = paste(
+            "subsample by hour: first of ", subsampleCount, " record(s)"
+          ), # TODO ####
+          # OCCURRENCE
+          occurrenceID = as.character(.data$`event-id`),
+          sex = dplyr::case_when(
+            .data$`animal-sex` == "m" ~ "male",
+            .data$`animal-sex` == "f" ~ "female",
+            .data$`animal-sex` == "u" ~ "unknown"
+          ),
+          lifeStage = NA_character_, # Value at start of deployment might not apply to all records
+          reproductiveCondition = NA, # Value at start of deployment might not apply to all records
+          occurrenceStatus = "present",
+          # ORGANISM
+          organismID = .data$`individual-local-identifier`,
+          organismName = .data$`animal-nickname`,
+          # EVENT
+          eventID = as.character(.data$`event-id`),
+          parentEventID = paste(.data$`individual-local-identifier`,
+            .data$`tag-local-identifier`,
+            sep = "_"
+          ),
+          eventType = "gps",
+          eventDate = timestamp, # TODO ####
+          samplingProtocol = "sensor-type",
+          eventRemarks = dplyr::coalesce(.data$`comments`, ""),
+          # LOCATION
+          minimumElevationInMeters =
+            coalesce(
+              .data$`height-above-msl`,
+              as.numeric(.data$`height-above-ellipsoid`), NA_integer_
+            ),
+          maximumElevationInMeters =
+            coalesce(
+              .data$`height-above-msl`,
+              as.numeric(.data$`height-above-ellipsoid`), NA_integer_
+            ),
+          locationRemarks = case_when(
+            !is.null(.data$`height-above-msl`) ~
+              "elevations are altitude above mean sea level",
+            !is.null(.data$`height-above-ellipsoid`) ~
+              "elevations are altitude above above" # ???? 2 times above in SQL file
+          ),
+          decimalLatitude = .data$`location-lat`,
+          decimalLongitude = .data$`location-long`,
+          geodeticDatum = "EPSG:4326",
+          coordinateUncertaintyInMeters = .data$`location-error-numerical`,
+          # TAXON
+          scientificNameID = .data$aphia_lsid,
+          scientificName = .data$`animal-taxon`,
+          kingdom = "Animalia",
+          .keep = "none",
+          subsampleCount = NULL,
+          timePerHour = NULL
+        )
+    ) %>%
     dplyr::mutate(
+      # DATASET-LEVEL
       type = "Event",
       license = license,
       rights_holder = as.logical(rights_holder),
       datasetID = dataset_id,
-      institutioneCode = "MPIAB",
+      institutioneCode = "MPIAB", # Max Planck Institute of Animal Behavior
       collectionCode = "Movebank",
       datasetName = dataset_name,
       .before = "basisOfRecord"
     )
 
-  # to do:
-  # union part 1 & 2
-  # calculations
-
-  # Create database
-  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "reference_data", ref)
-  DBI::dbWriteTable(con, "gps", gps)
-  DBI::dbWriteTable(con, "taxa", taxa)
-  cli::cli_h2("Transforming data to Darwin Core")
-
-  # Query database
-  dwc_occurrence_sql <- glue::glue_sql(
-    readr::read_file(
-      system.file("sql/dwc_occurrence.sql", package = "movepub")
-    ),
-    .con = con
-  )
-  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  DBI::dbDisconnect(con)
+  # # Create database
+  # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  # DBI::dbWriteTable(con, "reference_data", ref)
+  # DBI::dbWriteTable(con, "gps", gps)
+  # DBI::dbWriteTable(con, "taxa", taxa)
+  # cli::cli_h2("Transforming data to Darwin Core")
+  #
+  # # Query database
+  # dwc_occurrence_sql <- glue::glue_sql(
+  #   readr::read_file(
+  #     system.file("sql/dwc_occurrence.sql", package = "movepub")
+  #   ),
+  #   .con = con
+  # )
+  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  # DBI::dbDisconnect(con)
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
