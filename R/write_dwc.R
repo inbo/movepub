@@ -233,102 +233,130 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
+  tst <- gps %>%
+    dplyr::filter(visible & !is.null(`location-lat`)) %>%
+    dplyr::mutate(timePerHour = strftime(timestamp, "%y-%m-%d %H %Z", tz = "UTC")) %>%
+    dplyr::relocate(c(`individual-local-identifier`, `tag-local-identifier`, timePerHour), .before = `event-id`) %>%
+    dplyr::group_by(`individual-local-identifier`, `tag-local-identifier`, timePerHour) %>%
+    dplyr::arrange(timestamp) %>%
+    # dplyr::count()
+    dplyr::filter(dplyr::row_number() == 1)
+
+  write.csv()
+
   # Data transformation to Darwin Core
   dwc_occurrence2 <- ref %>%
-    filter(!is.null(`deploy-on-date`)) %>%
-    mutate(
+    dplyr::filter(!is.null(.data$`deploy-on-date`)) %>%
+    dplyr::mutate(
       basisOfRecord = "HumanObservation",
       dataGeneralizations = NA_character_,
-      occurrenceID = paste(`animal-id`, `tag-id`, "start", sep = "_"),
-      sex = case_when(
+      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"),
+      sex = dplyr::case_when(
         `animal-sex` == "m" ~ "male",
         `animal-sex` == "f" ~ "female",
         `animal-sex` == "u" ~ "unknown"
       ),
-      lifeStage = `animal-life-stage`,
-      reproductiveCondition = as.logical(`animal-reproductive-condition`),
+      lifeStage = .data$`animal-life-stage`,
+      reproductiveCondition = as.logical(.data$`animal-reproductive-condition`),
       occurrenceStatus = "present",
-      organismID = `animal-id`,
-      organismName = `animal-nickname`,
-      eventID = paste(`animal-id`, `tag-id`, "start", sep = "_"),
-      parentEventID = paste(`animal-id`, `tag-id`, sep = "_"),
+      organismID = .data$`animal-id`,
+      organismName = .data$`animal-nickname`,
+      eventID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"),
+      parentEventID = paste(.data$`animal-id`, .data$`tag-id`, sep = "_"),
       eventType = "tag attachment",
       eventDate = "", # TODO ####
       samplingProtocol = "tag attachment",
-      eventRemarks = "", # TODO ####
+      eventRemarks = paste0( # Problems with NA
+        dplyr::coalesce(
+          paste(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag ", na.rm = TRUE, sep = " "),
+          paste(.data$`tag-manufacturer-name`, " tag ", sep = " "), "tag "
+        ),
+        dplyr::coalesce(
+          paste("attached by", .data$`attachment-type`, "to ", sep = " "), "attached to"
+        ),
+        dplyr::case_when(
+          `manipulation-type` == "none" ~ "free-ranging animal",
+          `manipulation-type` == "confined" ~ "confined animal",
+          `manipulation-type` == "recolated" ~ "relocated animal",
+          `manipulation-type` == "manipulated other" ~ "manipulated animal",
+          .default = "likely free-ranging animal"
+        ),
+        "|", .data$`deployment-comments`, ""
+      ),
       minimumElevationInMeters = NA_integer_,
       maximumElevationInMeters = NA_integer_,
       locationRemarks = NA_character_,
-      decimalLatitude = `deploy-on-latitude`,
-      decimalLongitude = `deploy-on-longitude`,
+      decimalLatitude = .data$`deploy-on-latitude`,
+      decimalLongitude = .data$`deploy-on-longitude`,
       geodeticDatum = case_when(
-        !is.null(`deploy-on-latitude`) ~ "EPSG:4326"
+        !is.null(.data$`deploy-on-latitude`) ~ "EPSG:4326"
       ),
       coordinateUncertaintyInMeters = case_when(
-        !is.null(`deploy-on-latitude`) ~ 187
+        !is.null(.data$`deploy-on-latitude`) ~ 187
       ),
       scientificName = `animal-taxon`,
       kingdom = "Animalia",
       .keep = "none"
     ) %>%
-    left_join(taxa %>%
+    dplyr::left_join(taxa %>%
       mutate(
-        scientificNameID = aphia_lsid,
-        scientificName = name,
+        scientificNameID = .data$aphia_lsid,
+        scientificName = .data$name,
         .keep = "none"
       ), by = "scientificName") %>%
-    relocate(scientificNameID, .before = scientificName) %>%
+    dplyr::relocate(.data$scientificNameID, .before = .data$scientificName) %>%
     # Union with gps data
-    union_all(gps %>%
-      left_join(ref, by = join_by(
+    dplyr::union_all(gps %>%
+      dplyr::left_join(ref, by = join_by(
         "individual-local-identifier" == "animal-id",
         "tag-local-identifier" == "tag-id"
       )) %>%
-      filter(!is.null(`animal-taxon`)) %>%
-      left_join(taxa, by = join_by("animal-taxon" == "name")) %>%
-      # filter(visible & !is.null(`location-lat`)) %>% > lijn 145, calculations
-      mutate(
+      dplyr::filter(!is.null(`animal-taxon`)) %>%
+      dplyr::left_join(taxa, by = join_by("animal-taxon" == "name")) %>%
+      dplyr::mutate(
         basisOfRecord = "MachineObservation",
         dataGeneralizations = paste(
           "subsample by hour: first of ", "CALCULATE", " record(s)"
         ), # TODO ####
-        occurrenceID = as.character(`event-id`),
-        sex = case_when(
-          `animal-sex` == "m" ~ "male",
-          `animal-sex` == "f" ~ "female",
-          `animal-sex` == "u" ~ "unknown"
+        occurrenceID = as.character(.data$`event-id`),
+        sex = dplyr::case_when(
+          .data$`animal-sex` == "m" ~ "male",
+          .data$`animal-sex` == "f" ~ "female",
+          .data$`animal-sex` == "u" ~ "unknown"
         ),
         lifeStage = NA_character_,
         reproductiveCondition = NA,
         occurrenceStatus = "present",
-        organismID = `individual-local-identifier`,
-        organismName = `animal-nickname`,
-        eventID = as.character(`event-id`),
-        parentEventID = paste(`individual-local-identifier`,
-                              `tag-local-identifier`, sep = "_"),
+        organismID = .data$`individual-local-identifier`,
+        organismName = .data$`animal-nickname`,
+        eventID = as.character(.data$`event-id`),
+        parentEventID = paste(.data$`individual-local-identifier`,
+          .data$`tag-local-identifier`,
+          sep = "_"
+        ),
         eventType = "gps",
         eventDate = "", # TODO ####
         samplingProtocol = "sensor-type",
-        eventRemarks = coalesce("comments", ""),
+        eventRemarks = dplyr::coalesce(.data$`comments`, ""),
         minimumElevationInMeters =
-          coalesce(`height-above-msl`,as.numeric(`height-above-ellipsoid`), NA_integer_),
+          coalesce(.data$`height-above-msl`, as.numeric(.data$`height-above-ellipsoid`), NA_integer_),
         maximumElevationInMeters =
-          coalesce(`height-above-msl`, as.numeric(`height-above-ellipsoid`), NA_integer_),
+          coalesce(.data$`height-above-msl`, as.numeric(.data$`height-above-ellipsoid`), NA_integer_),
         locationRemarks = case_when(
-          !is.null(`height-above-msl`) ~ "elevations are altitude above mean sea
+          !is.null(.data$`height-above-msl`) ~ "elevations are altitude above mean sea
         level",
-          !is.null(`height-above-ellipsoid`) ~ "elevations are altitude above above" # ???? 2 times above in SQL file
+          !is.null(.data$`height-above-ellipsoid`) ~ "elevations are altitude above above" # ???? 2 times above in SQL file
         ),
-        decimalLatitude = `location-lat`,
-        decimalLongitude = `location-long`,
+        decimalLatitude = .data$`location-lat`,
+        decimalLongitude = .data$`location-long`,
         geodeticDatum = "EPSG:4326",
-        coordinateUncertaintyInMeters = `location-error-numerical`,
-        scientificNameID = aphia_lsid,
-        scientificName = `animal-taxon`,
+        coordinateUncertaintyInMeters = .data$`location-error-numerical`,
+        scientificNameID = .data$aphia_lsid,
+        scientificName = .data$`animal-taxon`,
         kingdom = "Animalia",
         .keep = "none"
       )) %>%
-    mutate(
+    dplyr::mutate(
       type = "Event",
       license = license,
       rights_holder = as.logical(rights_holder),
