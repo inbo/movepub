@@ -315,9 +315,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         maximumElevationInMeters =
           coalesce(`height-above-msl`, as.numeric(`height-above-ellipsoid`), NA_integer_),
         locationRemarks = case_when(
-          !is.null("height-above-msl") ~ "elevations are altitude above mean sea
+          !is.null(`height-above-msl`) ~ "elevations are altitude above mean sea
         level",
-          !is.null("height-above-ellipsoid") ~ "elevations are altitude above above" # ???? 2 times above in SQL file
+          !is.null(`height-above-ellipsoid`) ~ "elevations are altitude above above" # ???? 2 times above in SQL file
         ),
         decimalLatitude = `location-lat`,
         decimalLongitude = `location-long`,
