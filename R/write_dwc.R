@@ -280,7 +280,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           `manipulation-type` == "manipulated other" ~ "manipulated animal",
           .default = "likely free-ranging animal"
         ),
-        coalesce(
+        dplyr::coalesce(
           paste2(c("|", .data$`deployment-comments`)),
           "",
         )
@@ -291,11 +291,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       locationRemarks = NA_character_,
       decimalLatitude = .data$`deploy-on-latitude`,
       decimalLongitude = .data$`deploy-on-longitude`,
-      geodeticDatum = case_when(
+      geodeticDatum = dplyr::case_when(
         !is.null(.data$`deploy-on-latitude`) ~ "EPSG:4326"
       ),
-      coordinateUncertaintyInMeters = case_when(
-        !is.null(.data$`deploy-on-latitude`) ~ 187 # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
+      coordinateUncertaintyInMeters = dplyr::case_when(
+        # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
+        !is.null(.data$`deploy-on-latitude`) ~ 187
       ),
       # TAXON
       scientificName = `animal-taxon`,
@@ -304,7 +305,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     ) %>%
     dplyr::left_join(
       taxa %>%
-        mutate(
+        dplyr::mutate(
           scientificNameID = .data$aphia_lsid,
           scientificName = .data$name,
           .keep = "none"
@@ -318,7 +319,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     # GPS POSITIONS
     dplyr::union_all(
       gps %>%
-        dplyr::filter(visible & !is.null(.data$`location-lat`)) %>% # Exclude outliers & (rare) empty coordinates
+        # Exclude outliers & (rare) empty coordinates
+        dplyr::filter(visible & !is.null(.data$`location-lat`)) %>%
         dplyr::mutate(
           timePerHour = strftime(timestamp, "%y-%m-%d %H %Z", tz = "UTC")
         ) %>%
@@ -329,7 +331,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           .data$timePerHour
         ) %>%
         dplyr::arrange(.data$timestamp) %>%
-        dplyr::mutate(subsampleCount = n()) %>%
+        dplyr::mutate(subsampleCount = dplyr::n()) %>%
         # Take first record/timestamp within group
         dplyr::filter(dplyr::row_number() == 1) %>%
         dplyr::ungroup() %>%
@@ -341,7 +343,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
             "tag-local-identifier" == "tag-id"
           )
         ) %>%
-        dplyr::filter(!is.null(`animal-taxon`)) %>% # Exclude (rare) records outside a deployment
+        # Exclude (rare) records outside a deployment
+        dplyr::filter(!is.null(`animal-taxon`)) %>%
         dplyr::left_join(
           taxa,
           by = dplyr::join_by("animal-taxon" == "name")
@@ -381,16 +384,16 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           eventRemarks = dplyr::coalesce(.data$`comments`, ""),
           # LOCATION
           minimumElevationInMeters =
-            coalesce(
+            dplyr::coalesce(
               .data$`height-above-msl`,
               as.numeric(.data$`height-above-ellipsoid`), NA_integer_
             ),
           maximumElevationInMeters =
-            coalesce(
+            dplyr::coalesce(
               .data$`height-above-msl`,
               as.numeric(.data$`height-above-ellipsoid`), NA_integer_
             ),
-          locationRemarks = case_when(
+          locationRemarks = dplyr::case_when(
             !is.null(.data$`height-above-msl`) ~
               "elevations are altitude above mean sea level",
             !is.null(.data$`height-above-ellipsoid`) ~
