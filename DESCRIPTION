@@ -19,7 +19,6 @@ URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Imports:
     cli,
-    DBI,
     dplyr,
     EML,
     frictionless,
@@ -27,7 +26,6 @@ Imports:
     jsonlite,
     purrr,
     readr,
-    RSQLite,
     tidyr,
     uuid,
     worrms

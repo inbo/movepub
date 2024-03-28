@@ -58,8 +58,6 @@
 #' Data are transformed into an [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
 #' This **follows recommendations** discussed and created by Peter Desmet,
 #' Sarah Davidson, John Wieczorek and others.
-#' See the [SQL file(s)](https://github.com/inbo/movepub/tree/main/inst/sql)
-#' used by this function for details.
 #'
 #' Key features of the Darwin Core transformation:
 #' - Deployments (animal+tag associations) are parent events, with tag
@@ -427,23 +425,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       parentEventID,
       eventDate
     )
-
-  # Create database
-  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "reference_data", ref)
-  DBI::dbWriteTable(con, "gps", gps)
-  DBI::dbWriteTable(con, "taxa", taxa)
-  cli::cli_h2("Transforming data to Darwin Core")
-
-  # Query database
-  dwc_occurrence_sql <- glue::glue_sql(
-    readr::read_file(
-      system.file("sql/dwc_occurrence.sql", package = "movepub")
-    ),
-    .con = con
-  )
-  dwc_occurrence2 <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  DBI::dbDisconnect(con)
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
