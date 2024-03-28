@@ -416,6 +416,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       collectionCode = "Movebank",
       datasetName = dataset_name,
       .before = "basisOfRecord"
+    ) %>%
+    dplyr::arrange(
+      parentEventID,
+      eventDate
     )
 
   # Create database
