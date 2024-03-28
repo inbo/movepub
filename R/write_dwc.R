@@ -374,7 +374,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
             .data$timestamp,
             format = "%Y-%m-%dT%H:%M:%SZ"
           ),
-          samplingProtocol = "sensor-type",
+          samplingProtocol = .data$`sensor-type`,
           eventRemarks = dplyr::coalesce(.data$`comments`, ""),
           # LOCATION
           minimumElevationInMeters =
