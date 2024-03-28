@@ -234,7 +234,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
   # Data transformation to Darwin Core
-  dwc_occurrence2 <- ref %>%
+  dwc_occurrence <- ref %>%
     dplyr::filter(!is.null(.data$`deploy-on-date`)) %>%
     dplyr::mutate(
       # RECORD LEVEL
@@ -264,13 +264,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       samplingProtocol = "tag attachment",
       eventRemarks = paste( # Problems with NA ####
         dplyr::coalesce(
-          paste(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag ",
-            na.rm = TRUE, sep = " "
+          paste2(c(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag")
           ),
-          paste(.data$`tag-manufacturer-name`, " tag ", sep = " "), "tag "
+          paste2(c(.data$`tag-manufacturer-name`, "tag")),
+          "tag"
         ),
         dplyr::coalesce(
-          paste("attached by", .data$`attachment-type`, "to ", sep = " "),
+          paste2(c("attached by", .data$`attachment-type`, "to")),
           "attached to"
         ),
         dplyr::case_when(
@@ -280,7 +280,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           `manipulation-type` == "manipulated other" ~ "manipulated animal",
           .default = "likely free-ranging animal"
         ),
-        "|", .data$`deployment-comments`, ""
+        coalesce(
+          paste2(c("|", .data$`deployment-comments`)),
+          "",
+        )
       ),
       # LOCATION
       minimumElevationInMeters = NA_integer_,
@@ -436,7 +439,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     ),
     .con = con
   )
-  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  dwc_occurrence2 <- DBI::dbGetQuery(con, dwc_occurrence_sql)
   DBI::dbDisconnect(con)
 
   # Write files
