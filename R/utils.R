@@ -47,7 +47,7 @@ expand_cols <- function(df, colnames) {
 #'
 #' Ignores the NA's while concatenating vectors, instead of printing NA's as
 #'  `paste()` does.
-#'  #'
+#'
 #' @param x A vector
 #' @return A character vector of the concatenated values without NA's printed.
 #' @family helper functions
