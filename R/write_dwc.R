@@ -107,6 +107,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Update license
   license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
+  if (is.null(license)) {
+    license <- NA_character_
+    }
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
@@ -114,6 +117,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Get DOI URL
   doi_url <- eml$dataset$alternateIdentifier[[1]]
   dataset_id <- doi_url # Used in DwC
+  if (is.null(dataset_id)) {
+    dataset_id <- NA_character_
+  }
 
   # Get/set study url
   study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
@@ -186,6 +192,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       )
     )
   }
+
+  # Set rights_holder
+  if (is.null(rights_holder)) {
+    rights_holder <- NA_character_
+    }
 
   # Read data from package
   cli::cli_h2("Reading data")
