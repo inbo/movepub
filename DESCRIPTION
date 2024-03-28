@@ -22,7 +22,6 @@ Imports:
     dplyr,
     EML,
     frictionless,
-    glue,
     jsonlite,
     purrr,
     readr,
