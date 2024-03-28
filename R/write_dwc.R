@@ -119,7 +119,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   dataset_id <- doi_url # Used in DwC
   if (is.null(dataset_id)) {
     dataset_id <- NA_character_
-    }
+  }
 
   # Get/set study url
   study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
