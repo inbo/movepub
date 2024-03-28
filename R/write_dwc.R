@@ -329,7 +329,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           .data$timePerHour
         ) %>%
         dplyr::arrange(.data$timestamp) %>%
-        dplyr::mutate(.data$subsampleCount = dplyr::n()) %>%
+        dplyr::mutate(subsampleCount = dplyr::n()) %>%
         # Take first record/timestamp within group
         dplyr::filter(dplyr::row_number() == 1) %>%
         dplyr::ungroup() %>%
@@ -342,7 +342,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           )
         ) %>%
         # Exclude (rare) records outside a deployment
-        dplyr::filter(!is.null(`animal-taxon`)) %>%
+        dplyr::filter(!is.null(.data$`animal-taxon`)) %>%
         dplyr::left_join(
           taxa,
           by = dplyr::join_by("animal-taxon" == "name")
@@ -351,7 +351,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           # RECORD-LEVEL
           basisOfRecord = "MachineObservation",
           dataGeneralizations = paste(
-            "subsampled by hour: first of", subsampleCount, "record(s)"
+            "subsampled by hour: first of", .data$subsampleCount, "record(s)"
           ),
           # OCCURRENCE
           occurrenceID = as.character(.data$`event-id`),
