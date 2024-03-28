@@ -410,30 +410,30 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       # DATASET-LEVEL
       type = "Event",
       license = license,
-      rights_holder = as.logical(rights_holder),
+      rightsHolder = as.logical(rights_holder),
       datasetID = dataset_id,
-      institutioneCode = "MPIAB", # Max Planck Institute of Animal Behavior
+      institutionCode = "MPIAB", # Max Planck Institute of Animal Behavior
       collectionCode = "Movebank",
       datasetName = dataset_name,
       .before = "basisOfRecord"
     )
 
-  # # Create database
-  # con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  # DBI::dbWriteTable(con, "reference_data", ref)
-  # DBI::dbWriteTable(con, "gps", gps)
-  # DBI::dbWriteTable(con, "taxa", taxa)
-  # cli::cli_h2("Transforming data to Darwin Core")
-  #
-  # # Query database
-  # dwc_occurrence_sql <- glue::glue_sql(
-  #   readr::read_file(
-  #     system.file("sql/dwc_occurrence.sql", package = "movepub")
-  #   ),
-  #   .con = con
-  # )
-  # dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  # DBI::dbDisconnect(con)
+  # Create database
+  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+  DBI::dbWriteTable(con, "reference_data", ref)
+  DBI::dbWriteTable(con, "gps", gps)
+  DBI::dbWriteTable(con, "taxa", taxa)
+  cli::cli_h2("Transforming data to Darwin Core")
+
+  # Query database
+  dwc_occurrence_sql <- glue::glue_sql(
+    readr::read_file(
+      system.file("sql/dwc_occurrence.sql", package = "movepub")
+    ),
+    .con = con
+  )
+  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
+  DBI::dbDisconnect(con)
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
