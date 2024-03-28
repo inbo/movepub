@@ -80,8 +80,6 @@ Not applicable: collection data.
 Data are transformed into an \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
 This \strong{follows recommendations} discussed and created by Peter Desmet,
 Sarah Davidson, John Wieczorek and others.
-See the \href{https://github.com/inbo/movepub/tree/main/inst/sql}{SQL file(s)}
-used by this function for details.
 
 Key features of the Darwin Core transformation:
 \itemize{
@@ -107,7 +105,7 @@ tag malfunctioned right after deployment.
 
 \examples{
 \dontrun{
-  write_dwc(o_assen)
+write_dwc(o_assen)
 }
 }
 \concept{dwc functions}
