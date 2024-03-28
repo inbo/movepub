@@ -347,7 +347,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           # RECORD-LEVEL
           basisOfRecord = "MachineObservation",
           dataGeneralizations = paste(
-            "subsample by hour: first of ", subsampleCount, " record(s)"
+            "subsampled by hour: first of", subsampleCount, "record(s)"
           ),
           # OCCURRENCE
           occurrenceID = as.character(.data$`event-id`),
