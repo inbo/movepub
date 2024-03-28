@@ -297,7 +297,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         !is.null(.data$`deploy-on-latitude`) ~ 187
       ),
       # TAXON
-      scientificName = `animal-taxon`,
+      scientificName = .data$`animal-taxon`,
       kingdom = "Animalia",
       .keep = "none"
     ) %>%
@@ -311,16 +311,16 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       by = "scientificName"
     ) %>%
     dplyr::relocate(
-      scientificNameID,
-      .before = scientificName
+      .data$scientificNameID,
+      .before = .data$scientificName
     ) %>%
     # GPS POSITIONS
     dplyr::union_all(
       gps %>%
         # Exclude outliers & (rare) empty coordinates
-        dplyr::filter(visible & !is.null(.data$`location-lat`)) %>%
+        dplyr::filter(.data$visible & !is.null(.data$`location-lat`)) %>%
         dplyr::mutate(
-          timePerHour = strftime(timestamp, "%y-%m-%d %H %Z", tz = "UTC")
+          timePerHour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
         ) %>%
         # Group by animal+tag+date+hour combination
         dplyr::group_by(
@@ -329,7 +329,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           .data$timePerHour
         ) %>%
         dplyr::arrange(.data$timestamp) %>%
-        dplyr::mutate(subsampleCount = dplyr::n()) %>%
+        dplyr::mutate(.data$subsampleCount = dplyr::n()) %>%
         # Take first record/timestamp within group
         dplyr::filter(dplyr::row_number() == 1) %>%
         dplyr::ungroup() %>%
@@ -422,9 +422,12 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       .before = "basisOfRecord"
     ) %>%
     dplyr::arrange(
-      parentEventID,
-      eventDate
+      .data$parentEventID,
+      .data$eventDate
     )
+
+  # Informing message
+  cli::cli_h2("Transforming data to Darwin Core")
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
