@@ -311,8 +311,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       by = "scientificName"
     ) %>%
     dplyr::relocate(
-      .data$scientificNameID,
-      .before = .data$scientificName
+      scientificNameID,
+      .before = scientificName
     ) %>%
     # GPS POSITIONS
     dplyr::union_all(
