@@ -232,7 +232,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
   # Data transformation to Darwin Core
-  dwc_occurrence <- ref %>%
+  dwc_occurrence_ref <- ref %>%
     dplyr::filter(!is.null(.data$`deploy-on-date`)) %>%
     dplyr::mutate(
       # RECORD LEVEL
@@ -313,10 +313,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     dplyr::relocate(
       .data$scientificNameID,
       .before = .data$scientificName
-    ) %>%
+    )
+
     # GPS POSITIONS
-    dplyr::union_all(
-      gps %>%
+    dwc_occurrence_gps <- gps %>%
         # Exclude outliers & (rare) empty coordinates
         dplyr::filter(.data$visible & !is.null(.data$`location-lat`)) %>%
         dplyr::mutate(
@@ -408,8 +408,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           .keep = "none",
           subsampleCount = NULL,
           # timePerHour = NULL
-        )
-    ) %>%
+        ) %>%
     dplyr::mutate(
       # DATASET-LEVEL
       type = "Event",
@@ -425,6 +424,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       .data$parentEventID,
       .data$eventDate
     )
+
+  dwc_occurrence <- dwc_occurrence_ref %>%
+    dplyr::bind_rows(dwc_occurrence_gps)
 
   # Informing message
   cli::cli_h2("Transforming data to Darwin Core")
