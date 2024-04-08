@@ -408,7 +408,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         .keep = "none",
         subsampleCount = NULL,
         # timePerHour = NULL
-      ) %>%
+      )
+
+    dwc_occurrence <- dwc_occurrence_ref %>%
+      dplyr::bind_rows(dwc_occurrence_gps) %>%
       dplyr::mutate(
         # DATASET-LEVEL
         type = "Event",
@@ -424,9 +427,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         .data$parentEventID,
         .data$eventDate
       )
-
-    dwc_occurrence <- dwc_occurrence_ref %>%
-      dplyr::bind_rows(dwc_occurrence_gps)
 
   # Informing message
   cli::cli_h2("Transforming data to Darwin Core")
