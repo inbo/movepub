@@ -246,7 +246,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         `animal-sex` == "u" ~ "unknown"
       ),
       lifeStage = .data$`animal-life-stage`,
-      reproductiveCondition = as.logical(.data$`animal-reproductive-condition`),
+      reproductiveCondition = as.character(.data$`animal-reproductive-condition`),
       occurrenceStatus = "present",
       # ORGANISM
       organismID = .data$`animal-id`,
