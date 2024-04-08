@@ -234,6 +234,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Data transformation to Darwin Core
   dwc_occurrence_ref <- ref %>%
     dplyr::filter(!is.null(.data$`deploy-on-date`)) %>%
+    dplyr::left_join(
+      taxa,
+      by = dplyr::join_by("animal-taxon" == "name")
+    ) %>%
     dplyr::mutate(
       # RECORD LEVEL
       basisOfRecord = "HumanObservation",
@@ -297,22 +301,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         !is.null(.data$`deploy-on-latitude`) ~ 187
       ),
       # TAXON
+      scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
       kingdom = "Animalia",
       .keep = "none"
-    ) %>%
-    dplyr::left_join(
-      taxa %>%
-        dplyr::mutate(
-          scientificNameID = .data$aphia_lsid,
-          scientificName = .data$name,
-          .keep = "none"
-        ),
-      by = "scientificName"
-    ) %>%
-    dplyr::relocate(
-      .data$scientificNameID,
-      .before = .data$scientificName
     )
 
     # GPS POSITIONS
