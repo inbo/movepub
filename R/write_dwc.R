@@ -264,16 +264,20 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         format = "%Y-%m-%dT%H:%M:%SZ"
       ),
       samplingProtocol = "tag attachment",
-      eventRemarks = paste( # Problems with NA ####
-        dplyr::coalesce(
-          paste2(c(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag")
-          ),
-          paste2(c(.data$`tag-manufacturer-name`, "tag")),
-          "tag"
+      eventRemarks = paste0(
+        ifelse(
+          is.na(`tag-manufacturer-name`),
+          "tag ",
+          ifelse(
+            is.na(.data$`tag-model`),
+            paste(.data$`tag-manufacturer-name`, "tag "),
+            paste(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag ")
+          )
         ),
-        dplyr::coalesce(
-          paste2(c("attached by", .data$`attachment-type`, "to")),
-          "attached to"
+        ifelse(
+          is.na(`attachment-type`),
+          "attached to ",
+          paste("attached by", .data$`attachment-type`, "to ")
         ),
         dplyr::case_when(
           `manipulation-type` == "none" ~ "free-ranging animal",
@@ -282,9 +286,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           `manipulation-type` == "manipulated other" ~ "manipulated animal",
           .default = "likely free-ranging animal"
         ),
-        dplyr::coalesce(
-          paste2(c("|", .data$`deployment-comments`)),
+        ifelse(
+          is.na(`deployment-comments`),
           "",
+          paste(" |", .data$`deployment-comments`)
         )
       ),
       # LOCATION
