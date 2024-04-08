@@ -42,19 +42,3 @@ expand_cols <- function(df, colnames) {
   df[, cols_to_add] <- NA_character_
   return(df)
 }
-
-#' Ignore NA's in paste
-#'
-#' Ignores the NA's while concatenating vectors, instead of printing NA's as
-#'  `paste()` does.
-#'
-#' @param x A vector
-#' @return A character vector of the concatenated values without NA's printed.
-#' @family helper functions
-#' @noRd
-paste2 <- function(x, sep = " ") {
-  x <- gsub("^\\s+|\\s+$", "", x)
-  ret <- paste(x[!is.na(x) & !(x %in% "")], collapse = sep)
-  is.na(ret) <- ret == ""
-  return(ret)
-}
