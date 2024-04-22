@@ -85,16 +85,22 @@ write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
-    cli::cli_abort(c(
-      "Can't find a DOI in {.field package$id}.",
-      "i" = "Provide one in {.arg doi}."
-    ))
+    cli::cli_abort(
+      c(
+        "Can't find a DOI in {.field package$id}.",
+        "i" = "Provide one in {.arg doi}."
+      ),
+      class = "movepub_error_doi_missing"
+    )
   }
   if (!is.character(doi) || length(doi) != 1) {
-    cli::cli_abort(c(
-      "{.arg doi} must be a character (vector of length one).",
-      "x" = "{.val {doi}} is {.type {doi}}."
-    ))
+    cli::cli_abort(
+      c(
+        "{.arg doi} must be a character (vector of length one).",
+        "x" = "{.val {doi}} is {.type {doi}}."
+      ),
+      class = "movepub_error_doi_invalid"
+    )
   }
   eml <- datacite_to_eml(doi)
 
@@ -135,10 +141,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     }
   }
   if (!grepl("^\\d+$", study_id)) { # Works for non 32 bit integers
-    cli::cli_abort(c(
-      "{.arg study_id} must be an integer.",
-      "x" = "{.val {study_id}} is {.obj {study_id}}."
-    ))
+    cli::cli_abort(
+      c(
+        "{.arg study_id} must be an integer.",
+        "x" = "{.val {study_id}} is {.obj {study_id}}."
+      ),
+      class = "movepub_error_study_id_invalid"
+    )
   }
 
   # Add extra paragraph to description
@@ -165,10 +174,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Update contact and set metadata provider
   if (!is.null(contact)) {
     if (!inherits(contact, "person")) {
-      cli::cli_abort(c(
-        "{.arg contact} must be person as provided by {.fn person}.",
-        "x" = "{.val {contact}} is {.type {contact}}."
-      ))
+      cli::cli_abort(
+        c(
+          "{.arg contact} must be person as provided by {.fn person}.",
+          "x" = "{.val {contact}} is {.type {contact}}."
+        ),
+        class = "movepub_error_contact_invalid"
+      )
     }
     eml$dataset$contact <- EML::set_responsibleParty(
       givenName = contact$given,
@@ -200,10 +212,16 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Read data from package
   cli::cli_h2("Reading data")
   if (!"reference-data" %in% frictionless::resources(package)) {
-    cli::cli_abort("{.arg package} must contain resource {.val reference-data}.")
+    cli::cli_abort(
+      "{.arg package} must contain resource {.val reference-data}.",
+      class = "movepub_error_reference_data_missing"
+    )
   }
   if (!"gps" %in% frictionless::resources(package)) {
-    cli::cli_abort("{.arg package} must contain resource {.val gps}.")
+    cli::cli_abort(
+      "{.arg package} must contain resource {.val gps}.",
+      class = "movepub_error_gps_data_missing"
+    )
   }
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
