@@ -24,7 +24,6 @@
 #' @return CSV (data) and EML (metadata) files written to disk.
 #' @family dwc functions
 #' @export
-#' @importFrom dplyr .data
 #' @section Metadata:
 #' Metadata are derived from the original dataset by looking up its `doi` in
 #' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
@@ -55,7 +54,7 @@
 #'
 #' @section Data:
 #' `package` is expected to contain a `reference-data` and `gps` resource.
-#' Data are transformed into an [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' Data are transformed into an [Occurrence Core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
 #' This **follows recommendations** discussed and created by Peter Desmet,
 #' Sarah Davidson, John Wieczorek and others.
 #'

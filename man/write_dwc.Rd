@@ -77,7 +77,7 @@ Not applicable: collection data.
 \section{Data}{
 
 \code{package} is expected to contain a \code{reference-data} and \code{gps} resource.
-Data are transformed into an \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
+Data are transformed into an \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence Core}.
 This \strong{follows recommendations} discussed and created by Peter Desmet,
 Sarah Davidson, John Wieczorek and others.
 
