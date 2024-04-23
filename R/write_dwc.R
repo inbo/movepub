@@ -375,7 +375,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           "u" = "unknown"
         ),
         lifeStage = NA_character_, # Value at start of deployment might not apply to all records
-        reproductiveCondition = NA, # Value at start of deployment might not apply to all records
+        reproductiveCondition = NA_character_, # Value at start of deployment might not apply to all records
         occurrenceStatus = "present",
         # ORGANISM
         organismID = .data$`individual-local-identifier`,
@@ -416,9 +416,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         scientificNameID = .data$aphia_lsid,
         scientificName = .data$`animal-taxon`,
         kingdom = "Animalia",
-        .keep = "none",
-        subsampleCount = NULL,
-        # timePerHour = NULL
+        .keep = "none"
       )
 
     dwc_occurrence <-
@@ -428,7 +426,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         # DATASET-LEVEL
         type = "Event",
         license = license,
-        rightsHolder = as.logical(rights_holder),
+        rightsHolder = rights_holder,
         datasetID = dataset_id,
         institutionCode = "MPIAB", # Max Planck Institute of Animal Behavior
         collectionCode = "Movebank",
