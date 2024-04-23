@@ -152,7 +152,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Add extra paragraph to description
   first_author <- eml$dataset$creator[[1]]$individualName$surName
   pub_year <- substr(eml$dataset$pubDate, 1, 4)
-  first_para <- paste(
+  first_para <- paste0(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This animal tracking dataset is derived from ",
     first_author, " et al. (", pub_year,
@@ -249,18 +249,16 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
   # Data transformation to Darwin Core
-  dwc_occurrence_ref <- ref %>%
-    dplyr::filter(!is.null(.data$`deploy-on-date`)) %>%
-    dplyr::left_join(
-      taxa,
-      by = dplyr::join_by("animal-taxon" == "name")
-    ) %>%
+  dwc_occurrence_ref <-
+    ref %>%
+    dplyr::filter(!is.na(.data$`deploy-on-date`)) %>%
+    dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
     dplyr::mutate(
-      # RECORD LEVEL
+      # RECORD-LEVEL
       basisOfRecord = "HumanObservation",
       dataGeneralizations = NA_character_,
       # OCCURRENCE
-      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"), # Same as EventID
+      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"), # Same as eventID
       sex = dplyr::recode(
         .data$`animal-sex`,
         "m" = "male",
@@ -268,7 +266,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         "u" = "unknown"
       ),
       lifeStage = .data$`animal-life-stage`,
-      reproductiveCondition = as.character(.data$`animal-reproductive-condition`),
+      reproductiveCondition = .data$`animal-reproductive-condition`,
       occurrenceStatus = "present",
       # ORGANISM
       organismID = .data$`animal-id`,
@@ -277,10 +275,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       eventID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"),
       parentEventID = paste(.data$`animal-id`, .data$`tag-id`, sep = "_"),
       eventType = "tag attachment",
-      eventDate = format(
-        .data$`deploy-on-date`,
-        format = "%Y-%m-%dT%H:%M:%SZ"
-      ),
+      eventDate = format(.data$`deploy-on-date`, format = "%Y-%m-%dT%H:%M:%SZ"),
       samplingProtocol = "tag attachment",
       eventRemarks = paste0(
         ifelse(
@@ -333,20 +328,21 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     )
 
     # GPS POSITIONS
-    dwc_occurrence_gps <- gps %>%
+    dwc_occurrence_gps <-
+      gps %>%
       # Exclude outliers & (rare) empty coordinates
       dplyr::filter(.data$visible & !is.null(.data$`location-lat`)) %>%
       dplyr::mutate(
-        timePerHour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
+        time_per_hour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
       ) %>%
       # Group by animal+tag+date+hour combination
       dplyr::group_by(
         .data$`individual-local-identifier`,
         .data$`tag-local-identifier`,
-        .data$timePerHour
+        .data$time_per_hour
       ) %>%
       dplyr::arrange(.data$timestamp) %>%
-      dplyr::mutate(subsampleCount = dplyr::n()) %>%
+      dplyr::mutate(subsample_count = dplyr::n()) %>%
       # Take first record/timestamp within group
       dplyr::filter(dplyr::row_number() == 1) %>%
       dplyr::ungroup() %>%
@@ -359,16 +355,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         )
       ) %>%
       # Exclude (rare) records outside a deployment
-      dplyr::filter(!is.null(.data$`animal-taxon`)) %>%
-      dplyr::left_join(
-        taxa,
-        by = dplyr::join_by("animal-taxon" == "name")
-      ) %>%
+      dplyr::filter(!is.na(.data$`animal-taxon`)) %>%
+      dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
       dplyr::mutate(
         # RECORD-LEVEL
         basisOfRecord = "MachineObservation",
         dataGeneralizations = paste(
-          "subsampled by hour: first of", .data$subsampleCount, "record(s)"
+          "subsampled by hour: first of", .data$subsample_count, "record(s)"
         ),
         # OCCURRENCE
         occurrenceID = as.character(.data$`event-id`),
@@ -392,10 +385,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           sep = "_"
         ),
         eventType = "gps",
-        eventDate = format(
-          .data$timestamp,
-          format = "%Y-%m-%dT%H:%M:%SZ"
-        ),
+        eventDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
         samplingProtocol = .data$`sensor-type`,
         eventRemarks = dplyr::coalesce(.data$`comments`, ""),
         # LOCATION
@@ -428,7 +418,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         # timePerHour = NULL
       )
 
-    dwc_occurrence <- dwc_occurrence_ref %>%
+    dwc_occurrence <-
+      dwc_occurrence_ref %>%
       dplyr::bind_rows(dwc_occurrence_gps) %>%
       dplyr::mutate(
         # DATASET-LEVEL
