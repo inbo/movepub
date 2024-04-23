@@ -334,7 +334,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     dwc_occurrence_gps <-
       gps %>%
       # Exclude outliers & (rare) empty coordinates
-      dplyr::filter(.data$visible & !is.null(.data$`location-lat`)) %>%
+      dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) %>%
       dplyr::mutate(
         time_per_hour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
       ) %>%
@@ -403,10 +403,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           NA_real_
         ),
         locationRemarks = dplyr::case_when(
-          !is.null(.data$`height-above-msl`) ~
+          !is.na(.data$`height-above-msl`) ~
             "elevations are altitude above mean sea level",
-          !is.null(.data$`height-above-ellipsoid`) ~
-            "elevations are altitude above above" # ???? 2 times above in SQL file
+          !is.na(.data$`height-above-ellipsoid`) ~
+            "elevations are altitude above ellipsoid"
         ),
         decimalLatitude = .data$`location-lat`,
         decimalLongitude = .data$`location-long`,
