@@ -311,8 +311,8 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       minimumElevationInMeters = NA_real_,
       maximumElevationInMeters = NA_real_,
       locationRemarks = NA_character_,
-      decimalLatitude = .data$`deploy-on-latitude`,
-      decimalLongitude = .data$`deploy-on-longitude`,
+      decimalLatitude = as.numeric(.data$`deploy-on-latitude`),
+      decimalLongitude = as.numeric(.data$`deploy-on-longitude`),
       geodeticDatum = dplyr::if_else(
         !is.na(.data$`deploy-on-latitude`),
         "EPSG:4326",
@@ -408,10 +408,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           !is.na(.data$`height-above-ellipsoid`) ~
             "elevations are altitude above ellipsoid"
         ),
-        decimalLatitude = .data$`location-lat`,
-        decimalLongitude = .data$`location-long`,
+        decimalLatitude = as.numeric(.data$`location-lat`),
+        decimalLongitude = as.numeric(.data$`location-long`),
         geodeticDatum = "EPSG:4326",
-        coordinateUncertaintyInMeters = .data$`location-error-numerical`,
+        coordinateUncertaintyInMeters =
+          as.numeric(.data$`location-error-numerical`),
         # TAXON
         scientificNameID = .data$aphia_lsid,
         scientificName = .data$`animal-taxon`,
