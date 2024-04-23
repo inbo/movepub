@@ -278,19 +278,19 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       eventDate = format(.data$`deploy-on-date`, format = "%Y-%m-%dT%H:%M:%SZ"),
       samplingProtocol = "tag attachment",
       eventRemarks = paste0(
-        ifelse(
+        dplyr::if_else(
           is.na(`tag-manufacturer-name`),
           "tag ",
-          ifelse(
+          dplyr::if_else(
             is.na(.data$`tag-model`),
             paste(.data$`tag-manufacturer-name`, "tag "),
             paste(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag ")
           )
         ),
-        ifelse(
-          is.na(`attachment-type`),
-          "attached to ",
-          paste("attached by", .data$`attachment-type`, "to ")
+        dplyr::if_else(
+          !is.na(.data$`attachment-type`),
+          paste("attached by", .data$`attachment-type`, "to "),
+          "attached to "
         ),
         dplyr::recode(
           .data$`manipulation-type`,
@@ -301,24 +301,27 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           .default = "likely free-ranging animal",
           .missing = "likely free-ranging animal"
         ),
-        ifelse(
-          is.na(`deployment-comments`),
-          "",
-          paste(" |", .data$`deployment-comments`)
+        dplyr::if_else(
+          !is.na(.data$`deployment-comments`),
+          paste0(" | ", .data$`deployment-comments`),
+          ""
         )
       ),
       # LOCATION
-      minimumElevationInMeters = NA_integer_,
-      maximumElevationInMeters = NA_integer_,
+      minimumElevationInMeters = NA_real_,
+      maximumElevationInMeters = NA_real_,
       locationRemarks = NA_character_,
       decimalLatitude = .data$`deploy-on-latitude`,
       decimalLongitude = .data$`deploy-on-longitude`,
-      geodeticDatum = dplyr::case_when(
-        !is.null(.data$`deploy-on-latitude`) ~ "EPSG:4326"
+      geodeticDatum = dplyr::if_else(
+        !is.na(.data$`deploy-on-latitude`),
+        "EPSG:4326",
+        NA_character_
       ),
-      coordinateUncertaintyInMeters = dplyr::case_when(
-        # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
-        !is.null(.data$`deploy-on-latitude`) ~ 187
+      coordinateUncertaintyInMeters = dplyr::if_else(
+        !is.na(.data$`deploy-on-latitude`),
+        187, # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
+        NA_real_
       ),
       # TAXON
       scientificNameID = .data$aphia_lsid,
@@ -389,16 +392,16 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         samplingProtocol = .data$`sensor-type`,
         eventRemarks = dplyr::coalesce(.data$`comments`, ""),
         # LOCATION
-        minimumElevationInMeters =
-          dplyr::coalesce(
-            .data$`height-above-msl`,
-            as.numeric(.data$`height-above-ellipsoid`), NA_integer_
-          ),
-        maximumElevationInMeters =
-          dplyr::coalesce(
-            .data$`height-above-msl`,
-            as.numeric(.data$`height-above-ellipsoid`), NA_integer_
-          ),
+        minimumElevationInMeters = dplyr::coalesce(
+          .data$`height-above-msl`,
+          as.numeric(.data$`height-above-ellipsoid`),
+          NA_real_
+        ),
+        maximumElevationInMeters = dplyr::coalesce(
+          .data$`height-above-msl`,
+          as.numeric(.data$`height-above-ellipsoid`),
+          NA_real_
+        ),
         locationRemarks = dplyr::case_when(
           !is.null(.data$`height-above-msl`) ~
             "elevations are altitude above mean sea level",
