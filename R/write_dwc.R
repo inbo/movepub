@@ -279,7 +279,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       samplingProtocol = "tag attachment",
       eventRemarks = paste0(
         dplyr::if_else(
-          is.na(`tag-manufacturer-name`),
+          is.na(.data$`tag-manufacturer-name`),
           "tag ",
           dplyr::if_else(
             is.na(.data$`tag-model`),
