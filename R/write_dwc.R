@@ -261,10 +261,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       dataGeneralizations = NA_character_,
       # OCCURRENCE
       occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"), # Same as EventID
-      sex = dplyr::case_when(
-        `animal-sex` == "m" ~ "male",
-        `animal-sex` == "f" ~ "female",
-        `animal-sex` == "u" ~ "unknown"
+      sex = dplyr::recode(
+        .data$`animal-sex`,
+        "m" = "male",
+        "f" = "female",
+        "u" = "unknown"
       ),
       lifeStage = .data$`animal-life-stage`,
       reproductiveCondition = as.character(.data$`animal-reproductive-condition`),
@@ -296,12 +297,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           "attached to ",
           paste("attached by", .data$`attachment-type`, "to ")
         ),
-        dplyr::case_when(
-          `manipulation-type` == "none" ~ "free-ranging animal",
-          `manipulation-type` == "confined" ~ "confined animal",
-          `manipulation-type` == "recolated" ~ "relocated animal",
-          `manipulation-type` == "manipulated other" ~ "manipulated animal",
-          .default = "likely free-ranging animal"
+        dplyr::recode(
+          .data$`manipulation-type`,
+          "none" = "free-ranging animal",
+          "confined" = "confined animal",
+          "recolated" = "relocated animal",
+          "manipulated other" = "manipulated animal",
+          .default = "likely free-ranging animal",
+          .missing = "likely free-ranging animal"
         ),
         ifelse(
           is.na(`deployment-comments`),
@@ -369,10 +372,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
         ),
         # OCCURRENCE
         occurrenceID = as.character(.data$`event-id`),
-        sex = dplyr::case_when(
-          .data$`animal-sex` == "m" ~ "male",
-          .data$`animal-sex` == "f" ~ "female",
-          .data$`animal-sex` == "u" ~ "unknown"
+        sex = dplyr::recode(
+          .data$`animal-sex`,
+          "m" = "male",
+          "f" = "female",
+          "u" = "unknown"
         ),
         lifeStage = NA_character_, # Value at start of deployment might not apply to all records
         reproductiveCondition = NA, # Value at start of deployment might not apply to all records
