@@ -23,7 +23,8 @@ CSV (data) file written to disk.
 \description{
 Transforms data from a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to \href{https://dwc.tdwg.org/}{Darwin Core}.
 The resulting CSV file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
-for publication to GBIF and/or OBIS.
+for publication to GBIF and/or OBIS, together with an EML (metadata) file
+created with \code{write_eml()}.
 A \code{meta.xml} file is not created.
 }
 \details{

@@ -4,7 +4,8 @@
 #' Package](https://specs.frictionlessdata.io/data-package/)) to [Darwin Core](
 #' https://dwc.tdwg.org/).
 #' The resulting CSV file can be uploaded to an [IPT](https://www.gbif.org/ipt)
-#' for publication to GBIF and/or OBIS.
+#' for publication to GBIF and/or OBIS, together with an EML (metadata) file
+#' created with `write_eml()`.
 #' A `meta.xml` file is not created.
 #'
 #' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
