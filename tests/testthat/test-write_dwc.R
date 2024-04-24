@@ -73,11 +73,27 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   )
 })
 
+test_that("write_dwc() returns error on missing or malformed doi", {
+  package_no_doi <- o_assen
+  package_no_doi$id <- NULL
+  expect_error(
+    write_dwc(package_no_doi, temp_dir),
+    class = "movepub_error_doi_missing"
+  )
+  expect_error(
+    write_dwc(package_no_doi, temp_dir, doi = c("a", "b", "c")),
+    class = "movepub_error_doi_invalid"
+  )
+  expect_error(
+    write_dwc(package_no_doi, temp_dir, doi = 10.5281),
+    class = "movepub_error_doi_invalid"
+  )
+})
+
 test_that("write_dwc() returns error on invalid study_id", {
   expect_error(
     write_dwc(o_assen, temp_dir, study_id = "not_a_study_id"),
-    "`study_id` must be an integer.",
-    fixed = TRUE
+    class = "movepub_error_study_id_invalid"
   )
   expect_error(
     write_dwc(o_assen, temp_dir, study_id = c("4", pi)),
@@ -97,13 +113,11 @@ test_that("write_dwc() supports setting custom study_id", {
 test_that("write_dwc() returns error on invalid contact information", {
   expect_error(
     write_dwc(o_assen, temp_dir, contact = list(not_a = "person_object")),
-    "`contact` must be person as provided by `person()`.",
-    fixed = TRUE
+    class = "movepub_error_contact_invalid"
   )
   expect_error(
     write_dwc( o_assen, temp_dir, contact = "pineapple"),
-    "`contact` must be person as provided by `person()`.",
-    fixed = TRUE
+    class = "movepub_error_contact_invalid"
   )
 })
 
@@ -148,26 +162,6 @@ test_that("write_dwc() supports setting custom contact information", {
   )
 })
 
-test_that("write_dwc() returns error on missing or malformed doi", {
-  package_no_doi <- o_assen
-  package_no_doi$id <- NULL
-  expect_error(
-    write_dwc(package_no_doi, temp_dir),
-    "Can't find a DOI in package$id.",
-    fixed = TRUE
-  )
-  expect_error(
-    write_dwc(package_no_doi, temp_dir, doi = c("a", "b", "c")),
-    "`doi` must be a character (vector of length one).",
-    fixed = TRUE
-  )
-  expect_error(
-    write_dwc(package_no_doi, temp_dir, doi = 10.5281),
-    "`doi` must be a character (vector of length one).",
-    fixed = TRUE
-  )
-})
-
 test_that("write_dwc() returns error on missing resources", {
   # Create data package with no reference-data resource
   package_no_ref_data <-
@@ -177,8 +171,7 @@ test_that("write_dwc() returns error on missing resources", {
     suppressMessages(
       write_dwc(package_no_ref_data, temp_dir, doi = "10.5281/zenodo.5653311")
     ),
-    "`package` must contain resource \"reference-data\".",
-    fixed = TRUE
+    class = "movepub_error_reference_data_missing"
   )
 
   # Create package with no GPS resource
@@ -188,8 +181,7 @@ test_that("write_dwc() returns error on missing resources", {
     suppressMessages(
       write_dwc(package_no_gps, temp_dir, doi = "10.5281/zenodo.5653311")
     ),
-    "`package` must contain resource \"gps\".",
-    fixed = TRUE
+    class = "movepub_error_gps_data_missing"
   )
 })
 

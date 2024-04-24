@@ -4,6 +4,8 @@ Version: 0.2.0
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
+    person("Sanne", "Govaert", email = "sanne.govaert@inbo.be",
+           role = "ctb", comment = c(ORCID = "0000-0002-8939-1305")),      
     person("Sarah", "Davidson", email = "sdavidson@ab.mpg.de",
            role = c("ctb"), comment = c(ORCID = "0000-0002-2766-9201")),
     person("Research Institute for Nature and Forest (INBO)",
@@ -19,15 +21,12 @@ URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Imports:
     cli,
-    DBI,
     dplyr,
     EML,
     frictionless,
-    glue,
     jsonlite,
     purrr,
     readr,
-    RSQLite,
     tidyr,
     uuid,
     worrms
@@ -41,7 +40,7 @@ Suggests:
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

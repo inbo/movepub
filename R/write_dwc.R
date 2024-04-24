@@ -24,7 +24,6 @@
 #' @return CSV (data) and EML (metadata) files written to disk.
 #' @family dwc functions
 #' @export
-#' @importFrom dplyr .data
 #' @section Metadata:
 #' Metadata are derived from the original dataset by looking up its `doi` in
 #' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
@@ -55,11 +54,9 @@
 #'
 #' @section Data:
 #' `package` is expected to contain a `reference-data` and `gps` resource.
-#' Data are transformed into an [Occurrence core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' Data are transformed into an [Occurrence Core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
 #' This **follows recommendations** discussed and created by Peter Desmet,
 #' Sarah Davidson, John Wieczorek and others.
-#' See the [SQL file(s)](https://github.com/inbo/movepub/tree/main/inst/sql)
-#' used by this function for details.
 #'
 #' Key features of the Darwin Core transformation:
 #' - Deployments (animal+tag associations) are parent events, with tag
@@ -81,22 +78,28 @@
 #'   tag malfunctioned right after deployment.
 #' @examples
 #' \dontrun{
-#'   write_dwc(o_assen)
+#' write_dwc(o_assen)
 #' }
 write_dwc <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
-    cli::cli_abort(c(
-      "Can't find a DOI in {.field package$id}.",
-      "i" = "Provide one in {.arg doi}."
-    ))
+    cli::cli_abort(
+      c(
+        "Can't find a DOI in {.field package$id}.",
+        "i" = "Provide one in {.arg doi}."
+      ),
+      class = "movepub_error_doi_missing"
+    )
   }
   if (!is.character(doi) || length(doi) != 1) {
-    cli::cli_abort(c(
-      "{.arg doi} must be a character (vector of length one).",
-      "x" = "{.val {doi}} is {.type {doi}}."
-    ))
+    cli::cli_abort(
+      c(
+        "{.arg doi} must be a character (vector of length one).",
+        "x" = "{.val {doi}} is {.type {doi}}."
+      ),
+      class = "movepub_error_doi_invalid"
+    )
   }
   eml <- datacite_to_eml(doi)
 
@@ -109,7 +112,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
   if (is.null(license)) {
     license <- NA_character_
-    }
+  }
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
@@ -137,25 +140,29 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     }
   }
   if (!grepl("^\\d+$", study_id)) { # Works for non 32 bit integers
-    cli::cli_abort(c(
-      "{.arg study_id} must be an integer.",
-      "x" = "{.val {study_id}} is {.obj {study_id}}."
-    ))
+    cli::cli_abort(
+      c(
+        "{.arg study_id} must be an integer.",
+        "x" = "{.val {study_id}} is {.obj {study_id}}."
+      ),
+      class = "movepub_error_study_id_invalid"
+    )
   }
 
   # Add extra paragraph to description
-  first_para <- glue::glue(
+  first_author <- eml$dataset$creator[[1]]$individualName$surName
+  pub_year <- substr(eml$dataset$pubDate, 1, 4)
+  first_para <- paste0(
     # Add span to circumvent https://github.com/ropensci/EML/issues/342
     "<span></span>This animal tracking dataset is derived from ",
-    "{first_author} et al. ({pub_year}, <a href=\"{doi_url}\">{doi_url}</a>), ",
-    "a deposit of Movebank study <a href=\"{study_url}\">{study_id}</a>. ",
-    "Data have been standardized to Darwin Core using the ",
+    first_author, " et al. (", pub_year,
+    ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
+    "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
+    "</a>. ", "Data have been standardized to Darwin Core using the ",
     "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
     "and are downsampled to the first GPS position per hour. ",
     "The original dataset description follows.",
-    first_author = eml$dataset$creator[[1]]$individualName$surName,
-    pub_year = substr(eml$dataset$pubDate, 1, 4),
-    .null = ""
+    sep = ""
   )
   eml$dataset$abstract$para <- append(
     after = 0,
@@ -166,10 +173,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Update contact and set metadata provider
   if (!is.null(contact)) {
     if (!inherits(contact, "person")) {
-      cli::cli_abort(c(
-        "{.arg contact} must be person as provided by {.fn person}.",
-        "x" = "{.val {contact}} is {.type {contact}}."
-      ))
+      cli::cli_abort(
+        c(
+          "{.arg contact} must be person as provided by {.fn person}.",
+          "x" = "{.val {contact}} is {.type {contact}}."
+        ),
+        class = "movepub_error_contact_invalid"
+      )
     }
     eml$dataset$contact <- EML::set_responsibleParty(
       givenName = contact$given,
@@ -196,15 +206,21 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   # Set rights_holder
   if (is.null(rights_holder)) {
     rights_holder <- NA_character_
-    }
+  }
 
   # Read data from package
   cli::cli_h2("Reading data")
   if (!"reference-data" %in% frictionless::resources(package)) {
-    cli::cli_abort("{.arg package} must contain resource {.val reference-data}.")
+    cli::cli_abort(
+      "{.arg package} must contain resource {.val reference-data}.",
+      class = "movepub_error_reference_data_missing"
+    )
   }
-  if(!"gps" %in% frictionless::resources(package)) {
-    cli::cli_abort("{.arg package} must contain resource {.val gps}.")
+  if (!"gps" %in% frictionless::resources(package)) {
+    cli::cli_abort(
+      "{.arg package} must contain resource {.val gps}.",
+      class = "movepub_error_gps_data_missing"
+    )
   }
   ref <- frictionless::read_resource(package, "reference-data")
   gps <- frictionless::read_resource(package, "gps")
@@ -232,22 +248,199 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
-  # Create database
-  con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-  DBI::dbWriteTable(con, "reference_data", ref)
-  DBI::dbWriteTable(con, "gps", gps)
-  DBI::dbWriteTable(con, "taxa", taxa)
-  cli::cli_h2("Transforming data to Darwin Core")
+  # Data transformation to Darwin Core
+  dwc_occurrence_ref <-
+    ref %>%
+    dplyr::filter(!is.na(.data$`deploy-on-date`)) %>%
+    dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
+    dplyr::mutate(
+      # RECORD-LEVEL
+      basisOfRecord = "HumanObservation",
+      dataGeneralizations = NA_character_,
+      # OCCURRENCE
+      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"), # Same as eventID
+      sex = dplyr::recode(
+        .data$`animal-sex`,
+        "m" = "male",
+        "f" = "female",
+        "u" = "unknown"
+      ),
+      lifeStage = .data$`animal-life-stage`,
+      reproductiveCondition = .data$`animal-reproductive-condition`,
+      occurrenceStatus = "present",
+      # ORGANISM
+      organismID = .data$`animal-id`,
+      organismName = .data$`animal-nickname`,
+      # EVENT
+      eventID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"),
+      parentEventID = paste(.data$`animal-id`, .data$`tag-id`, sep = "_"),
+      eventType = "tag attachment",
+      eventDate = format(.data$`deploy-on-date`, format = "%Y-%m-%dT%H:%M:%SZ"),
+      samplingProtocol = "tag attachment",
+      eventRemarks = paste0(
+        dplyr::if_else(
+          is.na(.data$`tag-manufacturer-name`),
+          "tag ",
+          dplyr::if_else(
+            is.na(.data$`tag-model`),
+            paste(.data$`tag-manufacturer-name`, "tag "),
+            paste(.data$`tag-manufacturer-name`, .data$`tag-model`, "tag ")
+          )
+        ),
+        dplyr::if_else(
+          !is.na(.data$`attachment-type`),
+          paste("attached by", .data$`attachment-type`, "to "),
+          "attached to "
+        ),
+        dplyr::recode(
+          .data$`manipulation-type`,
+          "none" = "free-ranging animal",
+          "confined" = "confined animal",
+          "recolated" = "relocated animal",
+          "manipulated other" = "manipulated animal",
+          .default = "likely free-ranging animal",
+          .missing = "likely free-ranging animal"
+        ),
+        dplyr::if_else(
+          !is.na(.data$`deployment-comments`),
+          paste0(" | ", .data$`deployment-comments`),
+          ""
+        )
+      ),
+      # LOCATION
+      minimumElevationInMeters = NA_real_,
+      maximumElevationInMeters = NA_real_,
+      locationRemarks = NA_character_,
+      decimalLatitude = as.numeric(.data$`deploy-on-latitude`),
+      decimalLongitude = as.numeric(.data$`deploy-on-longitude`),
+      geodeticDatum = dplyr::if_else(
+        !is.na(.data$`deploy-on-latitude`),
+        "EPSG:4326",
+        NA_character_
+      ),
+      coordinateUncertaintyInMeters = dplyr::if_else(
+        !is.na(.data$`deploy-on-latitude`),
+        187, # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
+        NA_real_
+      ),
+      # TAXON
+      scientificNameID = .data$aphia_lsid,
+      scientificName = .data$`animal-taxon`,
+      kingdom = "Animalia",
+      .keep = "none"
+    )
 
-  # Query database
-  dwc_occurrence_sql <- glue::glue_sql(
-    readr::read_file(
-      system.file("sql/dwc_occurrence.sql", package = "movepub")
-    ),
-    .con = con
-  )
-  dwc_occurrence <- DBI::dbGetQuery(con, dwc_occurrence_sql)
-  DBI::dbDisconnect(con)
+    # GPS POSITIONS
+    dwc_occurrence_gps <-
+      gps %>%
+      # Exclude outliers & (rare) empty coordinates
+      dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) %>%
+      dplyr::mutate(
+        time_per_hour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
+      ) %>%
+      # Group by animal+tag+date+hour combination
+      dplyr::group_by(
+        .data$`individual-local-identifier`,
+        .data$`tag-local-identifier`,
+        .data$time_per_hour
+      ) %>%
+      dplyr::arrange(.data$timestamp) %>%
+      dplyr::mutate(subsample_count = dplyr::n()) %>%
+      # Take first record/timestamp within group
+      dplyr::filter(dplyr::row_number() == 1) %>%
+      dplyr::ungroup() %>%
+      # Join with reference data
+      dplyr::left_join(
+        ref,
+        by = dplyr::join_by(
+          "individual-local-identifier" == "animal-id",
+          "tag-local-identifier" == "tag-id"
+        )
+      ) %>%
+      # Exclude (rare) records outside a deployment
+      dplyr::filter(!is.na(.data$`animal-taxon`)) %>%
+      dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
+      dplyr::mutate(
+        # RECORD-LEVEL
+        basisOfRecord = "MachineObservation",
+        dataGeneralizations = paste(
+          "subsampled by hour: first of", .data$subsample_count, "record(s)"
+        ),
+        # OCCURRENCE
+        occurrenceID = as.character(.data$`event-id`),
+        sex = dplyr::recode(
+          .data$`animal-sex`,
+          "m" = "male",
+          "f" = "female",
+          "u" = "unknown"
+        ),
+        lifeStage = NA_character_, # Value at start of deployment might not apply to all records
+        reproductiveCondition = NA_character_, # Value at start of deployment might not apply to all records
+        occurrenceStatus = "present",
+        # ORGANISM
+        organismID = .data$`individual-local-identifier`,
+        organismName = .data$`animal-nickname`,
+        # EVENT
+        eventID = as.character(.data$`event-id`),
+        parentEventID = paste(
+          .data$`individual-local-identifier`,
+          .data$`tag-local-identifier`,
+          sep = "_"
+        ),
+        eventType = "gps",
+        eventDate = format(.data$timestamp, format = "%Y-%m-%dT%H:%M:%SZ"),
+        samplingProtocol = .data$`sensor-type`,
+        eventRemarks = dplyr::coalesce(.data$`comments`, ""),
+        # LOCATION
+        minimumElevationInMeters = dplyr::coalesce(
+          .data$`height-above-msl`,
+          as.numeric(.data$`height-above-ellipsoid`),
+          NA_real_
+        ),
+        maximumElevationInMeters = dplyr::coalesce(
+          .data$`height-above-msl`,
+          as.numeric(.data$`height-above-ellipsoid`),
+          NA_real_
+        ),
+        locationRemarks = dplyr::case_when(
+          !is.na(.data$`height-above-msl`) ~
+            "elevations are altitude above mean sea level",
+          !is.na(.data$`height-above-ellipsoid`) ~
+            "elevations are altitude above ellipsoid"
+        ),
+        decimalLatitude = as.numeric(.data$`location-lat`),
+        decimalLongitude = as.numeric(.data$`location-long`),
+        geodeticDatum = "EPSG:4326",
+        coordinateUncertaintyInMeters =
+          as.numeric(.data$`location-error-numerical`),
+        # TAXON
+        scientificNameID = .data$aphia_lsid,
+        scientificName = .data$`animal-taxon`,
+        kingdom = "Animalia",
+        .keep = "none"
+      )
+
+    dwc_occurrence <-
+      dwc_occurrence_ref %>%
+      dplyr::bind_rows(dwc_occurrence_gps) %>%
+      dplyr::mutate(
+        # DATASET-LEVEL
+        type = "Event",
+        license = license,
+        rightsHolder = rights_holder,
+        datasetID = dataset_id,
+        institutionCode = "MPIAB", # Max Planck Institute of Animal Behavior
+        collectionCode = "Movebank",
+        datasetName = dataset_name,
+        .before = "basisOfRecord"
+      ) %>%
+      dplyr::arrange(
+        .data$parentEventID,
+        .data$eventDate
+      )
+
+  # Informing message
+  cli::cli_h2("Transforming data to Darwin Core")
 
   # Write files
   eml_path <- file.path(directory, "eml.xml")
