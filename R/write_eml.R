@@ -1,4 +1,62 @@
-write_dwc <- function(package, directory = ".", doi = package$id,
+#' Transform Movebank data to EML (metadata)
+#'
+#' Transforms data from a Movebank dataset (formatted as a [Frictionless Data
+#' Package](https://specs.frictionlessdata.io/data-package/)) to Ecological
+#' Metadata Language (EML)
+#' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
+#' for publication to GBIF and/or OBIS, together with a CSV (data) file created
+#' with `write_dwc()`
+#' A `meta.xml` file is not created.
+#'
+#' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
+#' for examples.
+#'
+#' @param package A Frictionless Data Package of Movebank data, as read by
+#'   [frictionless::read_package()].
+#' @param directory Path to local directory to write file(s) to.
+#' @param doi DOI of the original dataset, used to get metadata.
+#' @param contact Person to be set as resource contact and metadata provider.
+#'   To be provided as a [person()].
+#' @param rights_holder Acronym of the organization owning or managing the
+#'   rights over the data.
+#' @param study_id Identifier of the Movebank study from which the dataset was
+#'   derived (e.g. `1605797471` for
+#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)).
+#' @return EML (metadata) file written to disk.
+#' @family dwc functions
+#' @export
+#' @section Metadata:
+#' Metadata are derived from the original dataset by looking up its `doi` in
+#' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
+#' and transforming these to EML.
+#' Uses `datacite_to_eml()` under the hood.
+#' The following properties are set:
+#'
+#' - **title**: Original title + `[subsampled representation]`.
+#' - **description**: Automatically created first paragraph describing this is
+#'   a derived dataset, followed by the original dataset description.
+#' - **license**: License of the original dataset.
+#' - **creators**: Creators of the original dataset.
+#' - **contact**: `contact` or first creator of the original dataset.
+#' - **metadata provider**: `contact` or first creator of the original dataset.
+#' - **keywords**: Keywords of the original dataset.
+#' - **alternative identifier**: DOI of the original dataset. This way, no new
+#'   DOI will be created when publishing to GBIF.
+#' - **external link** and **alternative identifier**: URL created from
+#'   `study_id` or the first "derived from" related identifier in the original
+#'   dataset.
+#'
+#' To be set manually in the GBIF IPT: **type**, **subtype**,
+#' **update frequency**, and **publishing organization**.
+#'
+#' Not set: geographic, taxonomic, temporal coverage, associated parties,
+#' project data, sampling methods, and citations.
+#' Not applicable: collection data.
+#' @examples
+#' \dontrun{
+#' write_eml(o_assen)
+#' }
+write_eml <- function(package, directory = ".", doi = package$id,
                       contact = NULL, rights_holder = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
