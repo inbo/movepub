@@ -82,6 +82,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   doi_url <- eml$dataset$alternateIdentifier[[1]]
   dataset_id <- doi_url # Used in DwC
 
+  # Set rights_holder
+  if (is.null(rights_holder)) {
+    rights_holder <- NA_character_
+  }
+
   # Read data from package
   cli::cli_h2("Reading data")
   if (!"reference-data" %in% frictionless::resources(package)) {
