@@ -21,6 +21,7 @@ Useful links:
 
 Other contributors:
 \itemize{
+  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) [contributor]
   \item Sarah Davidson \email{sdavidson@ab.mpg.de} (\href{https://orcid.org/0000-0002-2766-9201}{ORCID}) [contributor]
   \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
   \item NLBIF (https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/) [funder]
