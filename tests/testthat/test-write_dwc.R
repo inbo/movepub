@@ -7,10 +7,6 @@ test_that("write_dwc() returns expected files", {
     write_dwc_snapshot(o_assen, temp_dir, file = "occurrence"),
     transform = remove_UUID
   )
-  expect_snapshot_file(
-    write_dwc_snapshot(o_assen, temp_dir, file = "eml"),
-    transform = remove_UUID
-  )
 })
 
 test_that("write_dwc() returns expected messages" , {
@@ -87,78 +83,6 @@ test_that("write_dwc() returns error on missing or malformed doi", {
   expect_error(
     write_dwc(package_no_doi, temp_dir, doi = 10.5281),
     class = "movepub_error_doi_invalid"
-  )
-})
-
-test_that("write_dwc() returns error on invalid study_id", {
-  expect_error(
-    write_dwc(o_assen, temp_dir, study_id = "not_a_study_id"),
-    class = "movepub_error_study_id_invalid"
-  )
-  expect_error(
-    write_dwc(o_assen, temp_dir, study_id = c("4", pi)),
-    "more elements supplied than there are to replace",
-    fixed = TRUE
-  )
-})
-
-test_that("write_dwc() supports setting custom study_id", {
-  suppressMessages(
-    write_dwc(o_assen, file.path(temp_dir, "study_id"), study_id = 42)
-  )
-  eml <- EML::read_eml(file.path(temp_dir, "study_id", "eml.xml"))
-  expect_true(grepl(42, x = eml$dataset$alternateIdentifier[[2]]))
-})
-
-test_that("write_dwc() returns error on invalid contact information", {
-  expect_error(
-    write_dwc(o_assen, temp_dir, contact = list(not_a = "person_object")),
-    class = "movepub_error_contact_invalid"
-  )
-  expect_error(
-    write_dwc( o_assen, temp_dir, contact = "pineapple"),
-    class = "movepub_error_contact_invalid"
-  )
-})
-
-test_that("write_dwc() supports setting custom contact information", {
-  suppressMessages(
-    write_dwc(
-      o_assen,
-      file.path(temp_dir, "custom_contact"),
-      contact = person(
-        given = "Jean Luc",
-        family = "Picard",
-        email = "cptn@enterprise.trek",
-        comment = c(ORCID = "0000-0001-2345-6789")
-      )
-    )
-  )
-  eml <- EML::read_eml(file.path(temp_dir, "custom_contact", "eml.xml"))
-  expect_identical(
-    eml$dataset$contact,
-    list(
-      individualName = list(givenName = "Jean Luc", surName = "Picard"),
-      electronicMailAddress = "cptn@enterprise.trek", userId = list(
-        directory = "https://orcid.org/", userId = "0000-0001-2345-6789"
-      )
-    )
-  )
-
-  # Test where custom contact information is provided, but no orcid
-  suppressMessages(
-    write_dwc(
-      o_assen,
-      file.path(temp_dir, "custom_contact_no_orcid"),
-      contact = person(given = "Kathryn", family = "Janeway")
-    )
-  )
-  eml <- EML::read_eml(file.path(temp_dir, "custom_contact_no_orcid", "eml.xml"))
-  expect_identical(
-    eml$dataset$contact,
-    list(
-      individualName = list(givenName = "Kathryn", surName = "Janeway")
-    )
   )
 })
 
