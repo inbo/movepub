@@ -41,11 +41,12 @@ datacite_to_eml <- function(doi) {
       NULL
     }
   ))
-  pub_date <- purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date)
+  pub_date <- purrr::map_chr(metadata$dates, ~
+                               if (.$dateType == "Issued") .$date)
   source_id <- if (length(metadata$relatedIdentifiers) > 0) {
     unlist(purrr::map(
       metadata$relatedIdentifiers,
-      ~ if(.$relationType == "IsDerivedFrom") .$relatedIdentifier
+      ~ if (.$relationType == "IsDerivedFrom") .$relatedIdentifier
     ))
   } else {
     NULL
