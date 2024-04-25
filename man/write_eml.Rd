@@ -9,7 +9,6 @@ write_eml(
   directory = ".",
   doi = package$id,
   contact = NULL,
-  rights_holder = NULL,
   study_id = NULL
 )
 }
@@ -24,9 +23,6 @@ write_eml(
 \item{contact}{Person to be set as resource contact and metadata provider.
 To be provided as a \code{\link[=person]{person()}}.}
 
-\item{rights_holder}{Acronym of the organization owning or managing the
-rights over the data.}
-
 \item{study_id}{Identifier of the Movebank study from which the dataset was
 derived (e.g. \code{1605797471} for
 \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747}{this study}).}
@@ -35,8 +31,8 @@ derived (e.g. \code{1605797471} for
 EML (metadata) file written to disk.
 }
 \description{
-Transforms data from a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to Ecological
-Metadata Language (EML)
+Uses the doi of a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to derive
+metadata from Datacite and build EML.
 The resulting EML file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
 for publication to GBIF and/or OBIS, together with a CSV (data) file created
 with \code{write_dwc()}
@@ -80,6 +76,8 @@ Not applicable: collection data.
 \examples{
 \dontrun{
 write_eml(o_assen)
+# same as
+write_eml(doi = "10.5281/zenodo.10053903")
 }
 }
 \seealso{
