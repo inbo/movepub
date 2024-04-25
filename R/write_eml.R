@@ -19,7 +19,7 @@
 #'   To be provided as a [person()].
 #' @param study_id Identifier of the Movebank study from which the dataset was
 #'   derived (e.g. `1605797471` for
-#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)).
+#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)). # nolint: line_length_linter
 #' @return EML (metadata) file written to disk.
 #' @family dwc functions
 #' @export
@@ -85,14 +85,15 @@ write_eml <- function(package, directory = ".", doi = package$id,
 
   # Update license
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
-  eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
+  # Remove original license elements that make EML invalid
+  eml$dataset$intellectualRights <- NULL
   eml$dataset$intellectualRights$para <- license_code
 
   # Get DOI URL
   doi_url <- eml$dataset$alternateIdentifier[[1]]
 
   # Get/set study url
-  study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
+  study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study" # nolint: line_length_linter
   if (!is.null(study_id)) {
     # Provided as parameter
     study_url <- paste0(study_url_prefix, study_id)
