@@ -59,7 +59,7 @@ test_that("write_eml() returns error on invalid contact information", {
     class = "movepub_error_contact_invalid"
   )
   expect_error(
-    write_eml( o_assen, temp_dir, contact = "pineapple"),
+    write_eml(o_assen, temp_dir, contact = "pineapple"),
     class = "movepub_error_contact_invalid"
   )
 })
@@ -96,7 +96,9 @@ test_that("write_eml() supports setting custom contact information", {
       contact = person(given = "Kathryn", family = "Janeway")
     )
   )
-  eml <- EML::read_eml(file.path(temp_dir, "custom_contact_no_orcid", "eml.xml"))
+  eml <- EML::read_eml(
+    file.path(temp_dir, "custom_contact_no_orcid", "eml.xml")
+    )
   expect_identical(
     eml$dataset$contact,
     list(
