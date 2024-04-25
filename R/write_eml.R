@@ -33,6 +33,7 @@
 #' - **title**: Original title + `[subsampled representation]`.
 #' - **description**: Automatically created first paragraph describing this is
 #'   a derived dataset, followed by the original dataset description.
+#' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
