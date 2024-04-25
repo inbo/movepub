@@ -54,6 +54,7 @@ Let's bundle that into a Frictionless Data Package:
 package <-
   frictionless::create_package() %>%
   append(c(id = doi), after = 0) %>%
+  frictionless::create_package() %>% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
   movepub::add_resource("reference-data", reference_data) %>%
   movepub::add_resource("gps", gps_data)
 ```
