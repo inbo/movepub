@@ -7,6 +7,13 @@ test_that("write_eml() returns expected files", {
     write_eml_snapshot(o_assen, temp_dir, file = "eml"),
     transform = remove_UUID
   )
+  expect_snapshot_file(
+    write_eml_snapshot(
+      doi = "10.5281/zenodo.10053903",
+      directory = temp_dir,
+      file = "eml"),
+    transform = remove_UUID
+  )
 })
 
 test_that("write_eml() returns error on missing or malformed doi", {
