@@ -35,7 +35,7 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 #' Needed for `testthat::expect_snapshot_file()` which expects the path of a
 #' single file to compare against snapshot.
 #' @inheritParams write_dwc
-#' @param file Either `occurrence` or `eml` to select which output file of
+#' @param file `occurrence`, the which output file of
 #'   `write_dwc()` to return.
 #' @param ... forwarded to [write_dwc()].
 #' @return Path of selected output file.
@@ -46,8 +46,7 @@ write_dwc_snapshot <- function(package, directory, file, ...) {
   suppressMessages(write_dwc(package, directory, ...))
   switch(
     file,
-    occurrence = file.path(directory, "dwc_occurrence.csv"),
-    eml = file.path(directory, "eml.xml")
+    occurrence = file.path(directory, "dwc_occurrence.csv")
   )
 }
 
@@ -62,15 +61,56 @@ expect_dwc_snapshot <- function(package, file, directory, ...) {
   announce_snapshot_file(
     switch(
       file,
-      occurrence = file.path(directory, "dwc_occurrence.csv"),
-      eml = file.path(directory, "eml.xml")
+      occurrence = file.path(directory, "dwc_occurrence.csv")
     )
   )
-  # Evaluate and compare against snapshot, store in variant of either eml or
-  # occurrence
+  # Evaluate and compare against snapshot
   expect_snapshot_file(
     write_dwc_snapshot(package, directory, file, ...),
     transform = remove_UUID,
     variant = file
   )
 }
+
+#' Get snapshot for write_eml()
+#'
+#' Wrapper of `eml_dwc()` that returns path of selected output file.
+#' Needed for `testthat::expect_snapshot_file()` which expects the path of a
+#' single file to compare against snapshot.
+#' @inheritParams eml_dwc
+#' @param file `eml` file, the output file of `write_eml()` to return.
+#' @param ... forwarded to [write_eml()].
+#' @return Path of selected output file.
+#' @family helper functions
+#' @noRd
+#' @examples write_eml_snapshot(mica, tempdir(), "occurrence")
+write_eml_snapshot <- function(package, directory, file, ...) {
+  suppressMessages(write_eml(package, directory, ...))
+  switch(
+    file,
+    eml = file.path(directory, "eml.xml")
+  )
+}
+
+#' Wrapper to snapshot output of write_eml()
+#'
+#' @inheritParams write_eml()
+#' @noRd
+#' @family helper functions
+expect_eml_snapshot <- function(package, file, directory, ...) {
+  # Announce the snapshot, so if write_eml_snapshot() fails, testthat will not
+  # auto-delete the corresponding snapshot file
+  announce_snapshot_file(
+    switch(
+      file,
+      eml = file.path(directory, "eml.xml")
+    )
+  )
+  # Evaluate and compare against snapshot
+  expect_snapshot_file(
+    write_eml_snapshot(package, directory, file, ...),
+    transform = remove_UUID,
+    variant = file
+  )
+}
+
