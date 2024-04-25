@@ -1,8 +1,8 @@
 #' Transform Movebank data to EML (metadata)
 #'
-#' Transforms data from a Movebank dataset (formatted as a [Frictionless Data
-#' Package](https://specs.frictionlessdata.io/data-package/)) to Ecological
-#' Metadata Language (EML)
+#' Uses the doi of a Movebank dataset (formatted as a [Frictionless Data
+#' Package](https://specs.frictionlessdata.io/data-package/)) to derive
+#' metadata from Datacite and build EML.
 #' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
 #' for publication to GBIF and/or OBIS, together with a CSV (data) file created
 #' with `write_dwc()`
@@ -52,6 +52,8 @@
 #' @examples
 #' \dontrun{
 #' write_eml(o_assen)
+#' # same as
+#' write_eml(doi = "10.5281/zenodo.10053903")
 #' }
 write_eml <- function(package, directory = ".", doi = package$id,
                       contact = NULL, study_id = NULL) {
