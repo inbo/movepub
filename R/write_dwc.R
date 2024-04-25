@@ -22,7 +22,8 @@
 #' @export
 #' @section Data:
 #' `package` is expected to contain a `reference-data` and `gps` resource.
-#' Data are transformed into an [Occurrence Core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' Data are transformed into an [Occurrence Core]
+#' (https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
 #' This **follows recommendations** discussed and created by Peter Desmet,
 #' Sarah Davidson, John Wieczorek and others.
 #'
@@ -137,7 +138,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       basisOfRecord = "HumanObservation",
       dataGeneralizations = NA_character_,
       # OCCURRENCE
-      occurrenceID = paste(.data$`animal-id`, .data$`tag-id`, "start", sep = "_"), # Same as eventID
+      occurrenceID = paste(
+        .data$`animal-id`, .data$`tag-id`, "start", sep = "_" # Same as eventID
+        ),
       sex = dplyr::recode(
         .data$`animal-sex`,
         "m" = "male",
@@ -199,7 +202,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       ),
       coordinateUncertaintyInMeters = dplyr::if_else(
         !is.na(.data$`deploy-on-latitude`),
-        187, # Assume coordinate precision of 0.001 degree (157m) and recording by GPS (30m)
+        # Assume coordinate precision of 0.001 degree (157m) and recording
+        # by GPS (30m)
+        187,
         NA_real_
       ),
       # TAXON
@@ -253,8 +258,9 @@ write_dwc <- function(package, directory = ".", doi = package$id,
           "f" = "female",
           "u" = "unknown"
         ),
-        lifeStage = NA_character_, # Value at start of deployment might not apply to all records
-        reproductiveCondition = NA_character_, # Value at start of deployment might not apply to all records
+        # Value at start of deployment might not apply to all records
+        lifeStage = NA_character_,
+        reproductiveCondition = NA_character_,
         occurrenceStatus = "present",
         # ORGANISM
         organismID = .data$`individual-local-identifier`,
