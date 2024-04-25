@@ -82,7 +82,6 @@ write_eml <- function(package, directory = ".", doi = package$id,
   # Update title
   title <- paste(eml$dataset$title, "[subsampled representation]")
   eml$dataset$title <- title
-  dataset_name <- title # Used in DwC
 
   # Update license
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
