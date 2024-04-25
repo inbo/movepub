@@ -17,8 +17,6 @@
 #' @param doi DOI of the original dataset, used to get metadata.
 #' @param contact Person to be set as resource contact and metadata provider.
 #'   To be provided as a [person()].
-#' @param rights_holder Acronym of the organization owning or managing the
-#'   rights over the data.
 #' @param study_id Identifier of the Movebank study from which the dataset was
 #'   derived (e.g. `1605797471` for
 #'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)).
@@ -35,7 +33,6 @@
 #' - **title**: Original title + `[subsampled representation]`.
 #' - **description**: Automatically created first paragraph describing this is
 #'   a derived dataset, followed by the original dataset description.
-#' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
@@ -57,7 +54,7 @@
 #' write_eml(o_assen)
 #' }
 write_eml <- function(package, directory = ".", doi = package$id,
-                      contact = NULL, rights_holder = NULL, study_id = NULL) {
+                      contact = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
     cli::cli_abort(
@@ -85,20 +82,12 @@ write_eml <- function(package, directory = ".", doi = package$id,
   dataset_name <- title # Used in DwC
 
   # Update license
-  license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
-  if (is.null(license)) {
-    license <- NA_character_
-  }
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   eml$dataset$intellectualRights <- NULL # Remove original license elements that make EML invalid
   eml$dataset$intellectualRights$para <- license_code
 
   # Get DOI URL
   doi_url <- eml$dataset$alternateIdentifier[[1]]
-  dataset_id <- doi_url # Used in DwC
-  if (is.null(dataset_id)) {
-    dataset_id <- NA_character_
-  }
 
   # Get/set study url
   study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
@@ -177,11 +166,6 @@ write_eml <- function(package, directory = ".", doi = package$id,
         url = list("function" = "information", study_url)
       )
     )
-  }
-
-  # Set rights_holder
-  if (is.null(rights_holder)) {
-    rights_holder <- NA_character_
   }
 
   # Write file
