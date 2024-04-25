@@ -23,7 +23,7 @@
 #' remove_UUID(to_clean)
 remove_UUID <- function(string, replacement = "RANDOM_UUID") {
   gsub(
-    "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}",
+    "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", # nolint: line_length_linter
     replacement,
     string
   )
@@ -113,4 +113,3 @@ expect_eml_snapshot <- function(package, file, directory, ...) {
     variant = file
   )
 }
-
