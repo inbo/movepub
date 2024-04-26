@@ -112,7 +112,7 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
   dwc_occurrence_ref <- dwc_occurrence_ref(ref, taxa)
-  dwc_occurrence_gps <- dwc_occurrence_ref(gps, ref, taxa)
+  dwc_occurrence_gps <- dwc_occurrence_gps(gps, ref, taxa)
 
   dwc_occurrence <-
     dwc_occurrence_ref %>%
