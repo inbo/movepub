@@ -114,24 +114,23 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   dwc_occurrence_ref <- dwc_occurrence_ref(ref, taxa)
   dwc_occurrence_gps <- dwc_occurrence_ref(gps, ref, taxa)
 
-    dwc_occurrence <-
-      dwc_occurrence_ref %>%
-      dplyr::bind_rows(dwc_occurrence_gps) %>%
-      dplyr::mutate(
-        # DATASET-LEVEL
-        type = "Event",
-        license = license,
-        rightsHolder = rights_holder,
-        datasetID = dataset_id,
-        institutionCode = "MPIAB", # Max Planck Institute of Animal Behavior
-        collectionCode = "Movebank",
-        datasetName = dataset_name,
-        .before = "basisOfRecord"
-      ) %>%
-      dplyr::arrange(
-        .data$parentEventID,
-        .data$eventDate
-      )
+  dwc_occurrence <-
+    dwc_occurrence_ref %>%
+    dplyr::bind_rows(dwc_occurrence_gps) %>%
+    dplyr::mutate(
+      # DATASET-LEVEL
+      type = "Event",
+      license = license,
+      rightsHolder = rights_holder,
+      datasetID = dataset_id,
+      institutionCode = "MPIAB",
+      # Max Planck Institute of Animal Behavior
+      collectionCode = "Movebank",
+      datasetName = dataset_name,
+      .before = "basisOfRecord"
+    ) %>%
+    dplyr::arrange(.data$parentEventID,
+                   .data$eventDate)
 
   # Informing message
   cli::cli_h2("Transforming data to Darwin Core")
