@@ -10,7 +10,7 @@
 #' @return Darwin core data, as tibble data frame
 #' @family dwc functions
 #' @noRd
-dwc_occurrence_gps <- function (gps, ref, taxa) {
+dwc_occurrence_gps <- function(gps, ref, taxa) {
   # Expand data with all columns used in DwC mapping
   gps_cols <- c(
     "comments", "event-id", "height-above-ellipsoid", "height-above-msl",
