@@ -19,7 +19,7 @@
 #'   To be provided as a [person()].
 #' @param study_id Identifier of the Movebank study from which the dataset was
 #'   derived (e.g. `1605797471` for
-#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)). # nolint: line_length_linter
+#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)).
 #' @return EML (metadata) file written to disk.
 #' @family dwc functions
 #' @export
