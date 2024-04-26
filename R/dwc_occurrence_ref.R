@@ -1,4 +1,15 @@
-dwc_occurrence_ref <- function(ref) {
+#' Transform reference data to Darwin Core
+#'
+#' Transforms reference data from a package (formatted as a [Frictionless Data
+#' Package](https://specs.frictionlessdata.io/data-package/)) to [Darwin Core](
+#' https://dwc.tdwg.org/).
+#'
+#' @param ref Reference data of a package, as tibble data frame
+#' @param taxa Taxa and aphia_id, as tibble data frame
+#' @return Darwin core data, as tibble data frame
+#' @family dwc functions
+#' @noRd
+dwc_occurrence_ref <- function(ref, taxa) {
 
   # Expand data with all columns used in DwC mapping
   ref_cols <- c(
@@ -8,13 +19,7 @@ dwc_occurrence_ref <- function(ref) {
     "deploy-on-longitude", "deployment-comments", "manipulation-type", "tag-id",
     "tag-manufacturer-name", "tag-model"
   )
-  ref2 <- expand_cols(ref, ref_cols)
-
-  # Lookup AphiaIDs for taxa
-  names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))
-  taxa <- get_aphia_id(names)
-  cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
-  cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
+  ref <- expand_cols(ref, ref_cols)
 
   # Data transformation to Darwin Core
   dwc_occurrence_ref <-
