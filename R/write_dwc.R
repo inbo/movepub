@@ -1,45 +1,46 @@
-#' Transform Movebank data to Darwin Core
+#' Transform Movebank data to a Darwin Core Archive
 #'
-#' Transforms data from a Movebank dataset (formatted as a [Frictionless Data
-#' Package](https://specs.frictionlessdata.io/data-package/)) to [Darwin Core](
-#' https://dwc.tdwg.org/).
-#' The resulting CSV file can be uploaded to an [IPT](https://www.gbif.org/ipt)
-#' for publication to GBIF and/or OBIS, together with an EML (metadata) file
-#' created with `write_eml()`.
-#' A `meta.xml` file is not created.
+#' Transforms a Movebank dataset (formatted as a [Frictionless Data Package](
+#' https://specs.frictionlessdata.io/data-package/)) to a [Darwin Core
+#' Archive](https://dwc.tdwg.org/text/).
 #'
+#' The resulting files can be uploaded to an [IPT](https://www.gbif.org/ipt)
+#' for publication to GBIF and/or OBIS.
+#' A corresponding `eml.xml` metadata file can be created with [write_eml()].
 #' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
 #' for examples.
 #'
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
+#'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write file to.
 #' @param doi DOI of the original dataset, used to get dataset-level terms.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
-#' @return CSV (data) file written to disk.
+#' @return CSV and `meta.xml` files written to disk.
+#'   And invisibly, a list of data frames with the transformed data.
 #' @family dwc functions
 #' @export
-#' @section Data:
-#' `package` is expected to contain a `reference-data` and `gps` resource.
-#' Data are transformed into an
-#' [Occurrence Core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
-#' This **follows recommendations** discussed and created by Peter Desmet,
-#' Sarah Davidson, John Wieczorek and others.
+#' @section Transformation details:
+#' This function **follows recommendations** suggested by Peter Desmet,
+#' Sarah Davidson, John Wieczorek and others and transforms data to:
+#' - An [Occurrence core](
+#'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' - A `meta.xml` file.
 #'
 #' Key features of the Darwin Core transformation:
 #' - Deployments (animal+tag associations) are parent events, with tag
 #'   attachment (a human observation) and GPS positions (machine observations)
 #'   as child events.
 #'   No information about the parent event is provided other than its ID,
-#'   meaning that data can be expressed in an Occurrence Core with one row per
+#'   meaning that data can be expressed in an Occurrence core with one row per
 #'   observation and `parentEventID` shared by all occurrences in a deployment.
 #' - The tag attachment event often contains metadata about the animal (sex,
-#'   lifestage, comments) and deployment as a whole.
+#'   life stage, comments) and deployment as a whole.
 #' - No event/occurrence is created for the deployment end, since the end date
 #'   is often undefined, unreliable and/or does not represent an animal
 #'   occurrence.
-#' - Only `visible` (nonoutlier) GPS records that fall within a deployment are
+#' - Only `visible` (non-outlier) GPS records that fall within a deployment are
 #'   included.
 #' - GPS positions are downsampled to the **first GPS position per hour**, to
 #'   reduce the size of high-frequency data.
@@ -51,8 +52,6 @@
 #' }
 write_dwc <- function(package, directory = ".", doi = package$id,
                       rights_holder = NULL) {
-
-  # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
     cli::cli_abort(
       c(
@@ -113,12 +112,10 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Start transformation
   cli::cli_h2("Transforming data to Darwin Core")
-
-  # Data transformations on the reference and gps data with helper functions
   dwc_occurrence_ref <- dwc_occurrence_ref(ref, taxa)
   dwc_occurrence_gps <- dwc_occurrence_gps(gps, ref, taxa)
 
-  # Binding the occurrence df from the helper functions
+  # Bind the occurrence df from the helper functions
   dwc_occurrence <-
     dwc_occurrence_ref %>%
     dplyr::bind_rows(dwc_occurrence_gps) %>%
@@ -133,12 +130,11 @@ write_dwc <- function(package, directory = ".", doi = package$id,
       datasetName = dataset_name,
       .before = "basisOfRecord"
     ) %>%
-    dplyr::arrange(.data$parentEventID,
-                   .data$eventDate)
+    dplyr::arrange(.data$parentEventID, .data$eventDate)
 
-  # Write file
+  # Write files
   dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
-  cli::cli_h2("Writing file")
+  cli::cli_h2("Writing files")
   cli::cli_ul(c(
     "{.file {dwc_occurrence_path}}"
   ))

@@ -2,13 +2,14 @@
 % Please edit documentation in R/write_dwc.R
 \name{write_dwc}
 \alias{write_dwc}
-\title{Transform Movebank data to Darwin Core}
+\title{Transform Movebank data to a Darwin Core Archive}
 \usage{
 write_dwc(package, directory = ".", doi = package$id, rights_holder = NULL)
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as read by
-\code{\link[frictionless:read_package]{frictionless::read_package()}}.}
+\code{\link[frictionless:read_package]{frictionless::read_package()}}.
+It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
 \item{directory}{Path to local directory to write file to.}
 
@@ -18,26 +19,27 @@ write_dwc(package, directory = ".", doi = package$id, rights_holder = NULL)
 rights over the data.}
 }
 \value{
-CSV (data) file written to disk.
+CSV and \code{meta.xml} files written to disk.
+And invisibly, a list of data frames with the transformed data.
 }
 \description{
-Transforms data from a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to \href{https://dwc.tdwg.org/}{Darwin Core}.
-The resulting CSV file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
-for publication to GBIF and/or OBIS, together with an EML (metadata) file
-created with \code{write_eml()}.
-A \code{meta.xml} file is not created.
+Transforms a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to a \href{https://dwc.tdwg.org/text/}{Darwin Core Archive}.
 }
 \details{
+The resulting files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
+for publication to GBIF and/or OBIS.
+A corresponding \code{eml.xml} metadata file can be created with \code{\link[=write_eml]{write_eml()}}.
 See \href{https://inbo.github.io/movepub/articles/movepub.html#dwc}{Get started}
 for examples.
 }
-\section{Data}{
+\section{Transformation details}{
 
-\code{package} is expected to contain a \code{reference-data} and \code{gps} resource.
-Data are transformed into an
-\href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence Core}.
-This \strong{follows recommendations} discussed and created by Peter Desmet,
-Sarah Davidson, John Wieczorek and others.
+This function \strong{follows recommendations} suggested by Peter Desmet,
+Sarah Davidson, John Wieczorek and others and transforms data to:
+\itemize{
+\item An \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
+\item A \code{meta.xml} file.
+}
 
 Key features of the Darwin Core transformation:
 \itemize{
@@ -45,14 +47,14 @@ Key features of the Darwin Core transformation:
 attachment (a human observation) and GPS positions (machine observations)
 as child events.
 No information about the parent event is provided other than its ID,
-meaning that data can be expressed in an Occurrence Core with one row per
+meaning that data can be expressed in an Occurrence core with one row per
 observation and \code{parentEventID} shared by all occurrences in a deployment.
 \item The tag attachment event often contains metadata about the animal (sex,
-lifestage, comments) and deployment as a whole.
+life stage, comments) and deployment as a whole.
 \item No event/occurrence is created for the deployment end, since the end date
 is often undefined, unreliable and/or does not represent an animal
 occurrence.
-\item Only \code{visible} (nonoutlier) GPS records that fall within a deployment are
+\item Only \code{visible} (non-outlier) GPS records that fall within a deployment are
 included.
 \item GPS positions are downsampled to the \strong{first GPS position per hour}, to
 reduce the size of high-frequency data.
