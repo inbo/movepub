@@ -64,9 +64,10 @@ tag malfunctioned right after deployment.
 }
 
 \examples{
-\dontrun{
-write_dwc(o_assen)
-}
+write_dwc(o_assen, directory = "my_directory")
+
+# Clean up (don't do this if you want to keep your files)
+unlink("my_directory", recursive = TRUE)
 }
 \seealso{
 Other dwc functions: 
