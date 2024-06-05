@@ -51,6 +51,7 @@ dwc_occurrence_gps <- function(gps, ref, taxa) {
     dplyr::filter(!is.na(.data$`animal-taxon`)) %>%
     dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
     dplyr::mutate(
+      .keep = "none",
       # RECORD-LEVEL
       basisOfRecord = "MachineObservation",
       dataGeneralizations = paste(
@@ -107,8 +108,7 @@ dwc_occurrence_gps <- function(gps, ref, taxa) {
       # TAXON
       scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
-      kingdom = "Animalia",
-      .keep = "none"
+      kingdom = "Animalia"
     )
 
   return(dwc_occurrence_gps)

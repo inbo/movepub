@@ -27,6 +27,7 @@ dwc_occurrence_ref <- function(ref, taxa) {
     dplyr::filter(!is.na(.data$`deploy-on-date`)) %>%
     dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
     dplyr::mutate(
+      .keep = "none",
       # RECORD-LEVEL
       basisOfRecord = "HumanObservation",
       dataGeneralizations = NA_character_,
@@ -103,8 +104,7 @@ dwc_occurrence_ref <- function(ref, taxa) {
       # TAXON
       scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
-      kingdom = "Animalia",
-      .keep = "none"
+      kingdom = "Animalia"
     )
 
  return(dwc_occurrence_ref)
