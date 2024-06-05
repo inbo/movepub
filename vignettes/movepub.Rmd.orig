@@ -28,7 +28,7 @@ library(readr)
 
 ## Make a Movebank dataset "frictionless" {#frictionless}
 
-Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
+Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()` (for data) and `write_eml()` (for metadata), because it standardizes file and field names.
 
 Here we build a Frictionless Data Package by starting from a directory containing CSV data files in Movebank format (reference data and GPS data), and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
@@ -78,7 +78,7 @@ frictionless::write_package(package, "data/my_dataset")
 
 ## Transform a Movebank dataset to Darwin Core {#dwc}
 
-A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with a small dataset.
+A Movebank dataset can be converted to Darwin Core using `write_dwc()` and `write_eml()`. Let's try it out with a small dataset.
 
 **O_ASSEN** is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
 
@@ -131,8 +131,14 @@ movepub::write_dwc(
   package = package,
   doi = package$id,
   directory = dir_dwc,
-  contact = contact,
   rights_holder = rights_holder
+)
+
+movepub::write_eml(
+  package = package,
+  doi = package$id,
+  directory = dir_dwc,
+  contact = contact,
 )
 ```
 

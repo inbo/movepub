@@ -2,84 +2,44 @@
 % Please edit documentation in R/write_dwc.R
 \name{write_dwc}
 \alias{write_dwc}
-\title{Transform Movebank data to Darwin Core}
+\title{Transform Movebank data to a Darwin Core Archive}
 \usage{
-write_dwc(
-  package,
-  directory = ".",
-  doi = package$id,
-  contact = NULL,
-  rights_holder = NULL,
-  study_id = NULL
-)
+write_dwc(package, directory = ".", doi = package$id, rights_holder = NULL)
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as read by
-\code{\link[frictionless:read_package]{frictionless::read_package()}}.}
+\code{\link[frictionless:read_package]{frictionless::read_package()}}.
+It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
-\item{directory}{Path to local directory to write file(s) to.}
+\item{directory}{Path to local directory to write file to.}
 
-\item{doi}{DOI of the original dataset, used to get metadata.}
-
-\item{contact}{Person to be set as resource contact and metadata provider.
-To be provided as a \code{\link[=person]{person()}}.}
+\item{doi}{DOI of the original dataset, used to get dataset-level terms.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
-
-\item{study_id}{Identifier of the Movebank study from which the dataset was
-derived (e.g. \code{1605797471} for
-\href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747}{this study}).}
 }
 \value{
-CSV (data) and EML (metadata) files written to disk.
+CSV and \code{meta.xml} files written to disk.
+And invisibly, a list of data frames with the transformed data.
 }
 \description{
-Transforms data from a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to \href{https://dwc.tdwg.org/}{Darwin Core}.
-The resulting CSV and EML files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for publication to GBIF and/or OBIS.
-A \code{meta.xml} file is not created.
+Transforms a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to a \href{https://dwc.tdwg.org/text/}{Darwin Core Archive}.
 }
 \details{
+The resulting files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
+for publication to GBIF and/or OBIS.
+A corresponding \code{eml.xml} metadata file can be created with \code{\link[=write_eml]{write_eml()}}.
 See \href{https://inbo.github.io/movepub/articles/movepub.html#dwc}{Get started}
 for examples.
 }
-\section{Metadata}{
+\section{Transformation details}{
 
-Metadata are derived from the original dataset by looking up its \code{doi} in
-DataCite (\href{https://api.datacite.org/dois/10.5281/zenodo.5879096}{example})
-and transforming these to EML.
-Uses \code{datacite_to_eml()} under the hood.
-The following properties are set:
+This function \strong{follows recommendations} suggested by Peter Desmet,
+Sarah Davidson, John Wieczorek and others and transforms data to:
 \itemize{
-\item \strong{title}: Original title + \verb{[subsampled representation]}.
-\item \strong{description}: Automatically created first paragraph describing this is
-a derived dataset, followed by the original dataset description.
-\item \strong{license}: License of the original dataset.
-\item \strong{creators}: Creators of the original dataset.
-\item \strong{contact}: \code{contact} or first creator of the original dataset.
-\item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
-\item \strong{keywords}: Keywords of the original dataset.
-\item \strong{alternative identifier}: DOI of the original dataset. This way, no new
-DOI will be created when publishing to GBIF.
-\item \strong{external link} and \strong{alternative identifier}: URL created from
-\code{study_id} or the first "derived from" related identifier in the original
-dataset.
+\item An \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
+\item A \code{meta.xml} file.
 }
-
-To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
-\strong{update frequency}, and \strong{publishing organization}.
-
-Not set: geographic, taxonomic, temporal coverage, associated parties,
-project data, sampling methods, and citations.
-Not applicable: collection data.
-}
-
-\section{Data}{
-
-\code{package} is expected to contain a \code{reference-data} and \code{gps} resource.
-Data are transformed into an \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence Core}.
-This \strong{follows recommendations} discussed and created by Peter Desmet,
-Sarah Davidson, John Wieczorek and others.
 
 Key features of the Darwin Core transformation:
 \itemize{
@@ -87,14 +47,14 @@ Key features of the Darwin Core transformation:
 attachment (a human observation) and GPS positions (machine observations)
 as child events.
 No information about the parent event is provided other than its ID,
-meaning that data can be expressed in an Occurrence Core with one row per
+meaning that data can be expressed in an Occurrence core with one row per
 observation and \code{parentEventID} shared by all occurrences in a deployment.
 \item The tag attachment event often contains metadata about the animal (sex,
-lifestage, comments) and deployment as a whole.
+life stage, comments) and deployment as a whole.
 \item No event/occurrence is created for the deployment end, since the end date
 is often undefined, unreliable and/or does not represent an animal
 occurrence.
-\item Only \code{visible} (nonoutlier) GPS records that fall within a deployment are
+\item Only \code{visible} (non-outlier) GPS records that fall within a deployment are
 included.
 \item GPS positions are downsampled to the \strong{first GPS position per hour}, to
 reduce the size of high-frequency data.
@@ -104,8 +64,13 @@ tag malfunctioned right after deployment.
 }
 
 \examples{
-\dontrun{
-write_dwc(o_assen)
+write_dwc(o_assen, directory = "my_directory")
+
+# Clean up (don't do this if you want to keep your files)
+unlink("my_directory", recursive = TRUE)
 }
+\seealso{
+Other dwc functions: 
+\code{\link{write_eml}()}
 }
 \concept{dwc functions}

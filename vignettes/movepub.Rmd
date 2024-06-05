@@ -11,7 +11,7 @@ vignette: >
 
 
 
-```r
+``` r
 library(frictionless)
 library(movepub)
 library(dplyr)
@@ -24,7 +24,7 @@ library(readr)
 
 ## Make a Movebank dataset "frictionless" {#frictionless}
 
-Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`, because it standardizes file and field names.
+Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()` (for data) and `write_eml()` (for metadata), because it standardizes file and field names.
 
 Here we build a Frictionless Data Package by starting from a directory containing CSV data files in Movebank format (reference data and GPS data), and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
@@ -33,7 +33,7 @@ Here we build a Frictionless Data Package by starting from a directory containin
 It consists of:
 
 
-```r
+``` r
 reference_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content"
 gps_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content"
 ```
@@ -41,14 +41,14 @@ gps_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/df28
 And its DOI:
 
 
-```r
+``` r
 doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL and exclude "www."
 ```
 
 Let's bundle that into a Frictionless Data Package:
 
 
-```r
+``` r
 package <-
   frictionless::create_package() %>%
   append(c(id = doi), after = 0) %>%
@@ -66,7 +66,7 @@ Here's what we did:
 Here's an example of how a field is documented:
 
 
-```r
+``` r
 package$resources[[1]]$schema$fields[[2]]
 #> $name
 #> [1] "animal-id"
@@ -90,13 +90,13 @@ package$resources[[1]]$schema$fields[[2]]
 `package` can now be used to transform to Darwin Core (in the next step) or saved as a `datapackage.json` file for other uses:
 
 
-```r
+``` r
 frictionless::write_package(package, "data/my_dataset")
 ```
 
 ## Transform a Movebank dataset to Darwin Core {#dwc}
 
-A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with a small dataset.
+A Movebank dataset can be converted to Darwin Core using `write_dwc()` and `write_eml()`. Let's try it out with a small dataset.
 
 **O_ASSEN** is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
 
@@ -105,7 +105,7 @@ A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's tr
 Let's create two directories:
 
 
-```r
+``` r
 dir_source <- "data/o_assen/source" # Local directory for the source dataset
 dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darwin Core dataset
 ```
@@ -113,27 +113,24 @@ dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darwin Core datase
 And download the dataset from Zenodo to the local directory. Using a local package avoids having to download the data again when you encounter an issue:
 
 
-```r
+``` r
 frictionless::read_package("https://zenodo.org/records/10053903/files/datapackage.json") %>%
   # Remove the large acceleration resource we won't use (and thus won't download)
   frictionless::remove_resource("acceleration") %>%
   frictionless::write_package(dir_source)
-#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
-#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
-#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
 ```
 
 We then create a `package` variable pointing to the local dataset:
 
 
-```r
+``` r
 package <- frictionless::read_package(file.path(dir_source, "datapackage.json"))
 ```
 
 That covers the data. The metadata are derived from [DataCite](https://api.datacite.org/dois/10.5281/zenodo.10053903) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
 
 
-```r
+``` r
 package$id
 #> [1] "https://doi.org/10.5281/zenodo.10053903"
 ```
@@ -141,7 +138,7 @@ package$id
 DataCite metadata does not include a contact person and rights holder, so we need to set those:
 
 
-```r
+``` r
 contact <- person(
   given = "Peter",
   family = "Desmet",
@@ -154,12 +151,11 @@ rights_holder <- "Vogelwerkgroep Assen"
 We now have everything to convert the dataset to Darwin Core and EML:
 
 
-```r
+``` r
 movepub::write_dwc(
   package = package,
   doi = package$id,
   directory = dir_dwc,
-  contact = contact,
   rights_holder = rights_holder
 )
 #> 
@@ -172,14 +168,27 @@ movepub::write_dwc(
 #> 
 #> ── Writing files ──
 #> 
-#> • 'data/o_assen/dwc/eml.xml'
 #> • 'data/o_assen/dwc/dwc_occurrence.csv'
+```
+
+``` r
+
+movepub::write_eml(
+  package = package,
+  doi = package$id,
+  directory = dir_dwc,
+  contact = contact,
+)
+#> 
+#> ── Writing file ──
+#> 
+#> • 'data/o_assen/dwc/eml.xml'
 ```
 
 The resulting `eml.xml` file includes the metadata:
 
 
-```r
+``` r
 EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #> dataset:
 #>   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)
@@ -293,7 +302,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: b6c59040-7e80-41ca-96c4-f9dc78aa8da4
+#> packageId: df6da1f6-5582-4ffd-a7de-9667e27f0960
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
@@ -301,7 +310,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 The resulting `dwc_occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
 
 
-```r
+``` r
 readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"), show_col_types = FALSE)
 #> # A tibble: 5,827 × 32
 #>    type  license           rightsHolder datasetID institutionCode collectionCode

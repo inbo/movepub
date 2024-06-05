@@ -10,7 +10,7 @@
 datacite_to_eml <- function(doi) {
   # Read metadata from DataCite
   doi <- gsub("https://doi.org/", "", doi, fixed = TRUE)
-  result <- jsonlite::read_json(paste0("https://api.datacite.org/dois/", doi))
+  result <- jsonlite::read_json(file.path("https://api.datacite.org/dois/", doi))
   metadata <- result$data$attributes
 
   # Remove null values and empty lists
@@ -41,11 +41,12 @@ datacite_to_eml <- function(doi) {
       NULL
     }
   ))
-  pub_date <- purrr::map_chr(metadata$dates, ~ if(.$dateType == "Issued") .$date)
+  pub_date <- purrr::map_chr(metadata$dates, ~
+                               if (.$dateType == "Issued") .$date)
   source_id <- if (length(metadata$relatedIdentifiers) > 0) {
     unlist(purrr::map(
       metadata$relatedIdentifiers,
-      ~ if(.$relationType == "IsDerivedFrom") .$relatedIdentifier
+      ~ if (.$relationType == "IsDerivedFrom") .$relatedIdentifier
     ))
   } else {
     NULL
