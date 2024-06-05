@@ -1,17 +1,13 @@
-#' Transform gps data to Darwin Core
+#' Transform GPS data to Darwin Core
 #'
-#' Transforms gps data from a package (formatted as a [Frictionless Data
-#' Package](https://specs.frictionlessdata.io/data-package/)) to [Darwin Core](
-#' https://dwc.tdwg.org/).
-#'
-#' @param gps GPS data of a package, as tibble data frame
-#' @param ref ref data of a package, as tibble data frame
-#' @param taxa Taxa and aphia_id, as tibble data frame
-#' @return Darwin core data, as tibble data frame
+#' @param gps Data frame derived from a `gps` resource.
+#' @param ref Data frame derived from a `reference-data` resource.
+#' @param taxa Data frame with taxa and their Aphia ID.
+#' @return Data frame with Darwin Core occurrences derived from GPS positions.
 #' @family dwc functions
 #' @noRd
 dwc_occurrence_gps <- function(gps, ref, taxa) {
-  # Expand data with all columns used in DwC mapping
+  # Expand data with all columns used in Darwin Core transformation
   gps_cols <- c(
     "comments", "event-id", "height-above-ellipsoid", "height-above-msl",
     "individual-local-identifier", "individual-taxon-canonical-name",
@@ -20,8 +16,8 @@ dwc_occurrence_gps <- function(gps, ref, taxa) {
   )
   gps <- expand_cols(gps, gps_cols)
 
-  # GPS POSITIONS
-  dwc_occurrence_gps <-
+  # Transform data
+  occurrence <-
     gps %>%
     # Exclude outliers & (rare) empty coordinates
     dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) %>%
@@ -111,5 +107,5 @@ dwc_occurrence_gps <- function(gps, ref, taxa) {
       kingdom = "Animalia"
     )
 
-  return(dwc_occurrence_gps)
+  return(occurrence)
 }

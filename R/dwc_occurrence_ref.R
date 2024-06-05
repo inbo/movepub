@@ -1,17 +1,12 @@
 #' Transform reference data to Darwin Core
 #'
-#' Transforms reference data from a package (formatted as a [Frictionless Data
-#' Package](https://specs.frictionlessdata.io/data-package/)) to [Darwin Core](
-#' https://dwc.tdwg.org/).
-#'
-#' @param ref Reference data of a package, as tibble data frame
-#' @param taxa Taxa and aphia_id, as tibble data frame
-#' @return Darwin core data, as tibble data frame
+#' @param ref Data frame derived from a `reference-data` resource.
+#' @param taxa  Data frame with taxa and their Aphia ID.
+#' @return Data frame with Darwin Core occurrences derived from tag attachments.
 #' @family dwc functions
 #' @noRd
 dwc_occurrence_ref <- function(ref, taxa) {
-
-  # Expand data with all columns used in DwC mapping
+  # Expand data with all columns used in Darwin Core transformation
   ref_cols <- c(
     "animal-id", "animal-life-stage", "animal-nickname",
     "animal-reproductive-condition", "animal-sex", "animal-taxon",
@@ -21,8 +16,8 @@ dwc_occurrence_ref <- function(ref, taxa) {
   )
   ref <- expand_cols(ref, ref_cols)
 
-  # Data transformation to Darwin Core
-  dwc_occurrence_ref <-
+  # Transform data
+  occurrence <-
     ref %>%
     dplyr::filter(!is.na(.data$`deploy-on-date`)) %>%
     dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
@@ -107,5 +102,5 @@ dwc_occurrence_ref <- function(ref, taxa) {
       kingdom = "Animalia"
     )
 
- return(dwc_occurrence_ref)
+ return(occurrence)
 }
