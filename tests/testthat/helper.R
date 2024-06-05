@@ -35,8 +35,7 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
 #' Needed for `testthat::expect_snapshot_file()` which expects the path of a
 #' single file to compare against snapshot.
 #' @inheritParams write_dwc
-#' @param file `occurrence`, the which output file of
-#'   `write_dwc()` to return.
+#' @param file `occurrence`, the output file of `write_dwc()` to return.
 #' @param ... forwarded to [write_dwc()].
 #' @return Path of selected output file.
 #' @family helper functions
