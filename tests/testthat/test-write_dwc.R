@@ -1,5 +1,5 @@
 # Create temporary files
-temp_dir <- file.path(tempdir(), "movepub")
+temp_dir <- file.path(tempdir(), "dwc")
 dir.create(temp_dir)
 
 test_that("write_dwc() returns expected files", {
