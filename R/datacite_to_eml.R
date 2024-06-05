@@ -10,7 +10,7 @@
 datacite_to_eml <- function(doi) {
   # Read metadata from DataCite
   doi <- gsub("https://doi.org/", "", doi, fixed = TRUE)
-  result <- jsonlite::read_json(paste0("https://api.datacite.org/dois/", doi))
+  result <- jsonlite::read_json(file.path("https://api.datacite.org/dois/", doi))
   metadata <- result$data$attributes
 
   # Remove null values and empty lists
