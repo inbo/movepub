@@ -1,13 +1,12 @@
 #' Transform Movebank data to EML (metadata)
 #'
-#' Uses the doi of a Movebank dataset (formatted as a [Frictionless Data
+#' Uses the DOI of a Movebank dataset (formatted as a [Frictionless Data
 #' Package](https://specs.frictionlessdata.io/data-package/)) to derive
 #' metadata from Datacite and build EML.
-#' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
-#' for publication to GBIF and/or OBIS, together with a CSV (data) file created
-#' with `write_dwc()`
-#' A `meta.xml` file is not created.
 #'
+#' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
+#' for publication to GBIF and/or OBIS.
+#' A corresponding Darwin Core Archive can be created with [write_dwc()].
 #' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
 #' for examples.
 #'
@@ -53,7 +52,7 @@
 #' @examples
 #' \dontrun{
 #' write_eml(o_assen)
-#' # same as
+#' # Same as
 #' write_eml(doi = "10.5281/zenodo.10053903")
 #' }
 write_eml <- function(package, directory = ".", doi = package$id,
@@ -181,5 +180,4 @@ write_eml <- function(package, directory = ".", doi = package$id,
     dir.create(directory, recursive = TRUE)
   }
   EML::write_eml(eml, eml_path)
-
 }

@@ -31,14 +31,13 @@ derived (e.g. \code{1605797471} for
 EML (metadata) file written to disk.
 }
 \description{
-Uses the doi of a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to derive
+Uses the DOI of a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to derive
 metadata from Datacite and build EML.
-The resulting EML file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
-for publication to GBIF and/or OBIS, together with a CSV (data) file created
-with \code{write_dwc()}
-A \code{meta.xml} file is not created.
 }
 \details{
+The resulting EML file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
+for publication to GBIF and/or OBIS.
+A corresponding Darwin Core Archive can be created with \code{\link[=write_dwc]{write_dwc()}}.
 See \href{https://inbo.github.io/movepub/articles/movepub.html#dwc}{Get started}
 for examples.
 }
@@ -76,7 +75,7 @@ Not applicable: collection data.
 \examples{
 \dontrun{
 write_eml(o_assen)
-# same as
+# Same as
 write_eml(doi = "10.5281/zenodo.10053903")
 }
 }
