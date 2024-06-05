@@ -111,11 +111,14 @@ write_dwc <- function(package, directory = ".", doi = package$id,
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
   cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
 
+  # Start transformation
+  cli::cli_h2("Transforming data to Darwin Core")
+
   # Data transformations on the reference and gps data with helper functions
   dwc_occurrence_ref <- dwc_occurrence_ref(ref, taxa)
   dwc_occurrence_gps <- dwc_occurrence_gps(gps, ref, taxa)
 
-  # Binding the occurence df from the helper functions
+  # Binding the occurrence df from the helper functions
   dwc_occurrence <-
     dwc_occurrence_ref %>%
     dplyr::bind_rows(dwc_occurrence_gps) %>%
@@ -132,9 +135,6 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     ) %>%
     dplyr::arrange(.data$parentEventID,
                    .data$eventDate)
-
-  # Informing message
-  cli::cli_h2("Transforming data to Darwin Core")
 
   # Write file
   dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
