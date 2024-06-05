@@ -94,8 +94,9 @@ Movebank dataset into a “Frictionless Data Package” (<a href="https://specs.
 Pollock, 2017</a>), we create a set of files that is better documented
 and easier to read programmatically, compared to individual files
 downloaded from Movebank. It is also a necessary step before
-transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>, because it
-standardizes file and field names.</p>
+transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code> (for data) and
+<code><a href="../reference/write_eml.html">write_eml()</a></code> (for metadata), because it standardizes file
+and field names.</p>
 <p>Here we build a Frictionless Data Package by starting from a
 directory containing CSV data files in Movebank format (reference data
 and GPS data), and adding a <code>datapackage.json</code> file which
@@ -165,7 +166,8 @@ other uses:</p>
 <h2 id="dwc">Transform a Movebank dataset to Darwin Core<a class="anchor" aria-label="anchor" href="#dwc"></a>
 </h2>
 <p>A Movebank dataset can be converted to Darwin Core using
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code>. Let’s try it out with a small dataset.</p>
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> and <code><a href="../reference/write_eml.html">write_eml()</a></code>. Let’s try it out
+with a small dataset.</p>
 <p><strong>O_ASSEN</strong> is a bird GPS tracking study and dataset,
 available on <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471" class="external-link">Movebank</a>
 and deposited on <a href="https://doi.org/10.5281/zenodo.10053903" class="external-link">Zenodo</a>.</p>
@@ -186,10 +188,7 @@ encounter an issue:</p>
 <code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/records/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span></span>
 <span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.</span></span>
-<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.</span></span>
-<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.</span></span></code></pre></div>
+<span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span></code></pre></div>
 <p>We then create a <code>package</code> variable pointing to the local
 dataset:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -217,7 +216,6 @@ EML:</p>
 <span>  package <span class="op">=</span> <span class="va">package</span>,</span>
 <span>  doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>  directory <span class="op">=</span> <span class="va">dir_dwc</span>,</span>
-<span>  contact <span class="op">=</span> <span class="va">contact</span>,</span>
 <span>  rights_holder <span class="op">=</span> <span class="va">rights_holder</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -230,10 +228,21 @@ EML:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Writing files ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; • 'data/o_assen/dwc/eml.xml'</span></span>
 <span><span class="co">#&gt; • 'data/o_assen/dwc/dwc_occurrence.csv'</span></span></code></pre></div>
-<p>The resulting <code>eml.xml</code> file includes the metadata:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_eml.html">write_eml</a></span><span class="op">(</span></span>
+<span>  package <span class="op">=</span> <span class="va">package</span>,</span>
+<span>  doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
+<span>  directory <span class="op">=</span> <span class="va">dir_dwc</span>,</span>
+<span>  contact <span class="op">=</span> <span class="va">contact</span>,</span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Writing file ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • 'data/o_assen/dwc/eml.xml'</span></span></code></pre></div>
+<p>The resulting <code>eml.xml</code> file includes the metadata:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/EML/reference/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; dataset:</span></span>
 <span><span class="co">#&gt;   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)</span></span>
@@ -347,14 +356,14 @@ EML:</p>
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: b6c59040-7e80-41ca-96c4-f9dc78aa8da4</span></span>
+<span><span class="co">#&gt; packageId: df6da1f6-5582-4ffd-a7de-9667e27f0960</span></span>
 <span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
 <span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
 <p>The resulting <code>dwc_occurrence.csv</code> contains the Darwin
 Core data, created by transforming the <code>package</code> data. Some
 of the record level-terms at the beginning are set based on DataCite
 metadata and the provided <code>rights_holder</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"dwc_occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 5,827 × 32</span></span>
 <span><span class="co">#&gt;    type  license           rightsHolder datasetID institutionCode collectionCode</span></span>
