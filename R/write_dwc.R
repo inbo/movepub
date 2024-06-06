@@ -113,8 +113,8 @@ write_dwc <- function(package, directory, doi = package$id,
 
   # Start transformation
   cli::cli_h2("Transforming data to Darwin Core")
-  ref_occurrence <- dwc_occurrence_ref(ref, taxa)
-  gps_occurrence <- dwc_occurrence_gps(gps, ref, taxa)
+  ref_occurrence <- create_ref_occurrence(ref, taxa)
+  gps_occurrence <- create_gps_occurrence(gps, ref, taxa)
 
   # Bind the occurrence df from the helper functions
   occurrence <-
