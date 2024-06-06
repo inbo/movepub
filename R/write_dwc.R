@@ -146,7 +146,7 @@ write_dwc <- function(package, directory, doi = package$id,
   }
   readr::write_csv(occurrence, occurrence_path, na = "")
   file.copy(
-    system.file("extdata", "meta.xml", package = "camtrapdp"), # Static meta.xml
+    system.file("extdata", "meta.xml", package = "movepub"), # Static meta.xml
     meta_xml_path
   )
 }
