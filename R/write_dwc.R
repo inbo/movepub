@@ -113,13 +113,13 @@ write_dwc <- function(package, directory, doi = package$id,
 
   # Start transformation
   cli::cli_h2("Transforming data to Darwin Core")
-  dwc_occurrence_ref <- dwc_occurrence_ref(ref, taxa)
-  dwc_occurrence_gps <- dwc_occurrence_gps(gps, ref, taxa)
+  ref_occurrence <- dwc_occurrence_ref(ref, taxa)
+  gps_occurrence <- dwc_occurrence_gps(gps, ref, taxa)
 
   # Bind the occurrence df from the helper functions
-  dwc_occurrence <-
-    dwc_occurrence_ref %>%
-    dplyr::bind_rows(dwc_occurrence_gps) %>%
+  occurrence <-
+    ref_occurrence %>%
+    dplyr::bind_rows(gps_occurrence) %>%
     dplyr::mutate(
       # DATASET-LEVEL
       type = "Event",
@@ -134,13 +134,13 @@ write_dwc <- function(package, directory, doi = package$id,
     dplyr::arrange(.data$parentEventID, .data$eventDate)
 
   # Write files
-  dwc_occurrence_path <- file.path(directory, "occurrence.csv")
+  occurrence_path <- file.path(directory, "occurrence.csv")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
-    "{.file {dwc_occurrence_path}}"
+    "{.file {occurrence_path}}"
   ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
-  readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
+  readr::write_csv(occurrence, occurrence_path, na = "")
 }
