@@ -51,9 +51,9 @@
 #' Not applicable: collection data.
 #' @examples
 #' \dontrun{
-#' write_eml(o_assen)
+#' write_eml(o_assen, directory = "my_directory")
 #' # Same as
-#' write_eml(doi = "10.5281/zenodo.10053903")
+#' write_eml(doi = "10.5281/zenodo.10053903", directory = "my_directory")
 #' }
 write_eml <- function(package, directory, doi = package$id,
                       contact = NULL, study_id = NULL) {
