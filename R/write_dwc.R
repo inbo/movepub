@@ -51,7 +51,7 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_dwc <- function(package, directory = ".", doi = package$id,
+write_dwc <- function(package, directory, doi = package$id,
                       rights_holder = NULL) {
   if (is.null(doi)) {
     cli::cli_abort(

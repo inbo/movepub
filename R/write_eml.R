@@ -55,7 +55,7 @@
 #' # Same as
 #' write_eml(doi = "10.5281/zenodo.10053903")
 #' }
-write_eml <- function(package, directory = ".", doi = package$id,
+write_eml <- function(package, directory, doi = package$id,
                       contact = NULL, study_id = NULL) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
