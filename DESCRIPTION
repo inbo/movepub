@@ -1,13 +1,14 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
 Version: 0.3.0
+Date: 2024-04-24
 Authors@R: c(
     person("Peter", "Desmet", email = "peter.desmet@inbo.be",
-           role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025")),
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
     person("Sanne", "Govaert", email = "sanne.govaert@inbo.be",
-           role = "ctb", comment = c(ORCID = "0000-0002-8939-1305")),      
+           role = "ctb", comment = c(ORCID = "0000-0002-8939-1305", affiliation = "Research Institute for Nature and Forest (INBO)")),      
     person("Sarah", "Davidson", email = "sdavidson@ab.mpg.de",
-           role = c("ctb"), comment = c(ORCID = "0000-0002-2766-9201")),
+           role = c("ctb"), comment = c(ORCID = "0000-0002-2766-9201", affiliation = "Max Planck Institute of Animal Behavior")),
     person("Research Institute for Nature and Forest (INBO)",
            role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("NLBIF",
