@@ -135,12 +135,18 @@ write_dwc <- function(package, directory, doi = package$id,
 
   # Write files
   occurrence_path <- file.path(directory, "occurrence.csv")
+  meta_xml_path <- file.path(directory, "meta.xml")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
-    "{.file {occurrence_path}}"
+    "{.file {occurrence_path}}",
+    "{.file {meta_xml_path}}"
   ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
   readr::write_csv(occurrence, occurrence_path, na = "")
+  file.copy(
+    system.file("extdata", "meta.xml", package = "camtrapdp"), # Static meta.xml
+    meta_xml_path
+  )
 }
