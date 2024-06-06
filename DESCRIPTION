@@ -3,23 +3,26 @@ Title: Prepare Movebank Data for Publication
 Version: 0.3.0
 Date: 2024-04-24
 Authors@R: c(
-    person("Peter", "Desmet", email = "peter.desmet@inbo.be",
-           role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
-    person("Sanne", "Govaert", email = "sanne.govaert@inbo.be",
-           role = "ctb", comment = c(ORCID = "0000-0002-8939-1305", affiliation = "Research Institute for Nature and Forest (INBO)")),      
-    person("Sarah", "Davidson", email = "sdavidson@ab.mpg.de",
-           role = c("ctb"), comment = c(ORCID = "0000-0002-2766-9201", affiliation = "Max Planck Institute of Animal Behavior")),
-    person("Research Institute for Nature and Forest (INBO)",
-           role = "cph", comment = "https://www.vlaanderen.be/inbo/en-gb/"),
-    person("NLBIF",
-           role = "fnd", comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/")
+    person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Sanne", "Govaert", , "sanne.govaert@inbo.be", role = "ctb",
+           comment = c(ORCID = "0000-0002-8939-1305", affiliation = "Research Institute for Nature and Forest (INBO)")),
+    person("Sarah", "Davidson", , "sdavidson@ab.mpg.de", role = "ctb",
+           comment = c(ORCID = "0000-0002-2766-9201", affiliation = "Max Planck Institute of Animal Behavior")),
+    person("Research Institute for Nature and Forest (INBO)", role = "cph",
+           comment = "https://www.vlaanderen.be/inbo/en-gb/"),
+    person("NLBIF", role = "fnd",
+           comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/")
   )
-Description: Prepare animal tracking data from 'Movebank' 
-    (<https://movebank.org>) for publication in a research repository or the 
-    Global Biodiversity Information Facility ('GBIF' <https://www.gbif.org>).
+Description: Prepare animal tracking data from 'Movebank'
+    (<https://movebank.org>) for publication in a research repository or
+    the Global Biodiversity Information Facility ('GBIF'
+    <https://www.gbif.org>).
 License: MIT + file LICENSE
 URL: https://github.com/inbo/movepub
 BugReports: https://github.com/inbo/movepub/issues
+Depends: 
+    R (>= 2.10)
 Imports:
     cli,
     dplyr,
@@ -31,18 +34,17 @@ Imports:
     tidyr,
     uuid,
     worrms
+Suggests: 
+    knitr,
+    rmarkdown,
+    stringr,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
 Remotes:
     https://github.com/frictionlessdata/frictionless-r
-Suggests: 
-    rmarkdown,
-    knitr,
-    testthat (>= 3.0.0),
-    stringr
 Config/testthat/edition: 3
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-VignetteBuilder: knitr
-Depends: 
-    R (>= 2.10)
-LazyData: true
