@@ -134,7 +134,7 @@ write_dwc <- function(package, directory, doi = package$id,
     dplyr::arrange(.data$parentEventID, .data$eventDate)
 
   # Write files
-  dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
+  dwc_occurrence_path <- file.path(directory, "occurrence.csv")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
     "{.file {dwc_occurrence_path}}"
