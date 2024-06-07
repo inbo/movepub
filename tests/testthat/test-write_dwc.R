@@ -28,7 +28,7 @@ test_that("write_dwc() returns expected messages" , {
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   expect_named(
     readr::read_csv(
-      file.path(temp_dir, "dwc_occurrence.csv"),
+      file.path(temp_dir, "occurrence.csv"),
       n_max = 1,
       show_col_types = FALSE
     ),
