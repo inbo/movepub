@@ -149,4 +149,8 @@ write_dwc <- function(package, directory, doi = package$id,
     system.file("extdata", "meta.xml", package = "movepub"), # Static meta.xml
     meta_xml_path
   )
+
+  # Return Darwin Core data invisibly
+  return <- dplyr::as_tibble(occurrence)
+  invisible(return)
 }
