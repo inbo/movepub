@@ -45,7 +45,7 @@ write_dwc_snapshot <- function(package, directory, file, ...) {
   suppressMessages(write_dwc(package, directory, ...))
   switch(
     file,
-    occurrence = file.path(directory, "dwc_occurrence.csv")
+    occurrence = file.path(directory, "occurrence.csv")
   )
 }
 
@@ -60,7 +60,7 @@ expect_dwc_snapshot <- function(package, file, directory, ...) {
   announce_snapshot_file(
     switch(
       file,
-      occurrence = file.path(directory, "dwc_occurrence.csv")
+      occurrence = file.path(directory, "occurrence.csv")
     )
   )
   # Evaluate and compare against snapshot
