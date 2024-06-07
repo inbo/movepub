@@ -36,7 +36,7 @@ Note that Movebank users retain ownership of their data, and use should follow t
 
 You can install the development version of movepub from [GitHub](https://github.com/) with:
 
-```r
+```{r, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("inbo/movepub")
 ```
