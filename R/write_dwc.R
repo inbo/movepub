@@ -151,6 +151,6 @@ write_dwc <- function(package, directory, doi = package$id,
   )
 
   # Return Darwin Core data invisibly
-  return <- dplyr::as_tibble(occurrence)
+  return <- list(occurrence = dplyr::as_tibble(occurrence))
   invisible(return)
 }
