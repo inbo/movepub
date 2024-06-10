@@ -6,7 +6,7 @@
 #' @return Data frame with Darwin Core occurrences derived from GPS positions.
 #' @family dwc functions
 #' @noRd
-dwc_occurrence_gps <- function(gps, ref, taxa) {
+create_gps_occurrence <- function(gps, ref, taxa) {
   # Expand data with all columns used in Darwin Core transformation
   gps_cols <- c(
     "comments", "event-id", "height-above-ellipsoid", "height-above-msl",

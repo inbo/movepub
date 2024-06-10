@@ -302,36 +302,17 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: df6da1f6-5582-4ffd-a7de-9667e27f0960
+#> packageId: 8068b8f2-a8da-4389-a398-547a0512d6dc
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
 
-The resulting `dwc_occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
+The resulting `occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
 
 
 ``` r
-readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"), show_col_types = FALSE)
-#> # A tibble: 5,827 × 32
-#>    type  license           rightsHolder datasetID institutionCode collectionCode
-#>    <chr> <chr>             <chr>        <chr>     <chr>           <chr>         
-#>  1 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  2 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  3 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  4 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  5 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  6 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  7 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  8 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#>  9 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#> 10 Event https://creative… Vogelwerkgr… https://… MPIAB           Movebank      
-#> # ℹ 5,817 more rows
-#> # ℹ 26 more variables: datasetName <chr>, basisOfRecord <chr>,
-#> #   dataGeneralizations <chr>, occurrenceID <chr>, sex <chr>, lifeStage <chr>,
-#> #   reproductiveCondition <lgl>, occurrenceStatus <chr>, organismID <dbl>,
-#> #   organismName <lgl>, eventID <chr>, parentEventID <chr>, eventType <chr>,
-#> #   eventDate <dttm>, samplingProtocol <chr>, eventRemarks <chr>,
-#> #   minimumElevationInMeters <dbl>, maximumElevationInMeters <dbl>, …
+readr::read_csv(file.path(dir_dwc, "occurrence.csv"), show_col_types = FALSE)
+#> Error: 'data/o_assen/dwc/occurrence.csv' does not exist in current working directory ('C:/Users/sanne_govaert/Documents/GitHub/inbo/movepub/vignettes').
 ```
 
 Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset. See the O_ASSEN example on an [IPT](https://ipt.inbo.be/resource?r=o_assen) and at [GBIF](https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc).

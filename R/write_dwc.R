@@ -51,7 +51,7 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_dwc <- function(package, directory = ".", doi = package$id,
+write_dwc <- function(package, directory, doi = package$id,
                       rights_holder = NULL) {
   if (is.null(doi)) {
     cli::cli_abort(
@@ -113,13 +113,13 @@ write_dwc <- function(package, directory = ".", doi = package$id,
 
   # Start transformation
   cli::cli_h2("Transforming data to Darwin Core")
-  dwc_occurrence_ref <- dwc_occurrence_ref(ref, taxa)
-  dwc_occurrence_gps <- dwc_occurrence_gps(gps, ref, taxa)
+  ref_occurrence <- create_ref_occurrence(ref, taxa)
+  gps_occurrence <- create_gps_occurrence(gps, ref, taxa)
 
   # Bind the occurrence df from the helper functions
-  dwc_occurrence <-
-    dwc_occurrence_ref %>%
-    dplyr::bind_rows(dwc_occurrence_gps) %>%
+  occurrence <-
+    ref_occurrence %>%
+    dplyr::bind_rows(gps_occurrence) %>%
     dplyr::mutate(
       # DATASET-LEVEL
       type = "Event",
@@ -134,13 +134,23 @@ write_dwc <- function(package, directory = ".", doi = package$id,
     dplyr::arrange(.data$parentEventID, .data$eventDate)
 
   # Write files
-  dwc_occurrence_path <- file.path(directory, "dwc_occurrence.csv")
+  occurrence_path <- file.path(directory, "occurrence.csv")
+  meta_xml_path <- file.path(directory, "meta.xml")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
-    "{.file {dwc_occurrence_path}}"
+    "{.file {occurrence_path}}",
+    "{.file {meta_xml_path}}"
   ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
-  readr::write_csv(dwc_occurrence, dwc_occurrence_path, na = "")
+  readr::write_csv(occurrence, occurrence_path, na = "")
+  file.copy(
+    system.file("extdata", "meta.xml", package = "movepub"), # Static meta.xml
+    meta_xml_path
+  )
+
+  # Return Darwin Core data invisibly
+  return <- list(occurrence = dplyr::as_tibble(occurrence))
+  invisible(return)
 }

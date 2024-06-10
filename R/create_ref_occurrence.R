@@ -5,7 +5,7 @@
 #' @return Data frame with Darwin Core occurrences derived from tag attachments.
 #' @family dwc functions
 #' @noRd
-dwc_occurrence_ref <- function(ref, taxa) {
+create_ref_occurrence <- function(ref, taxa) {
   # Expand data with all columns used in Darwin Core transformation
   ref_cols <- c(
     "animal-id", "animal-life-stage", "animal-nickname",

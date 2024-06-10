@@ -148,10 +148,10 @@ The resulting `eml.xml` file includes the metadata:
 EML::read_eml(file.path(dir_dwc, "eml.xml"))
 ```
 
-The resulting `dwc_occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
+The resulting `occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
 
 ```{r}
-readr::read_csv(file.path(dir_dwc, "dwc_occurrence.csv"), show_col_types = FALSE)
+readr::read_csv(file.path(dir_dwc, "occurrence.csv"), show_col_types = FALSE)
 ```
 
 Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset. See the O_ASSEN example on an [IPT](https://ipt.inbo.be/resource?r=o_assen) and at [GBIF](https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc).
