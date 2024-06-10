@@ -1,4 +1,5 @@
 test_that("get_mvb_term() returns information about at term", {
+  skip_if_offline()
   expected_info <- list(
     id = "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/",
     identifier = "SDN:MVB::MVB000016",
@@ -24,6 +25,7 @@ test_that("get_mvb_term() returns information about at term", {
 })
 
 test_that("get_mvb_term() returns term with prefLabel first", {
+  skip_if_offline()
   label <- "individual local identifier"
   expect_identical(get_mvb_term(label)$prefLabel, label)
   # Not term http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/ with
@@ -31,6 +33,7 @@ test_that("get_mvb_term() returns term with prefLabel first", {
 })
 
 test_that("get_mvb_term() returns term with altLabel too", {
+  skip_if_offline()
   expect_identical(
     get_mvb_term("deploy on timestamp"), # prefLabel
     get_mvb_term("deploy on date") # altLabel
@@ -38,6 +41,7 @@ test_that("get_mvb_term() returns term with altLabel too", {
 })
 
 test_that("get_mvb_term() ignores case and converts to space", {
+  skip_if_offline()
   expect_identical(
     get_mvb_term("ANIMAL-exact_date.of:birth")$prefLabel,
     "animal exact date of birth"
@@ -45,6 +49,7 @@ test_that("get_mvb_term() ignores case and converts to space", {
 })
 
 test_that("get_mvb_terms() makes use of MVB version 4 changes", {
+  skip_if_offline()
   # See https://github.com/inbo/movepub/issues/28
   expect_identical(
     get_mvb_term("magnetic field raw x"),
@@ -67,6 +72,7 @@ test_that("get_mvb_terms() makes use of MVB version 4 changes", {
 })
 
 test_that("get_mvb_term() returns error when term cannot be found", {
+  skip_if_offline()
   expect_error(
     get_mvb_term("no-such term"),
     paste(

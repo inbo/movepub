@@ -3,6 +3,7 @@ temp_dir <- file.path(tempdir(), "movepub")
 dir.create(temp_dir)
 
 test_that("write_eml() returns expected files", {
+  skip_if_offline()
   expect_snapshot_file(
     write_eml_snapshot(o_assen, temp_dir, file = "eml"),
     transform = remove_UUID
@@ -34,6 +35,7 @@ test_that("write_eml() returns error on missing or malformed doi", {
 })
 
 test_that("write_eml() returns error on invalid study_id", {
+  skip_if_offline()
   expect_error(
     write_eml(o_assen, temp_dir, study_id = "not_a_study_id"),
     class = "movepub_error_study_id_invalid"
@@ -46,6 +48,7 @@ test_that("write_eml() returns error on invalid study_id", {
 })
 
 test_that("write_eml() supports setting custom study_id", {
+  skip_if_offline()
   suppressMessages(
     write_eml(o_assen, file.path(temp_dir, "study_id"), study_id = 42)
   )
@@ -54,6 +57,7 @@ test_that("write_eml() supports setting custom study_id", {
 })
 
 test_that("write_eml() returns error on invalid contact information", {
+  skip_if_offline()
   expect_error(
     write_eml(o_assen, temp_dir, contact = list(not_a = "person_object")),
     class = "movepub_error_contact_invalid"
@@ -65,6 +69,7 @@ test_that("write_eml() returns error on invalid contact information", {
 })
 
 test_that("write_eml() supports setting custom contact information", {
+  skip_if_offline()
   suppressMessages(
     write_eml(
       o_assen,
