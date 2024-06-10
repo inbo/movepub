@@ -58,13 +58,10 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   skip_if_offline()
-  suppressMessages(write_dwc(o_assen, temp_dir))
-  expect_named(
-    readr::read_csv(
-      file.path(temp_dir, "occurrence.csv"),
-      n_max = 1,
-      show_col_types = FALSE
-    ),
+  result <- suppressMessages(write_dwc(o_assen, temp_dir))
+
+  expect_identical(
+    colnames(result$occurrence),
     c(
       "type",
       "license",
@@ -115,10 +112,7 @@ test_that("write_dwc() returns files that comply with the info in meta.xml", {
   skip_if_offline()
   suppressMessages(write_dwc(o_assen, temp_dir))
 
-  # Test if all fields are present, in the right order
-  expect_fields(file.path(temp_dir,"occurrence.csv"))
-  # Test if the file location (filenames) is the same as in meta.xml
-  expect_location(file.path(temp_dir,"occurrence.csv"))
+  expect_meta_match(file.path(temp_dir, "occurrence.csv"))
 })
 
 test_that("write_dwc() returns expected messages" , {

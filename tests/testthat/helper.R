@@ -29,86 +29,48 @@ remove_UUID <- function(string, replacement = "RANDOM_UUID") {
   )
 }
 
-#' Get snapshot for write_dwc()
+#' Helper function to compare a CSV file against the meta.xml file
 #'
-#' Wrapper of `write_dwc()` that returns path of selected output file.
-#' Needed for `testthat::expect_snapshot_file()` which expects the path of a
-#' single file to compare against snapshot.
-#' @inheritParams write_dwc
-#' @param file `occurrence`, the output file of `write_dwc()` to return.
-#' @param ... forwarded to [write_dwc()].
-#' @return Path of selected output file.
-#' @family helper functions
+#' Compares the file name and column headers (without namespace) in a CSV file
+#' with (respectively) the `location` and `fields` as defined in the `meta.xml`
+#' file.
+#'
+#' @param file Path to CSV file.
+#' @param core Name of core CSV file.
+#' @inheritDotParams expect_identical info label
 #' @noRd
-#' @examples write_dwc_snapshot(mica, tempdir(), "occurrence")
-write_dwc_snapshot <- function(package, directory, file, ...) {
-  suppressMessages(write_dwc(package, directory, ...))
-  switch(
-    file,
-    occurrence = file.path(directory, "occurrence.csv")
-  )
-}
+#' @examples
+#' expect_meta_match("tests/testthat/_snaps/write_dwc/multimedia.csv")
+expect_meta_match <- function(file, core = "occurrence.csv", ...) {
+  core_or_extension <- ifelse(basename(file) == core, "core", "extension")
 
-#' Wrapper to snapshot output of write_dwc()
-#'
-#' @inheritParams write_dwc()
-#' @noRd
-#' @family helper functions
-expect_dwc_snapshot <- function(package, file, directory, ...) {
-  # Announce the snapshot, so if write_dwc_snapshot() fails, testthat will not
-  # auto-delete the corresponding snapshot file
-  announce_snapshot_file(
-    switch(
-      file,
-      occurrence = file.path(directory, "occurrence.csv")
-    )
-  )
-  # Evaluate and compare against snapshot
-  expect_snapshot_file(
-    write_dwc_snapshot(package, directory, file, ...),
-    transform = remove_UUID,
-    variant = file
-  )
-}
+  # Parse reference meta.xml from inst/extdata/meta.xml
+  xml_list <-
+    xml2::read_xml(system.file("extdata", "meta.xml", package = "movepub")) %>%
+    xml2::as_list()
+  xml_file_location <-
+    purrr::chuck(xml_list, "archive", core_or_extension, "files", "location") %>%
+    unlist()
+  xml_file_fields <-
+    xml_list %>%
+    purrr::chuck("archive", core_or_extension) %>%
+    purrr::map_dfr(~ dplyr::tibble(
+      index = as.numeric(attr(.x, which = "index")),
+      term = attr(.x, which = "term")
+    )) %>%
+    dplyr::filter(!is.na(term)) %>%
+    dplyr::mutate(field = basename(term), .keep = "unused")
 
-#' Get snapshot for write_eml()
-#'
-#' Wrapper of `eml_dwc()` that returns path of selected output file.
-#' Needed for `testthat::expect_snapshot_file()` which expects the path of a
-#' single file to compare against snapshot.
-#' @inheritParams eml_dwc
-#' @param file `eml` file, the output file of `write_eml()` to return.
-#' @param ... forwarded to [write_eml()].
-#' @return Path of selected output file.
-#' @family helper functions
-#' @noRd
-#' @examples write_eml_snapshot(mica, tempdir(), "occurrence")
-write_eml_snapshot <- function(package, directory, file, ...) {
-  suppressMessages(write_eml(package, directory, ...))
-  switch(
-    file,
-    eml = file.path(directory, "eml.xml")
-  )
-}
+  # Get fields from csv
+  csv_file_cols <-
+    readr::read_csv(file, show_col_types = FALSE) %>%
+    colnames() %>%
+    purrr::map_chr(~ sub("^[A-Za-z]+:", "", .x)) # Remove namespace like "dcterms:"
+  csv_file_fields <-
+    dplyr::tibble(field = csv_file_cols) %>%
+    dplyr::mutate(index = as.integer(rownames(.)) - 1, .before = field) # Add index
 
-#' Wrapper to snapshot output of write_eml()
-#'
-#' @inheritParams write_eml()
-#' @noRd
-#' @family helper functions
-expect_eml_snapshot <- function(package, file, directory, ...) {
-  # Announce the snapshot, so if write_eml_snapshot() fails, testthat will not
-  # auto-delete the corresponding snapshot file
-  announce_snapshot_file(
-    switch(
-      file,
-      eml = file.path(directory, "eml.xml")
-    )
-  )
-  # Evaluate and compare against snapshot
-  expect_snapshot_file(
-    write_eml_snapshot(package, directory, file, ...),
-    transform = remove_UUID,
-    variant = file
-  )
+  # Compare
+  testthat::expect_identical(csv_file_fields, xml_file_fields, )
+  testthat::expect_identical(basename(file), xml_file_location)
 }

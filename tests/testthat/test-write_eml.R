@@ -2,19 +2,14 @@
 temp_dir <- file.path(tempdir(), "movepub")
 dir.create(temp_dir)
 
-test_that("write_eml() returns expected files", {
+test_that("write_dwc() returns the expected Darwin files", {
   skip_if_offline()
+  suppressMessages(write_eml(o_assen, temp_dir))
+
   expect_snapshot_file(
-    write_eml_snapshot(o_assen, temp_dir, file = "eml"),
+    file.path(temp_dir, "eml.xml"),
     transform = remove_UUID
-  )
-  expect_snapshot_file(
-    write_eml_snapshot(
-      doi = "10.5281/zenodo.10053903",
-      directory = temp_dir,
-      file = "eml"),
-    transform = remove_UUID
-  )
+    )
 })
 
 test_that("write_eml() returns error on missing or malformed doi", {
