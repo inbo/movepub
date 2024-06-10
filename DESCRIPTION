@@ -36,7 +36,8 @@ Suggests:
     rmarkdown,
     knitr,
     testthat (>= 3.0.0),
-    stringr
+    stringr,
+    xml2
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
