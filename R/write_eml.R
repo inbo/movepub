@@ -81,10 +81,6 @@ write_eml <- function(package, directory, doi = package$id,
   }
   eml <- datacite_to_eml(doi)
 
-  # Update title
-  title <- paste(eml$dataset$title, "[subsampled representation]")
-  eml$dataset$title <- title
-
   # Update license
   license_code <- eml$dataset$intellectualRights$rightsIdentifier
   # Remove original license elements that make EML invalid
