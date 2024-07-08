@@ -2,7 +2,7 @@
 temp_dir <- file.path(tempdir(), "movepub")
 dir.create(temp_dir)
 
-test_that("write_dwc() returns the expected Darwin files", {
+test_that("write_eml() returns the expected Darwin files", {
   skip_if_offline()
   suppressMessages(write_eml(o_assen, temp_dir))
 
