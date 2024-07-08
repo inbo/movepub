@@ -3,7 +3,7 @@
   <dataset>
     <alternateIdentifier>https://doi.org/10.5281/zenodo.10053903</alternateIdentifier>
     <alternateIdentifier>https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471</alternateIdentifier>
-    <title>O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) [subsampled representation]</title>
+    <title>O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)</title>
     <creator>
       <individualName>
         <givenName>Bert</givenName>
@@ -58,7 +58,6 @@
     </metadataProvider>
     <pubDate>2023-10-30</pubDate>
     <abstract>
-      <para><![CDATA[<span></span>This animal tracking dataset is derived from Dijkstra et al. (2023, <a href="https://doi.org/10.5281/zenodo.10053903">https://doi.org/10.5281/zenodo.10053903</a>), a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled to the first GPS position per hour. The original dataset description follows.]]></para>
       <para>O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.
 
 See van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset.
@@ -82,6 +81,7 @@ Acknowledgements
 
 These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</para>
       <para>This version adds alt-project-id to the reference-data and references the latest Movebank Attribute Dictionary.</para>
+      <para><![CDATA[<span></span>Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled to the first GPS position per hour. The original data are available inDijkstra et al. (2023, <a href="https://doi.org/10.5281/zenodo.10053903">https://doi.org/10.5281/zenodo.10053903</a>), a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>.]]></para>
     </abstract>
     <keywordSet>
       <keyword>animal movement</keyword>
