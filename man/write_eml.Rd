@@ -15,7 +15,7 @@ write_eml(
 \arguments{
 \item{doi}{DOI of the original dataset, used to get metadata.}
 
-\item{directory}{Path to local directory to write file(s) to.}
+\item{directory}{Path to local directory to write files to.}
 
 \item{contact}{Person to be set as resource contact and metadata provider.
 To be provided as a \code{\link[=person]{person()}}.}
@@ -24,20 +24,15 @@ To be provided as a \code{\link[=person]{person()}}.}
 derived (e.g. \code{1605797471} for \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{this study}).}
 
 \item{derived_paragraph}{If \code{TRUE}, a paragraph will be added to the abstract,
-indicating that data have been transformed using \code{write_dwc()}.
-Example:
-
-Data have been standardized to Darwin Core using the \href{https://inbo.github.io/movepub/}{movepub} R package and are downsampled to the first
-GPS position per hour. The original data are available in Dijkstra et al.
-(2023, \url{https://doi.org/10.5281/zenodo.10053903}), a deposit of Movebank
-study \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{1605797471}.}
+indicating that data have been transformed using \code{write_dwc()}.}
 }
 \value{
-EML file written to disk.
+\code{eml.xml} file written to disk.
 And invisibly, an \link[EML:eml]{EML::eml} object.
 }
 \description{
-Transforms metadata of a published Movebank dataset (with a DOI) to an \href{https://eml.ecoinformatics.org/}{EML} file.
+Transforms the metadata of a published Movebank dataset (with a DOI) to an
+\href{https://eml.ecoinformatics.org/}{Ecological Metadata Language (EML)} file.
 }
 \details{
 The resulting EML file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
@@ -45,7 +40,7 @@ for publication to GBIF and/or OBIS.
 A corresponding Darwin Core Archive can be created with \code{\link[=write_dwc]{write_dwc()}}.
 See \code{vignette("movepub")} for an example.
 }
-\section{Metadata}{
+\section{Transformation details}{
 
 Metadata are derived from the original dataset by looking up its \code{doi} in
 DataCite (\href{https://api.datacite.org/dois/10.5281/zenodo.5879096}{example})
@@ -53,8 +48,13 @@ and transforming these to EML.
 The following properties are set:
 \itemize{
 \item \strong{title}: Original dataset title.
-\item \strong{description}: The original dataset description and an optional generated
-paragraph (see \code{derived_paragraph}).
+\item \strong{description}: Original dataset description.
+If \code{derived_paragraph = TRUE} a generated paragraph is added, e.g.:
+
+Data have been standardized to Darwin Core using the \href{https://inbo.github.io/movepub/}{movepub} R package and are downsampled to the first
+GPS position per hour. The original data are available in Dijkstra et al.
+(2023, \url{https://doi.org/10.5281/zenodo.10053903}), a deposit of Movebank
+study \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{1605797471}.
 \item \strong{license}: License of the original dataset.
 \item \strong{creators}: Creators of the original dataset.
 \item \strong{contact}: \code{contact} or first creator of the original dataset.
@@ -67,13 +67,21 @@ As a result, no new DOI will be created when publishing to GBIF.
 dataset.
 }
 
-To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
-\strong{update frequency}, and \strong{publishing organization}.
-
-Not set: geographic, taxonomic, temporal coverage, associated parties,
-project data, sampling methods, and citations.
-
-Not applicable: collection data.
+The following properties are not set:
+\itemize{
+\item \strong{type}
+\item \strong{subtype}
+\item \strong{update frequency}
+\item \strong{publishing organization}
+\item \strong{geographic coverage}
+\item \strong{taxonomic coverage}
+\item \strong{temporal coverage}
+\item \strong{associated parties}
+\item \strong{project data}
+\item \strong{sampling methods}
+\item \strong{citations}
+\item \strong{collection data}: not applicable.
+}
 }
 
 \examples{

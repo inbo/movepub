@@ -11,7 +11,7 @@ write_dwc(package, directory, doi = package$id, rights_holder = NULL)
 \code{\link[frictionless:read_package]{frictionless::read_package()}}.
 It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
-\item{directory}{Path to local directory to write file to.}
+\item{directory}{Path to local directory to write files to.}
 
 \item{doi}{DOI of the original dataset, used to set dataset-level terms.}
 

@@ -12,7 +12,7 @@
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
 #'   It is expected to contain a `reference-data` and `gps` resource.
-#' @param directory Path to local directory to write file to.
+#' @param directory Path to local directory to write files to.
 #' @param doi DOI of the original dataset, used to set dataset-level terms.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.

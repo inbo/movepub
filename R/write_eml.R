@@ -1,7 +1,7 @@
 #' Transform Movebank metadata to EML
 #'
-#' Transforms metadata of a published Movebank dataset (with a DOI) to an [EML](
-#' https://eml.ecoinformatics.org/) file.
+#' Transforms the metadata of a published Movebank dataset (with a DOI) to an
+#' [Ecological Metadata Language (EML)](https://eml.ecoinformatics.org/) file.
 #'
 #' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
 #' for publication to GBIF and/or OBIS.
@@ -9,7 +9,7 @@
 #' See `vignette("movepub")` for an example.
 #'
 #' @param doi DOI of the original dataset, used to get metadata.
-#' @param directory Path to local directory to write file(s) to.
+#' @param directory Path to local directory to write files to.
 #' @param contact Person to be set as resource contact and metadata provider.
 #'   To be provided as a [person()].
 #' @param study_id Identifier of the Movebank study from which the dataset was
@@ -17,7 +17,18 @@
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)).
 #' @param derived_paragraph If `TRUE`, a paragraph will be added to the abstract,
 #'   indicating that data have been transformed using `write_dwc()`.
-#'   Example:
+#' @return `eml.xml` file written to disk.
+#'   And invisibly, an [EML::eml] object.
+#' @family dwc functions
+#' @export
+#' @section Transformation details:
+#' Metadata are derived from the original dataset by looking up its `doi` in
+#' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
+#' and transforming these to EML.
+#' The following properties are set:
+#' - **title**: Original dataset title.
+#' - **description**: Original dataset description.
+#'   If `derived_paragraph = TRUE` a generated paragraph is added, e.g.:
 #'
 #'   Data have been standardized to Darwin Core using the [movepub](
 #'   https://inbo.github.io/movepub/) R package and are downsampled to the first
@@ -25,19 +36,6 @@
 #'   (2023, <https://doi.org/10.5281/zenodo.10053903>), a deposit of Movebank
 #'   study [1605797471](
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471).
-#' @return EML file written to disk.
-#'   And invisibly, an [EML::eml] object.
-#' @family dwc functions
-#' @export
-#' @section Metadata:
-#' Metadata are derived from the original dataset by looking up its `doi` in
-#' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
-#' and transforming these to EML.
-#' The following properties are set:
-#'
-#' - **title**: Original dataset title.
-#' - **description**: The original dataset description and an optional generated
-#'     paragraph (see `derived_paragraph`).
 #' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
@@ -49,13 +47,19 @@
 #'   `study_id` or the first `derived from` related identifier in the original
 #'   dataset.
 #'
-#' To be set manually in the GBIF IPT: **type**, **subtype**,
-#' **update frequency**, and **publishing organization**.
-#'
-#' Not set: geographic, taxonomic, temporal coverage, associated parties,
-#' project data, sampling methods, and citations.
-#'
-#' Not applicable: collection data.
+#' The following properties are not set:
+#' - **type**
+#' - **subtype**
+#' - **update frequency**
+#' - **publishing organization**
+#' - **geographic coverage**
+#' - **taxonomic coverage**
+#' - **temporal coverage**
+#' - **associated parties**
+#' - **project data**
+#' - **sampling methods**
+#' - **citations**
+#' - **collection data**: not applicable.
 #' @examples
 #' (write_eml(doi = "10.5281/zenodo.10053903", directory = "my_directory"))
 #'
@@ -63,7 +67,7 @@
 #' unlink("my_directory", recursive = TRUE)
 write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
                       derived_paragraph = TRUE) {
-  # Retrieve metadata from DataCite and build EML
+  # Check DOI
   if (is.null(doi)) {
     cli::cli_abort(
       c(
@@ -82,6 +86,8 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
       class = "movepub_error_doi_invalid"
     )
   }
+
+  # Retrieve metadata from DataCite and build EML
   eml <- datacite_to_eml(doi)
 
   # Update license
@@ -93,7 +99,7 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
   # Get DOI URL
   doi_url <- eml$dataset$alternateIdentifier[[1]]
 
-  # Get/set study url
+  # Get/set study URL
   study_url_prefix <-
     "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
   if (!is.null(study_id)) {
@@ -128,7 +134,7 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
       "<span></span>Data have been standardized to Darwin Core using the ",
       "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
       "and are downsampled to the first GPS position per hour. ",
-      "The original data are available in", first_author, " et al. (",
+      "The original data are available in ", first_author, " et al. (",
       pub_year, ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
       "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
       "</a>."
@@ -182,5 +188,7 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     dir.create(directory, recursive = TRUE)
   }
   EML::write_eml(eml, eml_path)
+
+  # Return EML list invisibly
   invisible(eml)
 }
