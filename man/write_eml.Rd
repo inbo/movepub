@@ -4,7 +4,13 @@
 \alias{write_eml}
 \title{Transform Movebank metadata to EML}
 \usage{
-write_eml(doi, directory, contact = NULL, study_id = NULL, derived_para = TRUE)
+write_eml(
+  doi,
+  directory,
+  contact = NULL,
+  study_id = NULL,
+  derived_paragraph = TRUE
+)
 }
 \arguments{
 \item{doi}{DOI of the original dataset, used to get metadata.}
@@ -17,7 +23,7 @@ To be provided as a \code{\link[=person]{person()}}.}
 \item{study_id}{Identifier of the Movebank study from which the dataset was
 derived (e.g. \code{1605797471} for \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{this study}).}
 
-\item{derived_para}{If \code{TRUE}, a paragraph will be added to the abstract,
+\item{derived_paragraph}{If \code{TRUE}, a paragraph will be added to the abstract,
 indicating that data have been transformed using \code{write_dwc()}.
 Example:
 
@@ -50,7 +56,7 @@ The following properties are set:
 \itemize{
 \item \strong{title}: Original dataset title.
 \item \strong{description}: The original dataset description and an optional generated
-paragraph (see \code{derived_para}).
+paragraph (see \code{derived_paragraph}).
 \item \strong{license}: License of the original dataset.
 \item \strong{creators}: Creators of the original dataset.
 \item \strong{contact}: \code{contact} or first creator of the original dataset.

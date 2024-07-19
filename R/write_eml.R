@@ -16,7 +16,7 @@
 #' @param study_id Identifier of the Movebank study from which the dataset was
 #'   derived (e.g. `1605797471` for [this study](
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)).
-#' @param derived_para If `TRUE`, a paragraph will be added to the abstract,
+#' @param derived_paragraph If `TRUE`, a paragraph will be added to the abstract,
 #'   indicating that data have been transformed using `write_dwc()`.
 #'   Example:
 #'
@@ -38,7 +38,7 @@
 #'
 #' - **title**: Original dataset title.
 #' - **description**: The original dataset description and an optional generated
-#'     paragraph (see `derived_para`).
+#'     paragraph (see `derived_paragraph`).
 #' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
@@ -63,7 +63,7 @@
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
 write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
-                      derived_para = TRUE) {
+                      derived_paragraph = TRUE) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
     cli::cli_abort(
@@ -121,7 +121,7 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
   }
 
   # Add extra paragraph to description
-  if (derived_para) {
+  if (derived_paragraph) {
     first_author <- eml$dataset$creator[[1]]$individualName$surName
     pub_year <- substr(eml$dataset$pubDate, 1, 4)
     last_para <- paste0(
