@@ -1,17 +1,11 @@
-#' Remove a UUID from a character
+#' Helper function to remove UUID
 #'
-#' Helper for test-write_dwc.R.
-#' This helper is convenient for file snapshots where a UUID is included in the
-#' file, yet different every run.
-#' This is a common artifact of how frictionless data packages are created using
-#' frictionless-r.
-#' If this behaviour in frictionless-r is changed in the future, this helper
-#' becomes unnecessary.
-#' @param string Character vector. Of which UUIDs need to be removed.
-#' @param replacement Character (Optional). A replacement for the matched UUID.
-#' By default `"RANDOM_UUID"`.
+#' Removes a pattern matching a UUID from a character.
+#' This allows the output from write_eml() - which generates a different UUID
+#' for every run - to be compared against a snapshot.
+#' @param character Character vector from which UUID should be removed.
+#' @param replacement Optional replacement character.
 #' @return A character vector with the UUIDs removed.
-#' @family helper functions
 #' @examples
 #' to_clean <- paste(
 #'   'encoding=\"UTF-8\"?>",',
@@ -20,12 +14,12 @@
 #'   'system=\"uuid\"',
 #'   collapse = " "
 #' )
-#' remove_UUID(to_clean)
-remove_UUID <- function(string, replacement = "RANDOM_UUID") {
+#' remove_uuid(to_clean)
+remove_uuid <- function(character, replacement = "RANDOM_UUID") {
   gsub(
     "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}", # nolint: line_length_linter
     replacement,
-    string
+    character
   )
 }
 
@@ -46,7 +40,7 @@ expect_meta_match <- function(file, core = "occurrence.csv", ...) {
 
   # Parse reference meta.xml from inst/extdata/meta.xml
   xml_list <-
-    xml2::read_xml(system.file("extdata", "meta.xml", package = "movepub")) %>%
+    xml2::read_xml(system.file("extdata", "meta.xml", package = "camtrapdp")) %>%
     xml2::as_list()
   xml_file_location <-
     purrr::chuck(xml_list, "archive", core_or_extension, "files", "location") %>%
