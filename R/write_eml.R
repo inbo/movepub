@@ -15,8 +15,8 @@
 #' @param study_id Identifier of the Movebank study from which the dataset was
 #'   derived (e.g. `1605797471` for [this study](
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)).
-#' @param derived_paragraph If `TRUE`, a paragraph will be added to the abstract,
-#'   indicating that data have been transformed using `write_dwc()`.
+#' @param derived_paragraph If `TRUE`, a paragraph will be added to the
+#'   abstract, indicating that data have been transformed using `write_dwc()`.
 #' @return `eml.xml` file written to disk.
 #'   And invisibly, an [EML::eml] object.
 #' @family dwc functions
