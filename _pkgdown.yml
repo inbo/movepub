@@ -11,7 +11,7 @@ authors:
     href: https://twitter.com/peterdesmet
   NLBIF:
     href: "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/"
-    html: "<img src='https://www.nlbif.nl/wp-content/uploads/logo-nlbif.png' width=72>"
+    html: "<img src='https://www.nlbif.nl/wp-content/uploads/logo-nlbif.png' width=72 alt='NLBIF logo'>"
 
 reference:
 - title: "Make a Movebank dataset \"frictionless\""
