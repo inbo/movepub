@@ -3,15 +3,15 @@ test_that("write_eml() returns error on missing or malformed doi", {
   on.exit(unlink(temp_dir, recursive = TRUE))
 
   expect_error(
-    write_dwc(doi = NULL, temp_dir),
+    write_eml(doi = NULL, temp_dir),
     class = "movepub_error_doi_missing"
   )
   expect_error(
-    write_dwc(doi = c("a", "b", "c"), temp_dir),
+    write_eml(doi = c("a", "b", "c"), temp_dir),
     class = "movepub_error_doi_invalid"
   )
   expect_error(
-    write_dwc(doi = 10.5281, temp_dir),
+    write_eml(doi = 10.5281, temp_dir),
     class = "movepub_error_doi_invalid"
   )
 })
@@ -43,7 +43,7 @@ test_that("write_eml() returns error on invalid contact", {
   )
 })
 
-test_that("write_dwc() writes an eml.xml to a directory and returns eml
+test_that("write_eml() writes an eml.xml to a directory and returns eml
            invisibly", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
@@ -62,7 +62,7 @@ test_that("write_dwc() writes an eml.xml to a directory and returns eml
   expect_type(result, "list")
 })
 
-test_that("write_dwc() returns the expected Darwin Core mapping for the example
+test_that("write_eml() returns the expected eml.xml file for the example
            dataset", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
