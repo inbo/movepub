@@ -1,1 +1,3 @@
-tests/testthat/_snaps/** eol=lf
+# Use LF for csv and xml to allow cross-platform comparison of tests/testthat/_snaps
+*.csv eol=lf
+*.xml eol=lf
