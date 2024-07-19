@@ -9,16 +9,24 @@
 #' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
 #' for examples.
 #'
-#' @param package A Frictionless Data Package of Movebank data, as read by
-#'   [frictionless::read_package()].
-#' @param directory Path to local directory to write file(s) to.
 #' @param doi DOI of the original dataset, used to get metadata.
+#' @param directory Path to local directory to write file(s) to.
 #' @param contact Person to be set as resource contact and metadata provider.
 #'   To be provided as a [person()].
 #' @param study_id Identifier of the Movebank study from which the dataset was
-#' @return EML (metadata) file written to disk.
 #'   derived (e.g. `1605797471` for [this study](
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)).
+#' @param derived_para If `TRUE`, a paragraph will be added to the abstract,
+#'   indicating that data have been transformed using `write_dwc()`.
+#'   Example:
+#'
+#'   Data have been standardized to Darwin Core using the [movepub](
+#'   https://inbo.github.io/movepub/) R package and are downsampled to the first
+#'   GPS position per hour. The original data are available in Dijkstra et al.
+#'   (2023, <https://doi.org/10.5281/zenodo.10053903>), a deposit of Movebank
+#'   study [1605797471](
+#'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471).
+#' @return EML file written to disk.
 #' @family dwc functions
 #' @export
 #' @section Metadata:
@@ -27,9 +35,9 @@
 #' and transforming these to EML.
 #' The following properties are set:
 #'
-#' - **description**: Automatically created first paragraph describing this is
-#'   a derived dataset, followed by the original dataset description.
 #' - **title**: Original dataset title.
+#' - **description**: The original dataset description and an optional generated
+#'     paragraph (see `derived_para`).
 #' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
@@ -56,9 +64,8 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-#' }
-write_eml <- function(package, directory, doi = package$id,
-                      contact = NULL, study_id = NULL) {
+write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
+                      derived_para = TRUE) {
   # Retrieve metadata from DataCite and build EML
   if (is.null(doi)) {
     cli::cli_abort(
@@ -90,7 +97,8 @@ write_eml <- function(package, directory, doi = package$id,
   doi_url <- eml$dataset$alternateIdentifier[[1]]
 
   # Get/set study url
-  study_url_prefix <- "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study" # nolint: line_length_linter
+  study_url_prefix <-
+    "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study"
   if (!is.null(study_id)) {
     # Provided as parameter
     study_url <- paste0(study_url_prefix, study_id)
@@ -115,23 +123,24 @@ write_eml <- function(package, directory, doi = package$id,
   }
 
   # Add extra paragraph to description
-  first_author <- eml$dataset$creator[[1]]$individualName$surName
-  pub_year <- substr(eml$dataset$pubDate, 1, 4)
-  last_para <- paste0(
-    # Add span to circumvent https://github.com/ropensci/EML/issues/342
-    "<span></span>Data have been standardized to Darwin Core using the ",
-    "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
-    "and are downsampled to the first GPS position per hour. ",
-    "The original data are available in", first_author, " et al. (", pub_year,
-    ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
-    "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
-    "</a>."
-  )
-  eml$dataset$abstract$para <- append(
-    #after = 0,
-    eml$dataset$abstract$para,
-    paste0("<![CDATA[", last_para, "]]>")
-  )
+  if (derived_para) {
+    first_author <- eml$dataset$creator[[1]]$individualName$surName
+    pub_year <- substr(eml$dataset$pubDate, 1, 4)
+    last_para <- paste0(
+      # Add span to circumvent https://github.com/ropensci/EML/issues/342
+      "<span></span>Data have been standardized to Darwin Core using the ",
+      "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
+      "and are downsampled to the first GPS position per hour. ",
+      "The original data are available in", first_author, " et al. (",
+      pub_year, ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
+      "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
+      "</a>."
+    )
+    eml$dataset$abstract$para <- append(
+      eml$dataset$abstract$para,
+      paste0("<![CDATA[", last_para, "]]>")
+    )
+  }
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
