@@ -281,4 +281,19 @@ references:
     email: hadley@posit.co
   year: '2024'
   version: '>= 3.0.0'
+- type: software
+  title: xml2
+  abstract: 'xml2: Parse XML'
+  notes: Suggests
+  url: https://xml2.r-lib.org/
+  repository: https://CRAN.R-project.org/package=xml2
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Ooms
+    given-names: Jeroen
+  year: '2024'
 
