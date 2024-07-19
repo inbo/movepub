@@ -1,60 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://inbo.github.io/movepub/404.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/articles/movepub.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/add_resource.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/datacite_to_eml.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/get_aphia_id.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/get_mvb_term.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/movepub-package.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/o_assen.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/write_dwc.html</loc>
-  </url>
-  <url>
-    <loc>https://inbo.github.io/movepub/reference/write_eml.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://inbo.github.io/movepub/404.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/CONTRIBUTING.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/LICENSE-text.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/LICENSE.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/articles/index.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/articles/movepub.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/authors.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/index.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/news/index.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/add_resource.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/datacite_to_eml.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/get_aphia_id.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/get_mvb_term.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/index.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/movepub-package.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/o_assen.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/write_dwc.html</loc></url>
+<url><loc>https://inbo.github.io/movepub/reference/write_eml.html</loc></url>
 </urlset>
+
