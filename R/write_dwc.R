@@ -7,14 +7,13 @@
 #' The resulting files can be uploaded to an [IPT](https://www.gbif.org/ipt)
 #' for publication to GBIF and/or OBIS.
 #' A corresponding `eml.xml` metadata file can be created with [write_eml()].
-#' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
-#' for examples.
+#' See `vignette("movepub")` for an example.
 #'
 #' @param package A Frictionless Data Package of Movebank data, as read by
 #'   [frictionless::read_package()].
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write file to.
-#' @param doi DOI of the original dataset, used to get dataset-level terms.
+#' @param doi DOI of the original dataset, used to set dataset-level terms.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @return CSV and `meta.xml` files written to disk.

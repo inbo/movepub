@@ -13,7 +13,7 @@ It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
 \item{directory}{Path to local directory to write file to.}
 
-\item{doi}{DOI of the original dataset, used to get dataset-level terms.}
+\item{doi}{DOI of the original dataset, used to set dataset-level terms.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
@@ -29,8 +29,7 @@ Transforms a Movebank dataset (formatted as a \href{https://specs.frictionlessda
 The resulting files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
 for publication to GBIF and/or OBIS.
 A corresponding \code{eml.xml} metadata file can be created with \code{\link[=write_eml]{write_eml()}}.
-See \href{https://inbo.github.io/movepub/articles/movepub.html#dwc}{Get started}
-for examples.
+See \code{vignette("movepub")} for an example.
 }
 \section{Transformation details}{
 

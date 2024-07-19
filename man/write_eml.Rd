@@ -34,18 +34,16 @@ study \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=s
 }
 \value{
 EML file written to disk.
-And invisibly, EML object.
+And invisibly, an \link[EML:eml]{EML::eml} object.
 }
 \description{
-Transforms metadata of a published a Movebank dataset (with a DOI) to an
-\href{https://eml.ecoinformatics.org/}{EML} file.
+Transforms metadata of a published Movebank dataset (with a DOI) to an \href{https://eml.ecoinformatics.org/}{EML} file.
 }
 \details{
 The resulting EML file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
 for publication to GBIF and/or OBIS.
 A corresponding Darwin Core Archive can be created with \code{\link[=write_dwc]{write_dwc()}}.
-See \href{https://inbo.github.io/movepub/articles/movepub.html#dwc}{Get started}
-for examples.
+See \code{vignette("movepub")} for an example.
 }
 \section{Metadata}{
 
@@ -63,9 +61,9 @@ paragraph (see \code{derived_paragraph}).
 \item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
 \item \strong{keywords}: Keywords of the original dataset.
 \item \strong{alternative identifier}: DOI of the original dataset.
-This way, no new DOI will be created when publishing to GBIF.
+As a result, no new DOI will be created when publishing to GBIF.
 \item \strong{external link} and \strong{alternative identifier}: URL created from
-\code{study_id} or the first "derived from" related identifier in the original
+\code{study_id} or the first \verb{derived from} related identifier in the original
 dataset.
 }
 

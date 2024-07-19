@@ -1,13 +1,12 @@
 #' Transform Movebank metadata to EML
 #'
-#' Transforms metadata of a published a Movebank dataset (with a DOI) to an
-#' [EML](https://eml.ecoinformatics.org/) file.
+#' Transforms metadata of a published Movebank dataset (with a DOI) to an [EML](
+#' https://eml.ecoinformatics.org/) file.
 #'
 #' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
 #' for publication to GBIF and/or OBIS.
 #' A corresponding Darwin Core Archive can be created with [write_dwc()].
-#' See [Get started](https://inbo.github.io/movepub/articles/movepub.html#dwc)
-#' for examples.
+#' See `vignette("movepub")` for an example.
 #'
 #' @param doi DOI of the original dataset, used to get metadata.
 #' @param directory Path to local directory to write file(s) to.
@@ -27,7 +26,7 @@
 #'   study [1605797471](
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471).
 #' @return EML file written to disk.
-#'   And invisibly, EML object.
+#'   And invisibly, an [EML::eml] object.
 #' @family dwc functions
 #' @export
 #' @section Metadata:
@@ -45,9 +44,9 @@
 #' - **metadata provider**: `contact` or first creator of the original dataset.
 #' - **keywords**: Keywords of the original dataset.
 #' - **alternative identifier**: DOI of the original dataset.
-#'   This way, no new DOI will be created when publishing to GBIF.
+#'   As a result, no new DOI will be created when publishing to GBIF.
 #' - **external link** and **alternative identifier**: URL created from
-#'   `study_id` or the first "derived from" related identifier in the original
+#'   `study_id` or the first `derived from` related identifier in the original
 #'   dataset.
 #'
 #' To be set manually in the GBIF IPT: **type**, **subtype**,
