@@ -38,7 +38,8 @@ Suggests:
     knitr,
     rmarkdown,
     stringr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    xml2
 VignetteBuilder: 
     knitr
 Remotes:

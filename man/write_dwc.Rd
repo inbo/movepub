@@ -4,7 +4,7 @@
 \alias{write_dwc}
 \title{Transform Movebank data to a Darwin Core Archive}
 \usage{
-write_dwc(package, directory = ".", doi = package$id, rights_holder = NULL)
+write_dwc(package, directory, doi = package$id, rights_holder = NULL)
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as read by
