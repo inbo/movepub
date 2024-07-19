@@ -1,8 +1,7 @@
-#' Transform Movebank data to EML (metadata)
+#' Transform Movebank metadata to EML
 #'
-#' Uses the DOI of a Movebank dataset (formatted as a [Frictionless Data
-#' Package](https://specs.frictionlessdata.io/data-package/)) to derive
-#' metadata from Datacite and build EML.
+#' Transforms metadata of a published a Movebank dataset (with a DOI) to an
+#' [EML](https://eml.ecoinformatics.org/) file.
 #'
 #' The resulting EML file can be uploaded to an [IPT](https://www.gbif.org/ipt)
 #' for publication to GBIF and/or OBIS.
@@ -17,28 +16,27 @@
 #' @param contact Person to be set as resource contact and metadata provider.
 #'   To be provided as a [person()].
 #' @param study_id Identifier of the Movebank study from which the dataset was
-#'   derived (e.g. `1605797471` for
-#'   [this study](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747)).
 #' @return EML (metadata) file written to disk.
+#'   derived (e.g. `1605797471` for [this study](
+#'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)).
 #' @family dwc functions
 #' @export
 #' @section Metadata:
 #' Metadata are derived from the original dataset by looking up its `doi` in
 #' DataCite ([example](https://api.datacite.org/dois/10.5281/zenodo.5879096))
 #' and transforming these to EML.
-#' Uses `datacite_to_eml()` under the hood.
 #' The following properties are set:
 #'
-#' - **title**: Original title + `[subsampled representation]`.
 #' - **description**: Automatically created first paragraph describing this is
 #'   a derived dataset, followed by the original dataset description.
+#' - **title**: Original dataset title.
 #' - **license**: License of the original dataset.
 #' - **creators**: Creators of the original dataset.
 #' - **contact**: `contact` or first creator of the original dataset.
 #' - **metadata provider**: `contact` or first creator of the original dataset.
 #' - **keywords**: Keywords of the original dataset.
-#' - **alternative identifier**: DOI of the original dataset. This way, no new
-#'   DOI will be created when publishing to GBIF.
+#' - **alternative identifier**: DOI of the original dataset.
+#'   This way, no new DOI will be created when publishing to GBIF.
 #' - **external link** and **alternative identifier**: URL created from
 #'   `study_id` or the first "derived from" related identifier in the original
 #'   dataset.
@@ -48,6 +46,7 @@
 #'
 #' Not set: geographic, taxonomic, temporal coverage, associated parties,
 #' project data, sampling methods, and citations.
+#'
 #' Not applicable: collection data.
 #' @examples
 #' \dontrun{
