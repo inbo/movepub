@@ -27,6 +27,7 @@
 #'   study [1605797471](
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471).
 #' @return EML file written to disk.
+#'   And invisibly, EML object.
 #' @family dwc functions
 #' @export
 #' @section Metadata:
@@ -57,10 +58,7 @@
 #'
 #' Not applicable: collection data.
 #' @examples
-#' \dontrun{
-#' write_eml(o_assen, directory = "my_directory")
-#' # Same as
-#' write_eml(doi = "10.5281/zenodo.10053903", directory = "my_directory")
+#' (write_eml(doi = "10.5281/zenodo.10053903", directory = "my_directory"))
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
@@ -185,4 +183,5 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     dir.create(directory, recursive = TRUE)
   }
   EML::write_eml(eml, eml_path)
+  invisible(eml)
 }

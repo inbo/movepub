@@ -2,37 +2,37 @@
 % Please edit documentation in R/write_eml.R
 \name{write_eml}
 \alias{write_eml}
-\title{Transform Movebank data to EML (metadata)}
+\title{Transform Movebank metadata to EML}
 \usage{
-write_eml(
-  package,
-  directory,
-  doi = package$id,
-  contact = NULL,
-  study_id = NULL
-)
+write_eml(doi, directory, contact = NULL, study_id = NULL, derived_para = TRUE)
 }
 \arguments{
-\item{package}{A Frictionless Data Package of Movebank data, as read by
-\code{\link[frictionless:read_package]{frictionless::read_package()}}.}
+\item{doi}{DOI of the original dataset, used to get metadata.}
 
 \item{directory}{Path to local directory to write file(s) to.}
-
-\item{doi}{DOI of the original dataset, used to get metadata.}
 
 \item{contact}{Person to be set as resource contact and metadata provider.
 To be provided as a \code{\link[=person]{person()}}.}
 
 \item{study_id}{Identifier of the Movebank study from which the dataset was
-derived (e.g. \code{1605797471} for
-\href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study160579747}{this study}).}
+derived (e.g. \code{1605797471} for \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{this study}).}
+
+\item{derived_para}{If \code{TRUE}, a paragraph will be added to the abstract,
+indicating that data have been transformed using \code{write_dwc()}.
+Example:
+
+Data have been standardized to Darwin Core using the \href{https://inbo.github.io/movepub/}{movepub} R package and are downsampled to the first
+GPS position per hour. The original data are available in Dijkstra et al.
+(2023, \url{https://doi.org/10.5281/zenodo.10053903}), a deposit of Movebank
+study \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{1605797471}.}
 }
 \value{
-EML (metadata) file written to disk.
+EML file written to disk.
+And invisibly, EML object.
 }
 \description{
-Uses the DOI of a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to derive
-metadata from Datacite and build EML.
+Transforms metadata of a published a Movebank dataset (with a DOI) to an
+\href{https://eml.ecoinformatics.org/}{EML} file.
 }
 \details{
 The resulting EML file can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
@@ -46,19 +46,18 @@ for examples.
 Metadata are derived from the original dataset by looking up its \code{doi} in
 DataCite (\href{https://api.datacite.org/dois/10.5281/zenodo.5879096}{example})
 and transforming these to EML.
-Uses \code{datacite_to_eml()} under the hood.
 The following properties are set:
 \itemize{
-\item \strong{title}: Original title + \verb{[subsampled representation]}.
-\item \strong{description}: Automatically created first paragraph describing this is
-a derived dataset, followed by the original dataset description.
+\item \strong{title}: Original dataset title.
+\item \strong{description}: The original dataset description and an optional generated
+paragraph (see \code{derived_para}).
 \item \strong{license}: License of the original dataset.
 \item \strong{creators}: Creators of the original dataset.
 \item \strong{contact}: \code{contact} or first creator of the original dataset.
 \item \strong{metadata provider}: \code{contact} or first creator of the original dataset.
 \item \strong{keywords}: Keywords of the original dataset.
-\item \strong{alternative identifier}: DOI of the original dataset. This way, no new
-DOI will be created when publishing to GBIF.
+\item \strong{alternative identifier}: DOI of the original dataset.
+This way, no new DOI will be created when publishing to GBIF.
 \item \strong{external link} and \strong{alternative identifier}: URL created from
 \code{study_id} or the first "derived from" related identifier in the original
 dataset.
@@ -69,18 +68,15 @@ To be set manually in the GBIF IPT: \strong{type}, \strong{subtype},
 
 Not set: geographic, taxonomic, temporal coverage, associated parties,
 project data, sampling methods, and citations.
+
 Not applicable: collection data.
 }
 
 \examples{
-\dontrun{
-write_eml(o_assen, directory = "my_directory")
-# Same as
-write_eml(doi = "10.5281/zenodo.10053903", directory = "my_directory")
+(write_eml(doi = "10.5281/zenodo.10053903", directory = "my_directory"))
 
 # Clean up (don't do this if you want to keep your files)
 unlink("my_directory", recursive = TRUE)
-}
 }
 \seealso{
 Other dwc functions: 
