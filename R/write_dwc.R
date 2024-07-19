@@ -73,20 +73,17 @@ write_dwc <- function(package, directory, doi = package$id,
   }
   eml <- datacite_to_eml(doi)
 
-  # Update title
-  dataset_name <- paste(eml$dataset$title, "[subsampled representation]")
+  # Get license
+  license <- eml$dataset$intellectualRights$rightsUri
 
-  # Update license
-  license <- eml$dataset$intellectualRights$rightsUri # Used in DwC
+  # Get rights_holder
+  rights_holder <- if (is.null(rights_holder)) NA_character_
 
-  # Get DOI URL
-  doi_url <- eml$dataset$alternateIdentifier[[1]]
-  dataset_id <- doi_url # Used in DwC
+  # Get dataset id
+  dataset_id <- eml$dataset$alternateIdentifier[[1]]
 
-  # Set rights_holder
-  if (is.null(rights_holder)) {
-    rights_holder <- NA_character_
-  }
+  # Get dataset name
+  dataset_name <- eml$dataset$title
 
   # Read data from package
   cli::cli_h2("Reading data")
