@@ -3,7 +3,7 @@
 * `write_eml()` is now a separate function from `write_dwc()`. This allows you to use `write_dwc()` for an unpublished dataset (i.e. without metadata on DataCite) (#57).
 * `write_eml()` and `write_dwc()` no longer  add `[subsampled representation]` to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (#76).
 * `write_dwc()` (and `write_eml()`) no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#70).
-* `write_dwc()` is now writes the output file as `occurrence.csv` and adds a `meta.xml` file (cf. camtrapdp) (#71).
+* `write_dwc()` now writes the output file as `occurrence.csv` and adds a `meta.xml` file (cf. camtrapdp) (#71).
 * `write_dwc()` is now more modular, facilitating extension for non-GPS tracking data (#66).
 
 # movepub 0.3.0
