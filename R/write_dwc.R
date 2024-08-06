@@ -129,18 +129,24 @@ write_dwc <- function(package, directory, doi = package$id,
     ) %>%
     dplyr::arrange(.data$parentEventID, .data$eventDate)
 
+  # Create extended measurements or facts
+  emof <- create_ref_emof(ref_occurrence)
+
   # Write files
   occurrence_path <- file.path(directory, "occurrence.csv")
   meta_xml_path <- file.path(directory, "meta.xml")
+  emof_path <- file.path(directory, "emof.csv")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
     "{.file {occurrence_path}}",
-    "{.file {meta_xml_path}}"
+    "{.file {meta_xml_path}}",
+    "{.file {emof_path}}"
   ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
   readr::write_csv(occurrence, occurrence_path, na = "")
+  readr::write_csv(emof, emof_path, na = "")
   file.copy(
     system.file("extdata", "meta.xml", package = "movepub"), # Static meta.xml
     meta_xml_path
