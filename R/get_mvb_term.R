@@ -27,11 +27,11 @@ get_mvb_term <- function(label) {
 
   # Search for concept using prefLabel, and altLabel if not found
   term <- purrr::keep(terms, function(x) {
-    tolower(x$prefLabel$`@value`) == label_clean
+    tolower(x$`skos:prefLabel`$`@value`) == label_clean
   })
   if (length(term) == 0) {
     term <- purrr::keep(terms, function(x) {
-      tolower(x$altLabel) == label_clean
+      tolower(x$`skos:altLabel`) == label_clean
     })
   }
   if (length(term) == 0) {
@@ -47,31 +47,31 @@ get_mvb_term <- function(label) {
     # Identifiers
     id = term$`@id`,
     # @type: "skos:Concept" for all
-    identifier = term$identifier,
+    identifier = term$`dc:identifier`,
     # dc:identifier: same as identifier
 
     # Labels
     # prefLabel$`@language`: "en" for all
-    prefLabel = term$prefLabel$`@value`,
-    altLabel = term$altLabel,
+    prefLabel = term$`skos:prefLabel`$`@value`,
+    altLabel = term$`skos:altLabel`,
 
     # Definition
     # definition$`@language`: "en" for all
-    definition = term$definition$`@value`,
+    definition = term$`skos:definition`$`@value`,
 
     # Date
-    date = term$date,
+    date = term$`dc:date`,
     # authoredOn: same as date
 
     # Versions
-    version = term$version,
-    hasCurrentVersion = term$hasCurrentVersion,
-    hasVersion = term$hasVersion,
+    version = term$`pav:version`,
+    hasCurrentVersion = term$`pav:hasCurrentVersion`$`@id`,
+    hasVersion = unname(unlist(term$`pav:hasVersion`)),
     # inDataset: "http://vocab.nerc.ac.uk/.well-known/void" for all
-    deprecated = term$deprecated,
+    deprecated = term$`owl:deprecated`,
     # versionInfo: same as version
     # notation: same as identifier
     # note$`@language`: "en" for all
-    note = term$note$`@value`
+    note = term$`skos:note`$`@value`
   )
 }
