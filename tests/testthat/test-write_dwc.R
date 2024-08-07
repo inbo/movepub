@@ -51,10 +51,11 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
 
   expect_identical(
     list.files(temp_dir),
-    c("meta.xml", "occurrence.csv")
+    c("emof.csv", "meta.xml", "occurrence.csv")
   )
-  expect_identical(names(result), "occurrence")
+  expect_identical(names(result), c("occurrence", "emof"))
   expect_s3_class(result$occurrence, "tbl")
+  expect_s3_class(result$emof, "tbl")
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
@@ -101,6 +102,18 @@ test_that("write_dwc() returns the expected Darwin Core terms as columns", {
       "kingdom"
     )
   )
+  expect_identical(
+    colnames(result$emof),
+    c(
+      "occurrenceID",
+      "measurementType",
+      "measurementTypeID",
+      "measurementValue",
+      "measurementValueID",
+      "measurementUnit",
+      "measurementUnitID"
+    )
+  )
 })
 
 test_that("write_dwc() returns the expected Darwin Core mapping for the example
@@ -112,6 +125,7 @@ test_that("write_dwc() returns the expected Darwin Core mapping for the example
   suppressMessages(write_dwc(x, temp_dir))
 
   expect_snapshot_file(file.path(temp_dir, "occurrence.csv"))
+  expect_snapshot_file(file.path(temp_dir, "emof.csv"))
   expect_snapshot_file(file.path(temp_dir, "meta.xml"))
 })
 
@@ -124,4 +138,5 @@ test_that("write_dwc() returns files that comply with the info in meta.xml", {
 
   # Use helper function to compare
   expect_meta_match(file.path(temp_dir, "occurrence.csv"))
+  expect_meta_match(file.path(temp_dir, "emof.csv"))
 })
