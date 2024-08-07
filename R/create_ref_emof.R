@@ -71,5 +71,16 @@ create_ref_emof <- function(ref_occurrence) {
   emof <- dplyr::bind_rows(lifestage, sex) %>%
     dplyr::arrange(.data$occurrenceID)
 
+  # only keep measurementTypes that have at least 1 non-NA value in
+  # `ref_occurrence`
+  if (all(is.na(ref_occurrence$sex))) {
+    emof <- emof %>%
+      dplyr::filter(.data$measurementType != "sex")
+  }
+  if (all(is.na(ref_occurrence$lifeStage))) {
+    emof <- emof %>%
+      dplyr::filter(.data$measurementType != "life stage")
+  }
+
   return(emof)
 }
