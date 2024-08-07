@@ -4,7 +4,7 @@
 #' tag attachments, as returned by `create_ref_occurrence()`.
 #' @return Data frame with
 #' [eMoF](https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml),
-#' mpre specifically `life stage` and `sex`.
+#' more specifically `life stage` and `sex`.
 #' @family dwc functions
 #' @noRd
 create_ref_emof <- function(ref_occurrence) {
