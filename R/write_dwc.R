@@ -152,7 +152,9 @@ write_dwc <- function(package, directory, doi = package$id,
     meta_xml_path
   )
 
-  # Return Darwin Core data invisibly
-  return <- list(occurrence = dplyr::as_tibble(occurrence))
+  # Return list with Darwin Core data invisibly
+  return <- list(
+    occurrence = dplyr::as_tibble(occurrence),
+    emof = dplyr::as_tibble(emof))
   invisible(return)
 }
