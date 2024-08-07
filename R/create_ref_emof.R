@@ -68,7 +68,7 @@ create_ref_emof <- function(ref_occurrence) {
       measurementUnitID = "http://vocab.nerc.ac.uk/collection/P06/current/XXXX/"
     )
 
-  emof <- rbind(lifestage, sex) %>%
+  emof <- dplyr::bind_rows(lifestage, sex) %>%
     dplyr::arrange(.data$occurrenceID)
 
   return(emof)
