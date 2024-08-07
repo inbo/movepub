@@ -25,6 +25,8 @@
 #' Sarah Davidson, John Wieczorek and others and transforms data to:
 #' - An [Occurrence core](
 #'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' - An [Extended Measurements or Facts](
+#' https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
 #' - A `meta.xml` file.
 #'
 #' Key features of the Darwin Core transformation:
