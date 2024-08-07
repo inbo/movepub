@@ -37,6 +37,7 @@ This function \strong{follows recommendations} suggested by Peter Desmet,
 Sarah Davidson, John Wieczorek and others and transforms data to:
 \itemize{
 \item An \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
+\item An \href{https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml}{Extended Measurements or Facts}
 \item A \code{meta.xml} file.
 }
 
