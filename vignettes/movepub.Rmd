@@ -168,16 +168,19 @@ movepub::write_dwc(
 #> 
 #> ── Writing files ──
 #> 
-#> • 'data/o_assen/dwc/dwc_occurrence.csv'
+#> • 'data/o_assen/dwc/occurrence.csv'
+#> • 'data/o_assen/dwc/meta.xml'
+#> • 'data/o_assen/dwc/emof.csv'
 ```
 
 ``` r
 
 movepub::write_eml(
-  package = package,
   doi = package$id,
   directory = dir_dwc,
   contact = contact,
+  study_id = NULL,
+  derived_paragraph = TRUE
 )
 #> 
 #> ── Writing file ──
@@ -192,7 +195,7 @@ The resulting `eml.xml` file includes the metadata:
 EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #> dataset:
 #>   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)
-#>     breeding in Assen (the Netherlands) [subsampled representation]
+#>     breeding in Assen (the Netherlands)
 #>   metadataProvider:
 #>     individualName:
 #>       givenName: Peter
@@ -204,12 +207,6 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>   pubDate: '2023-10-30'
 #>   abstract:
 #>     para:
-#>     - <![CDATA[<span></span>This animal tracking dataset is derived from Dijkstra
-#>       et al. (2023, <a href="https://doi.org/10.5281/zenodo.10053903">https://doi.org/10.5281/zenodo.10053903</a>),
-#>       a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>.
-#>       Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a>
-#>       R package and are downsampled to the first GPS position per hour. The original
-#>       dataset description follows.]]>
 #>     - |-
 #>       O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.
 #> 
@@ -235,6 +232,11 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>       These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.
 #>     - This version adds alt-project-id to the reference-data and references the latest
 #>       Movebank Attribute Dictionary.
+#>     - <![CDATA[<span></span>Data have been standardized to Darwin Core using the <a
+#>       href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled
+#>       to the first GPS position per hour. The original data are available in Dijkstra
+#>       et al. (2023, <a href="https://doi.org/10.5281/zenodo.10053903">https://doi.org/10.5281/zenodo.10053903</a>),
+#>       a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>.]]>
 #>   keywordSet:
 #>     keywordThesaurus: n/a
 #>     keyword:
@@ -302,7 +304,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: 8068b8f2-a8da-4389-a398-547a0512d6dc
+#> packageId: c0d3f2cd-4f8f-449b-827c-1fa343f7fbbc
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
@@ -312,7 +314,26 @@ The resulting `occurrence.csv` contains the Darwin Core data, created by transfo
 
 ``` r
 readr::read_csv(file.path(dir_dwc, "occurrence.csv"), show_col_types = FALSE)
-#> Error: 'data/o_assen/dwc/occurrence.csv' does not exist in current working directory ('C:/Users/sanne_govaert/Documents/GitHub/inbo/movepub/vignettes').
+#> # A tibble: 5,827 × 31
+#>    type  license            datasetID institutionCode collectionCode datasetName
+#>    <chr> <chr>              <lgl>     <chr>           <chr>          <chr>      
+#>  1 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  2 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  3 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  4 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  5 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  6 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  7 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  8 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#>  9 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#> 10 Event https://creativec… NA        MPIAB           Movebank       O_ASSEN - …
+#> # ℹ 5,817 more rows
+#> # ℹ 25 more variables: basisOfRecord <chr>, dataGeneralizations <chr>,
+#> #   occurrenceID <chr>, sex <chr>, lifeStage <chr>,
+#> #   reproductiveCondition <lgl>, occurrenceStatus <chr>, organismID <dbl>,
+#> #   organismName <lgl>, eventID <chr>, parentEventID <chr>, eventType <chr>,
+#> #   eventDate <dttm>, samplingProtocol <chr>, eventRemarks <chr>,
+#> #   minimumElevationInMeters <dbl>, maximumElevationInMeters <dbl>, …
 ```
 
 Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset. See the O_ASSEN example on an [IPT](https://ipt.inbo.be/resource?r=o_assen) and at [GBIF](https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc).
