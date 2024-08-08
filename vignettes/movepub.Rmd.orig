@@ -135,10 +135,11 @@ movepub::write_dwc(
 )
 
 movepub::write_eml(
-  package = package,
   doi = package$id,
   directory = dir_dwc,
   contact = contact,
+  study_id = NULL,
+  derived_paragraph = TRUE
 )
 ```
 

@@ -15,8 +15,8 @@ test_that("get_mvb_term() returns information about at term", {
     version = "3",
     hasCurrentVersion = "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/3/",
     hasVersion = c(
-      "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/",
-      "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/1/"
+      "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/1/",
+      "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/"
     ),
     deprecated = "false",
     note = "accepted"

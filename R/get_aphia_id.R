@@ -14,11 +14,19 @@
 #' get_aphia_id(c("Mola mola", "not_a_name"))
 get_aphia_id <- function(x) {
   result <- suppressWarnings(worrms::wm_name2id_(x))
-  taxa <- result %>%
-    purrr::discard(is.list) %>% # Remove x$message: "Not found" for e.g. "?"
-    dplyr::as_tibble() %>%
-    tidyr::pivot_longer(cols = dplyr::everything()) %>%
-    dplyr::rename("aphia_id" = "value")
+  if (length(result) == 0) {
+    taxa <- dplyr::tibble(
+      name = x,
+      aphia_id = NA
+    )
+  } else {
+    taxa <- result %>%
+      purrr::discard(is.list) %>% # Remove x$message: "Not found" for e.g. "?"
+      dplyr::as_tibble() %>%
+      tidyr::pivot_longer(cols = dplyr::everything()) %>%
+      dplyr::rename("aphia_id" = "value")
+  }
+
   # Join resulting taxa (with aphia_id) and input names to get df with all names
   taxa %>%
     dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) %>%
