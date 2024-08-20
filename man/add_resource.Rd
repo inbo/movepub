@@ -34,4 +34,8 @@ Schema of the resource.
 See \href{https://inbo.github.io/movepub/articles/movepub.html#frictionless}{Get started } for
 examples.
 }
+\seealso{
+Other frictionless functions: 
+\code{\link{reexports}}
+}
 \concept{frictionless functions}
