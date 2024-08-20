@@ -20,6 +20,7 @@ get_aphia_id <- function(x) {
     tidyr::pivot_longer(cols = dplyr::everything()) %>%
     dplyr::rename("aphia_id" = "value")
   # Join resulting taxa (with aphia_id) and input names to get df with all names
+  url_prefix <- "https://www.marinespecies.org/aphia.php?p=taxdetails&id="
   taxa %>%
     dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) %>%
     dplyr::mutate(
@@ -30,7 +31,12 @@ get_aphia_id <- function(x) {
       ),
       aphia_url = ifelse(
         !is.na(.data$aphia_id),
-        paste0("https://www.marinespecies.org/aphia.php?p=taxdetails&id=", .data$aphia_id),
+        paste0(url_prefix, .data$aphia_id),
+        NA_character_
+      ),
+      aphia_url_cli = ifelse(
+        !is.na(.data$aphia_id),
+        paste0("{.href [", .data$aphia_id, "](", url_prefix, .data$aphia_id, ")}"),
         NA_character_
       )
     )
