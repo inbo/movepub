@@ -42,7 +42,10 @@
 <li>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> (and <code><a href="../reference/write_eml.html">write_eml()</a></code>) no longer writes to <code>"."</code> by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (<a href="https://github.com/inbo/movepub/issues/70" class="external-link">#70</a>).</li>
 <li>
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now writes the output file as <code>occurrence.csv</code> and adds a <code>meta.xml</code> file (cf. camtrapdp) (<a href="https://github.com/inbo/movepub/issues/71" class="external-link">#71</a>).</li>
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now writes the output file as <code>occurrence.csv</code> (previously <code>dwc_occurrence.csv</code>) and adds a <code>meta.xml</code> file. The sex and life stage of the animal are - in addition to <code>dwc:sex</code> and <code>dwc:lifeStage</code> in <code>occurrence.csv</code> - expressed in an extended measurement or facts file (<code>emof.csv</code>), for better support with OBIS (<a href="https://github.com/inbo/movepub/issues/71" class="external-link">#71</a>, <a href="https://github.com/inbo/movepub/issues/77" class="external-link">#77</a>, <a href="https://github.com/inbo/movepub/issues/78" class="external-link">#78</a>).</li>
+<li>
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> provides a message regarding the matching of scientific names with WoRMS Aphia IDs. These IDs are now clickable URLs, making it easier to verify the match (<a href="https://github.com/inbo/movepub/issues/58" class="external-link">#58</a>).</li>
+<li>Many functions of <a href="https://docs.ropensci.org/frictionless/" class="external-link">frictionless</a> are now reexported by movepub, so you no longer have to load that package to create Data Packages (<a href="https://github.com/inbo/movepub/issues/54" class="external-link">#54</a>).</li>
 <li>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> is now more modular, facilitating extension for non-GPS tracking data (<a href="https://github.com/inbo/movepub/issues/66" class="external-link">#66</a>).</li>
 </ul></div>

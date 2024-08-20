@@ -102,15 +102,14 @@ routes of an avian herbivore [Svalbard data]. Movebank Data Repository.
 <p>Let’s bundle that into a Frictionless Data Package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198</span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198</span></span>
 <span>  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
-<li>Initiate a package with
-<code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">frictionless::create_package()</a></code>.</li>
+<li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package()</a></code>.</li>
 <li>Add the DOI as package ID.</li>
 <li>Add our data as two resources: <code>reference-data</code> and
 <code>gps</code>. These names are standardized. By using the
@@ -143,7 +142,7 @@ Dictionary</a>.</li>
 the next step) or saved as a <code>datapackage.json</code> file for
 other uses:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"data/my_dataset"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">package</span>, <span class="st">"data/my_dataset"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="dwc">Transform a Movebank dataset to Darwin Core<a class="anchor" aria-label="anchor" href="#dwc"></a>
@@ -168,14 +167,14 @@ R package.</p>
 local package avoids having to download the data again when you
 encounter an issue:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/records/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/records/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span></span>
-<span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span></code></pre></div>
 <p>We then create a <code>package</code> variable pointing to the local
 dataset:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu">frictionless</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>That covers the data. The metadata are derived from <a href="https://api.datacite.org/dois/10.5281/zenodo.10053903" class="external-link">DataCite</a>
 using the dataset DOI. For O_ASSEN, the DOI is already stored in the
 package metadata:</p>
@@ -211,14 +210,17 @@ EML:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Writing files ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; • 'data/o_assen/dwc/dwc_occurrence.csv'</span></span></code></pre></div>
+<span><span class="co">#&gt; • 'data/o_assen/dwc/occurrence.csv'</span></span>
+<span><span class="co">#&gt; • 'data/o_assen/dwc/meta.xml'</span></span>
+<span><span class="co">#&gt; • 'data/o_assen/dwc/emof.csv'</span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_eml.html">write_eml</a></span><span class="op">(</span></span>
-<span>  package <span class="op">=</span> <span class="va">package</span>,</span>
 <span>  doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>  directory <span class="op">=</span> <span class="va">dir_dwc</span>,</span>
 <span>  contact <span class="op">=</span> <span class="va">contact</span>,</span>
+<span>  study_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  derived_paragraph <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Writing file ──</span></span>
@@ -229,7 +231,7 @@ EML:</p>
 <code class="sourceCode R"><span><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/EML/reference/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; dataset:</span></span>
 <span><span class="co">#&gt;   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)</span></span>
-<span><span class="co">#&gt;     breeding in Assen (the Netherlands) [subsampled representation]</span></span>
+<span><span class="co">#&gt;     breeding in Assen (the Netherlands)</span></span>
 <span><span class="co">#&gt;   metadataProvider:</span></span>
 <span><span class="co">#&gt;     individualName:</span></span>
 <span><span class="co">#&gt;       givenName: Peter</span></span>
@@ -241,12 +243,6 @@ EML:</p>
 <span><span class="co">#&gt;   pubDate: '2023-10-30'</span></span>
 <span><span class="co">#&gt;   abstract:</span></span>
 <span><span class="co">#&gt;     para:</span></span>
-<span><span class="co">#&gt;     - &lt;![CDATA[&lt;span&gt;&lt;/span&gt;This animal tracking dataset is derived from Dijkstra</span></span>
-<span><span class="co">#&gt;       et al. (2023, &lt;a href="https://doi.org/10.5281/zenodo.10053903"&gt;https://doi.org/10.5281/zenodo.10053903&lt;/a&gt;),</span></span>
-<span><span class="co">#&gt;       a deposit of Movebank study &lt;a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"&gt;1605797471&lt;/a&gt;.</span></span>
-<span><span class="co">#&gt;       Data have been standardized to Darwin Core using the &lt;a href="https://inbo.github.io/movepub/"&gt;movepub&lt;/a&gt;</span></span>
-<span><span class="co">#&gt;       R package and are downsampled to the first GPS position per hour. The original</span></span>
-<span><span class="co">#&gt;       dataset description follows.]]&gt;</span></span>
 <span><span class="co">#&gt;     - |-</span></span>
 <span><span class="co">#&gt;       O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -272,6 +268,11 @@ EML:</p>
 <span><span class="co">#&gt;       These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</span></span>
 <span><span class="co">#&gt;     - This version adds alt-project-id to the reference-data and references the latest</span></span>
 <span><span class="co">#&gt;       Movebank Attribute Dictionary.</span></span>
+<span><span class="co">#&gt;     - &lt;![CDATA[&lt;span&gt;&lt;/span&gt;Data have been standardized to Darwin Core using the &lt;a</span></span>
+<span><span class="co">#&gt;       href="https://inbo.github.io/movepub/"&gt;movepub&lt;/a&gt; R package and are downsampled</span></span>
+<span><span class="co">#&gt;       to the first GPS position per hour. The original data are available in Dijkstra</span></span>
+<span><span class="co">#&gt;       et al. (2023, &lt;a href="https://doi.org/10.5281/zenodo.10053903"&gt;https://doi.org/10.5281/zenodo.10053903&lt;/a&gt;),</span></span>
+<span><span class="co">#&gt;       a deposit of Movebank study &lt;a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"&gt;1605797471&lt;/a&gt;.]]&gt;</span></span>
 <span><span class="co">#&gt;   keywordSet:</span></span>
 <span><span class="co">#&gt;     keywordThesaurus: n/a</span></span>
 <span><span class="co">#&gt;     keyword:</span></span>
@@ -339,7 +340,7 @@ EML:</p>
 <span><span class="co">#&gt;     userId:</span></span>
 <span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
 <span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: 8068b8f2-a8da-4389-a398-547a0512d6dc</span></span>
+<span><span class="co">#&gt; packageId: f3217c84-2ea6-4795-98e5-09c7cfed3748</span></span>
 <span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
 <span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
 <p>The resulting <code>occurrence.csv</code> contains the Darwin Core
@@ -348,7 +349,26 @@ record level-terms at the beginning are set based on DataCite metadata
 and the provided <code>rights_holder</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Error: 'data/o_assen/dwc/occurrence.csv' does not exist in current working directory ('C:/Users/sanne_govaert/Documents/GitHub/inbo/movepub/vignettes').</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 5,827 × 31</span></span>
+<span><span class="co">#&gt;    type  license            datasetID institutionCode collectionCode datasetName</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;      </span></span>
+<span><span class="co">#&gt;  1 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  2 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  3 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  4 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  5 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  6 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  7 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  8 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt;  9 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt; 10 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
+<span><span class="co">#&gt; # ℹ 5,817 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 25 more variables: basisOfRecord &lt;chr&gt;, dataGeneralizations &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   occurrenceID &lt;chr&gt;, sex &lt;chr&gt;, lifeStage &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   reproductiveCondition &lt;lgl&gt;, occurrenceStatus &lt;chr&gt;, organismID &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   organismName &lt;lgl&gt;, eventID &lt;chr&gt;, parentEventID &lt;chr&gt;, eventType &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   eventDate &lt;dttm&gt;, samplingProtocol &lt;chr&gt;, eventRemarks &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   minimumElevationInMeters &lt;dbl&gt;, maximumElevationInMeters &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>Both files can be uploaded to a GBIF IPT for publication. The dataset
 will use the DOI of the source dataset. See the O_ASSEN example on an <a href="https://ipt.inbo.be/resource?r=o_assen" class="external-link">IPT</a> and at <a href="https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc" class="external-link">GBIF</a>.</p>
 </div>
