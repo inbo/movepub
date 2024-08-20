@@ -5,7 +5,9 @@
 * `write_dwc()` (and `write_eml()`) no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#70).
 * `write_dwc()` now writes the output file as `occurrence.csv` and adds a `meta.xml` (cf. camtrapdp) and a `emof.csv` (extended measurements or facts) file (#71, #77, #78).
 * `write_dwc()` is now more modular, facilitating extension for non-GPS tracking data (#66).
-* `read_package()` and `write_package()` reexport the read and write functionality from frictionless (#54).
+* `create_package()`, `read_package()` and `write_package()` reexport the create, read and write functionality of Data Packages from frictionless (#54).
+* `resources()` lists the names of the Data Resources included in a Data Package. It is a reexport from frictionless.
+* `read_resource()` and `remove_resource()` reexport the read and remove functionality of Data Resources from frictionless.
 
 # movepub 0.3.0
 
