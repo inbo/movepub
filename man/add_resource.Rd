@@ -7,11 +7,6 @@
 add_resource(package, resource_name, files, keys = TRUE)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[frictionless:read_package]{read_package()}} or
-\code{\link[frictionless:create_package]{create_package()}}.}
-
-\item{resource_name}{Name of the Data Resource.}
-
 \item{files}{One or more paths to CSV file(s) that contain the data for
 this resource, as a character (vector).}
 
@@ -24,8 +19,7 @@ Provided \code{package} with one additional resource.
 \description{
 Adds Movebank data (\code{reference-data}, \code{gps}, \code{acceleration},
 \code{accessory-measurements}) as a  Data Resource to a Frictionless Data Package.
-The function extends and masks \code{frictionless::add_resource()} and should be
-used with \code{create_package()}.
+The function extends \code{frictionless::add_resource()}.
 The title, definition, format and URI of each field are looked up in the
 latest version of the \href{http://vocab.nerc.ac.uk/collection/MVB/current}{Movebank Attribute Dictionary} and included in the Table
 Schema of the resource.

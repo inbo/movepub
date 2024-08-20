@@ -3,11 +3,23 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
+\alias{create_package}
 \alias{read_package}
 \alias{write_package}
-\alias{create_package}
+\alias{resources}
+\alias{read_resource}
+\alias{remove_resource}
 \title{Objects exported from other packages}
 \seealso{
+Other frictionless functions: 
+\code{\link{add_resource}()}
+
+Other frictionless functions: 
+\code{\link{add_resource}()}
+
+Other frictionless functions: 
+\code{\link{add_resource}()}
+
 Other frictionless functions: 
 \code{\link{add_resource}()}
 
@@ -24,6 +36,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{frictionless}{\code{\link[frictionless]{create_package}}, \code{\link[frictionless]{read_package}}, \code{\link[frictionless]{write_package}}}
+  \item{frictionless}{\code{\link[frictionless]{create_package}}, \code{\link[frictionless]{read_package}}, \code{\link[frictionless]{read_resource}}, \code{\link[frictionless]{remove_resource}}, \code{\link[frictionless]{resources}}, \code{\link[frictionless]{write_package}}}
 }}
 

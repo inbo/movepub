@@ -116,7 +116,7 @@ And download the dataset from Zenodo to the local directory. Using a local packa
 ``` r
 read_package("https://zenodo.org/records/10053903/files/datapackage.json") %>%
   # Remove the large acceleration resource we won't use (and thus won't download)
-  frictionless::remove_resource("acceleration") %>%
+  remove_resource("acceleration") %>%
   write_package(dir_source)
 ```
 
@@ -304,7 +304,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: 0bf41da9-1bed-4318-93b8-18c7e1a94115
+#> packageId: f3217c84-2ea6-4795-98e5-09c7cfed3748
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
