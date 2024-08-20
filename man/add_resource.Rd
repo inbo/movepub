@@ -7,6 +7,11 @@
 add_resource(package, resource_name, files, keys = TRUE)
 }
 \arguments{
+\item{package}{Data Package object, created with \code{\link[frictionless:read_package]{read_package()}} or
+\code{\link[frictionless:create_package]{create_package()}}.}
+
+\item{resource_name}{Name of the Data Resource.}
+
 \item{files}{One or more paths to CSV file(s) that contain the data for
 this resource, as a character (vector).}
 

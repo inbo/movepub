@@ -12,7 +12,7 @@
 #' ](https://inbo.github.io/movepub/articles/movepub.html#frictionless) for
 #' examples.
 #'
-#' @inheritParams read_resource
+#' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
 #'   this resource, as a character (vector).
 #' @param keys Should `primaryKey` and `foreignKey` properties be added to the
