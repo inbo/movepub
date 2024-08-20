@@ -7,7 +7,7 @@
 write_dwc(package, directory, doi = package$id, rights_holder = NULL)
 }
 \arguments{
-\item{package}{A Frictionless Data Package of Movebank data, as read by
+\item{package}{A Frictionless Data Package of Movebank data, as returned by
 \code{read_package()}.
 It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
@@ -37,7 +37,7 @@ This function \strong{follows recommendations} suggested by Peter Desmet,
 Sarah Davidson, John Wieczorek and others and transforms data to:
 \itemize{
 \item An \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
-\item An \href{https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml}{Extended Measurements or Facts}
+\item An \href{https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml}{Extended Measurements Or Facts extension}
 \item A \code{meta.xml} file.
 }
 
@@ -51,6 +51,9 @@ meaning that data can be expressed in an Occurrence core with one row per
 observation and \code{parentEventID} shared by all occurrences in a deployment.
 \item The tag attachment event often contains metadata about the animal (sex,
 life stage, comments) and deployment as a whole.
+The sex and life stage are additionally provided in an Extended Measurement
+Or Facts extension, where values are mapped to a controlled vocabulary
+recommended by \href{https://obis.org/}{OBIS}.
 \item No event/occurrence is created for the deployment end, since the end date
 is often undefined, unreliable and/or does not represent an animal
 occurrence.

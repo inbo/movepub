@@ -9,7 +9,7 @@
 #' A corresponding `eml.xml` metadata file can be created with [write_eml()].
 #' See `vignette("movepub")` for an example.
 #'
-#' @param package A Frictionless Data Package of Movebank data, as read by
+#' @param package A Frictionless Data Package of Movebank data, as returned by
 #'   `read_package()`.
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
@@ -25,7 +25,7 @@
 #' Sarah Davidson, John Wieczorek and others and transforms data to:
 #' - An [Occurrence core](
 #'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
-#' - An [Extended Measurements or Facts](
+#' - An [Extended Measurements Or Facts extension](
 #' https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
 #' - A `meta.xml` file.
 #'
@@ -38,6 +38,9 @@
 #'   observation and `parentEventID` shared by all occurrences in a deployment.
 #' - The tag attachment event often contains metadata about the animal (sex,
 #'   life stage, comments) and deployment as a whole.
+#'   The sex and life stage are additionally provided in an Extended Measurement
+#'   Or Facts extension, where values are mapped to a controlled vocabulary
+#'   recommended by [OBIS](https://obis.org/).
 #' - No event/occurrence is created for the deployment end, since the end date
 #'   is often undefined, unreliable and/or does not represent an animal
 #'   occurrence.
