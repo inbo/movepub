@@ -107,7 +107,7 @@ write_dwc <- function(package, directory, doi = package$id,
   names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))
   taxa <- get_aphia_id(names)
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
-  cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
+  cli::cli_dl(dplyr::pull(taxa, .data$aphia_url_cli, .data$name))
 
   # Start transformation
   cli::cli_h2("Transforming data to Darwin Core")
