@@ -4,6 +4,7 @@
 * `write_eml()` and `write_dwc()` no longer add `[subsampled representation]` to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (#76).
 * `write_dwc()` (and `write_eml()`) no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#70).
 * `write_dwc()` now writes the output file as `occurrence.csv` (previously `dwc_occurrence.csv`) and adds a `meta.xml` file. The sex and life stage of the animal are - in addition to `dwc:sex` and `dwc:lifeStage` in `occurrence.csv` - expressed in an extended measurement or facts file (`emof.csv`), for better support with OBIS (#71, #77, #78).
+* `write_dwc()` provides a message regarding the matching of scientific names with WoRMS Aphia IDs. These IDs are now clickable URLs, making it easier to verify the match (#58).
 * Many functions of [frictionless](https://docs.ropensci.org/frictionless/) are now reexported by movepub, so you no longer have to load that package to create Data Packages (#54).
 * `write_dwc()` is now more modular, facilitating extension for non-GPS tracking data (#66).
 
