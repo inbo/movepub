@@ -51,16 +51,16 @@ Let's bundle that into a Frictionless Data Package:
 
 ```{r}
 package <-
-  frictionless::create_package() %>%
+  create_package() %>%
   append(c(id = doi), after = 0) %>%
-  frictionless::create_package() %>% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
+  create_package() %>% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
   movepub::add_resource("reference-data", reference_data) %>%
   movepub::add_resource("gps", gps_data)
 ```
 
 Here's what we did:
 
-- Initiate a package with `frictionless::create_package()`.
+- Initiate a package with `create_package()`.
 - Add the DOI as package ID.
 - Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the default `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current).
 
