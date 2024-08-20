@@ -26,7 +26,8 @@ get_aphia_id <- function(x) {
       dplyr::rename("aphia_id" = "value")
   }
 
-  # Join taxa df back to input names to get df with all names
+  # Join taxa df with input names + add fields
+  url_prefix <- "https://www.marinespecies.org/aphia.php?p=taxdetails&id="
   taxa %>%
     dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) %>%
     dplyr::mutate(
@@ -37,7 +38,12 @@ get_aphia_id <- function(x) {
       ),
       aphia_url = ifelse(
         !is.na(.data$aphia_id),
-        paste0("https://www.marinespecies.org/aphia.php?p=taxdetails&id=", .data$aphia_id),
+        paste0(url_prefix, .data$aphia_id),
+        NA_character_
+      ),
+      aphia_url_cli = ifelse(
+        !is.na(.data$aphia_id),
+        paste0("{.href [", .data$aphia_id, "](", url_prefix, .data$aphia_id, ")}"),
         NA_character_
       )
     )
