@@ -9,8 +9,8 @@
 #' A corresponding `eml.xml` metadata file can be created with [write_eml()].
 #' See `vignette("movepub")` for an example.
 #'
-#' @param package A Frictionless Data Package of Movebank data, as read by
-#'   [frictionless::read_package()].
+#' @param package A Frictionless Data Package of Movebank data, as returned by
+#'   `read_package()`.
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
 #' @param doi DOI of the original dataset, used to set dataset-level terms.
@@ -25,6 +25,8 @@
 #' Sarah Davidson, John Wieczorek and others and transforms data to:
 #' - An [Occurrence core](
 #'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
+#' - An [Extended Measurements Or Facts extension](
+#' https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
 #' - A `meta.xml` file.
 #'
 #' Key features of the Darwin Core transformation:
@@ -36,6 +38,9 @@
 #'   observation and `parentEventID` shared by all occurrences in a deployment.
 #' - The tag attachment event often contains metadata about the animal (sex,
 #'   life stage, comments) and deployment as a whole.
+#'   The sex and life stage are additionally provided in an Extended Measurement
+#'   Or Facts extension, where values are mapped to a controlled vocabulary
+#'   recommended by [OBIS](https://obis.org/).
 #' - No event/occurrence is created for the deployment end, since the end date
 #'   is often undefined, unreliable and/or does not represent an animal
 #'   occurrence.
@@ -86,26 +91,26 @@ write_dwc <- function(package, directory, doi = package$id,
 
   # Read data from package
   cli::cli_h2("Reading data")
-  if (!"reference-data" %in% frictionless::resources(package)) {
+  if (!"reference-data" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val reference-data}.",
       class = "movepub_error_reference_data_missing"
     )
   }
-  if (!"gps" %in% frictionless::resources(package)) {
+  if (!"gps" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val gps}.",
       class = "movepub_error_gps_data_missing"
     )
   }
-  ref <- frictionless::read_resource(package, "reference-data")
-  gps <- frictionless::read_resource(package, "gps")
+  ref <- read_resource(package, "reference-data")
+  gps <- read_resource(package, "gps")
 
   # Lookup AphiaIDs for taxa
   names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))
   taxa <- get_aphia_id(names)
   cli::cli_alert_info("Taxa found in reference data and their WoRMS AphiaID:")
-  cli::cli_dl(dplyr::pull(taxa, .data$aphia_id, .data$name))
+  cli::cli_dl(dplyr::pull(taxa, .data$aphia_url_cli, .data$name))
 
   # Start transformation
   cli::cli_h2("Transforming data to Darwin Core")
@@ -129,24 +134,32 @@ write_dwc <- function(package, directory, doi = package$id,
     ) %>%
     dplyr::arrange(.data$parentEventID, .data$eventDate)
 
+  # Create extended measurements or facts
+  emof <- create_ref_emof(ref_occurrence)
+
   # Write files
   occurrence_path <- file.path(directory, "occurrence.csv")
   meta_xml_path <- file.path(directory, "meta.xml")
+  emof_path <- file.path(directory, "emof.csv")
   cli::cli_h2("Writing files")
   cli::cli_ul(c(
     "{.file {occurrence_path}}",
-    "{.file {meta_xml_path}}"
+    "{.file {meta_xml_path}}",
+    "{.file {emof_path}}"
   ))
   if (!dir.exists(directory)) {
     dir.create(directory, recursive = TRUE)
   }
   readr::write_csv(occurrence, occurrence_path, na = "")
+  readr::write_csv(emof, emof_path, na = "")
   file.copy(
     system.file("extdata", "meta.xml", package = "movepub"), # Static meta.xml
     meta_xml_path
   )
 
-  # Return Darwin Core data invisibly
-  return <- list(occurrence = dplyr::as_tibble(occurrence))
+  # Return list with Darwin Core data invisibly
+  return <- list(
+    occurrence = dplyr::as_tibble(occurrence),
+    emof = dplyr::as_tibble(emof))
   invisible(return)
 }

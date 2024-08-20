@@ -16,7 +16,7 @@ o_assen
 \description{
 A sample Movebank dataset with GPS tracking data, formatted as a
 \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package} and read by
-\code{\link[frictionless:read_package]{frictionless::read_package()}}.
+\code{read_package()}.
 }
 \details{
 This sample is derived from the Zenodo-deposited dataset
@@ -27,8 +27,8 @@ excludes the acceleration data.
 \dontrun{
 # The data in o_assen was created with the code below
 o_assen <-
-  frictionless::read_package("https://zenodo.org/records/10053903/files/datapackage.json") \%>\%
-  frictionless::remove_resource("acceleration")
+  read_package("https://zenodo.org/records/10053903/files/datapackage.json") \%>\%
+  remove_resource("acceleration")
 usethis::use_data(o_assen)
 }
 }

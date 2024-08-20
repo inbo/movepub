@@ -14,12 +14,20 @@
 #' get_aphia_id(c("Mola mola", "not_a_name"))
 get_aphia_id <- function(x) {
   result <- suppressWarnings(worrms::wm_name2id_(x))
-  taxa <- result %>%
-    purrr::discard(is.list) %>% # Remove x$message: "Not found" for e.g. "?"
-    dplyr::as_tibble() %>%
-    tidyr::pivot_longer(cols = dplyr::everything()) %>%
-    dplyr::rename("aphia_id" = "value")
-  # Join resulting taxa (with aphia_id) and input names to get df with all names
+  result <- purrr::discard(result, is.list) # Remove x$message: "Not found" for e.g. "?"
+
+  # Create taxa df with name and aphia_id
+  if (length(result) == 0) {
+    taxa <- dplyr::tibble(name = x, aphia_id = NA)
+  } else {
+    taxa <- result %>%
+      dplyr::as_tibble() %>%
+      tidyr::pivot_longer(cols = dplyr::everything()) %>%
+      dplyr::rename("aphia_id" = "value")
+  }
+
+  # Join taxa df with input names + add fields
+  url_prefix <- "https://www.marinespecies.org/aphia.php?p=taxdetails&id="
   taxa %>%
     dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) %>%
     dplyr::mutate(
@@ -30,7 +38,12 @@ get_aphia_id <- function(x) {
       ),
       aphia_url = ifelse(
         !is.na(.data$aphia_id),
-        paste0("https://www.marinespecies.org/aphia.php?p=taxdetails&id=", .data$aphia_id),
+        paste0(url_prefix, .data$aphia_id),
+        NA_character_
+      ),
+      aphia_url_cli = ifelse(
+        !is.na(.data$aphia_id),
+        paste0("{.href [", .data$aphia_id, "](", url_prefix, .data$aphia_id, ")}"),
         NA_character_
       )
     )
