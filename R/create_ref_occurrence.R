@@ -1,7 +1,7 @@
-#' Transform reference data to Darwin Core
+#' Create Darwin Core Occurrence from reference data
 #'
 #' @param ref Data frame derived from a `reference-data` resource.
-#' @param taxa  Data frame with taxa and their Aphia ID.
+#' @param taxa Data frame with taxa and their Aphia ID.
 #' @return Data frame with Darwin Core occurrences derived from tag attachments.
 #' @family dwc functions
 #' @noRd

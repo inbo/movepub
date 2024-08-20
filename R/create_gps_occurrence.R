@@ -1,4 +1,4 @@
-#' Transform GPS data to Darwin Core
+#' Create Darwin Core Occurrence from GPS data
 #'
 #' @param gps Data frame derived from a `gps` resource.
 #' @param ref Data frame derived from a `reference-data` resource.
