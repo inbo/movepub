@@ -88,20 +88,20 @@ write_dwc <- function(package, directory, doi = package$id,
 
   # Read data from package
   cli::cli_h2("Reading data")
-  if (!"reference-data" %in% frictionless::resources(package)) {
+  if (!"reference-data" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val reference-data}.",
       class = "movepub_error_reference_data_missing"
     )
   }
-  if (!"gps" %in% frictionless::resources(package)) {
+  if (!"gps" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val gps}.",
       class = "movepub_error_gps_data_missing"
     )
   }
-  ref <- frictionless::read_resource(package, "reference-data")
-  gps <- frictionless::read_resource(package, "gps")
+  ref <- read_resource(package, "reference-data")
+  gps <- read_resource(package, "gps")
 
   # Lookup AphiaIDs for taxa
   names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))

@@ -15,7 +15,7 @@
 #' # The data in o_assen was created with the code below
 #' o_assen <-
 #'   read_package("https://zenodo.org/records/10053903/files/datapackage.json") %>%
-#'   frictionless::remove_resource("acceleration")
+#'   remove_resource("acceleration")
 #' usethis::use_data(o_assen)
 #' }
 "o_assen"
