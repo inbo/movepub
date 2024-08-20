@@ -100,7 +100,8 @@ create_ref_occurrence <- function(ref, taxa) {
       scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
       kingdom = "Animalia"
-    )
+    ) %>%
+    dplyr::arrange(.data$occurrenceID)
 
  return(occurrence)
 }
