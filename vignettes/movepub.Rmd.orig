@@ -96,7 +96,7 @@ And download the dataset from Zenodo to the local directory. Using a local packa
 ```{r}
 read_package("https://zenodo.org/records/10053903/files/datapackage.json") %>%
   # Remove the large acceleration resource we won't use (and thus won't download)
-  frictionless::remove_resource("acceleration") %>%
+  remove_resource("acceleration") %>%
   write_package(dir_source)
 ```
 

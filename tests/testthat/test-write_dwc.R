@@ -21,9 +21,9 @@ test_that("write_dwc() returns error on missing or malformed doi", {
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
   x_no_ref_data <-
-    frictionless::remove_resource(o_assen, "reference-data")
+    remove_resource(o_assen, "reference-data")
   x_no_gps <-
-    frictionless::remove_resource(o_assen, "gps")
+    remove_resource(o_assen, "gps")
   temp_dir <- file.path(tempdir(), "dwc")
   on.exit(unlink(temp_dir, recursive = TRUE))
 
