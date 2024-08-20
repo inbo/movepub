@@ -3,45 +3,40 @@ test_that("get_aphia_id() surpresses warnings", {
 })
 
 test_that("get_aphia_id() returns the correct output", {
-  # 1 record
-  record_mola <- get_aphia_id("Mola mola")
+  # Name with result
   df_mola <- dplyr::tibble(
     name = "Mola mola",
     aphia_id = 127405,
     aphia_lsid = "urn:lsid:marinespecies.org:taxname:127405",
     aphia_url = "https://www.marinespecies.org/aphia.php?p=taxdetails&id=127405"
   )
-  expect_equal(record_mola, df_mola)
+  expect_equal(get_aphia_id("Mola mola"), df_mola)
 
-  # 1 record, not a name
-  record_NA <- get_aphia_id("not_a_name")
-  df_NA <- dplyr::tibble(
+  # Name without result
+  df_na <- dplyr::tibble(
     name = "not_a_name",
     aphia_id = NA,
     aphia_lsid = NA_character_,
     aphia_url = NA_character_
   )
-  expect_equal(record_NA, df_NA)
+  expect_equal(get_aphia_id("not_a_name"), df_na)
 
-  # 2 records, one without a valid name
-  record_mola_NA <- get_aphia_id(c("Mola mola", "not_a_name"))
-  df_mola_NA <- dplyr::bind_rows(df_mola, df_NA)
-  expect_equal(record_mola_NA, df_mola_NA)
+  # Name as questionmark
+  df_questionmark <- dplyr::mutate(df_na, name = "?")
+  expect_equal(get_aphia_id("?"), df_questionmark)
 
-  # Question mark as a species name
-  record_mola_question <- get_aphia_id(c("Mola mola", "?"))
-  df_question <- df_NA %>%
-    dplyr::mutate(name = "?")
-  df_mola_question <- dplyr::bind_rows(df_mola, df_question)
-  expect_equal(record_mola_question, df_mola_question)
-
-  # Unaccepted taxa (informal group)
-  record_pisces <- get_aphia_id("Pisces")
+  # Name is unaccepted taxa
   df_pisces <- dplyr::tibble(
     name = "Pisces",
     aphia_id = 11676,
     aphia_lsid = "urn:lsid:marinespecies.org:taxname:11676",
     aphia_url = "https://www.marinespecies.org/aphia.php?p=taxdetails&id=11676"
   )
-  expect_equal(record_pisces, df_pisces)
+  expect_equal(get_aphia_id("Pisces"), df_pisces)
+
+  # 2 names
+  expect_equal(
+    get_aphia_id(c("Mola mola", "not_a_name")),
+    dplyr::bind_rows(df_mola, df_na)
+  )
 })
