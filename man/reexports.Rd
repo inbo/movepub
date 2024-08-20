@@ -5,8 +5,12 @@
 \alias{reexports}
 \alias{read_package}
 \alias{write_package}
+\alias{create_package}
 \title{Objects exported from other packages}
 \seealso{
+Other frictionless functions: 
+\code{\link{add_resource}()}
+
 Other frictionless functions: 
 \code{\link{add_resource}()}
 
@@ -20,6 +24,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{frictionless}{\code{\link[frictionless]{read_package}}, \code{\link[frictionless]{write_package}}}
+  \item{frictionless}{\code{\link[frictionless]{create_package}}, \code{\link[frictionless]{read_package}}, \code{\link[frictionless]{write_package}}}
 }}
 
