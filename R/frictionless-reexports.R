@@ -12,3 +12,18 @@ frictionless::read_package
 #' @export
 #' @family frictionless functions
 frictionless::write_package
+
+#' @importFrom frictionless resources
+#' @export
+#' @family frictionless functions
+frictionless::resources
+
+#' @importFrom frictionless read_resource
+#' @export
+#' @family frictionless functions
+frictionless::read_resource
+
+#' @importFrom frictionless remove_resource
+#' @export
+#' @family frictionless functions
+frictionless::remove_resource
