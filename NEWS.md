@@ -1,13 +1,11 @@
 # movepub (development version)
 
 * `write_eml()` is now a separate function from `write_dwc()`. This allows you to use `write_dwc()` for an unpublished dataset (i.e. without metadata on DataCite) (#57).
-* `write_eml()` and `write_dwc()` no longer  add `[subsampled representation]` to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (#76).
+* `write_eml()` and `write_dwc()` no longer add `[subsampled representation]` to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (#76).
 * `write_dwc()` (and `write_eml()`) no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#70).
-* `write_dwc()` now writes the output file as `occurrence.csv` and adds a `meta.xml` (cf. camtrapdp) and a `emof.csv` (extended measurements or facts) file (#71, #77, #78).
+* `write_dwc()` now writes the output file as `occurrence.csv` (previously `dwc_occurrence.csv`) and adds a `meta.xml` file. The sex and life stage of the animal are - in addition to `dwc:sex` and `dwc:lifeStage` in `occurrence.csv` - expressed in an extended measurement or facts file (`emof.csv`), for better support with OBIS (#71, #77, #78).
+* Many functions of [frictionless](https://docs.ropensci.org/frictionless/) are now reexported by movepub, so you no longer have to load that package to create Data Packages (#54).
 * `write_dwc()` is now more modular, facilitating extension for non-GPS tracking data (#66).
-* `create_package()`, `read_package()` and `write_package()` reexport the create, read and write functionality of Data Packages from frictionless (#54).
-* `resources()` lists the names of the Data Resources included in a Data Package. It is a reexport from frictionless.
-* `read_resource()` and `remove_resource()` reexport the read and remove functionality of Data Resources from frictionless.
 
 # movepub 0.3.0
 
