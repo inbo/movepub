@@ -12,9 +12,15 @@
 #' @param package A Frictionless Data Package of Movebank data, as returned by
 #'   `read_package()`.
 #'   It is expected to contain a `reference-data` and `gps` resource.
+#'   write_dwc <- function(
 #' @param directory Path to local directory to write files to.
+#' @param dataset_id An identifier for the data set. If none provided,
+#' `package$dataset_id` is used.
+#' @param dataset_name Title of the data set. If none provided, `package$title`
+#' is used.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
+#' @param license If none provided, license with scope `path` is used.
 #' @return CSV and `meta.xml` files written to disk.
 #'   And invisibly, a list of data frames with the transformed data.
 #' @family dwc functions
