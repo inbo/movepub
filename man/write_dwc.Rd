@@ -4,19 +4,33 @@
 \alias{write_dwc}
 \title{Transform Movebank data to a Darwin Core Archive}
 \usage{
-write_dwc(package, directory, doi = package$id, rights_holder = NULL)
+write_dwc(
+  package,
+  directory,
+  dataset_id = package$id,
+  dataset_name = package$title,
+  rights_holder = NULL,
+  license = NULL
+)
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as returned by
 \code{read_package()}.
-It is expected to contain a \code{reference-data} and \code{gps} resource.}
+It is expected to contain a \code{reference-data} and \code{gps} resource.
+write_dwc <- function(}
 
 \item{directory}{Path to local directory to write files to.}
 
-\item{doi}{DOI of the original dataset, used to set dataset-level terms.}
+\item{dataset_id}{An identifier for the data set. If none provided,
+\code{package$dataset_id} is used.}
+
+\item{dataset_name}{Title of the data set. If none provided, \code{package$title}
+is used.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
+
+\item{license}{If none provided, license with scope \code{path} is used.}
 }
 \value{
 CSV and \code{meta.xml} files written to disk.
