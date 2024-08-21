@@ -162,7 +162,7 @@ movepub::write_dwc(
 #> ── Reading data ──
 #> 
 #> ℹ Taxa found in reference data and their WoRMS AphiaID:
-#> Haematopus ostralegus: 147436
+#> Haematopus ostralegus: 147436 (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
 #> 
 #> ── Transforming data to Darwin Core ──
 #> 
@@ -304,7 +304,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: f3217c84-2ea6-4795-98e5-09c7cfed3748
+#> packageId: 11e7f239-c2ec-4252-8a2b-cddcba9d86e3
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
