@@ -40,7 +40,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_dwc</span><span class="op">(</span><span class="va">package</span>, <span class="va">directory</span>, doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>, rights_holder <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write_dwc</span><span class="op">(</span></span>
+<span>  <span class="va">package</span>,</span>
+<span>  <span class="va">directory</span>,</span>
+<span>  dataset_id <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">title</span>,</span>
+<span>  license <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rights_holder <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -57,8 +64,16 @@ It is expected to contain a <code>reference-data</code> and <code>gps</code> res
 <dd><p>Path to local directory to write files to.</p></dd>
 
 
-<dt id="arg-doi">doi<a class="anchor" aria-label="anchor" href="#arg-doi"></a></dt>
-<dd><p>DOI of the original dataset, used to set dataset-level terms.</p></dd>
+<dt id="arg-dataset-id">dataset_id<a class="anchor" aria-label="anchor" href="#arg-dataset-id"></a></dt>
+<dd><p>An identifier for the dataset.</p></dd>
+
+
+<dt id="arg-dataset-name">dataset_name<a class="anchor" aria-label="anchor" href="#arg-dataset-name"></a></dt>
+<dd><p>Title of the dataset.</p></dd>
+
+
+<dt id="arg-license">license<a class="anchor" aria-label="anchor" href="#arg-license"></a></dt>
+<dd><p>License of the dataset.</p></dd>
 
 
 <dt id="arg-rights-holder">rights_holder<a class="anchor" aria-label="anchor" href="#arg-rights-holder"></a></dt>
@@ -106,6 +121,13 @@ included.</p></li>
 reduce the size of high-frequency data.
 It is possible for a deployment to contain no GPS positions, e.g. if the
 tag malfunctioned right after deployment.</p></li>
+<li><p>Parameters or metadata are used to set the following record-level terms:</p><ul><li><p><code>dwc:datasetID</code>: <code>dataset_id</code>, defaulting to <code>package$id</code>.</p></li>
+<li><p><code>dwc:datasetName</code>: <code>dataset_name</code>, defaulting to <code>package$title</code>.</p></li>
+<li><p><code>dcterms:license</code>: <code>license</code>, defaulting to the first license <code>name</code>
+(e.g. <code>CC0-1.0</code>) in <code>package$licenses</code>.</p></li>
+<li><p><code>dcterms:rightsHolder</code>: <code>rights_holder</code>, defaulting to the first
+contributor in <code>package$contributors</code> with role <code>rightsHolder</code>.</p></li>
+</ul></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

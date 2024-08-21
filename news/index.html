@@ -36,7 +36,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="movepub-development-version">movepub (development version)<a class="anchor" aria-label="anchor" href="#movepub-development-version"></a></h2>
 <ul><li>
-<code><a href="../reference/write_eml.html">write_eml()</a></code> is now a separate function from <code><a href="../reference/write_dwc.html">write_dwc()</a></code>. This allows you to use <code><a href="../reference/write_dwc.html">write_dwc()</a></code> for an unpublished dataset (i.e. without metadata on DataCite) (<a href="https://github.com/inbo/movepub/issues/57" class="external-link">#57</a>).</li>
+<code><a href="../reference/write_eml.html">write_eml()</a></code> is now a separate function from <code><a href="../reference/write_dwc.html">write_dwc()</a></code>. This allows you to use <code><a href="../reference/write_dwc.html">write_dwc()</a></code> for an unpublished dataset (i.e. without metadata on DataCite). Some record-level terms (e.g. <code>dwc:datasetName</code>) can be provided as arguments (<a href="https://github.com/inbo/movepub/issues/57" class="external-link">#57</a>, <a href="https://github.com/inbo/movepub/issues/72" class="external-link">#72</a>).</li>
 <li>
 <code><a href="../reference/write_eml.html">write_eml()</a></code> and <code><a href="../reference/write_dwc.html">write_dwc()</a></code> no longer add <code>[subsampled representation]</code> to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (<a href="https://github.com/inbo/movepub/issues/76" class="external-link">#76</a>).</li>
 <li>

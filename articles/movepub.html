@@ -63,10 +63,8 @@ Desmet</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/frictionlessdata/frictionless-r" class="external-link">frictionless</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/movepub" class="external-link">movepub</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/inbo/movepub" class="external-link">movepub</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/EML/" class="external-link">EML</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="frictionless">Make a Movebank dataset “frictionless”<a class="anchor" aria-label="anchor" href="#frictionless"></a>
@@ -77,9 +75,7 @@ Movebank dataset into a “Frictionless Data Package” (<a href="https://specs.
 Pollock, 2017</a>), we create a set of files that is better documented
 and easier to read programmatically, compared to individual files
 downloaded from Movebank. It is also a necessary step before
-transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code> (for data) and
-<code><a href="../reference/write_eml.html">write_eml()</a></code> (for metadata), because it standardizes file
-and field names.</p>
+transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>.</p>
 <p>Here we build a Frictionless Data Package by starting from a
 directory containing CSV data files in Movebank format (reference data
 and GPS data), and adding a <code>datapackage.json</code> file which
@@ -109,11 +105,13 @@ routes of an avian herbivore [Svalbard data]. Movebank Data Repository.
 <span>  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
-<li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package()</a></code>.</li>
+<li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package()</a></code>. This and
+other functions are reexported in movepub from the <a href="https://frictionlessdata.github.io/frictionless-r/" class="external-link">frictionless</a>
+R package.</li>
 <li>Add the DOI as package ID.</li>
 <li>Add our data as two resources: <code>reference-data</code> and
 <code>gps</code>. These names are standardized. By using the
-<code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the default
+<code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the generic
 <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the
 definition for each field in the <a href="http://vocab.nerc.ac.uk/collection/MVB/current" class="external-link">Movebank Attribute
 Dictionary</a>.</li>
@@ -148,17 +146,16 @@ other uses:</p>
 <h2 id="dwc">Transform a Movebank dataset to Darwin Core<a class="anchor" aria-label="anchor" href="#dwc"></a>
 </h2>
 <p>A Movebank dataset can be converted to Darwin Core using
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> and <code><a href="../reference/write_eml.html">write_eml()</a></code>. Let’s try it out
-with a small dataset.</p>
-<p><strong>O_ASSEN</strong> is a bird GPS tracking study and dataset,
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code>. Let’s try it out with the small dataset
+<strong>O_ASSEN</strong>. It is a bird GPS tracking study and dataset,
 available on <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471" class="external-link">Movebank</a>
 and deposited on <a href="https://doi.org/10.5281/zenodo.10053903" class="external-link">Zenodo</a>.</p>
 <p><code><a href="../reference/write_dwc.html">write_dwc()</a></code> requires the dataset to be structured as a
 <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless
 Data Package</a> (recognizable by the presence of a
 <code>datapackage.json</code> file). That is the case for O_ASSEN on
-Zenodo, meaning it can be read with the <a href="https://frictionlessdata.github.io/frictionless-r/" class="external-link">frictionless</a>
-R package.</p>
+Zenodo. See the previous section to create your own Frictionless Data
+Package.</p>
 <p>Let’s create two directories:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir_source</span> <span class="op">&lt;-</span> <span class="st">"data/o_assen/source"</span> <span class="co"># Local directory for the source dataset</span></span>
@@ -170,41 +167,43 @@ encounter an issue:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/records/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.</span></span>
+<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.</span></span>
+<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.</span></span></code></pre></div>
 <p>We then create a <code>package</code> variable pointing to the local
 dataset:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_source</span>, <span class="st">"datapackage.json"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>That covers the data. The metadata are derived from <a href="https://api.datacite.org/dois/10.5281/zenodo.10053903" class="external-link">DataCite</a>
-using the dataset DOI. For O_ASSEN, the DOI is already stored in the
-package metadata:</p>
+<p>That covers the data. The Darwin Core transformation also needs some
+metadata for record-level terms (e.g. <code>dwc:datasetName</code>,
+<code>dcterms:license</code>, etc.). By default, these are derived from
+the package metadata (i.e. <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Data Package</a>
+properties). O_ASSEN for example, has the DOI in
+<code>package$id</code>, which will be used for
+<code>dwc:datasetID</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span><span class="op">$</span><span class="va">id</span></span>
 <span><span class="co">#&gt; [1] "https://doi.org/10.5281/zenodo.10053903"</span></span></code></pre></div>
-<p>DataCite metadata does not include a contact person and rights
-holder, so we need to set those:</p>
+<p>O_ASSEN doesn’t have any other package metadata, meaning other
+record-level terms like <code>dwc:datasetName</code> and
+<code>dcterms:license</code> would be left empty. But we can provide
+those as parameters in <code><a href="../reference/write_dwc.html">write_dwc()</a></code>.</p>
+<p>Let’s transform the data to Darwin Core:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">contact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span></span>
-<span>  given <span class="op">=</span> <span class="st">"Peter"</span>,</span>
-<span>  family <span class="op">=</span> <span class="st">"Desmet"</span>,</span>
-<span>  email <span class="op">=</span> <span class="st">"peter.desmet@inbo.be"</span>,</span>
-<span>  comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"0000-0002-8442-8025"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">rights_holder</span> <span class="op">&lt;-</span> <span class="st">"Vogelwerkgroep Assen"</span></span></code></pre></div>
-<p>We now have everything to convert the dataset to Darwin Core and
-EML:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_dwc.html">write_dwc</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/write_dwc.html">write_dwc</a></span><span class="op">(</span></span>
 <span>  package <span class="op">=</span> <span class="va">package</span>,</span>
-<span>  doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>  directory <span class="op">=</span> <span class="va">dir_dwc</span>,</span>
-<span>  rights_holder <span class="op">=</span> <span class="va">rights_holder</span></span>
+<span>  dataset_name <span class="op">=</span> <span class="st">"O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)"</span>,</span>
+<span>  license <span class="op">=</span> <span class="st">"CC0-1.0"</span>,</span>
+<span>  rights_holder <span class="op">=</span> <span class="st">"Vogelwerkgroep Assen"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Reading data ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Taxa found in reference data and their WoRMS AphiaID:</span></span>
-<span><span class="co">#&gt; Haematopus ostralegus: 147436 (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
+<span><span class="co">#&gt; Haematopus ostralegus: 147436</span></span>
+<span><span class="co">#&gt; (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Transforming data to Darwin Core ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -213,164 +212,259 @@ EML:</p>
 <span><span class="co">#&gt; • 'data/o_assen/dwc/occurrence.csv'</span></span>
 <span><span class="co">#&gt; • 'data/o_assen/dwc/meta.xml'</span></span>
 <span><span class="co">#&gt; • 'data/o_assen/dwc/emof.csv'</span></span></code></pre></div>
+<p>This results in 3 files: <code>occurrence.csv</code>,
+<code>emof.csv</code> and <code>meta.xml</code>. <strong>See the
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> function documentation for transformation
+details.</strong></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">dir_dwc</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "emof.csv"       "meta.xml"       "occurrence.csv"</span></span></code></pre></div>
+<p>These files can be uploaded to a GBIF IPT for publication. If you
+also want to generate an <code>eml.xml</code> file, see the next
+section.</p>
+</div>
+<div class="section level2">
+<h2 id="eml">Transform a Movebank dataset to Ecological Metadata Language
+(EML)<a class="anchor" aria-label="anchor" href="#eml"></a>
+</h2>
+<p>A Movebank dataset can be converted to Ecological Metadata Language
+(EML) using <code><a href="../reference/write_eml.html">write_eml()</a></code>. Let’s try with the same O_ASSEN
+dataset used in the previous section.</p>
+<p>This time, the dataset does not need to be a Frictionless Data
+Package. The only requirement is that it is published and has a DOI:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_eml.html">write_eml</a></span><span class="op">(</span></span>
-<span>  doi <span class="op">=</span> <span class="va">package</span><span class="op">$</span><span class="va">id</span>,</span>
+<code class="sourceCode R"><span><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5281/zenodo.10053903"</span></span></code></pre></div>
+<p>Datasets (on Zenodo, GBIF, Movebank) get their DOI from <a href="https://datacite.org/" class="external-link">DataCite</a>, which also stores some of the
+metadata of the dataset. <code><a href="../reference/write_eml.html">write_eml()</a></code> will use DataCite to
+retrieve that metadata and convert it to EML. Since some non-mandatory
+metadata might not be present, the function allows you to explicitely
+provide a <strong>contact</strong> (used for contact and metadata
+provider) and the <strong>Movebank Study ID</strong> (used for external
+link and alternative identifier):</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">contact</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/person.html" class="external-link">person</a></span><span class="op">(</span></span>
+<span>  given <span class="op">=</span> <span class="st">"Peter"</span>,</span>
+<span>  family <span class="op">=</span> <span class="st">"Desmet"</span>,</span>
+<span>  email <span class="op">=</span> <span class="st">"peter.desmet@inbo.be"</span>,</span>
+<span>  comment <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>ORCID <span class="op">=</span> <span class="st">"0000-0002-8442-8025"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">study_id</span> <span class="op">&lt;-</span> <span class="fl">1605797471</span></span></code></pre></div>
+<p>Let’s transform the metadata to EML:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eml</span> <span class="op">&lt;-</span> <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_eml.html">write_eml</a></span><span class="op">(</span></span>
+<span>  doi <span class="op">=</span> <span class="va">doi</span>,</span>
 <span>  directory <span class="op">=</span> <span class="va">dir_dwc</span>,</span>
 <span>  contact <span class="op">=</span> <span class="va">contact</span>,</span>
-<span>  study_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  study_id <span class="op">=</span> <span class="va">study_id</span>,</span>
 <span>  derived_paragraph <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Writing file ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; • 'data/o_assen/dwc/eml.xml'</span></span></code></pre></div>
-<p>The resulting <code>eml.xml</code> file includes the metadata:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">EML</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/EML/reference/read_eml.html" class="external-link">read_eml</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"eml.xml"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; dataset:</span></span>
-<span><span class="co">#&gt;   title: O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae)</span></span>
-<span><span class="co">#&gt;     breeding in Assen (the Netherlands)</span></span>
-<span><span class="co">#&gt;   metadataProvider:</span></span>
-<span><span class="co">#&gt;     individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Peter</span></span>
-<span><span class="co">#&gt;       surName: Desmet</span></span>
-<span><span class="co">#&gt;     electronicMailAddress: peter.desmet@inbo.be</span></span>
-<span><span class="co">#&gt;     userId:</span></span>
-<span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
-<span><span class="co">#&gt;       userId: 0000-0002-8442-8025</span></span>
-<span><span class="co">#&gt;   pubDate: '2023-10-30'</span></span>
-<span><span class="co">#&gt;   abstract:</span></span>
-<span><span class="co">#&gt;     para:</span></span>
-<span><span class="co">#&gt;     - |-</span></span>
-<span><span class="co">#&gt;       O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.</span></span>
+<p>The resulting <code>eml.xml</code> file includes the metadata.
+<strong>See the <code><a href="../reference/write_eml.html">write_eml()</a></code> function documentation for
+transformation details.</strong></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eml</span></span>
+<span><span class="co">#&gt; $packageId</span></span>
+<span><span class="co">#&gt; [1] "2e6126ca-d05e-45c3-9f72-e89b0e56f224"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       See van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset.</span></span>
+<span><span class="co">#&gt; $system</span></span>
+<span><span class="co">#&gt; [1] "uuid"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       Files</span></span>
+<span><span class="co">#&gt; $dataset</span></span>
+<span><span class="co">#&gt; $dataset$title</span></span>
+<span><span class="co">#&gt; [1] "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       Data in this package are exported from Movebank study 1605797471. Fields in the data follow the Movebank Attribute Dictionary and are described in datapackage.json. Files are structured as a Frictionless Data Package. You can access all data in R via https://zenodo.org/records/10053903/files/datapackage.json using frictionless.</span></span>
+<span><span class="co">#&gt; $dataset$abstract</span></span>
+<span><span class="co">#&gt; $dataset$abstract$para</span></span>
+<span><span class="co">#&gt; [1] "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.\n\nSee van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset.\n\nFiles\n\nData in this package are exported from Movebank study 1605797471. Fields in the data follow the Movebank Attribute Dictionary and are described in datapackage.json. Files are structured as a Frictionless Data Package. You can access all data in R via https://zenodo.org/records/10053903/files/datapackage.json using frictionless.\n\n\n\ndatapackage.json: technical description of the data files.\n\nO_ASSEN-reference-data.csv: reference data about the animals, tags and deployments.\n\nO_ASSEN-gps-yyyy.csv.gz: GPS data recorded by the tags, grouped by year.\n\nO_ASSEN-acceleration-yyyy.csv.gz: acceleration data recorded by the tags, grouped by year.\n\n\nAcknowledgements\n\nThese data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility."</span></span>
+<span><span class="co">#&gt; [2] "This version adds alt-project-id to the reference-data and references the latest Movebank Attribute Dictionary."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </span></span>
+<span><span class="co">#&gt; [3] "&lt;![CDATA[&lt;span&gt;&lt;/span&gt;Data have been standardized to Darwin Core using the &lt;a href=\"https://inbo.github.io/movepub/\"&gt;movepub&lt;/a&gt; R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, &lt;a href=\"https://doi.org/10.5281/zenodo.10053903\"&gt;https://doi.org/10.5281/zenodo.10053903&lt;/a&gt;), a deposit of Movebank study &lt;a href=\"https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471\"&gt;1605797471&lt;/a&gt;.]]&gt;"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$keywordSet</span></span>
+<span><span class="co">#&gt; $dataset$keywordSet[[1]]</span></span>
+<span><span class="co">#&gt; $dataset$keywordSet[[1]]$keywordThesaurus</span></span>
+<span><span class="co">#&gt; [1] "n/a"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       datapackage.json: technical description of the data files.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       O_ASSEN-reference-data.csv: reference data about the animals, tags and deployments.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       O_ASSEN-gps-yyyy.csv.gz: GPS data recorded by the tags, grouped by year.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       O_ASSEN-acceleration-yyyy.csv.gz: acceleration data recorded by the tags, grouped by year.</span></span>
+<span><span class="co">#&gt; $dataset$keywordSet[[1]]$keyword</span></span>
+<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   </span></span>
+<span><span class="co">#&gt;  [5] "altitude"         "temperature"      "biologging"       "birds"           </span></span>
+<span><span class="co">#&gt;  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       Acknowledgements</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</span></span>
-<span><span class="co">#&gt;     - This version adds alt-project-id to the reference-data and references the latest</span></span>
-<span><span class="co">#&gt;       Movebank Attribute Dictionary.</span></span>
-<span><span class="co">#&gt;     - &lt;![CDATA[&lt;span&gt;&lt;/span&gt;Data have been standardized to Darwin Core using the &lt;a</span></span>
-<span><span class="co">#&gt;       href="https://inbo.github.io/movepub/"&gt;movepub&lt;/a&gt; R package and are downsampled</span></span>
-<span><span class="co">#&gt;       to the first GPS position per hour. The original data are available in Dijkstra</span></span>
-<span><span class="co">#&gt;       et al. (2023, &lt;a href="https://doi.org/10.5281/zenodo.10053903"&gt;https://doi.org/10.5281/zenodo.10053903&lt;/a&gt;),</span></span>
-<span><span class="co">#&gt;       a deposit of Movebank study &lt;a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"&gt;1605797471&lt;/a&gt;.]]&gt;</span></span>
-<span><span class="co">#&gt;   keywordSet:</span></span>
-<span><span class="co">#&gt;     keywordThesaurus: n/a</span></span>
-<span><span class="co">#&gt;     keyword:</span></span>
-<span><span class="co">#&gt;     - animal movement</span></span>
-<span><span class="co">#&gt;     - animal tracking</span></span>
-<span><span class="co">#&gt;     - gps tracking</span></span>
-<span><span class="co">#&gt;     - accelerometer</span></span>
-<span><span class="co">#&gt;     - altitude</span></span>
-<span><span class="co">#&gt;     - temperature</span></span>
-<span><span class="co">#&gt;     - biologging</span></span>
-<span><span class="co">#&gt;     - birds</span></span>
-<span><span class="co">#&gt;     - UvA-BiTS</span></span>
-<span><span class="co">#&gt;     - Movebank</span></span>
-<span><span class="co">#&gt;     - frictionlessdata</span></span>
-<span><span class="co">#&gt;   intellectualRights:</span></span>
-<span><span class="co">#&gt;     para: cc0-1.0</span></span>
-<span><span class="co">#&gt;   distribution:</span></span>
-<span><span class="co">#&gt;     scope: document</span></span>
-<span><span class="co">#&gt;     online:</span></span>
-<span><span class="co">#&gt;       url:</span></span>
-<span><span class="co">#&gt;         function: information</span></span>
-<span><span class="co">#&gt;         url: https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471</span></span>
-<span><span class="co">#&gt;   contact:</span></span>
-<span><span class="co">#&gt;     individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Peter</span></span>
-<span><span class="co">#&gt;       surName: Desmet</span></span>
-<span><span class="co">#&gt;     electronicMailAddress: peter.desmet@inbo.be</span></span>
-<span><span class="co">#&gt;     userId:</span></span>
-<span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
-<span><span class="co">#&gt;       userId: 0000-0002-8442-8025</span></span>
-<span><span class="co">#&gt;   alternateIdentifier:</span></span>
-<span><span class="co">#&gt;   - https://doi.org/10.5281/zenodo.10053903</span></span>
-<span><span class="co">#&gt;   - https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471</span></span>
-<span><span class="co">#&gt;   creator:</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Bert</span></span>
-<span><span class="co">#&gt;       surName: Dijkstra</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Rinus</span></span>
-<span><span class="co">#&gt;       surName: Dillerop</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Kees</span></span>
-<span><span class="co">#&gt;       surName: Oosterbeek</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Willem</span></span>
-<span><span class="co">#&gt;       surName: Bouten</span></span>
-<span><span class="co">#&gt;     userId:</span></span>
-<span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
-<span><span class="co">#&gt;       userId: 0000-0002-5250-8872</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Peter</span></span>
-<span><span class="co">#&gt;       surName: Desmet</span></span>
-<span><span class="co">#&gt;     userId:</span></span>
-<span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
-<span><span class="co">#&gt;       userId: 0000-0002-8442-8025</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Henk-Jan</span></span>
-<span><span class="co">#&gt;       surName: van der Kolk</span></span>
-<span><span class="co">#&gt;     userId:</span></span>
-<span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
-<span><span class="co">#&gt;       userId: 0000-0002-8023-379X</span></span>
-<span><span class="co">#&gt;   - individualName:</span></span>
-<span><span class="co">#&gt;       givenName: Bruno J.</span></span>
-<span><span class="co">#&gt;       surName: Ens</span></span>
-<span><span class="co">#&gt;     userId:</span></span>
-<span><span class="co">#&gt;       directory: https://orcid.org/</span></span>
-<span><span class="co">#&gt;       userId: 0000-0002-4659-4807</span></span>
-<span><span class="co">#&gt; packageId: 11e7f239-c2ec-4252-8a2b-cddcba9d86e3</span></span>
-<span><span class="co">#&gt; schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd</span></span>
-<span><span class="co">#&gt; system: uuid</span></span></code></pre></div>
-<p>The resulting <code>occurrence.csv</code> contains the Darwin Core
-data, created by transforming the <code>package</code> data. Some of the
-record level-terms at the beginning are set based on DataCite metadata
-and the provided <code>rights_holder</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dir_dwc</span>, <span class="st">"occurrence.csv"</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 5,827 × 31</span></span>
-<span><span class="co">#&gt;    type  license            datasetID institutionCode collectionCode datasetName</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;          &lt;chr&gt;      </span></span>
-<span><span class="co">#&gt;  1 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  2 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  3 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  4 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  5 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  6 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  7 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  8 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt;  9 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt; 10 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …</span></span>
-<span><span class="co">#&gt; # ℹ 5,817 more rows</span></span>
-<span><span class="co">#&gt; # ℹ 25 more variables: basisOfRecord &lt;chr&gt;, dataGeneralizations &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   occurrenceID &lt;chr&gt;, sex &lt;chr&gt;, lifeStage &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   reproductiveCondition &lt;lgl&gt;, occurrenceStatus &lt;chr&gt;, organismID &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   organismName &lt;lgl&gt;, eventID &lt;chr&gt;, parentEventID &lt;chr&gt;, eventType &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   eventDate &lt;dttm&gt;, samplingProtocol &lt;chr&gt;, eventRemarks &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   minimumElevationInMeters &lt;dbl&gt;, maximumElevationInMeters &lt;dbl&gt;, …</span></span></code></pre></div>
-<p>Both files can be uploaded to a GBIF IPT for publication. The dataset
-will use the DOI of the source dataset. See the O_ASSEN example on an <a href="https://ipt.inbo.be/resource?r=o_assen" class="external-link">IPT</a> and at <a href="https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc" class="external-link">GBIF</a>.</p>
+<span><span class="co">#&gt; $dataset$creator</span></span>
+<span><span class="co">#&gt; $dataset$creator[[1]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Bert</span></span>
+<span><span class="co">#&gt;   surName: Dijkstra</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId: ~</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$creator[[2]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Rinus</span></span>
+<span><span class="co">#&gt;   surName: Dillerop</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId: ~</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$creator[[3]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Kees</span></span>
+<span><span class="co">#&gt;   surName: Oosterbeek</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId: ~</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$creator[[4]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Willem</span></span>
+<span><span class="co">#&gt;   surName: Bouten</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId:</span></span>
+<span><span class="co">#&gt;   directory: https://orcid.org/</span></span>
+<span><span class="co">#&gt;   '': 0000-0002-5250-8872</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$creator[[5]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Peter</span></span>
+<span><span class="co">#&gt;   surName: Desmet</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId:</span></span>
+<span><span class="co">#&gt;   directory: https://orcid.org/</span></span>
+<span><span class="co">#&gt;   '': 0000-0002-8442-8025</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$creator[[6]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Henk-Jan</span></span>
+<span><span class="co">#&gt;   surName: van der Kolk</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId:</span></span>
+<span><span class="co">#&gt;   directory: https://orcid.org/</span></span>
+<span><span class="co">#&gt;   '': 0000-0002-8023-379X</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$creator[[7]]</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: ~</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Bruno J.</span></span>
+<span><span class="co">#&gt;   surName: Ens</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId:</span></span>
+<span><span class="co">#&gt;   directory: https://orcid.org/</span></span>
+<span><span class="co">#&gt;   '': 0000-0002-4659-4807</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$contact</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: peter.desmet@inbo.be</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Peter</span></span>
+<span><span class="co">#&gt;   surName: Desmet</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId:</span></span>
+<span><span class="co">#&gt;   directory: https://orcid.org/</span></span>
+<span><span class="co">#&gt;   '': 0000-0002-8442-8025</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$pubDate</span></span>
+<span><span class="co">#&gt; [1] "2023-10-30"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$alternateIdentifier</span></span>
+<span><span class="co">#&gt; [1] "https://doi.org/10.5281/zenodo.10053903"                                           </span></span>
+<span><span class="co">#&gt; [2] "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$intellectualRights</span></span>
+<span><span class="co">#&gt; $dataset$intellectualRights$para</span></span>
+<span><span class="co">#&gt; [1] "cc0-1.0"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$metadataProvider</span></span>
+<span><span class="co">#&gt; '@id': ~</span></span>
+<span><span class="co">#&gt; address: ~</span></span>
+<span><span class="co">#&gt; electronicMailAddress: peter.desmet@inbo.be</span></span>
+<span><span class="co">#&gt; individualName:</span></span>
+<span><span class="co">#&gt;   givenName: Peter</span></span>
+<span><span class="co">#&gt;   surName: Desmet</span></span>
+<span><span class="co">#&gt; onlineUrl: ~</span></span>
+<span><span class="co">#&gt; organizationName: ~</span></span>
+<span><span class="co">#&gt; phone: ~</span></span>
+<span><span class="co">#&gt; positionName: ~</span></span>
+<span><span class="co">#&gt; userId:</span></span>
+<span><span class="co">#&gt;   directory: https://orcid.org/</span></span>
+<span><span class="co">#&gt;   '': 0000-0002-8442-8025</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$distribution</span></span>
+<span><span class="co">#&gt; $dataset$distribution$scope</span></span>
+<span><span class="co">#&gt; [1] "document"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$distribution$online</span></span>
+<span><span class="co">#&gt; $dataset$distribution$online$url</span></span>
+<span><span class="co">#&gt; $dataset$distribution$online$url$`function`</span></span>
+<span><span class="co">#&gt; [1] "information"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dataset$distribution$online$url[[2]]</span></span>
+<span><span class="co">#&gt; [1] "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"</span></span></code></pre></div>
+<p>This <code>eml.xml</code> file can be uploaded to a GBIF IPT for
+publication. Notice that by default, <code><a href="../reference/write_eml.html">write_eml()</a></code> will add
+an extra paragraph explaining that data have been transformed to Darwin
+Core. You can turn this off with
+<code>derived_paragraph = FALSE</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eml</span><span class="op">$</span><span class="va">dataset</span><span class="op">$</span><span class="va">abstract</span><span class="op">$</span><span class="va">para</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] "&lt;![CDATA[&lt;span&gt;&lt;/span&gt;Data have been standardized to Darwin Core using the &lt;a href=\"https://inbo.github.io/movepub/\"&gt;movepub&lt;/a&gt; R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, &lt;a href=\"https://doi.org/10.5281/zenodo.10053903\"&gt;https://doi.org/10.5281/zenodo.10053903&lt;/a&gt;), a deposit of Movebank study &lt;a href=\"https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471\"&gt;1605797471&lt;/a&gt;.]]&gt;"</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example-dataset">Example dataset<a class="anchor" aria-label="anchor" href="#example-dataset"></a>
+</h2>
+<p>See the O_ASSEN example on an <a href="https://ipt.inbo.be/resource?r=o_assen" class="external-link">IPT</a> and at <a href="https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc" class="external-link">GBIF</a>
+for an example of a dataset that was published using
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> and <code><a href="../reference/write_eml.html">write_eml()</a></code>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
