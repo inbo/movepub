@@ -121,24 +121,30 @@ test_that("write_dwc() returns files that comply with the info in meta.xml", {
   expect_meta_match(file.path(temp_dir, "emof.csv"))
 })
 
-test_that("write_dwc() defaults record-level properties to NA when missing", {
+test_that("write_dwc() supports custom dataset id, name, license, rights_holder", {
   skip_if_offline()
   x <- o_assen
-  x$id <- NULL
-  x$title <- NULL
-  x$licenses <- NULL
-
   temp_dir <- file.path(tempdir(), "dwc")
   on.exit(unlink(temp_dir, recursive = TRUE))
-  result <- suppressMessages(write_dwc(x, temp_dir))
+  result <- suppressMessages(write_dwc(
+    x,
+    temp_dir,
+    dataset_id = "custom_dataset_id",
+    dataset_name = "custom_dataset_name",
+    license = "custom_license",
+    rights_holder = "custom_rights_holder"
+  ))
 
+  dataset_id <- purrr::pluck(result, "occurrence", "datasetID", 1)
+  dataset_name <- purrr::pluck(result, "occurrence", "datasetName", 1)
   license <- purrr::pluck(result, "occurrence", "license", 1)
-  rightsHolder <- purrr::pluck(result, "occurrence", "rightsHolder", 1)
-  datasetID <- purrr::pluck(result, "occurrence", "datasetID", 1)
-  datasetName <- purrr::pluck(result, "occurrence", "datasetName", 1)
+  rights_holder <- purrr::pluck(result, "occurrence", "rightsHolder", 1)
 
-  expect_identical(license, NA_character_)
-  expect_identical(rightsHolder, NA_character_)
-  expect_identical(datasetID, NA_character_)
-  expect_identical(datasetName, NA_character_)
+  expect_identical(dataset_id, "custom_dataset_id")
+  expect_identical(dataset_name, "custom_dataset_name")
+  expect_identical(license, "custom_license")
+  expect_identical(rights_holder, "custom_rights_holder")
+
+  # Note: if not set, the function will default to package properties.
+  # Those are present in o_assen and tested with the snapshot file.
 })
