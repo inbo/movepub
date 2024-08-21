@@ -129,7 +129,6 @@ We now have everything to convert the dataset to Darwin Core and EML:
 ```{r}
 movepub::write_dwc(
   package = package,
-  doi = package$id,
   directory = dir_dwc,
   rights_holder = rights_holder
 )
