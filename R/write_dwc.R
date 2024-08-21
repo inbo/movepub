@@ -70,9 +70,9 @@ write_dwc <- function(
     ) {
 
   # Set properties from metadata or default to NA when missing
-  dataset_id <- ifelse(!is.null(dataset_id), dataset_id, NA_character_)
-  dataset_name <- ifelse(!is.null(dataset_name), dataset_name, NA_character_)
   rights_holder <- if (is.null(rights_holder)) NA_character_
+  dataset_id <- dataset_id %||% NA_character_
+  dataset_name <- dataset_name %||% NA_character_
   if (is.null(license)) {
     license <-
       purrr::pluck(package, "licenses") %>%
