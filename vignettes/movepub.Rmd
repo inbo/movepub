@@ -154,7 +154,6 @@ We now have everything to convert the dataset to Darwin Core and EML:
 ``` r
 movepub::write_dwc(
   package = package,
-  doi = package$id,
   directory = dir_dwc,
   rights_holder = rights_holder
 )
@@ -162,7 +161,7 @@ movepub::write_dwc(
 #> ── Reading data ──
 #> 
 #> ℹ Taxa found in reference data and their WoRMS AphiaID:
-#> Haematopus ostralegus: 147436
+#> Haematopus ostralegus: 147436 (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
 #> 
 #> ── Transforming data to Darwin Core ──
 #> 
@@ -304,7 +303,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: f3217c84-2ea6-4795-98e5-09c7cfed3748
+#> packageId: 937b0538-a8df-41e4-9762-01992cb338cf
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
@@ -315,18 +314,18 @@ The resulting `occurrence.csv` contains the Darwin Core data, created by transfo
 ``` r
 readr::read_csv(file.path(dir_dwc, "occurrence.csv"), show_col_types = FALSE)
 #> # A tibble: 5,827 × 31
-#>    type  license            datasetID institutionCode collectionCode datasetName
-#>    <chr> <chr>              <chr>     <chr>           <chr>          <chr>      
-#>  1 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  2 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  3 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  4 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  5 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  6 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  7 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  8 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#>  9 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
-#> 10 Event https://creativec… https://… MPIAB           Movebank       O_ASSEN - …
+#>    type  license datasetID            institutionCode collectionCode datasetName
+#>    <chr> <lgl>   <chr>                <chr>           <chr>          <lgl>      
+#>  1 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  2 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  3 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  4 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  5 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  6 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  7 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  8 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#>  9 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
+#> 10 Event NA      https://doi.org/10.… MPIAB           Movebank       NA         
 #> # ℹ 5,817 more rows
 #> # ℹ 25 more variables: basisOfRecord <chr>, dataGeneralizations <chr>,
 #> #   occurrenceID <chr>, sex <chr>, lifeStage <chr>,
