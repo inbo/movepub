@@ -75,19 +75,14 @@ write_dwc <- function(package, directory, doi = package$id,
       class = "movepub_error_doi_invalid"
     )
   }
-  eml <- datacite_to_eml(doi)
 
-  # Get license
-  license <- eml$dataset$intellectualRights$rightsUri
-
-  # Get rights_holder
+  # Set properties from metadata or default to NA when missing
+  license <-
+    purrr::pluck(package, "licenses") %>%
+    purrr::pluck(1, "path", .default = NA_character_)
   rights_holder <- if (is.null(rights_holder)) NA_character_
-
-  # Get dataset id
-  dataset_id <- eml$dataset$alternateIdentifier[[1]]
-
-  # Get dataset name
-  dataset_name <- eml$dataset$title
+  dataset_id <- purrr::pluck(package, "id", .default = NA_character_)
+  dataset_name <- purrr::pluck(package, "title", .default = NA_character_)
 
   # Read data from package
   cli::cli_h2("Reading data")
