@@ -19,4 +19,5 @@
 #' o_assen$title <- "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)"
 #' o_assen$licenses[[1]]$path <- "https://creativecommons.org/publicdomain/zero/1.0/"
 #' usethis::use_data(o_assen)
+#' }
 "o_assen"
