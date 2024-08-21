@@ -33,4 +33,13 @@ Schema of the resource.
 See \href{https://inbo.github.io/movepub/articles/movepub.html#frictionless}{Get started } for
 examples.
 }
+\examples{
+reference_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content"
+doi <- "https://doi.org/10.5441/001/1.5k6b1364"
+package <-
+create_package() \%>\%
+ append(c(id = doi), after = 0) \%>\%
+ create_package() \%>\% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
+ add_resource("reference-data", reference_data)
+}
 \concept{frictionless functions}
