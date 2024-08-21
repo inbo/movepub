@@ -303,7 +303,7 @@ EML::read_eml(file.path(dir_dwc, "eml.xml"))
 #>     userId:
 #>       directory: https://orcid.org/
 #>       userId: 0000-0002-4659-4807
-#> packageId: 937b0538-a8df-41e4-9762-01992cb338cf
+#> packageId: 11e7f239-c2ec-4252-8a2b-cddcba9d86e3
 #> schemaLocation: https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd
 #> system: uuid
 ```
