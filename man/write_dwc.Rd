@@ -4,7 +4,14 @@
 \alias{write_dwc}
 \title{Transform Movebank data to a Darwin Core Archive}
 \usage{
-write_dwc(package, directory, doi = package$id, rights_holder = NULL)
+write_dwc(
+  package,
+  directory,
+  dataset_id = package$id,
+  dataset_name = package$title,
+  license = NULL,
+  rights_holder = NULL
+)
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as returned by
@@ -13,7 +20,11 @@ It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
 \item{directory}{Path to local directory to write files to.}
 
-\item{doi}{DOI of the original dataset, used to set dataset-level terms.}
+\item{dataset_id}{An identifier for the dataset.}
+
+\item{dataset_name}{Title of the dataset.}
+
+\item{license}{License of the dataset.}
 
 \item{rights_holder}{Acronym of the organization owning or managing the
 rights over the data.}
@@ -63,6 +74,15 @@ included.
 reduce the size of high-frequency data.
 It is possible for a deployment to contain no GPS positions, e.g. if the
 tag malfunctioned right after deployment.
+\item Parameters or metadata are used to set the following record-level terms:
+\itemize{
+\item \code{dwc:datasetID}: \code{dataset_id}, defaulting to \code{package$id}.
+\item \code{dwc:datasetName}: \code{dataset_name}, defaulting to \code{package$title}.
+\item \code{dcterms:license}: \code{license}, defaulting to the first license \code{name}
+(e.g. \code{CC0-1.0}) in \code{package$licenses}.
+\item \code{dcterms:rightsHolder}: \code{rights_holder}, defaulting to the first
+contributor in \code{package$contributors} with role \code{rightsHolder}.
+}
 }
 }
 

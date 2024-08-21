@@ -5,7 +5,7 @@
 \alias{o_assen}
 \title{Sample Movebank dataset with GPS tracking data}
 \format{
-An object of class \code{datapackage} (inherits from \code{list}) of length 4.
+An object of class \code{datapackage} (inherits from \code{list}) of length 7.
 }
 \source{
 https://doi.org/10.5281/zenodo.10053903
@@ -29,7 +29,11 @@ excludes the acceleration data.
 o_assen <-
   read_package("https://zenodo.org/records/10053903/files/datapackage.json") \%>\%
   remove_resource("acceleration")
-usethis::use_data(o_assen)
+o_assen$title <- "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)"
+o_assen$licenses[[1]]$name <- "CC0-1.0"
+o_assen$contributors[[1]]$title <- "Vogelwerkgroep Assen"
+o_assen$contributors[[1]]$role <- "rightsholder"
+usethis::use_data(o_assen, overwrite = TRUE)
 }
 }
 \concept{sample data}

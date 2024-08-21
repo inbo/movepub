@@ -13,7 +13,9 @@
 #'   `read_package()`.
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
-#' @param doi DOI of the original dataset, used to set dataset-level terms.
+#' @param dataset_id An identifier for the dataset.
+#' @param dataset_name Title of the dataset.
+#' @param license License of the dataset.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @return CSV and `meta.xml` files written to disk.
@@ -50,44 +52,35 @@
 #'   reduce the size of high-frequency data.
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
+#' - Parameters or metadata are used to set the following record-level terms:
+#'   - `dwc:datasetID`: `dataset_id`, defaulting to `package$id`.
+#'   - `dwc:datasetName`: `dataset_name`, defaulting to `package$title`.
+#'   - `dcterms:license`: `license`, defaulting to the first license `name`
+#'     (e.g. `CC0-1.0`) in `package$licenses`.
+#'   - `dcterms:rightsHolder`: `rights_holder`, defaulting to the first
+#'     contributor in `package$contributors` with role `rightsHolder`.
 #' @examples
 #' write_dwc(o_assen, directory = "my_directory")
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_dwc <- function(package, directory, doi = package$id,
+write_dwc <- function(package, directory, dataset_id = package$id,
+                      dataset_name = package$title, license = NULL,
                       rights_holder = NULL) {
-  if (is.null(doi)) {
-    cli::cli_abort(
-      c(
-        "Can't find a DOI in {.field package$id}.",
-        "i" = "Provide one in {.arg doi}."
-      ),
-      class = "movepub_error_doi_missing"
-    )
+  # Set properties from metadata or default to NA when missing
+  dataset_id <- dataset_id %||% NA_character_
+  dataset_name <- dataset_name %||% NA_character_
+  if (is.null(license)) {
+    license <-
+      purrr::pluck(package, "licenses") %>%
+      purrr::pluck(1, "name", .default = NA_character_)
   }
-  if (!is.character(doi) || length(doi) != 1) {
-    cli::cli_abort(
-      c(
-        "{.arg doi} must be a character (vector of length one).",
-        "x" = "{.val {doi}} is {.type {doi}}."
-      ),
-      class = "movepub_error_doi_invalid"
-    )
+  if (is.null(rights_holder)) {
+    rights_holder <-
+      purrr::pluck(package, "contributors") %>%
+      purrr::detect(~ !is.null(.x$role) && .x$role == "rightsHolder") %>%
+      purrr::pluck("title", .default = NA_character_)
   }
-  eml <- datacite_to_eml(doi)
-
-  # Get license
-  license <- eml$dataset$intellectualRights$rightsUri
-
-  # Get rights_holder
-  rights_holder <- if (is.null(rights_holder)) NA_character_
-
-  # Get dataset id
-  dataset_id <- eml$dataset$alternateIdentifier[[1]]
-
-  # Get dataset name
-  dataset_name <- eml$dataset$title
 
   # Read data from package
   cli::cli_h2("Reading data")

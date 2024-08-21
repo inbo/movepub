@@ -1,23 +1,3 @@
-test_that("write_dwc() returns error on missing or malformed doi", {
-  x_no_doi <- o_assen
-  x_no_doi$id <- NULL
-  temp_dir <- file.path(tempdir(), "dwc")
-  on.exit(unlink(temp_dir, recursive = TRUE))
-
-  expect_error(
-    write_dwc(x_no_doi, temp_dir),
-    class = "movepub_error_doi_missing"
-  )
-  expect_error(
-    write_dwc(x_no_doi, temp_dir, doi = c("a", "b", "c")),
-    class = "movepub_error_doi_invalid"
-  )
-  expect_error(
-    write_dwc(x_no_doi, temp_dir, doi = 10.5281),
-    class = "movepub_error_doi_invalid"
-  )
-})
-
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
   x_no_ref_data <-
@@ -29,13 +9,13 @@ test_that("write_dwc() returns error on missing resources", {
 
   expect_error(
     suppressMessages(
-      write_dwc(x_no_ref_data, temp_dir, doi = "10.5281/zenodo.5653311")
+      write_dwc(x_no_ref_data, temp_dir)
     ),
     class = "movepub_error_reference_data_missing"
   )
   expect_error(
     suppressMessages(
-      write_dwc(x_no_gps, temp_dir, doi = "10.5281/zenodo.5653311")
+      write_dwc(x_no_gps, temp_dir)
     ),
     class = "movepub_error_gps_data_missing"
   )
@@ -139,4 +119,32 @@ test_that("write_dwc() returns files that comply with the info in meta.xml", {
   # Use helper function to compare
   expect_meta_match(file.path(temp_dir, "occurrence.csv"))
   expect_meta_match(file.path(temp_dir, "emof.csv"))
+})
+
+test_that("write_dwc() supports custom dataset id, name, license, rights_holder", {
+  skip_if_offline()
+  x <- o_assen
+  temp_dir <- file.path(tempdir(), "dwc")
+  on.exit(unlink(temp_dir, recursive = TRUE))
+  result <- suppressMessages(write_dwc(
+    x,
+    temp_dir,
+    dataset_id = "custom_dataset_id",
+    dataset_name = "custom_dataset_name",
+    license = "custom_license",
+    rights_holder = "custom_rights_holder"
+  ))
+
+  dataset_id <- purrr::pluck(result, "occurrence", "datasetID", 1)
+  dataset_name <- purrr::pluck(result, "occurrence", "datasetName", 1)
+  license <- purrr::pluck(result, "occurrence", "license", 1)
+  rights_holder <- purrr::pluck(result, "occurrence", "rightsHolder", 1)
+
+  expect_identical(dataset_id, "custom_dataset_id")
+  expect_identical(dataset_name, "custom_dataset_name")
+  expect_identical(license, "custom_license")
+  expect_identical(rights_holder, "custom_rights_holder")
+
+  # Note: if not set, the function will default to package properties.
+  # Those are present in o_assen and tested with the snapshot file.
 })
