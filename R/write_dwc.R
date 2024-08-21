@@ -13,7 +13,6 @@
 #'   `read_package()`.
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
-#' @param doi DOI of the original dataset, used to set dataset-level terms.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
 #' @return CSV and `meta.xml` files written to disk.
@@ -55,27 +54,8 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_dwc <- function(package, directory, doi = package$id,
+write_dwc <- function(package, directory,
                       rights_holder = NULL) {
-  if (is.null(doi)) {
-    cli::cli_abort(
-      c(
-        "Can't find a DOI in {.field package$id}.",
-        "i" = "Provide one in {.arg doi}."
-      ),
-      class = "movepub_error_doi_missing"
-    )
-  }
-  if (!is.character(doi) || length(doi) != 1) {
-    cli::cli_abort(
-      c(
-        "{.arg doi} must be a character (vector of length one).",
-        "x" = "{.val {doi}} is {.type {doi}}."
-      ),
-      class = "movepub_error_doi_invalid"
-    )
-  }
-
   # Set properties from metadata or default to NA when missing
   license <-
     purrr::pluck(package, "licenses") %>%

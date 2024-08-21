@@ -1,23 +1,3 @@
-test_that("write_dwc() returns error on missing or malformed doi", {
-  x_no_doi <- o_assen
-  x_no_doi$id <- NULL
-  temp_dir <- file.path(tempdir(), "dwc")
-  on.exit(unlink(temp_dir, recursive = TRUE))
-
-  expect_error(
-    write_dwc(x_no_doi, temp_dir),
-    class = "movepub_error_doi_missing"
-  )
-  expect_error(
-    write_dwc(x_no_doi, temp_dir, doi = c("a", "b", "c")),
-    class = "movepub_error_doi_invalid"
-  )
-  expect_error(
-    write_dwc(x_no_doi, temp_dir, doi = 10.5281),
-    class = "movepub_error_doi_invalid"
-  )
-})
-
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
   x_no_ref_data <-
@@ -29,13 +9,13 @@ test_that("write_dwc() returns error on missing resources", {
 
   expect_error(
     suppressMessages(
-      write_dwc(x_no_ref_data, temp_dir, doi = "10.5281/zenodo.5653311")
+      write_dwc(x_no_ref_data, temp_dir)
     ),
     class = "movepub_error_reference_data_missing"
   )
   expect_error(
     suppressMessages(
-      write_dwc(x_no_gps, temp_dir, doi = "10.5281/zenodo.5653311")
+      write_dwc(x_no_gps, temp_dir)
     ),
     class = "movepub_error_gps_data_missing"
   )
