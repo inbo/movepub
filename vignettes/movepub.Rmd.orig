@@ -16,10 +16,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, message = FALSE}
-library(frictionless)
 library(movepub)
 library(dplyr)
-library(EML)
 library(readr)
 ```
 
@@ -28,7 +26,7 @@ library(readr)
 
 ## Make a Movebank dataset "frictionless" {#frictionless}
 
-Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()` (for data) and `write_eml()` (for metadata), because it standardizes file and field names.
+Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Frictionless Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`.
 
 Here we build a Frictionless Data Package by starting from a directory containing CSV data files in Movebank format (reference data and GPS data), and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
@@ -60,9 +58,9 @@ package <-
 
 Here's what we did:
 
-- Initiate a package with `create_package()`.
+- Initiate a package with `create_package()`. This and other functions are reexported in movepub from the [frictionless][frictionless-r] R package.
 - Add the DOI as package ID.
-- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the default `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current).
+- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the generic `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current).
 
 Here's an example of how a field is documented:
 
@@ -78,11 +76,9 @@ write_package(package, "data/my_dataset")
 
 ## Transform a Movebank dataset to Darwin Core {#dwc}
 
-A Movebank dataset can be converted to Darwin Core using `write_dwc()` and `write_eml()`. Let's try it out with a small dataset.
+A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with the small dataset **O_ASSEN**. It is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
 
-**O_ASSEN** is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
-
-`write_dwc()` requires the dataset to be structured as a [Frictionless Data Package][fdp] (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo, meaning it can be read with the [frictionless][frictionless-r] R package.
+`write_dwc()` requires the dataset to be structured as a [Frictionless Data Package][fdp] (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo. See the previous section to create your own Frictionless Data Package.
 
 Let's create two directories:
 
@@ -106,13 +102,45 @@ We then create a `package` variable pointing to the local dataset:
 package <- read_package(file.path(dir_source, "datapackage.json"))
 ```
 
-That covers the data. The metadata are derived from [DataCite](https://api.datacite.org/dois/10.5281/zenodo.10053903) using the dataset DOI. For O_ASSEN, the DOI is already stored in the package metadata:
+That covers the data. The Darwin Core transformation also needs some metadata for record-level terms (e.g. `dwc:datasetName`, `dcterms:license`, etc.). By default, these are derived from the package metadata (i.e. [Data Package][fdp] properties). O_ASSEN for example, has the DOI in `package$id`, which will be used for `dwc:datasetID`:
 
 ```{r}
 package$id
 ```
 
-DataCite metadata does not include a contact person and rights holder, so we need to set those:
+O_ASSEN doesn't have any other package metadata, meaning other record-level terms like `dwc:datasetName` and `dcterms:license` would be left empty. But we can provide those as parameters in `write_dwc()`.
+
+Let's transform the data to Darwin Core:
+
+```{r}
+write_dwc(
+  package = package,
+  directory = dir_dwc,
+  dataset_name = "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)",
+  license = "CC0-1.0",
+  rights_holder = "Vogelwerkgroep Assen"
+)
+```
+
+This results in 3 files: `occurrence.csv`, `emof.csv` and `meta.xml`. **See the `write_dwc()` function documentation for transformation details.**
+
+```{r}
+list.files(dir_dwc)
+```
+
+These files can be uploaded to a GBIF IPT for publication. If you also want to generate an `eml.xml` file, see the next section.
+
+## Transform a Movebank dataset to Ecological Metadata Language (EML) {#eml}
+
+A Movebank dataset can be converted to Ecological Metadata Language (EML) using `write_eml()`. Let's try with the same O_ASSEN dataset used in the previous section.
+
+This time, the dataset does not need to be a Frictionless Data Package. The only requirement is that it is published and has a DOI:
+
+```{r}
+doi <- "https://doi.org/10.5281/zenodo.10053903"
+```
+
+Datasets (on Zenodo, GBIF, Movebank) get their DOI from [DataCite](https://datacite.org/), which also stores some of the metadata of the dataset. `write_eml()` will use DataCite to retrieve that metadata and convert it to EML. Since some non-mandatory metadata might not be present, the function allows you to explicitely provide a **contact** (used for contact and metadata provider) and the **Movebank Study ID** (used for external link and alternative identifier):
 
 ```{r}
 contact <- person(
@@ -121,37 +149,38 @@ contact <- person(
   email = "peter.desmet@inbo.be",
   comment = c(ORCID = "0000-0002-8442-8025")
 )
-rights_holder <- "Vogelwerkgroep Assen"
+study_id <- 1605797471
 ```
 
-We now have everything to convert the dataset to Darwin Core and EML:
+Let's transform the metadata to EML:
 
 ```{r}
-movepub::write_dwc(
-  package = package,
-  directory = dir_dwc,
-  rights_holder = rights_holder
-)
-
-movepub::write_eml(
-  doi = package$id,
+eml <- movepub::write_eml(
+  doi = doi,
   directory = dir_dwc,
   contact = contact,
-  study_id = NULL,
+  study_id = study_id,
   derived_paragraph = TRUE
 )
 ```
 
-The resulting `eml.xml` file includes the metadata:
+The resulting `eml.xml` file includes the metadata. **See the `write_eml()` function documentation for transformation details.**
 
 ```{r}
-EML::read_eml(file.path(dir_dwc, "eml.xml"))
+eml
 ```
 
-The resulting `occurrence.csv` contains the Darwin Core data, created by transforming the `package` data. Some of the record level-terms at the beginning are set based on DataCite metadata and the provided `rights_holder`:
+This `eml.xml` file can be uploaded to a GBIF IPT for publication. Notice that by default, `write_eml()` will add an extra paragraph explaining that data have been transformed to Darwin Core. You can turn this off with `derived_paragraph = FALSE`:
 
 ```{r}
-readr::read_csv(file.path(dir_dwc, "occurrence.csv"), show_col_types = FALSE)
+eml$dataset$abstract$para[[3]]
 ```
 
-Both files can be uploaded to a GBIF IPT for publication. The dataset will use the DOI of the source dataset. See the O_ASSEN example on an [IPT](https://ipt.inbo.be/resource?r=o_assen) and at [GBIF](https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc).
+## Example dataset
+
+See the O_ASSEN example on an [IPT](https://ipt.inbo.be/resource?r=o_assen) and at [GBIF](https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc) for an example of a dataset that was published using `write_dwc()` and `write_eml()`.
+
+```{r, include = FALSE}
+# Clean up files
+unlink("data", recursive = TRUE)
+```
