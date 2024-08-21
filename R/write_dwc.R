@@ -54,15 +54,24 @@
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_dwc <- function(package, directory,
-                      rights_holder = NULL) {
+write_dwc <- function(
+    package,
+    directory,
+    dataset_id = package$id,
+    dataset_name = package$title,
+    rights_holder = NULL,
+    license = NULL
+    ) {
+
   # Set properties from metadata or default to NA when missing
-  license <-
-    purrr::pluck(package, "licenses") %>%
-    purrr::pluck(1, "path", .default = NA_character_)
+  if (is.null(license)) {
+    license <-
+      purrr::pluck(package, "licenses") %>%
+      purrr::pluck(1, "path", .default = NA_character_)
+  }
   rights_holder <- if (is.null(rights_holder)) NA_character_
-  dataset_id <- purrr::pluck(package, "id", .default = NA_character_)
-  dataset_name <- purrr::pluck(package, "title", .default = NA_character_)
+  dataset_id <- ifelse(!is.null(dataset_id), dataset_id, NA_character_)
+  dataset_name <- ifelse(!is.null(dataset_name), dataset_name, NA_character_)
 
   # Read data from package
   cli::cli_h2("Reading data")
