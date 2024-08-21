@@ -1,6 +1,6 @@
 # movepub (development version)
 
-* `write_eml()` is now a separate function from `write_dwc()`. This allows you to use `write_dwc()` for an unpublished dataset (i.e. without metadata on DataCite) (#57).
+* `write_eml()` is now a separate function from `write_dwc()`. This allows you to use `write_dwc()` for an unpublished dataset (i.e. without metadata on DataCite). Some record-level terms (e.g. `dwc:datasetName`) can be provided as arguments (#57, #72).
 * `write_eml()` and `write_dwc()` no longer add `[subsampled representation]` to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (#76).
 * `write_dwc()` (and `write_eml()`) no longer writes to `"."` by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (#70).
 * `write_dwc()` now writes the output file as `occurrence.csv` (previously `dwc_occurrence.csv`) and adds a `meta.xml` file. The sex and life stage of the animal are - in addition to `dwc:sex` and `dwc:lifeStage` in `occurrence.csv` - expressed in an extended measurement or facts file (`emof.csv`), for better support with OBIS (#71, #77, #78).
