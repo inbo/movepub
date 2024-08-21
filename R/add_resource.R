@@ -33,11 +33,14 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   allowed_names <- c("reference-data", "gps", "acceleration",
                      "accessory-measurements")
   if (!resource_name %in% allowed_names) {
-    cli::cli_abort(c(
-      "{.arg resource_name} must be a recognized Movebank data type.",
-      "x" = "{.val {resource_name}} is not.",
-      "i" = "Allowed: {.val {allowed_names}}."
-    ))
+    cli::cli_abort(
+      c(
+        "{.arg resource_name} must be a recognized Movebank data type.",
+        "x" = "{.val {resource_name}} is not.",
+        "i" = "Allowed: {.val {allowed_names}}."
+      ),
+      class = "movepub_error_invalid_resource_names"
+    )
   }
 
   # Read last file and create schema
