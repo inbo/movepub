@@ -101,8 +101,8 @@ routes of an avian herbivore [Svalbard data]. Movebank Data Repository.
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198</span></span>
-<span>  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
 <li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package()</a></code>. This and
@@ -202,8 +202,7 @@ those as parameters in <code><a href="../reference/write_dwc.html">write_dwc()</
 <span><span class="co">#&gt; ── Reading data ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Taxa found in reference data and their WoRMS AphiaID:</span></span>
-<span><span class="co">#&gt; Haematopus ostralegus: 147436</span></span>
-<span><span class="co">#&gt; (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
+<span><span class="co">#&gt; Haematopus ostralegus: 147436 (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Transforming data to Darwin Core ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -251,7 +250,7 @@ link and alternative identifier):</p>
 <span><span class="va">study_id</span> <span class="op">&lt;-</span> <span class="fl">1605797471</span></span></code></pre></div>
 <p>Let’s transform the metadata to EML:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">eml</span> <span class="op">&lt;-</span> <span class="fu">movepub</span><span class="fu">::</span><span class="fu"><a href="../reference/write_eml.html">write_eml</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">eml</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/write_eml.html">write_eml</a></span><span class="op">(</span></span>
 <span>  doi <span class="op">=</span> <span class="va">doi</span>,</span>
 <span>  directory <span class="op">=</span> <span class="va">dir_dwc</span>,</span>
 <span>  contact <span class="op">=</span> <span class="va">contact</span>,</span>
@@ -268,7 +267,7 @@ transformation details.</strong></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eml</span></span>
 <span><span class="co">#&gt; $packageId</span></span>
-<span><span class="co">#&gt; [1] "2e6126ca-d05e-45c3-9f72-e89b0e56f224"</span></span>
+<span><span class="co">#&gt; [1] "386e40b5-9155-4daf-b6e2-483a94746a29"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $system</span></span>
 <span><span class="co">#&gt; [1] "uuid"</span></span>
@@ -290,9 +289,8 @@ transformation details.</strong></p>
 <span><span class="co">#&gt; [1] "n/a"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $dataset$keywordSet[[1]]$keyword</span></span>
-<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   </span></span>
-<span><span class="co">#&gt;  [5] "altitude"         "temperature"      "biologging"       "birds"           </span></span>
-<span><span class="co">#&gt;  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
+<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     </span></span>
+<span><span class="co">#&gt;  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
