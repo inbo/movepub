@@ -12,15 +12,12 @@
 #' @param package A Frictionless Data Package of Movebank data, as returned by
 #'   `read_package()`.
 #'   It is expected to contain a `reference-data` and `gps` resource.
-#'   write_dwc <- function(
 #' @param directory Path to local directory to write files to.
-#' @param dataset_id An identifier for the data set. If none provided,
-#' `package$dataset_id` is used.
-#' @param dataset_name Title of the data set. If none provided, `package$title`
-#' is used.
+#' @param dataset_id An identifier for the dataset.
+#' @param dataset_name Title of the dataset.
+#' @param license License of the dataset.
 #' @param rights_holder Acronym of the organization owning or managing the
 #'   rights over the data.
-#' @param license If none provided, license with scope `path` is used.
 #' @return CSV and `meta.xml` files written to disk.
 #'   And invisibly, a list of data frames with the transformed data.
 #' @family dwc functions
@@ -55,28 +52,34 @@
 #'   reduce the size of high-frequency data.
 #'   It is possible for a deployment to contain no GPS positions, e.g. if the
 #'   tag malfunctioned right after deployment.
+#' - Parameters or metadata are used to set the following record-level terms:
+#'   - `dwc:datasetID`: `dataset_id`, defaulting to `package$id`.
+#'   - `dwc:datasetName`: `dataset_name`, defaulting to `package$title`.
+#'   - `dcterms:license`: `license`, defaulting to the first license `name`
+#'     (e.g. `CC0-1.0`) in `package$licenses`.
+#'   - `dcterms:rightsHolder`: `rights_holder`, defaulting to the first
+#'     contributor in `package$contributors` with role `rightsHolder`.
 #' @examples
 #' write_dwc(o_assen, directory = "my_directory")
 #'
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
-write_dwc <- function(
-    package,
-    directory,
-    dataset_id = package$id,
-    dataset_name = package$title,
-    rights_holder = NULL,
-    license = NULL
-    ) {
-
+write_dwc <- function(package, directory, dataset_id = package$id,
+                      dataset_name = package$title, license = NULL,
+                      rights_holder = NULL) {
   # Set properties from metadata or default to NA when missing
-  rights_holder <- if (is.null(rights_holder)) NA_character_
   dataset_id <- dataset_id %||% NA_character_
   dataset_name <- dataset_name %||% NA_character_
   if (is.null(license)) {
     license <-
       purrr::pluck(package, "licenses") %>%
-      purrr::pluck(1, "path", .default = NA_character_)
+      purrr::pluck(1, "name", .default = NA_character_)
+  }
+  if (is.null(rights_holder)) {
+    rights_holder <-
+      purrr::pluck(package, "contributors") %>%
+      purrr::detect(~ !is.null(.x$role) && .x$role == "rightsHolder") %>%
+      purrr::pluck("title", .default = NA_character_)
   }
 
   # Read data from package
