@@ -7,7 +7,7 @@
 * `write_dwc()` provides a message regarding the matching of scientific names with WoRMS Aphia IDs. These IDs are now clickable URLs, making it easier to verify the match (#58).
 * Many functions of [frictionless](https://docs.ropensci.org/frictionless/) are now reexported by movepub, so you no longer have to load that package to create Data Packages (#54).
 * `write_dwc()` is now more modular, facilitating extension for non-GPS tracking data (#66).
-* `get_mvb_term()` is deprecated and replaced by `move2::movebank_get_vocabulary`.
+* `get_mvb_term()` is now deprecated and replaced by `move2::movebank_get_vocabulary`.
 
 # movepub 0.3.0
 
