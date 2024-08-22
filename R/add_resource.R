@@ -82,7 +82,8 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
         "%Y-%m-%d %H:%M:%S.%f",
         "default"
       ),
-      `skos:exactMatch` = purrr::pluck(term, "hasCurrentVersion")
+      `skos:exactMatch` =
+        attr(purrr::pluck(term, "hasCurrentVersion"), "resource")
     )
   })
 
