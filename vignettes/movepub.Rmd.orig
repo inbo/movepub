@@ -52,8 +52,8 @@ package <-
   create_package() %>%
   append(c(id = doi), after = 0) %>%
   create_package() %>% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
-  movepub::add_resource("reference-data", reference_data) %>%
-  movepub::add_resource("gps", gps_data)
+  add_resource("reference-data", reference_data) %>%
+  add_resource("gps", gps_data)
 ```
 
 Here's what we did:
@@ -155,7 +155,7 @@ study_id <- 1605797471
 Let's transform the metadata to EML:
 
 ```{r}
-eml <- movepub::write_eml(
+eml <- write_eml(
   doi = doi,
   directory = dir_dwc,
   contact = contact,

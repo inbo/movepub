@@ -51,8 +51,8 @@ package <-
   create_package() %>%
   append(c(id = doi), after = 0) %>%
   create_package() %>% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
-  movepub::add_resource("reference-data", reference_data) %>%
-  movepub::add_resource("gps", gps_data)
+  add_resource("reference-data", reference_data) %>%
+  add_resource("gps", gps_data)
 ```
 
 Here's what we did:
@@ -151,8 +151,7 @@ write_dwc(
 #> ── Reading data ──
 #> 
 #> ℹ Taxa found in reference data and their WoRMS AphiaID:
-#> Haematopus ostralegus: 147436
-#> (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
+#> Haematopus ostralegus: 147436 (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
 #> 
 #> ── Transforming data to Darwin Core ──
 #> 
@@ -201,7 +200,7 @@ Let's transform the metadata to EML:
 
 
 ``` r
-eml <- movepub::write_eml(
+eml <- write_eml(
   doi = doi,
   directory = dir_dwc,
   contact = contact,
@@ -220,7 +219,7 @@ The resulting `eml.xml` file includes the metadata. **See the `write_eml()` func
 ``` r
 eml
 #> $packageId
-#> [1] "2e6126ca-d05e-45c3-9f72-e89b0e56f224"
+#> [1] "386e40b5-9155-4daf-b6e2-483a94746a29"
 #> 
 #> $system
 #> [1] "uuid"
@@ -242,9 +241,8 @@ eml
 #> [1] "n/a"
 #> 
 #> $dataset$keywordSet[[1]]$keyword
-#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   
-#>  [5] "altitude"         "temperature"      "biologging"       "birds"           
-#>  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"
+#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     
+#>  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"
 #> 
 #> 
 #> 
