@@ -1,5 +1,7 @@
 #' Get term from the Movebank Attribute Dictionary
 #'
+#' `r lifecycle::badge('deprecated')`
+#'
 #' Search a term by its label in the [Movebank Attribute
 #' Dictionary (MVB)](http://vocab.nerc.ac.uk/collection/MVB/current/).
 #' Returns in order: term with matching `prefLabel`, matching `altLabel` or
@@ -15,6 +17,14 @@
 #'
 #' get_mvb_term("Deploy.On.Date")
 get_mvb_term <- function(label) {
+
+  lifecycle::deprecate_warn(
+    when = "0.4.0",
+    what = "get_mvb_term()",
+    with = "move2::movebank_get_vocabulary()",
+    details = "See https://bartk.gitlab.io/move2/reference/movebank_get_vocabulary.html."
+  )
+
   label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
 
   # Get terms

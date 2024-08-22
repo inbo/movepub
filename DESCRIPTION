@@ -29,6 +29,7 @@ Imports:
     EML,
     frictionless,
     jsonlite,
+    lifecycle,
     purrr,
     readr,
     rlang,
