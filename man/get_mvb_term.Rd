@@ -14,6 +14,9 @@ get_mvb_term(label)
 List with term information.
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+}
+\details{
 Search a term by its label in the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary (MVB)}.
 Returns in order: term with matching \code{prefLabel}, matching \code{altLabel} or
 error when no matching term is found.
