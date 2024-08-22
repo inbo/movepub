@@ -10,7 +10,6 @@
 #' @param label Label of the term to look for. Case will be ignored and `-`,
 #'   `_`, `.` and `:` interpreted as space.
 #' @return List with term information.
-#' @family support functions
 #' @export
 #' @examples
 #' get_mvb_term("animal_id")
