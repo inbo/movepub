@@ -50,37 +50,42 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
 
   # Rebuild and extends field properties
   fields <- purrr::map(schema$fields, function(field) {
-    term <- get_mvb_term(field$name)
-    type <- dplyr::recode(term$prefLabel,
-      "algorithm marked outlier" = "boolean",
-      "animal ID" = "string",
-      "barometric height" = "number",
-      "barometric pressure" = "number",
-      "compass heading" = "number",
-      "deployment ID" = "string",
-      "event ID" = "integer",
-      "GPS satellite count" = "integer",
-      "GPS VDOP" = "number",
-      "individual local identifier" = "string",
-      "tag ID" = "string",
-      "tag local identifier" = "string",
-      "tag serial no" = "string",
-      .missing = field$type,
-      .default = field$type
+    term <- move2::movebank_get_vocabulary(field, return_type = "list")[[1]]
+    prefLabel <- purrr::pluck(term, "prefLabel", 1)
+    type <- dplyr::recode(prefLabel,
+                          "algorithm marked outlier" = "boolean",
+                          "animal ID" = "string",
+                          "barometric height" = "number",
+                          "barometric pressure" = "number",
+                          "compass heading" = "number",
+                          "deployment ID" = "string",
+                          "event ID" = "integer",
+                          "GPS satellite count" = "integer",
+                          "GPS VDOP" = "number",
+                          "individual local identifier" = "string",
+                          "tag ID" = "string",
+                          "tag local identifier" = "string",
+                          "tag serial no" = "string",
+                          .missing = field$type,
+                          .default = field$type
     )
+
+    definition <- purrr::pluck(term, "definition", 1)
+
     list(
       name = field$name,
-      title = term$prefLabel,
-      description = term$definition,
+      title = prefLabel,
+      description = definition,
       type = type,
       format = ifelse(
-        grepl("Format: yyyy-MM-dd HH:mm:ss.SSS;", term$definition),
+        grepl("Format: yyyy-MM-dd HH:mm:ss.SSS;", definition),
         "%Y-%m-%d %H:%M:%S.%f",
         "default"
       ),
-      `skos:exactMatch` = term$hasCurrentVersion
+      `skos:exactMatch` = purrr::pluck(term, "hasCurrentVersion")
     )
   })
+
   schema$fields <- fields
 
   # Add keys
