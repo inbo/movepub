@@ -48,9 +48,13 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   df <- readr::read_csv(last_file, show_col_types = FALSE)
   schema <- frictionless::create_schema(df)
 
-  # Rebuild and extends field properties
+  # Extends field properties with Movebank Attribute Dictionary information
+  mvb_terms <- move2::movebank_get_vocabulary(
+    labels = purrr::map_chr(schema$fields, "name"),
+    return_type = "list"
+  )
   fields <- purrr::map(schema$fields, function(field) {
-    term <- move2::movebank_get_vocabulary(field, return_type = "list")[[1]]
+    term <- purrr::pluck(mvb_terms, field$name)
     prefLabel <- purrr::pluck(term, "prefLabel", 1)
     type <- dplyr::recode(
       prefLabel,
