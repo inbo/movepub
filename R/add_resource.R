@@ -39,7 +39,7 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
         "x" = "{.val {resource_name}} is not.",
         "i" = "Allowed: {.val {allowed_names}}."
       ),
-      class = "movepub_error_invalid_resource_names"
+      class = "movepub_error_resource_name_invalid"
     )
   }
 

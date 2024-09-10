@@ -1,164 +1,5 @@
 {
-  "id": "https://doi.org/10.5441/001/1.5k6b1364",
   "resources": [
-    {
-      "name": "gps",
-      "path": "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content",
-      "profile": "tabular-data-resource",
-      "format": "csv",
-      "mediatype": "text/csv",
-      "encoding": "windows-1252",
-      "schema": {
-        "fields": [
-          {
-            "name": "event-id",
-            "title": "event ID",
-            "description": "An identifier for the set of values associated with each event, i.e. sensor measurement. A unique event ID is assigned to every time-location or other time-measurement record in Movebank. If multiple measurements are included within a single row of a data file, they will share an event ID. If users import the same sensor measurement to Movebank multiple times, a separate event ID will be assigned to each. Example: '14328243575'; Units: none; Entity described: event",
-            "type": "integer",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000103/3/"
-          },
-          {
-            "name": "visible",
-            "title": "visible",
-            "description": "Determines whether an event is visible on the Movebank map. Allowed values are TRUE or FALSE. Values are calculated automatically, with TRUE indicating the event has not been flagged as an outlier by 'algorithm marked outlier', 'import marked outlier' or 'manually marked outlier', or that the user has overridden the results of these outlier attributes using 'manually marked valid' = TRUE. Units: none; Entity described: event",
-            "type": "boolean",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000209/3/"
-          },
-          {
-            "name": "timestamp",
-            "title": "timestamp",
-            "description": "The date and time corresponding to a sensor measurement or an estimate derived from sensor measurements. Example: '2008-08-14 18:31:00.000'; Format: yyyy-MM-dd HH:mm:ss.SSS; Units: UTC or GPS time; Entity described: event",
-            "type": "datetime",
-            "format": "%Y-%m-%d %H:%M:%S.%f",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000200/2/"
-          },
-          {
-            "name": "location-long",
-            "title": "location long",
-            "description": "The geographic longitude of the location as estimated by the sensor. Positive values are east of the Greenwich Meridian, negative values are west of it. Example: '-121.1761111'; Units: decimal degrees, WGS84 reference system; Entity described: event",
-            "type": "number",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000146/2/"
-          },
-          {
-            "name": "location-lat",
-            "title": "location lat",
-            "description": "The geographic latitude of the location as estimated by the sensor. Example: '-41.0982423'; Units: decimal degrees, WGS84 reference system; Entity described: event",
-            "type": "number",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000145/4/"
-          },
-          {
-            "name": "comments",
-            "title": "comments",
-            "description": "Additional information about events that is not described by other event data terms. Example: 'we observed the animal foraging (see photo BT25)'; Units: none; Entity described: event",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000069/2/"
-          },
-          {
-            "name": "height-raw",
-            "title": "height raw",
-            "description": "Raw values for the height of the tag above ellipsoid or mean sea level, typically estimated by the tag. Values are stored as raw text values because non-numeric characters are used or processing is required to derive the correct height estimate. Best practice is to define values in the reference data. Example: '425, 2D fix'; Units: not defined; Entity described: event",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000132/2/"
-          },
-          {
-            "name": "sensor-type",
-            "title": "sensor type",
-            "description": "The type of sensor with which data were collected. All sensors are associated with a tag id, and tags can contain multiple sensor types. Each event record in Movebank is assigned one sensor type. If values from multiple sensors are reported in a single event, the primary sensor is used. Values are chosen from a controlled list: acceleration = The sensor collects acceleration data; accessory-measurements = The sensor collects accessory measurements, such as battery voltage; acoustic-telemetry = The sensor transmits an acoustic signal that is detected by receivers to determine location; argos-doppler-shift = The sensor location is estimated by Argos using Doppler shift; barometer = The sensor records air or water pressure; bird-ring = The animal is identified by a band or ring that has a unique identifier; derived = Information is derived from other sensor data; geolocation-api = The location is determined based on detection by nearby cell towers or other wireless network connectors using the World Wide Web Consortium Geolocation API Recommendation; gnss = The sensor uses one or more global navigation satellite systems to determine location; gps = The sensor uses GPS to determine location; gyroscope = The sensor records angular velocity; heart-rate = The sensor records or is used to calculate heart rate; magnetometer = The sensor records the magnetic field; natural-mark = The animal is identified by a unique natural marking; orientation = Quaternion components describing the orientation of the tag are derived from accelerometer and gyroscope measurements; proximity = The sensor identifies proximity to other tags; radio-transmitter = The sensor transmits a radio signal that is detected by receivers to determine location; sigfox-geolocation = The sensor location is determined by Sigfox using the received signal strength indicator; solar-geolocator = The sensor collects light levels, which are used to determine position (for processed locations); solar-geolocator-raw = The sensor collects light levels, which are used to determine position (for raw light-level measurements); solar-geolocator-twilight = The sensor collects light levels, which are used to determine position (for twilights calculated from light-level measurements). Format: controlled list; Entity described: event",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000170/7/"
-          },
-          {
-            "name": "individual-taxon-canonical-name",
-            "title": "individual taxon canonical name",
-            "description": "This attribute has been merged with 'animal taxon'. The scientific name of the species on which the tag was deployed, as defined by the Integrated Taxonomic Information System (ITIS, www.itis.gov). If the species name can not be provided, this should be the lowest level taxonomic rank that can be determined and that is used in the ITIS taxonomy. Additional information can be provided using the term 'taxon detail'. Format: controlled list; Entity described: individual",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000135/5/"
-          },
-          {
-            "name": "tag-local-identifier",
-            "title": "tag local identifier",
-            "description": "This attribute has been merged with 'tag ID'. An identifier for the tag, provided by the data owner. Values are unique within the study. If the data owner does not provide a tag ID, an internal Movebank tag identifier may sometimes be shown. Example: '2342'; Units: none; Entity described: tag",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000182/5/"
-          },
-          {
-            "name": "individual-local-identifier",
-            "title": "individual local identifier",
-            "description": "This attribute has been merged with 'animal ID'. An individual identifier for the animal, provided by the data owner. Values are unique within the study. If the data owner does not provide an Animal ID, an internal Movebank animal identifier is sometimes shown. Example: '91876A, Gary'; Units: none; Entity described: individual",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000134/4/"
-          },
-          {
-            "name": "study-name",
-            "title": "study name",
-            "description": "The name of the study in Movebank. Example: 'Coyotes, Kays and Bogan, Albany NY'; Units: none; Entity described: study",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000173/3/"
-          },
-          {
-            "name": "utm-easting",
-            "title": "UTM easting",
-            "description": "The easting of the location as estimated by the sensor. Example: '756243.7836'; Units: meters, WGS84 reference system; Entity described: event",
-            "type": "number",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000205/2/"
-          },
-          {
-            "name": "utm-northing",
-            "title": "UTM northing",
-            "description": "The northing of the location as estimated by the sensor. Example: '3628361.84012295'; Units: meters, WGS84 reference system; Entity described: event",
-            "type": "number",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000206/2/"
-          },
-          {
-            "name": "utm-zone",
-            "title": "UTM zone",
-            "description": "The UTM zone used to convert locations from decimal degrees to UTM. Selected based on the location of each event. Format: controlled list; Entity described: event",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000207/3/"
-          },
-          {
-            "name": "study-timezone",
-            "title": "study timezone",
-            "description": "The time zone at the study reference location, determined using the IANA Time Zone Database and a shapefile of these zones provided by efele.net. Format: controlled list; Entity described: event",
-            "type": "string",
-            "format": "default",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000177/4/"
-          },
-          {
-            "name": "study-local-timestamp",
-            "title": "study local timestamp",
-            "description": "The date and time a sensor measurement was taken, converted from the values in 'timestamp' to the time zone of the study reference location. The time zone for the study reference location is determined using the IANA Time Zone Database and a shapefile of these zones provided by efele.net. Example: '2008-08-14 15:31:00.000'; Format: yyyy-MM-dd HH:mm:ss.SSS; Units: time zone is specific to the study; Entity described: event",
-            "type": "datetime",
-            "format": "%Y-%m-%d %H:%M:%S.%f",
-            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000140/3/"
-          }
-        ],
-        "primaryKey": "event-id",
-        "foreignKeys": [
-          {
-            "fields": ["individual-local-identifier", "tag-local-identifier"],
-            "reference": {
-              "resource": "reference-data",
-              "fields": ["animal-id", "tag-id"]
-            }
-          }
-        ]
-      }
-    },
     {
       "name": "reference-data",
       "path": "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content",
@@ -330,6 +171,164 @@
           }
         ],
         "primaryKey": ["animal-id", "tag-id"]
+      }
+    },
+    {
+      "name": "gps",
+      "path": "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content",
+      "profile": "tabular-data-resource",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "encoding": "windows-1252",
+      "schema": {
+        "fields": [
+          {
+            "name": "event-id",
+            "title": "event ID",
+            "description": "An identifier for the set of values associated with each event, i.e. sensor measurement. A unique event ID is assigned to every time-location or other time-measurement record in Movebank. If multiple measurements are included within a single row of a data file, they will share an event ID. If users import the same sensor measurement to Movebank multiple times, a separate event ID will be assigned to each. Example: '14328243575'; Units: none; Entity described: event",
+            "type": "integer",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000103/3/"
+          },
+          {
+            "name": "visible",
+            "title": "visible",
+            "description": "Determines whether an event is visible on the Movebank map. Allowed values are TRUE or FALSE. Values are calculated automatically, with TRUE indicating the event has not been flagged as an outlier by 'algorithm marked outlier', 'import marked outlier' or 'manually marked outlier', or that the user has overridden the results of these outlier attributes using 'manually marked valid' = TRUE. Units: none; Entity described: event",
+            "type": "boolean",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000209/3/"
+          },
+          {
+            "name": "timestamp",
+            "title": "timestamp",
+            "description": "The date and time corresponding to a sensor measurement or an estimate derived from sensor measurements. Example: '2008-08-14 18:31:00.000'; Format: yyyy-MM-dd HH:mm:ss.SSS; Units: UTC or GPS time; Entity described: event",
+            "type": "datetime",
+            "format": "%Y-%m-%d %H:%M:%S.%f",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000200/2/"
+          },
+          {
+            "name": "location-long",
+            "title": "location long",
+            "description": "The geographic longitude of the location as estimated by the sensor. Positive values are east of the Greenwich Meridian, negative values are west of it. Example: '-121.1761111'; Units: decimal degrees, WGS84 reference system; Entity described: event",
+            "type": "number",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000146/2/"
+          },
+          {
+            "name": "location-lat",
+            "title": "location lat",
+            "description": "The geographic latitude of the location as estimated by the sensor. Example: '-41.0982423'; Units: decimal degrees, WGS84 reference system; Entity described: event",
+            "type": "number",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000145/4/"
+          },
+          {
+            "name": "comments",
+            "title": "comments",
+            "description": "Additional information about events that is not described by other event data terms. Example: 'we observed the animal foraging (see photo BT25)'; Units: none; Entity described: event",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000069/2/"
+          },
+          {
+            "name": "height-raw",
+            "title": "height raw",
+            "description": "Raw values for the height of the tag above ellipsoid or mean sea level, typically estimated by the tag. Values are stored as raw text values because non-numeric characters are used or processing is required to derive the correct height estimate. Best practice is to define values in the reference data. Example: '425, 2D fix'; Units: not defined; Entity described: event",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000132/2/"
+          },
+          {
+            "name": "sensor-type",
+            "title": "sensor type",
+            "description": "The type of sensor with which data were collected. All sensors are associated with a tag id, and tags can contain multiple sensor types. Each event record in Movebank is assigned one sensor type. If values from multiple sensors are reported in a single event, the primary sensor is used. Values are chosen from a controlled list: acceleration = The sensor collects acceleration data; accessory-measurements = The sensor collects accessory measurements, such as battery voltage; acoustic-telemetry = The sensor transmits an acoustic signal that is detected by receivers to determine location; argos-doppler-shift = The sensor location is estimated by Argos using Doppler shift; barometer = The sensor records air or water pressure; bird-ring = The animal is identified by a band or ring that has a unique identifier; derived = Information is derived from other sensor data; geolocation-api = The location is determined based on detection by nearby cell towers or other wireless network connectors using the World Wide Web Consortium Geolocation API Recommendation; gnss = The sensor uses one or more global navigation satellite systems to determine location; gps = The sensor uses GPS to determine location; gyroscope = The sensor records angular velocity; heart-rate = The sensor records or is used to calculate heart rate; magnetometer = The sensor records the magnetic field; natural-mark = The animal is identified by a unique natural marking; orientation = Quaternion components describing the orientation of the tag are derived from accelerometer and gyroscope measurements; proximity = The sensor identifies proximity to other tags; radio-transmitter = The sensor transmits a radio signal that is detected by receivers to determine location; sigfox-geolocation = The sensor location is determined by Sigfox using the received signal strength indicator; solar-geolocator = The sensor collects light levels, which are used to determine position (for processed locations); solar-geolocator-raw = The sensor collects light levels, which are used to determine position (for raw light-level measurements); solar-geolocator-twilight = The sensor collects light levels, which are used to determine position (for twilights calculated from light-level measurements). Format: controlled list; Entity described: event",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000170/7/"
+          },
+          {
+            "name": "individual-taxon-canonical-name",
+            "title": "animal taxon",
+            "description": "The scientific name of the taxon on which the tag was deployed, as defined by the Integrated Taxonomic Information System www.itis.gov. If the species name can not be provided, this should be the lowest level taxonomic rank that can be determined and that is used in the ITIS taxonomy. Additional information can be provided using the term 'taxon detail'. The values 'test' and 'calibration' identify events relevant to animal tracking studies that should not be associated with a taxon. Format: controlled list; Entity described: individual",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000024/4/"
+          },
+          {
+            "name": "tag-local-identifier",
+            "title": "tag ID",
+            "description": "A unique identifier for the tag, provided by the data owner. If the data owner does not provide a tag ID, an internal Movebank tag identifier may sometimes be shown. Example: '2342'; Units: none; Entity described: tag",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000181/2/"
+          },
+          {
+            "name": "individual-local-identifier",
+            "title": "animal ID",
+            "description": "An individual identifier for the animal, provided by the data owner. Values are unique within the study. If the data owner does not provide an Animal ID, an internal Movebank animal identifier is sometimes shown. Example: 'TUSC_CV5'; Units: none; Entity described: individual",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/3/"
+          },
+          {
+            "name": "study-name",
+            "title": "study name",
+            "description": "The name of the study in Movebank. Example: 'Coyotes, Kays and Bogan, Albany NY'; Units: none; Entity described: study",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000173/3/"
+          },
+          {
+            "name": "utm-easting",
+            "title": "UTM easting",
+            "description": "The easting of the location as estimated by the sensor. Example: '756243.7836'; Units: meters, WGS84 reference system; Entity described: event",
+            "type": "number",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000205/2/"
+          },
+          {
+            "name": "utm-northing",
+            "title": "UTM northing",
+            "description": "The northing of the location as estimated by the sensor. Example: '3628361.84012295'; Units: meters, WGS84 reference system; Entity described: event",
+            "type": "number",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000206/2/"
+          },
+          {
+            "name": "utm-zone",
+            "title": "UTM zone",
+            "description": "The UTM zone used to convert locations from decimal degrees to UTM. Selected based on the location of each event. Format: controlled list; Entity described: event",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000207/3/"
+          },
+          {
+            "name": "study-timezone",
+            "title": "study timezone",
+            "description": "The time zone at the study reference location, determined using the IANA Time Zone Database and a shapefile of these zones provided by efele.net. Format: controlled list; Entity described: event",
+            "type": "string",
+            "format": "default",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000177/4/"
+          },
+          {
+            "name": "study-local-timestamp",
+            "title": "study local timestamp",
+            "description": "The date and time a sensor measurement was taken, converted from the values in 'timestamp' to the time zone of the study reference location. The time zone for the study reference location is determined using the IANA Time Zone Database and a shapefile of these zones provided by efele.net. Example: '2008-08-14 15:31:00.000'; Format: yyyy-MM-dd HH:mm:ss.SSS; Units: time zone is specific to the study; Entity described: event",
+            "type": "datetime",
+            "format": "%Y-%m-%d %H:%M:%S.%f",
+            "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000140/3/"
+          }
+        ],
+        "primaryKey": "event-id",
+        "foreignKeys": [
+          {
+            "fields": ["individual-local-identifier", "tag-local-identifier"],
+            "reference": {
+              "resource": "reference-data",
+              "fields": ["animal-id", "tag-id"]
+            }
+          }
+        ]
       }
     }
   ]
