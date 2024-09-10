@@ -12,6 +12,7 @@ Prepare animal tracking data from 'Movebank' (\url{https://movebank.org}) for pu
 Useful links:
 \itemize{
   \item \url{https://github.com/inbo/movepub}
+  \item \url{https://inbo.github.io/movepub}
   \item Report bugs at \url{https://github.com/inbo/movepub/issues}
 }
 
