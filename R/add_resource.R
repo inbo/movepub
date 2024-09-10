@@ -52,22 +52,23 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   fields <- purrr::map(schema$fields, function(field) {
     term <- move2::movebank_get_vocabulary(field, return_type = "list")[[1]]
     prefLabel <- purrr::pluck(term, "prefLabel", 1)
-    type <- dplyr::recode(prefLabel,
-                          "algorithm marked outlier" = "boolean",
-                          "animal ID" = "string",
-                          "barometric height" = "number",
-                          "barometric pressure" = "number",
-                          "compass heading" = "number",
-                          "deployment ID" = "string",
-                          "event ID" = "integer",
-                          "GPS satellite count" = "integer",
-                          "GPS VDOP" = "number",
-                          "individual local identifier" = "string",
-                          "tag ID" = "string",
-                          "tag local identifier" = "string",
-                          "tag serial no" = "string",
-                          .missing = field$type,
-                          .default = field$type
+    type <- dplyr::recode(
+      prefLabel,
+      "algorithm marked outlier" = "boolean",
+      "animal ID" = "string",
+      "barometric height" = "number",
+      "barometric pressure" = "number",
+      "compass heading" = "number",
+      "deployment ID" = "string",
+      "event ID" = "integer",
+      "GPS satellite count" = "integer",
+      "GPS VDOP" = "number",
+      "individual local identifier" = "string",
+      "tag ID" = "string",
+      "tag local identifier" = "string",
+      "tag serial no" = "string",
+      .missing = field$type,
+      .default = field$type
     )
 
     definition <- purrr::pluck(term, "definition", 1)
