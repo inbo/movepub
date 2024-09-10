@@ -24,7 +24,7 @@ Provided \code{package} with one additional resource.
 \description{
 Adds Movebank data (\code{reference-data}, \code{gps}, \code{acceleration},
 \code{accessory-measurements}) as a  Data Resource to a Frictionless Data Package.
-The function extends \code{frictionless::add_resource()}.
+The function extends \code{\link[frictionless:add_resource]{frictionless::add_resource()}}.
 The title, definition, format and URI of each field are looked up in the
 latest version of the \href{http://vocab.nerc.ac.uk/collection/MVB/current}{Movebank Attribute Dictionary} and included in the Table
 Schema of the resource.

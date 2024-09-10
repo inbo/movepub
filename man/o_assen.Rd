@@ -16,7 +16,7 @@ o_assen
 \description{
 A sample Movebank dataset with GPS tracking data, formatted as a
 \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package} and read by
-\code{read_package()}.
+\code{\link[=read_package]{read_package()}}.
 }
 \details{
 This sample is derived from the Zenodo-deposited dataset

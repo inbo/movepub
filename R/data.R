@@ -3,7 +3,7 @@
 #' A sample Movebank dataset with GPS tracking data, formatted as a
 #' [Frictionless Data Package](
 #' https://specs.frictionlessdata.io/data-package/) and read by
-#' `read_package()`.
+#' [read_package()].
 #'
 #' This sample is derived from the Zenodo-deposited dataset
 #' [Dijkstra et al. (2022)](https://doi.org/10.5281/zenodo.10053903), but

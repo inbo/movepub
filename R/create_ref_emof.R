@@ -1,11 +1,11 @@
 #' Create Extended Measurements Or Facts from Darwin Core Occurrence data
 #'
 #' Pulls the **sex** and **life stage** information from the Darwin Core
-#' Occurrence data created with `create_ref_occurrence()` and maps these values
+#' Occurrence data created with [create_ref_occurrence()] and maps these values
 #' to a controlled vocabulary recommended by [OBIS](https://obis.org/).
 #'
 #' @param ref_occurrence Data frame with Darwin Core occurrences derived from
-#'   tag attachments, as returned by `create_ref_occurrence()`.
+#'   tag attachments, as returned by [create_ref_occurrence()].
 #' @return Data frame with [Extended Measurement Or Facts](
 #'   https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml).
 #' @family dwc functions

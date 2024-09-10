@@ -15,7 +15,7 @@ write_dwc(
 }
 \arguments{
 \item{package}{A Frictionless Data Package of Movebank data, as returned by
-\code{read_package()}.
+\code{\link[=read_package]{read_package()}}.
 It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
 \item{directory}{Path to local directory to write files to.}
