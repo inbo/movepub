@@ -15,14 +15,23 @@ List with term information.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
-}
-\details{
+
+This function is deprecated in favour of \code{\link[move2:movebank_get_vocabulary]{move2::movebank_get_vocabulary()}},
+which offers the same functionality and more.
+
 Search a term by its label in the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary (MVB)}.
 Returns in order: term with matching \code{prefLabel}, matching \code{altLabel} or
 error when no matching term is found.
 }
 \examples{
 get_mvb_term("animal_id")
-
+get_mvb_term("individual-local-identifier") # A deprecated term
 get_mvb_term("Deploy.On.Date")
+
+# With move2
+library(move2)
+movebank_get_vocabulary("animal_id", return_type = "list")
+get_mvb_term("individual-local-identifier", omit_deprecated = TRUE, return_type = "list")
+movebank_get_vocabulary("Deploy.On.Date", return_type = "list")
 }
+\keyword{internal}

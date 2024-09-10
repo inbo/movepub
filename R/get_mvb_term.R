@@ -1,6 +1,10 @@
 #' Get term from the Movebank Attribute Dictionary
 #'
-#' `r lifecycle::badge('deprecated')`
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function is deprecated in favour of [move2::movebank_get_vocabulary()],
+#' which offers the same functionality and more.
 #'
 #' Search a term by its label in the [Movebank Attribute
 #' Dictionary (MVB)](http://vocab.nerc.ac.uk/collection/MVB/current/).
@@ -10,18 +14,23 @@
 #' @param label Label of the term to look for. Case will be ignored and `-`,
 #'   `_`, `.` and `:` interpreted as space.
 #' @return List with term information.
+#' @keywords internal
 #' @export
 #' @examples
 #' get_mvb_term("animal_id")
-#'
+#' get_mvb_term("individual-local-identifier") # A deprecated term
 #' get_mvb_term("Deploy.On.Date")
+#'
+#' # With move2
+#' library(move2)
+#' movebank_get_vocabulary("animal_id", return_type = "list")
+#' get_mvb_term("individual-local-identifier", omit_deprecated = TRUE, return_type = "list")
+#' movebank_get_vocabulary("Deploy.On.Date", return_type = "list")
 get_mvb_term <- function(label) {
-
   lifecycle::deprecate_warn(
     when = "0.4.0",
     what = "get_mvb_term()",
-    with = "move2::movebank_get_vocabulary()",
-    details = "See https://bartk.gitlab.io/move2/reference/movebank_get_vocabulary.html."
+    with = "move2::movebank_get_vocabulary()"
   )
 
   label_clean <- tolower(gsub("(-|_|\\.|:)", " ", label))
