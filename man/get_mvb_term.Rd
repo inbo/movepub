@@ -31,7 +31,11 @@ get_mvb_term("Deploy.On.Date")
 # With move2
 library(move2)
 movebank_get_vocabulary("animal_id", return_type = "list")
-get_mvb_term("individual-local-identifier", omit_deprecated = TRUE, return_type = "list")
+movebank_get_vocabulary(
+ "individual-local-identifier",
+ omit_deprecated = TRUE,
+ return_type = "list"
+)
 movebank_get_vocabulary("Deploy.On.Date", return_type = "list")
 }
 \keyword{internal}
