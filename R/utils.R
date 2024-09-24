@@ -8,7 +8,7 @@
 #' Function is copied and adapted from [rlist::list.clean()] (MIT licensed), to
 #' avoid requiring full `rlist` dependency.
 #'
-#' @param x List or vector.
+#' @param x A list or vector.
 #' @param fun Function returning `TRUE` for elements that should be removed.
 #' @param recursive Whether list should be cleaned recursively.
 #' @return Cleaned list.

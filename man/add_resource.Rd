@@ -7,7 +7,7 @@
 add_resource(package, resource_name, files, keys = TRUE)
 }
 \arguments{
-\item{package}{Data Package object, created with \code{\link[frictionless:read_package]{read_package()}} or
+\item{package}{Data Package object, as returned by \code{\link[frictionless:read_package]{read_package()}} or
 \code{\link[frictionless:create_package]{create_package()}}.}
 
 \item{resource_name}{Name of the Data Resource.}
@@ -15,8 +15,8 @@ add_resource(package, resource_name, files, keys = TRUE)
 \item{files}{One or more paths to CSV file(s) that contain the data for
 this resource, as a character (vector).}
 
-\item{keys}{Should \code{primaryKey} and \code{foreignKey} properties be added to the
-Table Schema?}
+\item{keys}{If \code{TRUE}, \code{primaryKey} and \code{foreignKey} properties are added to
+the Table Schema.}
 }
 \value{
 Provided \code{package} with one additional resource.

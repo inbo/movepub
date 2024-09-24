@@ -1,8 +1,9 @@
 #' Create Darwin Core Occurrence from reference data
 #'
-#' @param ref Data frame derived from a `reference-data` resource.
-#' @param taxa Data frame with taxa and their Aphia ID.
-#' @return Data frame with Darwin Core occurrences derived from tag attachments.
+#' @param ref A data frame derived from a `reference-data` resource.
+#' @param taxa A data frame with taxa and their Aphia ID.
+#' @return A data frame with Darwin Core occurrences derived from tag
+#'   attachments.
 #' @family dwc functions
 #' @noRd
 create_ref_occurrence <- function(ref, taxa) {
