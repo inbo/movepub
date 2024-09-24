@@ -12,7 +12,9 @@ Authors@R: c(
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
            comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("NLBIF", role = "fnd",
-           comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/")
+           comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/"),
+    person("European Union", role = "fnd",
+           comment = "https://dto-bioflow.eu/")
   )
 Description: Prepare animal tracking data from 'Movebank'
     (<https://movebank.org>) for publication in a research repository or
