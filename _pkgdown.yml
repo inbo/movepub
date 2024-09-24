@@ -6,14 +6,6 @@ template:
 navbar:
   bg: dark
 
-authors:
-  NLBIF:
-    href: "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/"
-    html: "<img src='https://oscibio.inbo.be/assets/logos/nlbif.png' height='24' alt='NLBIF logo'>"
-  European Union:
-    href: "https://dto-bioflow.eu/"
-    html: "<img src='https://oscibio.inbo.be/assets/logos/funded-by-eu.png' height='24' alt='DTO-BioFlow logo'>"
-
 reference:
 - title: "Make a Movebank dataset \"frictionless\""
   contents:
