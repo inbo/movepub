@@ -21,7 +21,7 @@ Description: Prepare animal tracking data from 'Movebank'
     the Global Biodiversity Information Facility ('GBIF'
     <https://www.gbif.org>).
 License: MIT + file LICENSE
-URL: https://github.com/inbo/movepub
+URL: https://github.com/inbo/movepub, https://inbo.github.io/movepub/
 BugReports: https://github.com/inbo/movepub/issues
 Depends: 
     R (>= 2.10)
