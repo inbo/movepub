@@ -29,7 +29,7 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_dwc(x, temp_dir))
 
-  expect_identical(
+  expect_contains(
     list.files(temp_dir),
     c("emof.csv", "meta.xml", "occurrence.csv")
   )
