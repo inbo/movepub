@@ -30,42 +30,19 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/inbo/movepub/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/inbo/movepub/blob/v0.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="movepub-development-version">movepub (development version)<a class="anchor" aria-label="anchor" href="#movepub-development-version"></a></h2>
-<ul><li>
-<code><a href="../reference/write_eml.html">write_eml()</a></code> is now a separate function from <code><a href="../reference/write_dwc.html">write_dwc()</a></code>. This allows you to use <code><a href="../reference/write_dwc.html">write_dwc()</a></code> for an unpublished dataset (i.e. without metadata on DataCite). Some record-level terms (e.g. <code>dwc:datasetName</code>) can be provided as arguments (<a href="https://github.com/inbo/movepub/issues/57" class="external-link">#57</a>, <a href="https://github.com/inbo/movepub/issues/72" class="external-link">#72</a>).</li>
-<li>
-<code><a href="../reference/write_eml.html">write_eml()</a></code> and <code><a href="../reference/write_dwc.html">write_dwc()</a></code> no longer add <code>[subsampled representation]</code> to the dataset title. The extra abstract paragraph is now shorter and is added at the end of the abstract (<a href="https://github.com/inbo/movepub/issues/76" class="external-link">#76</a>).</li>
-<li>
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> (and <code><a href="../reference/write_eml.html">write_eml()</a></code>) no longer writes to <code>"."</code> by default, since this is not allowed by CRAN policies. The user needs to explicitly define a directory (<a href="https://github.com/inbo/movepub/issues/70" class="external-link">#70</a>).</li>
-<li>
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now writes the output file as <code>occurrence.csv</code> (previously <code>dwc_occurrence.csv</code>) and adds a <code>meta.xml</code> file. The sex and life stage of the animal are - in addition to <code>dwc:sex</code> and <code>dwc:lifeStage</code> in <code>occurrence.csv</code> - expressed in an extended measurement or facts file (<code>emof.csv</code>), for better support with OBIS (<a href="https://github.com/inbo/movepub/issues/71" class="external-link">#71</a>, <a href="https://github.com/inbo/movepub/issues/77" class="external-link">#77</a>, <a href="https://github.com/inbo/movepub/issues/78" class="external-link">#78</a>).</li>
-<li>
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> provides a message regarding the matching of scientific names with WoRMS Aphia IDs. These IDs are now clickable URLs, making it easier to verify the match (<a href="https://github.com/inbo/movepub/issues/58" class="external-link">#58</a>).</li>
-<li>Many functions of <a href="https://docs.ropensci.org/frictionless/" class="external-link">frictionless</a> are now reexported by movepub, so you no longer have to load that package to create Data Packages (<a href="https://github.com/inbo/movepub/issues/54" class="external-link">#54</a>).</li>
-<li>
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> is now more modular, facilitating extension for non-GPS tracking data (<a href="https://github.com/inbo/movepub/issues/66" class="external-link">#66</a>).</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.0" id="movepub-030">movepub 0.3.0<a class="anchor" aria-label="anchor" href="#movepub-030"></a></h2>
-<ul><li>
-<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now makes use of dplyr rather than SQL for its transformation. This reduces the number of dependencies (<a href="https://github.com/inbo/movepub/issues/61" class="external-link">#61</a>).</li>
-<li>Add <a href="https://orcid.org/0000-0002-8939-1305" class="external-link">Sanne Govaert</a> as author.</li>
-</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="movepub-020">movepub 0.2.0<a class="anchor" aria-label="anchor" href="#movepub-020"></a></h2>
 <ul><li>As per <a href="https://manual.obis.org/darwin_core.html#taxonomy-and-identification" class="external-link">OBIS recommendations</a>, <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now adds a <code>scientificNameID</code> to all occurrences, with the WoRMS LSID for that taxon. It does so using the new function <code><a href="../reference/get_aphia_id.html">get_aphia_id()</a></code>.</li>
 <li>The cli package is now used for all messages.</li>
 </ul></div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside></div>
+  </main></div>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Peter Desmet, NLBIF, European Union.</p>
+  <p>Developed by <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <a href="https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/" class="external-link"><img src="https://www.nlbif.nl/wp-content/uploads/logo-nlbif.png" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">

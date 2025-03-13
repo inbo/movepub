@@ -34,7 +34,7 @@ error when no matching term is found."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Get term from the Movebank Attribute Dictionary</h1>
-      <small class="dont-index">Source: <a href="https://github.com/inbo/movepub/blob/main/R/get_mvb_term.R" class="external-link"><code>R/get_mvb_term.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/inbo/movepub/blob/v0.3.0/R/get_mvb_term.R" class="external-link"><code>R/get_mvb_term.R</code></a></small>
       <div class="d-none name"><code>get_mvb_term.Rd</code></div>
     </div>
 
@@ -72,76 +72,16 @@ error when no matching term is found.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_mvb_term</span><span class="op">(</span><span class="st">"animal_id"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $identifier</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "SDN:MVB::MVB000016"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $prefLabel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "animal ID"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $altLabel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "individual local identifier"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $definition</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "An individual identifier for the animal, provided by the data owner. Values are unique within the study. If the data owner does not provide an Animal ID, an internal Movebank animal identifier is sometimes shown. Example: 'TUSC_CV5'; Units: none; Entity described: individual"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $date</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2022-08-15 10:20:18.0"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "3"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hasCurrentVersion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/3/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hasVersion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/1/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/2/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $deprecated</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "false"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $note</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "accepted"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in purrr::keep(terms, function(x) {    tolower(x$prefLabel$`@value`) == label_clean}):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `.p()` must return a single `TRUE` or `FALSE`, not an empty logical</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>   vector.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">get_mvb_term</span><span class="op">(</span><span class="st">"Deploy.On.Date"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $id</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000081/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $identifier</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "SDN:MVB::MVB000081"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $prefLabel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "deploy on timestamp"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $altLabel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "deploy on date"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $definition</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The timestamp when the tag deployment started. Data records recorded before this day and time are not associated with the animal related to the deployment. Values are typically defined by the data owner, and in some cases are created automatically during data import. Example: '2008-08-30 18:00:00.000'; Format: yyyy-MM-dd HH:mm:ss.SSS; Units: UTC or GPS time; Entity described: deployment"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $date</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2022-08-15 10:20:18.0"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $version</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "3"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hasCurrentVersion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000081/3/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hasVersion</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000081/1/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000081/2/"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $deprecated</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "false"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $note</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "accepted"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in purrr::keep(terms, function(x) {    tolower(x$prefLabel$`@value`) == label_clean}):</span> <span style="color: #00BBBB;">ℹ</span> In index: 1.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> `.p()` must return a single `TRUE` or `FALSE`, not an empty logical</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span>   vector.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -149,7 +89,7 @@ error when no matching term is found.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Peter Desmet, NLBIF, European Union.</p>
+  <p>Developed by <a href="https://twitter.com/peterdesmet" class="external-link">Peter Desmet</a>, <a href="https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/" class="external-link"><img src="https://www.nlbif.nl/wp-content/uploads/logo-nlbif.png" width="72"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
