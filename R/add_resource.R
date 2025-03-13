@@ -13,8 +13,8 @@
 #' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
 #'   this resource, as a character (vector).
-#' @param keys Should `primaryKey` and `foreignKey` properties be added to the
-#'   Table Schema?
+#' @param keys If `TRUE`, `primaryKey` and `foreignKey` properties are added to
+#'   the Table Schema.
 #' @return Provided `package` with one additional resource.
 #' @family frictionless functions
 #' @export

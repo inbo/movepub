@@ -20,7 +20,7 @@ It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
 \item{directory}{Path to local directory to write files to.}
 
-\item{dataset_id}{An identifier for the dataset.}
+\item{dataset_id}{Identifier for the dataset.}
 
 \item{dataset_name}{Title of the dataset.}
 

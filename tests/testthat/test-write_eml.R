@@ -1,5 +1,5 @@
 test_that("write_eml() returns error on missing or malformed doi", {
-  temp_dir <- file.path(tempdir(), "eml")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
 
   expect_error(
@@ -47,7 +47,7 @@ test_that("write_eml() writes an eml.xml to a directory and returns eml
            invisibly", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- file.path(tempdir(), "eml")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_eml(doi, temp_dir))
 
@@ -60,13 +60,14 @@ test_that("write_eml() writes an eml.xml to a directory and returns eml
     )
   )
   expect_type(result, "list")
+  expect_invisible(suppressMessages(write_eml(doi, temp_dir)))
 })
 
 test_that("write_eml() returns the expected eml.xml file for the example
            dataset", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- file.path(tempdir(), "eml")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_eml(doi, temp_dir))
 
@@ -79,7 +80,7 @@ test_that("write_eml() returns the expected eml.xml file for the example
 test_that("write_eml() supports a custom study_id", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- file.path(tempdir(), "eml")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_eml(doi, temp_dir, study_id = 42))
 
@@ -92,7 +93,7 @@ test_that("write_eml() supports a custom study_id", {
 test_that("write_eml() supports a custom contact", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- file.path(tempdir(), "eml")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_eml(
     doi,
@@ -122,7 +123,7 @@ test_that("write_eml() supports a custom contact", {
 test_that("write_eml() supports disabling the derived paragraph", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- file.path(tempdir(), "eml")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(
     write_eml(doi, temp_dir, derived_paragraph = FALSE)

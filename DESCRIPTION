@@ -1,6 +1,6 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
-Version: 0.3.0
+Version: 0.3.0.9000
 Date: 2024-04-24
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
@@ -12,17 +12,21 @@ Authors@R: c(
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
            comment = "https://www.vlaanderen.be/inbo/en-gb/"),
     person("NLBIF", role = "fnd",
-           comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/")
+           comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/"),
+    person("European Union", role = "fnd",
+           comment = "https://dto-bioflow.eu/")
   )
 Description: Prepare animal tracking data from 'Movebank'
-    (<https://movebank.org>) for publication in a research repository or
-    the Global Biodiversity Information Facility ('GBIF'
-    <https://www.gbif.org>).
+    (<https://movebank.org>) for publication in a research repository. With
+    'movepub' you can document data with metadata following the Data Package
+    standard and transform these to Darwin Core and Ecological Metadata Language
+    ('EML') for publication to the Global Biodiversity Information Facility
+    ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
 License: MIT + file LICENSE
 URL: https://github.com/inbo/movepub, https://inbo.github.io/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 3.6.0)
 Imports:
     cli,
     dplyr,

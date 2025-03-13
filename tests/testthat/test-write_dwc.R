@@ -4,7 +4,7 @@ test_that("write_dwc() returns error on missing resources", {
     remove_resource(o_assen, "reference-data")
   x_no_gps <-
     remove_resource(o_assen, "gps")
-  temp_dir <- file.path(tempdir(), "dwc")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
 
   expect_error(
@@ -25,23 +25,24 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
            a list of data frames invisibly", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- file.path(tempdir(), "dwc")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_dwc(x, temp_dir))
 
-  expect_identical(
+  expect_contains(
     list.files(temp_dir),
     c("emof.csv", "meta.xml", "occurrence.csv")
   )
   expect_identical(names(result), c("occurrence", "emof"))
   expect_s3_class(result$occurrence, "tbl")
   expect_s3_class(result$emof, "tbl")
+  expect_invisible(suppressMessages(write_dwc(x, temp_dir)))
 })
 
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- file.path(tempdir(), "dwc")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_dwc(x, temp_dir))
 
@@ -100,7 +101,7 @@ test_that("write_dwc() returns the expected Darwin Core mapping for the example
            dataset", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- file.path(tempdir(), "dwc")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   suppressMessages(write_dwc(x, temp_dir))
 
@@ -112,7 +113,7 @@ test_that("write_dwc() returns the expected Darwin Core mapping for the example
 test_that("write_dwc() returns files that comply with the info in meta.xml", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- file.path(tempdir(), "dwc")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   suppressMessages(write_dwc(x, temp_dir))
 
@@ -124,7 +125,7 @@ test_that("write_dwc() returns files that comply with the info in meta.xml", {
 test_that("write_dwc() supports custom dataset id, name, license, rights_holder", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- file.path(tempdir(), "dwc")
+  temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   result <- suppressMessages(write_dwc(
     x,

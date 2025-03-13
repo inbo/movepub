@@ -13,7 +13,7 @@
 #'   [read_package()].
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
-#' @param dataset_id An identifier for the dataset.
+#' @param dataset_id Identifier for the dataset.
 #' @param dataset_name Title of the dataset.
 #' @param license License of the dataset.
 #' @param rights_holder Acronym of the organization owning or managing the
