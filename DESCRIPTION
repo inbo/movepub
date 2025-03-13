@@ -34,7 +34,7 @@ Imports:
     frictionless,
     jsonlite,
     lifecycle,
-    move2,
+    move2 (>= 4.1.0),
     purrr,
     readr,
     rlang,
