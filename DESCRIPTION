@@ -1,6 +1,6 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
-Version: 0.3.0
+Version: 0.3.0.9000
 Date: 2024-04-24
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
