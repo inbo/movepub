@@ -6,7 +6,7 @@
 \alias{movepub-package}
 \title{movepub: Prepare Movebank Data for Publication}
 \description{
-Prepare animal tracking data from 'Movebank' (\url{https://movebank.org}) for publication in a research repository or the Global Biodiversity Information Facility ('GBIF' \url{https://www.gbif.org}).
+Prepare animal tracking data from 'Movebank' (\url{https://movebank.org}) for publication in a research repository. With 'movepub' you can document data with metadata following the Data Package standard and transform these to Darwin Core and Ecological Metadata Language ('EML') for publication to the Global Biodiversity Information Facility ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
 }
 \seealso{
 Useful links:
