@@ -18,7 +18,6 @@ Get metadata from \href{https://datacite.org/}{DataCite} and transform to EML.
 }
 \seealso{
 Other support functions: 
-\code{\link{get_aphia_id}()},
-\code{\link{get_mvb_term}()}
+\code{\link{get_aphia_id}()}
 }
 \concept{support functions}

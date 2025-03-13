@@ -23,7 +23,6 @@ get_aphia_id(c("Mola mola", "not_a_name"))
 }
 \seealso{
 Other support functions: 
-\code{\link{datacite_to_eml}()},
-\code{\link{get_mvb_term}()}
+\code{\link{datacite_to_eml}()}
 }
 \concept{support functions}
