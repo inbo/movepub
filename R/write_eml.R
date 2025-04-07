@@ -130,7 +130,6 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     first_author <- eml$dataset$creator[[1]]$individualName$surName
     pub_year <- substr(eml$dataset$pubDate, 1, 4)
     last_para <- paste0(
-      # Add span to circumvent https://github.com/ropensci/EML/issues/342
       "<p>Data have been standardized to Darwin Core using the ",
       "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
       "and are downsampled to the first GPS position per hour. ",
