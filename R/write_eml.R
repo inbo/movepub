@@ -125,6 +125,13 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     )
   }
 
+  # Clean abstract
+  description_full <- eml$dataset$abstract$para
+  paragraphs <- unlist(strsplit(description_full, "<p>|</p>|\n", perl = TRUE))
+  paragraphs <- paragraphs[paragraphs != ""] %>%
+    # Add <p></p> tags to each paragraph
+    purrr::map_chr(~ paste0("<p>", ., "</p>"))
+
   # Add extra paragraph to description
   if (derived_paragraph) {
     first_author <- eml$dataset$creator[[1]]$individualName$surName
@@ -138,8 +145,11 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
       "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
       "</a>.</p>"
     )
-    eml$dataset$abstract$para <- append(eml$dataset$abstract$para, last_para)
+    paragraphs <- append(paragraphs, last_para)
   }
+
+  # Add collapsed paragraphs to EML
+  eml$dataset$abstract$para <- paste0(paragraphs , collapse = "")
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
