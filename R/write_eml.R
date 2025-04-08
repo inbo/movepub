@@ -125,25 +125,35 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     )
   }
 
+  # Clean abstract
+  description_full <- eml$dataset$abstract$para
+  paragraphs <- unlist(strsplit(description_full, "<p>|</p>|\n", perl = TRUE))
+  paragraphs <- paragraphs[paragraphs != ""] %>%
+    # Add <p></p> tags to each paragraph
+    purrr::map_chr(~ paste0("<p>", ., "</p>"))
+
   # Add extra paragraph to description
   if (derived_paragraph) {
     first_author <- eml$dataset$creator[[1]]$individualName$surName
     pub_year <- substr(eml$dataset$pubDate, 1, 4)
     last_para <- paste0(
-      # Add span to circumvent https://github.com/ropensci/EML/issues/342
-      "<span></span>Data have been standardized to Darwin Core using the ",
+      "<p>Data have been standardized to Darwin Core using the ",
       "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
       "and are downsampled to the first GPS position per hour. ",
       "The original data are available in ", first_author, " et al. (",
       pub_year, ", <a href=\"", doi_url, "\">", doi_url, "</a>), ",
       "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
-      "</a>."
+      "</a>.</p>"
     )
-    eml$dataset$abstract$para <- append(
-      eml$dataset$abstract$para,
-      paste0("<![CDATA[", last_para, "]]>")
-    )
+    paragraphs <- append(paragraphs, last_para)
   }
+
+  # Add collapsed paragraphs to EML
+  eml$dataset$abstract$para <- paste0(paragraphs , collapse = "") %>%
+    # Remove <![CDATA[ ]]> wrappers (not needed anymore in EML 2.2.0)
+    stringr::str_remove_all("<!\\[CDATA\\[|\\]\\]>") %>%
+    # remove unsupported html tags
+    stringr::str_remove_all("<i>|</i>|<br/>")
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
