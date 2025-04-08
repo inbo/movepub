@@ -149,7 +149,11 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
   }
 
   # Add collapsed paragraphs to EML
-  eml$dataset$abstract$para <- paste0(paragraphs , collapse = "")
+  eml$dataset$abstract$para <- paste0(paragraphs , collapse = "") %>%
+    # Remove <![CDATA[ ]]> wrappers (not needed anymore in EML 2.2.0)
+    stringr::str_remove_all("<!\\[CDATA\\[|\\]\\]>") %>%
+    # remove unsupported html tags
+    stringr::str_remove_all("<i>|</i>|<br/>")
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
