@@ -10,7 +10,7 @@ Authors@R: c(
     person("Sarah", "Davidson", , "sdavidson@ab.mpg.de", role = "ctb",
            comment = c(ORCID = "0000-0002-2766-9201", affiliation = "Max Planck Institute of Animal Behavior")),
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
-           comment = "https://www.vlaanderen.be/inbo/en-gb/"),
+           comment = c(ROR = "00j54wy13")),
     person("NLBIF", role = "fnd",
            comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/"),
     person("European Union", role = "fnd",
