@@ -7,11 +7,11 @@
 * `write_dwc()` provides a message regarding the matching of scientific names with WoRMS Aphia IDs. These IDs are now clickable URLs, making it easier to verify the match (#58).
 * Many functions of [frictionless](https://docs.ropensci.org/frictionless/) are now reexported by movepub, so you no longer have to load that package to create Data Packages (#54).
 * `write_dwc()` is now more modular, facilitating extension for non-GPS tracking data (#66).
+* Add [Sanne Govaert](https://orcid.org/0000-0002-8939-1305) as author.
 
 # movepub 0.3.0
 
 * `write_dwc()` now makes use of dplyr rather than SQL for its transformation. This reduces the number of dependencies (#61).
-* Add [Sanne Govaert](https://orcid.org/0000-0002-8939-1305) as author.
 
 # movepub 0.2.0
 
