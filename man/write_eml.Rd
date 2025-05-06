@@ -24,7 +24,7 @@ To be provided as a \code{\link[=person]{person()}}.}
 derived (e.g. \code{1605797471} for \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{this study}).}
 
 \item{derived_paragraph}{If \code{TRUE}, a paragraph will be added to the
-abstract, indicating that data have been transformed using \code{write_dwc()}.}
+abstract, indicating that data have been transformed using \code{\link[=write_dwc]{write_dwc()}}.}
 }
 \value{
 \code{eml.xml} file written to disk.
