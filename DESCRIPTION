@@ -1,6 +1,6 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
-Version: 0.3.0
+Version: 0.3.0.9000
 Date: 2024-04-24
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
@@ -23,16 +23,18 @@ Description: Prepare animal tracking data from 'Movebank'
     ('EML') for publication to the Global Biodiversity Information Facility
     ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
 License: MIT + file LICENSE
-URL: https://github.com/inbo/movepub, https://inbo.github.io/movepub/
+URL: https://github.com/inbo/movepub, https://inbo.github.io/movepub
 BugReports: https://github.com/inbo/movepub/issues
 Depends: 
-    R (>= 3.6.0)
+    R (>= 4.1.0)
 Imports:
     cli,
     dplyr,
     EML,
     frictionless,
     jsonlite,
+    lifecycle,
+    move2 (>= 0.4.0),
     purrr,
     readr,
     rlang,
