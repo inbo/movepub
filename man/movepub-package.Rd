@@ -20,13 +20,17 @@ Useful links:
 \author{
 \strong{Maintainer}: Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (Research Institute for Nature and Forest (INBO))
 
+Authors:
+\itemize{
+  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO))
+}
+
 Other contributors:
 \itemize{
-  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO)) [contributor]
   \item Sarah Davidson \email{sdavidson@ab.mpg.de} (\href{https://orcid.org/0000-0002-2766-9201}{ORCID}) (Max Planck Institute of Animal Behavior) [contributor]
-  \item Research Institute for Nature and Forest (INBO) (https://www.vlaanderen.be/inbo/en-gb/) [copyright holder]
+  \item Research Institute for Nature and Forest (INBO) (00j54wy13) [copyright holder]
   \item NLBIF (https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/) [funder]
-  \item European Union (https://dto-bioflow.eu/) [funder]
+  \item European Union (https://doi.org/10.3030/101112823) [funder]
 }
 
 }

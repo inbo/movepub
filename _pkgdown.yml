@@ -1,21 +1,19 @@
-url: https://inbo.github.io/movepub
-
+url: https://inbo.github.io/movepub/
 template:
   bootstrap: 5
-
 navbar:
   bg: dark
-
 reference:
-- title: "Make a Movebank dataset \"frictionless\""
+- title: Make a Movebank dataset "frictionless"
   contents:
   - has_concept("frictionless functions")
-- title: "Transform a Movebank dataset to Darwin Core"
+- title: Transform a Movebank dataset to Darwin Core
   contents:
   - has_concept("dwc functions")
-- title: "Support functions"
+- title: Support functions
   contents:
   - has_concept("support functions")
-- title: "Sample data"
+- title: Sample data
   contents:
   - has_concept("sample data")
+
