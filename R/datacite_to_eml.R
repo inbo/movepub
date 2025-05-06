@@ -25,7 +25,6 @@ datacite_to_eml <- function(doi) {
   abstract <- list(
     para = purrr::map_chr(metadata$descriptions, function(x) {
       desc <- x$description
-      if (grepl("</", desc)) paste0("<![CDATA[", desc, "]]>") else desc
     })
   )
   keywords <- purrr::map_chr(metadata$subjects, "subject")

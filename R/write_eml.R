@@ -125,13 +125,14 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     )
   }
 
+
+
   # Add extra paragraph to description
   if (derived_paragraph) {
     first_author <- eml$dataset$creator[[1]]$individualName$surName
     pub_year <- substr(eml$dataset$pubDate, 1, 4)
     last_para <- paste0(
-      # Add span to circumvent https://github.com/ropensci/EML/issues/342
-      "<span></span>Data have been standardized to Darwin Core using the ",
+      "Data have been standardized to Darwin Core using the ",
       "<a href=\"https://inbo.github.io/movepub/\">movepub</a> R package ",
       "and are downsampled to the first GPS position per hour. ",
       "The original data are available in ", first_author, " et al. (",
@@ -139,11 +140,11 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
       "a deposit of Movebank study <a href=\"", study_url, "\">", study_id,
       "</a>."
     )
-    eml$dataset$abstract$para <- append(
-      eml$dataset$abstract$para,
-      paste0("<![CDATA[", last_para, "]]>")
-    )
+    eml$dataset$abstract$para <- append(eml$dataset$abstract$para, last_para)
   }
+
+  # Clean abstract
+  eml$dataset$abstract$para <- clean_abstract(eml$dataset$abstract$para)
 
   # Update contact and set metadata provider
   if (!is.null(contact)) {
