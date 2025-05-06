@@ -19,9 +19,9 @@ create_ref_occurrence <- function(ref, taxa) {
 
   # Transform data
   occurrence <-
-    ref %>%
-    dplyr::filter(!is.na(.data$`deploy-on-date`)) %>%
-    dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
+    ref |>
+    dplyr::filter(!is.na(.data$`deploy-on-date`)) |>
+    dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) |>
     dplyr::mutate(
       .keep = "none",
       # RECORD-LEVEL
@@ -101,7 +101,7 @@ create_ref_occurrence <- function(ref, taxa) {
       scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
       kingdom = "Animalia"
-    ) %>%
+    ) |>
     dplyr::arrange(.data$occurrenceID)
 
  return(occurrence)
