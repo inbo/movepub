@@ -48,10 +48,10 @@ Let's bundle that into a Frictionless Data Package:
 
 ``` r
 package <-
-  create_package() %>%
-  append(c(id = doi), after = 0) %>%
-  create_package() %>% # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
-  add_resource("reference-data", reference_data) %>%
+  create_package() |>
+  append(c(id = doi), after = 0) |>
+  create_package() |> # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
+  add_resource("reference-data", reference_data) |>
   add_resource("gps", gps_data)
 ```
 
@@ -110,11 +110,12 @@ And download the dataset from Zenodo to the local directory. Using a local packa
 
 
 ``` r
-read_package("https://zenodo.org/records/10053903/files/datapackage.json") %>%
+read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
   # Remove the large acceleration resource we won't use (and thus won't download)
-  remove_resource("acceleration") %>%
+  remove_resource("acceleration") |>
   write_package(dir_source)
-#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
+#> Downloading file from
+#> 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
 #> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
 #> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
 ```
@@ -151,7 +152,8 @@ write_dwc(
 #> ── Reading data ──
 #> 
 #> ℹ Taxa found in reference data and their WoRMS AphiaID:
-#> Haematopus ostralegus: 147436 (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
+#> Haematopus ostralegus: 147436
+#> (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
 #> 
 #> ── Transforming data to Darwin Core ──
 #> 
@@ -219,7 +221,7 @@ The resulting `eml.xml` file includes the metadata. **See the `write_eml()` func
 ``` r
 eml
 #> $packageId
-#> [1] "386e40b5-9155-4daf-b6e2-483a94746a29"
+#> [1] "2fa41b57-50a3-4e71-a862-cd431474d574"
 #> 
 #> $system
 #> [1] "uuid"
@@ -241,8 +243,9 @@ eml
 #> [1] "n/a"
 #> 
 #> $dataset$keywordSet[[1]]$keyword
-#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     
-#>  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"
+#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   
+#>  [5] "altitude"         "temperature"      "biologging"       "birds"           
+#>  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"
 #> 
 #> 
 #> 

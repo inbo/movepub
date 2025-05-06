@@ -18,23 +18,23 @@ create_gps_occurrence <- function(gps, ref, taxa) {
 
   # Transform data
   occurrence <-
-    gps %>%
+    gps |>
     # Exclude outliers & (rare) empty coordinates
-    dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) %>%
+    dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) |>
     dplyr::mutate(
       time_per_hour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
-    ) %>%
+    ) |>
     # Group by animal+tag+date+hour combination
     dplyr::group_by(
       .data$`individual-local-identifier`,
       .data$`tag-local-identifier`,
       .data$time_per_hour
-    ) %>%
-    dplyr::arrange(.data$timestamp) %>%
-    dplyr::mutate(subsample_count = dplyr::n()) %>%
+    ) |>
+    dplyr::arrange(.data$timestamp) |>
+    dplyr::mutate(subsample_count = dplyr::n()) |>
     # Take first record/timestamp within group
-    dplyr::filter(dplyr::row_number() == 1) %>%
-    dplyr::ungroup() %>%
+    dplyr::filter(dplyr::row_number() == 1) |>
+    dplyr::ungroup() |>
     # Join with reference data
     dplyr::left_join(
       ref,
@@ -42,10 +42,10 @@ create_gps_occurrence <- function(gps, ref, taxa) {
         "individual-local-identifier" == "animal-id",
         "tag-local-identifier" == "tag-id"
       )
-    ) %>%
+    ) |>
     # Exclude (rare) records outside a deployment
-    dplyr::filter(!is.na(.data$`animal-taxon`)) %>%
-    dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) %>%
+    dplyr::filter(!is.na(.data$`animal-taxon`)) |>
+    dplyr::left_join(taxa, by = dplyr::join_by("animal-taxon" == "name")) |>
     dplyr::mutate(
       .keep = "none",
       # RECORD-LEVEL

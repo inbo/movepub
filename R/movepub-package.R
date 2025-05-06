@@ -3,7 +3,7 @@
 
 ## usethis namespace: start
 #' @import rlang
-#' @importFrom dplyr %>% .data
+#' @importFrom dplyr .data
 #' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL

@@ -27,7 +27,7 @@ excludes the acceleration data.
 \dontrun{
 # The data in o_assen was created with the code below
 o_assen <-
-  read_package("https://zenodo.org/records/10053903/files/datapackage.json") \%>\%
+  read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
   remove_resource("acceleration")
 o_assen$title <- paste(
   "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae),",

@@ -72,13 +72,13 @@ write_dwc <- function(package, directory, dataset_id = package$id,
   dataset_name <- dataset_name %||% NA_character_
   if (is.null(license)) {
     license <-
-      purrr::pluck(package, "licenses") %>%
+      purrr::pluck(package, "licenses") |>
       purrr::pluck(1, "name", .default = NA_character_)
   }
   if (is.null(rights_holder)) {
     rights_holder <-
-      purrr::pluck(package, "contributors") %>%
-      purrr::detect(~ !is.null(.x$role) && .x$role == "rightsHolder") %>%
+      purrr::pluck(package, "contributors") |>
+      purrr::detect(~ !is.null(.x$role) && .x$role == "rightsHolder") |>
       purrr::pluck("title", .default = NA_character_)
   }
 
@@ -112,8 +112,8 @@ write_dwc <- function(package, directory, dataset_id = package$id,
 
   # Bind the occurrence df from the helper functions
   occurrence <-
-    ref_occurrence %>%
-    dplyr::bind_rows(gps_occurrence) %>%
+    ref_occurrence |>
+    dplyr::bind_rows(gps_occurrence) |>
     dplyr::mutate(
       # DATASET-LEVEL
       type = "Event",
@@ -124,7 +124,7 @@ write_dwc <- function(package, directory, dataset_id = package$id,
       collectionCode = "Movebank",
       datasetName = dataset_name,
       .before = "basisOfRecord"
-    ) %>%
+    ) |>
     dplyr::arrange(.data$parentEventID, .data$eventDate)
 
   # Create extended measurements or facts
