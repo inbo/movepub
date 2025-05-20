@@ -8,7 +8,6 @@
 #' @return Data frame with `name`, `aphia_id`, `aphia_lsid` and `aphia_url`.
 #' @family support functions
 #' @export
-#' @importFrom dplyr %>%
 #' @examples
 #' get_aphia_id("Mola mola")
 #' get_aphia_id(c("Mola mola", "not_a_name"))
@@ -20,16 +19,16 @@ get_aphia_id <- function(x) {
   if (length(result) == 0) {
     taxa <- dplyr::tibble(name = x, aphia_id = NA)
   } else {
-    taxa <- result %>%
-      dplyr::as_tibble() %>%
-      tidyr::pivot_longer(cols = dplyr::everything()) %>%
+    taxa <- result |>
+      dplyr::as_tibble() |>
+      tidyr::pivot_longer(cols = dplyr::everything()) |>
       dplyr::rename("aphia_id" = "value")
   }
 
   # Join taxa df with input names + add fields
   url_prefix <- "https://www.marinespecies.org/aphia.php?p=taxdetails&id="
-  taxa %>%
-    dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) %>%
+  taxa |>
+    dplyr::full_join(dplyr::as_tibble(x), by = c("name" = "value")) |>
     dplyr::mutate(
       aphia_lsid = ifelse(
         !is.na(.data$aphia_id),

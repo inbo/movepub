@@ -62,8 +62,8 @@ test_that("add_resource() adds resource with skos:exactMatch references to the
     "df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content"
   )
   package <-
-    create_package() %>%
-    add_resource("reference-data", reference_data) %>%
+    create_package() |>
+    add_resource("reference-data", reference_data) |>
     add_resource("gps", gps_data)
   temp_dir <- file.path(tempdir(), "package")
   on.exit(unlink(temp_dir, recursive = TRUE))

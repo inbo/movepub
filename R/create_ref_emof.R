@@ -12,7 +12,7 @@
 #' @noRd
 create_ref_emof <- function(ref_occurrence) {
   sex <-
-    ref_occurrence %>%
+    ref_occurrence |>
     dplyr::mutate(
       .keep = "none",
       occurrenceID = .data$occurrenceID,
@@ -33,7 +33,7 @@ create_ref_emof <- function(ref_occurrence) {
     )
 
   lifestage <-
-    ref_occurrence %>%
+    ref_occurrence |>
     dplyr::mutate(
       .keep = "none",
       occurrenceID = .data$occurrenceID,
@@ -55,7 +55,7 @@ create_ref_emof <- function(ref_occurrence) {
     )
 
   emof <-
-    dplyr::bind_rows(sex, lifestage) %>%
+    dplyr::bind_rows(sex, lifestage) |>
     dplyr::arrange(.data$occurrenceID)
 
   # Remove the measurementType if all values of that type are NA in ref_occurrence
