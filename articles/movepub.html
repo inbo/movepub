@@ -98,10 +98,10 @@ routes of an avian herbivore [Svalbard data]. Movebank Data Repository.
 <p>Let’s bundle that into a Frictionless Data Package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198</span></span>
-<span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198</span></span>
+<span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
@@ -164,11 +164,12 @@ Package.</p>
 local package avoids having to download the data again when you
 encounter an issue:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/records/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/read_package.html" class="external-link">read_package</a></span><span class="op">(</span><span class="st">"https://zenodo.org/records/10053903/files/datapackage.json"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span></span>
-<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.</span></span>
+<span><span class="co">#&gt; Downloading file from</span></span>
+<span><span class="co">#&gt; 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.</span></span>
 <span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.</span></span>
 <span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.</span></span></code></pre></div>
 <p>We then create a <code>package</code> variable pointing to the local
@@ -202,7 +203,8 @@ those as parameters in <code><a href="../reference/write_dwc.html">write_dwc()</
 <span><span class="co">#&gt; ── Reading data ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Taxa found in reference data and their WoRMS AphiaID:</span></span>
-<span><span class="co">#&gt; Haematopus ostralegus: 147436 (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
+<span><span class="co">#&gt; Haematopus ostralegus: 147436</span></span>
+<span><span class="co">#&gt; (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Transforming data to Darwin Core ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -267,7 +269,7 @@ transformation details.</strong></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eml</span></span>
 <span><span class="co">#&gt; $packageId</span></span>
-<span><span class="co">#&gt; [1] "386e40b5-9155-4daf-b6e2-483a94746a29"</span></span>
+<span><span class="co">#&gt; [1] "2fa41b57-50a3-4e71-a862-cd431474d574"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $system</span></span>
 <span><span class="co">#&gt; [1] "uuid"</span></span>
@@ -289,8 +291,9 @@ transformation details.</strong></p>
 <span><span class="co">#&gt; [1] "n/a"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $dataset$keywordSet[[1]]$keyword</span></span>
-<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     </span></span>
-<span><span class="co">#&gt;  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
+<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   </span></span>
+<span><span class="co">#&gt;  [5] "altitude"         "temperature"      "biologging"       "birds"           </span></span>
+<span><span class="co">#&gt;  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>

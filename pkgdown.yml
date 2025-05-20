@@ -3,7 +3,7 @@ pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   movepub: movepub.html
-last_built: 2025-05-13T17:07Z
+last_built: 2025-05-20T12:54Z
 urls:
   reference: https://inbo.github.io/movepub/reference
   article: https://inbo.github.io/movepub/articles
