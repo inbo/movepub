@@ -18,7 +18,7 @@ Movepub is an R package to prepare animal tracking data from
 repository. With movepub you can document data with metadata following
 the [Data Package](https://specs.frictionlessdata.io/) standard and
 transform these to [Darwin Core](https://dwc.tdwg.org) and Ecological
-Metadata Language ([EML](https://eml.ecoinformatics.org/) for
+Metadata Language ([EML](https://eml.ecoinformatics.org/)) for
 publication to the Global Biodiversity Information Facility
 ([GBIF](https://www.gbif.org)) and the Ocean Biodiversity Information
 System ([OBIS](https://obis.org)).
