@@ -81,7 +81,9 @@ Acknowledgements
 
 These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</para>
       <para>This version adds alt-project-id to the reference-data and references the latest Movebank Attribute Dictionary.</para>
-      <para><![CDATA[<span></span>Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <a href="https://doi.org/10.5281/zenodo.10053903">https://doi.org/10.5281/zenodo.10053903</a>), a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>.]]></para>
+      <para>
+        <p>Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/movepub/">movepub</a> R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <a href="https://doi.org/10.5281/zenodo.10053903">https://doi.org/10.5281/zenodo.10053903</a>), a deposit of Movebank study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471">1605797471</a>.</p>
+      </para>
     </abstract>
     <keywordSet>
       <keyword>animal movement</keyword>

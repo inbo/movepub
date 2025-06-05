@@ -42,3 +42,44 @@ expand_cols <- function(df, colnames) {
   df[, cols_to_add] <- NA_character_
   return(df)
 }
+
+#' Clean abstract
+#'
+#' Cleans and formats abstracts. If the abstract contains HTML tags, it wraps
+#' the content appropriately in CDATA or paragraph tags.
+#' Empty lines are discarded, and line breaks are preserved.
+#'
+#' @param abstract Abstract list, where each element may contain HTML tags,
+#' line breaks, or plain text.
+#' @return A list of cleaned and formatted abstracts, each wrapped in a list
+#' with a `para` element.
+#'
+#'
+#' @noRd
+#' @examples
+#' abstract <- c(
+#' "No HTML",
+#' "HTML at <b>end</b>",
+#' "<b>HTML</b> at beginning",
+#' "No HTML\n\nwith linebreak",
+#' "<b>HTML</b> with \n\nlinebreak"
+#' )
+#' clean_abstract(abstract)
+clean_abstract <- function(abstract) {
+  abstract %>%
+    # If HTML, split at linebreak
+    purrr::map(~ ifelse(grepl("<", ., fixed = TRUE), strsplit(., "\n"), .)) %>%
+    # Remove empty elements
+    purrr::discard(~ . == "") %>%
+    # If HTML, wrap in CDATA or paragraph tags
+    purrr::map(~ if (grepl("<", ., fixed = TRUE)) {
+      # CDATA only works if the string starts with an html tag
+      # (see https://github.com/ropensci/EML/issues/342)
+      if (grepl("^<", ., fixed = TRUE)) paste0("<![CDATA[", ., "]]>")
+      else paste0("<p>", ., "</p>")
+    } else {
+      .
+    }) %>%
+    # Wrap everything in paragrapgs
+    purrr::map(~ list(para = .))
+}
