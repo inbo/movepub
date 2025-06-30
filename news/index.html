@@ -35,7 +35,7 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="movepub-development-version">movepub (development version)<a class="anchor" aria-label="anchor" href="#movepub-development-version"></a></h2>
-<ul><li>movepub now relies on R &gt;= 4.1.0 (because of move2 dependency) and uses base pipes (<code>|&gt;</code> rather than <code>%&gt;%</code>) (<a href="https://github.com/inbo/movepub/issues/98" class="external-link">#98</a> ).</li>
+<ul><li>movepub now relies on R &gt;= 4.1.0 (because of move2 dependency) and uses base pipes (<code>|&gt;</code> rather than <code>%&gt;%</code>) (<a href="https://github.com/inbo/movepub/issues/98" class="external-link">#98</a>).</li>
 <li>
 <code><a href="../reference/write_eml.html">write_eml()</a></code> is now a separate function from <code><a href="../reference/write_dwc.html">write_dwc()</a></code>. This allows you to use <code><a href="../reference/write_dwc.html">write_dwc()</a></code> for an unpublished dataset (i.e. without metadata on DataCite). Some record-level terms (e.g. <code>dwc:datasetName</code>) can be provided as arguments (<a href="https://github.com/inbo/movepub/issues/57" class="external-link">#57</a>, <a href="https://github.com/inbo/movepub/issues/72" class="external-link">#72</a>).</li>
 <li>
@@ -60,7 +60,7 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="movepub-020">movepub 0.2.0<a class="anchor" aria-label="anchor" href="#movepub-020"></a></h2>
-<ul><li>As per <a href="https://manual.obis.org/darwin_core.html#taxonomy-and-identification" class="external-link">OBIS recommendations</a>, <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now adds a <code>scientificNameID</code> to all occurrences, with the WoRMS LSID for that taxon. It does so using the new function <code><a href="../reference/get_aphia_id.html">get_aphia_id()</a></code>.</li>
+<ul><li>As per <a href="https://manual.obis.org/darwin_core.html#taxonomy-and-identification" class="external-link">OBIS recommendations</a>, <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now adds a <code>scientificNameID</code> to all occurrences, with the WoRMS LSID for that taxon. It does so using the new <code><a href="../reference/get_aphia_id.html">get_aphia_id()</a></code>.</li>
 <li>The cli package is now used for all messages.</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
