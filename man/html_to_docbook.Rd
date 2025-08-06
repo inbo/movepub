@@ -20,3 +20,9 @@ sub and h1.
 \examples{
 html_to_docbook("<div>text - <b>bold</b></div>")
 }
+\seealso{
+Other support functions: 
+\code{\link{datacite_to_eml}()},
+\code{\link{get_aphia_id}()}
+}
+\concept{support functions}

@@ -5,6 +5,7 @@
 #' sub and h1.
 #' @param text String, may contain HTML.
 #' @return String, with HTML converted to DocBook XML.
+#' @family support functions
 #' @export
 #' @examples
 #' html_to_docbook("<div>text - <b>bold</b></div>")
