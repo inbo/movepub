@@ -15,7 +15,7 @@ String, with HTML converted to DocBook XML.
 \description{
 Converts HTML strings to DocBook XML strings.
 Handles the following tags: div, p, b, strong, i, em, a, ul, ol, li, sup,
-sub, h1, h2, h3, h4, h5, h6.
+sub and h1.
 }
 \examples{
 html_to_docbook("<div>text - <b>bold</b></div>")

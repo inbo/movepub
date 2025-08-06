@@ -2,7 +2,7 @@
 #'
 #' Converts HTML strings to DocBook XML strings.
 #' Handles the following tags: div, p, b, strong, i, em, a, ul, ol, li, sup,
-#' sub, h1, h2, h3, h4, h5, h6.
+#' sub and h1.
 #' @param text String, may contain HTML.
 #' @return String, with HTML converted to DocBook XML.
 #' @examples
@@ -36,11 +36,11 @@ convert <- function(node) {
     sub = "subscript",
     pre = "literalLayout",
     h1 = "title",
-    h2 = "subtitle",
-    h3 = "subtitle",
-    h4 = "subtitle",
-    h5 = "subtitle",
-    h6 = "subtitle"
+    h2 = "para",
+    h3 = "para",
+    h4 = "para",
+    h5 = "para",
+    h6 = "para"
   )
 
   if (xml2::xml_type(node) == "text") {
@@ -61,7 +61,7 @@ convert <- function(node) {
         "</citetitle></ulink>"
       )
     } else if (tag == "li") {
-      output <- paste0("<listitem>", children, "</listitem>")
+      output <- paste0("<listitem><para>", children, "</para></listitem>")
     } else if (!is.null(mapped)) {
       output <- paste0("<", mapped, ">", children, "</", mapped, ">")
     } else if (is.null(mapped)) {
