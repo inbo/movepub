@@ -3,14 +3,24 @@ test_that("html_to_docbook() handles empty character string", {
 })
 
 test_that("html_to_docbook() converts HTML to DocBook", {
-  value <- "Text"
-  expected_value <- "Text"
+  paragraph <- "<p>Text</p>"
+  section_div <- "<div>Text</div>"
+  title <- "<h1>Text</h1>"
+  expected_title <- "<title>Text</title>"
+  heading2 <- "<h2>Text</h2>"
+  heading3 <- "<h3>Text</h3>"
+  heading4 <- "<h4>Text</h4>"
+  heading5 <- "<h5>Text</h5>"
+  heading6 <- "<h6>Text</h6>"
+  expected_paragragh <- "<para>Text</para>"
   itemizedlist <- "<ul><li>Item 1</li></ul>"
   expected_itemizedlist <- "<itemizedlist><listitem><para>Item 1</para></listitem></itemizedlist>"
   orderedlist <- "<ol><li>Item 1</li></ol>"
   expected_orderdlist <- "<orderedlist><listitem><para>Item 1</para></listitem></orderedlist>"
-  emphasis <- "<em>Text 1</em><strong>Text 2</strong>"
-  expected_empahis <- "<emphasis>Text 1</emphasis><emphasis>Text 2</emphasis>"
+  emphasis <- "<em>Text</em>"
+  strong <- "<strong>Text</strong>"
+  italic <- "<i>Text</i>"
+  expected_empahis <- "<emphasis>Text</emphasis>"
   subscript <- "<sub>Text</sub>"
   expected_subscript <- "<subscript>Text</subscript>"
   superscript <- "<sup>Text</sup>"
@@ -19,13 +29,25 @@ test_that("html_to_docbook() converts HTML to DocBook", {
   expected_literallayout <- "<literalLayout>Text</literalLayout>"
   ulink <- '<a href="https://example.com">Text</a>'
   expected_ulink <- '<ulink url="https://example.com"><citetitle>Text</citetitle></ulink>'
+  value <- "Text"
+  expected_value <- "Text"
   span <- "<span>Text</span>"
   code <- "<code>Text</code>"
 
   #expect_equal(html_to_docbook(value), expected_value)
+  expect_equal(html_to_docbook(paragraph), expected_paragragh)
+  expect_equal(html_to_docbook(section_div), expected_paragragh)
+  expect_equal(html_to_docbook(title), expected_title)
+  expect_equal(html_to_docbook(heading2), expected_paragragh)
+  expect_equal(html_to_docbook(heading3), expected_paragragh)
+  expect_equal(html_to_docbook(heading4), expected_paragragh)
+  expect_equal(html_to_docbook(heading5), expected_paragragh)
+  expect_equal(html_to_docbook(heading6), expected_paragragh)
   expect_equal(html_to_docbook(itemizedlist), expected_itemizedlist)
   expect_equal(html_to_docbook(orderedlist), expected_orderdlist)
   expect_equal(html_to_docbook(emphasis), expected_empahis)
+  expect_equal(html_to_docbook(strong), expected_empahis)
+  expect_equal(html_to_docbook(italic), expected_empahis)
   expect_equal(html_to_docbook(subscript), expected_subscript)
   expect_equal(html_to_docbook(superscript), expected_superscript)
   expect_equal(html_to_docbook(literallayout), expected_literallayout)
