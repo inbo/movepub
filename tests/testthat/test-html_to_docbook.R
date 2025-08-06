@@ -18,6 +18,7 @@ test_that("html_to_docbook() converts HTML to DocBook", {
   orderedlist <- "<ol><li>Item 1</li></ol>"
   expected_orderdlist <- "<orderedlist><listitem><para>Item 1</para></listitem></orderedlist>"
   emphasis <- "<em>Text</em>"
+  bold <- "<b>Text</b>"
   strong <- "<strong>Text</strong>"
   italic <- "<i>Text</i>"
   expected_empahis <- "<emphasis>Text</emphasis>"
@@ -46,6 +47,7 @@ test_that("html_to_docbook() converts HTML to DocBook", {
   expect_equal(html_to_docbook(itemizedlist), expected_itemizedlist)
   expect_equal(html_to_docbook(orderedlist), expected_orderdlist)
   expect_equal(html_to_docbook(emphasis), expected_empahis)
+  expect_equal(html_to_docbook(bold), expected_empahis)
   expect_equal(html_to_docbook(strong), expected_empahis)
   expect_equal(html_to_docbook(italic), expected_empahis)
   expect_equal(html_to_docbook(subscript), expected_subscript)
