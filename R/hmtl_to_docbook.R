@@ -2,11 +2,45 @@
 #'
 #' Converts HTML strings to DocBook XML strings.
 #' Handles the following tags: div, p, b, strong, i, em, a, ul, ol, li, sup,
-#' sub and h1.
+#' sub, pre and h1:h6.
 #' @param text String, may contain HTML.
 #' @return String, with HTML converted to DocBook XML.
 #' @family support functions
 #' @export
+#' @section Transformation details:
+#' `<title>`
+#' - `<h1>`
+#' `<para>`
+#' - `<div>`
+#' - `<p>`
+#' - `<h2>`to `<h6>`
+#'
+#' `<emphasis>`
+#' - `<b>`
+#' - `<strong>`
+#' - `<i>`
+#' - `<em>`
+#'
+#' `<ulink>`
+#' - `<a href="...">`
+#'
+#' `<itemizedlist>`
+#' - `<ul>`
+#'
+#' `<orderedlist>`
+#' - `<ol>`
+#'
+#' `<listitem>`
+#' - `<li>`
+#'
+#' `<superscript>`
+#' - `<sup>`
+#'
+#' `<subscript>`
+#' - `<sub>`
+#'
+#' `<literalLayout>`
+#' - `<pre>`
 #' @examples
 #' html_to_docbook("<div>text - <b>bold</b></div>")
 html_to_docbook <- function(text) {

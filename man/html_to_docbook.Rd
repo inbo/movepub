@@ -15,8 +15,63 @@ String, with HTML converted to DocBook XML.
 \description{
 Converts HTML strings to DocBook XML strings.
 Handles the following tags: div, p, b, strong, i, em, a, ul, ol, li, sup,
-sub and h1.
+sub, pre and h1:h6.
 }
+\section{Transformation details}{
+
+\verb{<title>}
+\itemize{
+\item \verb{<h1>}
+\verb{<para>}
+\item \verb{<div>}
+\item \verb{<p>}
+\item \verb{<h2>}to \verb{<h6>}
+}
+
+\verb{<emphasis>}
+\itemize{
+\item \verb{<b>}
+\item \verb{<strong>}
+\item \verb{<i>}
+\item \verb{<em>}
+}
+
+\verb{<ulink>}
+\itemize{
+\item \verb{<a href="...">}
+}
+
+\verb{<itemizedlist>}
+\itemize{
+\item \verb{<ul>}
+}
+
+\verb{<orderedlist>}
+\itemize{
+\item \verb{<ol>}
+}
+
+\verb{<listitem>}
+\itemize{
+\item \verb{<li>}
+}
+
+\verb{<superscript>}
+\itemize{
+\item \verb{<sup>}
+}
+
+\verb{<subscript>}
+\itemize{
+\item \verb{<sub>}
+}
+
+\verb{<literalLayout>}
+\itemize{
+\item \verb{<pre>}
+}
+}
+
 \examples{
 html_to_docbook("<div>text - <b>bold</b></div>")
 }
