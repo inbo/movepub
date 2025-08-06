@@ -11,6 +11,7 @@ status](https://www.r-pkg.org/badges/version/movepub)](https://CRAN.R-project.or
 [![codecov](https://codecov.io/gh/inbo/movepub/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/movepub/)
 [![repo
 status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15017582.svg)](https://doi.org/10.5281/zenodo.15017582)
 <!-- badges: end -->
 
 Movepub is an R package to prepare animal tracking data from
