@@ -59,3 +59,19 @@ test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
     transform = remove_uuid
   )
 })
+
+#
+# test_that("html_to_docbook() ", {
+#   text <- 'This text has <em>italic</em>, <strong>bold</strong>, <sub>subscript</sub>, <sup>superscript</sup> and <a href="https://example.com">a link</a>.
+# <pre>Code wrapped in pre.</pre>
+#
+# <ul>
+#   <li>Item in an unnumbered list</li>
+# </ul>
+#
+# <ol>
+#   <li>Item in an numbered list</li>
+# </ol>'
+#   expected <- 'This text has <emphasis>italic</emphasis>, <emphasis>bold</emphasis>, <subscript>subscript</subscript>, <superscript>superscript</superscript> and <ulink url="https://example.com"><citetitle>a link</citetitle></ulink>.\n<literalLayout>Code wrapped in pre.</literalLayout>\n\n<itemizedlist><listitem>Item in an unnumbered list</listitem>\n</itemizedlist><orderedlist><listitem>Item in an numbered list</listitem>\n</orderedlist>'
+#   expect_equal(html_to_docbook(text), expected)
+# })
