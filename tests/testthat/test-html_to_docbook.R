@@ -40,14 +40,14 @@ test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
   temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
   eml <- movepub::write_eml(
-    doi = "https://doi.org/10.5281/zenodo.5879096",
+    doi = paste0("https://doi.org/", doi),
     directory = temp_dir
   )
   # Create and write EML
   eml <- suppressMessages(movepub::write_eml(doi, temp_dir))
   # Get abstract with HTML content
   zenodo_export <-
-    jsonlite::read_json("https://zenodo.org/records/5879096/export/json")
+    jsonlite::read_json("https://zenodo.org/records/10053903/export/json")
   description_full <- zenodo_export$metadata$description
   # Convert HTML to DocBook
   eml$dataset$abstract$para <- html_to_docbook(description_full)
@@ -59,19 +59,3 @@ test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
     transform = remove_uuid
   )
 })
-
-#
-# test_that("html_to_docbook() ", {
-#   text <- 'This text has <em>italic</em>, <strong>bold</strong>, <sub>subscript</sub>, <sup>superscript</sup> and <a href="https://example.com">a link</a>.
-# <pre>Code wrapped in pre.</pre>
-#
-# <ul>
-#   <li>Item in an unnumbered list</li>
-# </ul>
-#
-# <ol>
-#   <li>Item in an numbered list</li>
-# </ol>'
-#   expected <- 'This text has <emphasis>italic</emphasis>, <emphasis>bold</emphasis>, <subscript>subscript</subscript>, <superscript>superscript</superscript> and <ulink url="https://example.com"><citetitle>a link</citetitle></ulink>.\n<literalLayout>Code wrapped in pre.</literalLayout>\n\n<itemizedlist><listitem>Item in an unnumbered list</listitem>\n</itemizedlist><orderedlist><listitem>Item in an numbered list</listitem>\n</orderedlist>'
-#   expect_equal(html_to_docbook(text), expected)
-# })
