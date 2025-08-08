@@ -131,3 +131,14 @@ test_that("write_eml() supports disabling the derived paragraph", {
 
   expect_error(result$dataset$abstract$para[[3]]) # Subscript out of bounds
 })
+
+test_that("write_eml() writes valid EML", {
+  skip_if_offline()
+  doi <- "10.5281/zenodo.10053903"
+  temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
+  result <- suppressMessages(
+    write_eml(doi, temp_dir, derived_paragraph = FALSE)
+  )
+  expect_true(EML::eml_validate(result))
+})
