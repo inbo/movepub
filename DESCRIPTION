@@ -40,13 +40,13 @@ Imports:
     rlang,
     tidyr,
     uuid,
-    worrms
+    worrms,
+    xml2
 Suggests: 
     knitr,
     rmarkdown,
     stringr,
-    testthat (>= 3.0.0),
-    xml2
+    testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
 Remotes:
