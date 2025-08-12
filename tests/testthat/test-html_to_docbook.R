@@ -58,6 +58,12 @@ test_that("html_to_docbook() converts HTML to DocBook", {
   expect_equal(html_to_docbook("Text"), "Text")
   expect_equal(html_to_docbook("<code>Text</code>"), "Text")
   expect_equal(html_to_docbook("<foo>Text</foo>"), "Text")
+  expect_equal(html_to_docbook("<span class=\"small\">Text</span>"), "Text")
+  expect_equal(
+    html_to_docbook("<p class=\"small\">Text</p>"),
+    "<para>Text</para>"
+  )
+  expect_equal(html_to_docbook("<img src=\"file.png\">"), "")
 })
 
 test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
