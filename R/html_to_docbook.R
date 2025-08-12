@@ -1,7 +1,8 @@
 #' Convert text with HTML to DocBook
 #'
-#' Converts HTML to [DocBook](https://docbook.org/) for a given text.
-#' Only a subset of HTML/DocBook tags are supported, see transformation details.
+#' Converts text with HTML syntax to [DocBook](https://docbook.org/).
+#' Only a subset of HTML tags are supported (see transformation details), all
+#' other HTML syntax is removed.
 #'
 #' @param string Text that may contain HTML.
 #' @return Text with HTML converted to DocBook.
@@ -11,10 +12,9 @@
 #' The function only converts HTML tags that can be translated to DocBook tags
 #' supported by EML for the [paragraph](
 #' https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para)
-#' element.
-#' The following replacements are made:
+#' element, the rest is sanitized:
 #'
-#' HTML tag | DocBook tag
+#' Input | Output
 #' --- | ---
 #' `<p>...</p>` | `<para>...</para>`
 #' `<div>...</div>` | `<para>...</para>`
@@ -26,7 +26,7 @@
 #' `<h6>...</h4>` | `<para>...</para>`
 #' `<ul>...</ul>` | `<itemizedlist>...</itemizedlist>`
 #' `<ol>...</ol>` | `<orderedlist>...</orderedlist>`
-#' `<li>...</li>` | `<listitem>...</listitem>`
+#' `<li>...</li>` | `<listitem><para>...</para></listitem>`
 #' `<em>...</em>` | `<emphasis>...</emphasis>`
 #' `<i>...</i>` | `<emphasis>...</emphasis>`
 #' `<strong>...</strong>` | `<emphasis>...</emphasis>`
@@ -35,6 +35,12 @@
 #' `<sup>...</sup>` | `<superscript>...</superscript>`
 #' `<pre>...</pre>` | `<literalLayout>...</literalLayout>`
 #' `<a href="http://example.com">...</a>` | `<ulink url="https://example.com"><citetitle>...</citetitle></ulink>`
+#' `...` | `...`
+#' `<code>...</code>` | `...`
+#' `<foo>...</foo>` | `...`
+#' `<span class="small">...</span>` | `...`
+#' `<p class="small">...</p>` | `<para>...</para>`
+#' `<img src="file.png">` | empty string
 #'
 #' @examples
 #' html_to_docbook("<div>My <b>bold</b> text.</div>")
@@ -92,7 +98,7 @@ convert_xml_node <- function(node) {
     if (tag == "a") {
       attr_href <- xml2::xml_attr(node, "href")
       output <- paste0(
-        '<ulink url="', attr_href, '"><citetitle>', children,
+        "<ulink url=\"", attr_href, "\"><citetitle>", children,
         "</citetitle></ulink>"
       )
     } else if (tag == "li") {

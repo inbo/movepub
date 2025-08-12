@@ -13,18 +13,19 @@ html_to_docbook(string)
 Text with HTML converted to DocBook.
 }
 \description{
-Converts HTML to \href{https://docbook.org/}{DocBook} for a given text.
-Only a subset of HTML/DocBook tags are supported, see transformation details.
+Converts text with HTML syntax to \href{https://docbook.org/}{DocBook}.
+Only a subset of HTML tags are supported (see transformation details), all
+other HTML syntax is removed.
 }
 \section{Transformation details}{
 
 The function only converts HTML tags that can be translated to DocBook tags
 supported by EML for the \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{paragraph}
-element.
-The following replacements are made:\tabular{ll}{
-   HTML tag \tab DocBook tag \cr
+element, the rest is sanitized:\tabular{ll}{
+   Input \tab Output \cr
    \verb{<p>...</p>} \tab \verb{<para>...</para>} \cr
    \verb{<div>...</div>} \tab \verb{<para>...</para>} \cr
+   \verb{<h1>...</h1>} \tab \verb{<title>...</title>} \cr
    \verb{<h2>...</h2>} \tab \verb{<para>...</para>} \cr
    \verb{<h3>...</h3>} \tab \verb{<para>...</para>} \cr
    \verb{<h4>...</h4>} \tab \verb{<para>...</para>} \cr
@@ -32,16 +33,21 @@ The following replacements are made:\tabular{ll}{
    \verb{<h6>...</h4>} \tab \verb{<para>...</para>} \cr
    \verb{<ul>...</ul>} \tab \verb{<itemizedlist>...</itemizedlist>} \cr
    \verb{<ol>...</ol>} \tab \verb{<orderedlist>...</orderedlist>} \cr
-   \verb{<li>...</li>} \tab \verb{<listitem>...</listitem>} \cr
-   \verb{<strong>...</strong>} \tab \verb{<emphasis>...</emphasis>} \cr
-   \verb{<b>...</b>} \tab \verb{<emphasis>...</emphasis>} \cr
+   \verb{<li>...</li>} \tab \verb{<listitem><para>...</para></listitem>} \cr
    \verb{<em>...</em>} \tab \verb{<emphasis>...</emphasis>} \cr
    \verb{<i>...</i>} \tab \verb{<emphasis>...</emphasis>} \cr
+   \verb{<strong>...</strong>} \tab \verb{<emphasis>...</emphasis>} \cr
+   \verb{<b>...</b>} \tab \verb{<emphasis>...</emphasis>} \cr
    \verb{<sub>...</sub>} \tab \verb{<subscript>...</subscript>} \cr
    \verb{<sup>...</sup>} \tab \verb{<superscript>...</superscript>} \cr
    \verb{<pre>...</pre>} \tab \verb{<literalLayout>...</literalLayout>} \cr
    \verb{<a href="http://example.com">...</a>} \tab \verb{<ulink url="https://example.com"><citetitle>...</citetitle></ulink>} \cr
-   \verb{<h1>...</h1>} \tab \verb{<title>...</title>} \cr
+   \code{...} \tab \code{...} \cr
+   \verb{<code>...</code>} \tab \code{...} \cr
+   \verb{<foo>...</foo>} \tab \code{...} \cr
+   \verb{<span class="small">...</span>} \tab \code{...} \cr
+   \verb{<p class="small">...</p>} \tab \verb{<para>...</para>} \cr
+   \verb{<img src="file.png">} \tab empty string \cr
 }
 }
 
