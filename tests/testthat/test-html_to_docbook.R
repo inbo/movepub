@@ -3,59 +3,61 @@ test_that("html_to_docbook() handles empty character string", {
 })
 
 test_that("html_to_docbook() converts HTML to DocBook", {
-  paragraph <- "<p>Text</p>"
-  section_div <- "<div>Text</div>"
-  title <- "<h1>Text</h1>"
-  expected_title <- "<title>Text</title>"
-  heading2 <- "<h2>Text</h2>"
-  heading3 <- "<h3>Text</h3>"
-  heading4 <- "<h4>Text</h4>"
-  heading5 <- "<h5>Text</h5>"
-  heading6 <- "<h6>Text</h6>"
-  expected_paragragh <- "<para>Text</para>"
-  itemizedlist <- "<ul><li>Item 1</li></ul>"
-  expected_itemizedlist <- "<itemizedlist><listitem><para>Item 1</para></listitem></itemizedlist>"
-  orderedlist <- "<ol><li>Item 1</li></ol>"
-  expected_orderdlist <- "<orderedlist><listitem><para>Item 1</para></listitem></orderedlist>"
-  emphasis <- "<em>Text</em>"
-  bold <- "<b>Text</b>"
-  strong <- "<strong>Text</strong>"
-  italic <- "<i>Text</i>"
-  expected_empahis <- "<emphasis>Text</emphasis>"
-  subscript <- "<sub>Text</sub>"
-  expected_subscript <- "<subscript>Text</subscript>"
-  superscript <- "<sup>Text</sup>"
-  expected_superscript <- "<superscript>Text</superscript>"
-  literallayout <- "<pre>Text</pre>"
-  expected_literallayout <- "<literalLayout>Text</literalLayout>"
-  ulink <- '<a href="https://example.com">Text</a>'
-  expected_ulink <- '<ulink url="https://example.com"><citetitle>Text</citetitle></ulink>'
-  value <- "Text"
-  expected_value <- "Text"
-  span <- "<span>Text</span>"
-  code <- "<code>Text</code>"
+  # Para
+  expect_equal(html_to_docbook("<p>Text</p>"), "<para>Text</para>")
+  expect_equal(html_to_docbook("<div>Text</div>"), "<para>Text</para>")
+  expect_equal(html_to_docbook("<h1>Text</h1>"), "<title>Text</title>")
+  expect_equal(html_to_docbook("<h2>Text</h2>"), "<para>Text</para>")
+  expect_equal(html_to_docbook("<h3>Text</h3>"), "<para>Text</para>")
+  expect_equal(html_to_docbook("<h4>Text</h4>"), "<para>Text</para>")
+  expect_equal(html_to_docbook("<h5>Text</h5>"), "<para>Text</para>")
+  expect_equal(html_to_docbook("<h6>Text</h6>"), "<para>Text</para>")
 
-  #expect_equal(html_to_docbook(value), expected_value)
-  expect_equal(html_to_docbook(paragraph), expected_paragragh)
-  expect_equal(html_to_docbook(section_div), expected_paragragh)
-  expect_equal(html_to_docbook(title), expected_title)
-  expect_equal(html_to_docbook(heading2), expected_paragragh)
-  expect_equal(html_to_docbook(heading3), expected_paragragh)
-  expect_equal(html_to_docbook(heading4), expected_paragragh)
-  expect_equal(html_to_docbook(heading5), expected_paragragh)
-  expect_equal(html_to_docbook(heading6), expected_paragragh)
-  expect_equal(html_to_docbook(itemizedlist), expected_itemizedlist)
-  expect_equal(html_to_docbook(orderedlist), expected_orderdlist)
-  expect_equal(html_to_docbook(emphasis), expected_empahis)
-  expect_equal(html_to_docbook(bold), expected_empahis)
-  expect_equal(html_to_docbook(strong), expected_empahis)
-  expect_equal(html_to_docbook(italic), expected_empahis)
-  expect_equal(html_to_docbook(subscript), expected_subscript)
-  expect_equal(html_to_docbook(superscript), expected_superscript)
-  expect_equal(html_to_docbook(literallayout), expected_literallayout)
-  expect_equal(html_to_docbook(ulink), expected_ulink)
-  expect_equal(html_to_docbook(span), expected_value)
-  expect_equal(html_to_docbook(code), expected_value)
+  # itemizedlist, orderedlist
+  expect_equal(
+    html_to_docbook("<ul><li>Item 1</li></ul>"),
+    "<itemizedlist><listitem><para>Item 1</para></listitem></itemizedlist>"
+  )
+  expect_equal(
+    html_to_docbook("<ol><li>Item 1</li></ol>"),
+    "<orderedlist><listitem><para>Item 1</para></listitem></orderedlist>"
+  )
+
+  # emphasis
+  expect_equal(html_to_docbook("<em>Text</em>"), "<emphasis>Text</emphasis>")
+  expect_equal(html_to_docbook("<i>Text</i>"), "<emphasis>Text</emphasis>")
+  expect_equal(
+    html_to_docbook("<strong>Text</strong>"),
+    "<emphasis>Text</emphasis>"
+  )
+  expect_equal(html_to_docbook("<b>Text</b>"), "<emphasis>Text</emphasis>")
+
+  # subscript, superscript
+  expect_equal(
+    html_to_docbook("<sub>Text</sub>"),
+    "<subscript>Text</subscript>"
+  )
+  expect_equal(
+    html_to_docbook("<sup>Text</sup>"),
+    "<superscript>Text</superscript>"
+  )
+
+  # literalvalue
+  expect_equal(
+    html_to_docbook("<pre>Text</pre>"),
+    "<literalLayout>Text</literalLayout>"
+  )
+
+  # ulink
+  expect_equal(
+    html_to_docbook("<a href=\"https://example.com\">Text</a>"),
+    "<ulink url=\"https://example.com\"><citetitle>Text</citetitle></ulink>"
+  )
+
+  # Sanitized values
+  expect_equal(html_to_docbook("Text"), "Text")
+  expect_equal(html_to_docbook("<code>Text</code>"), "Text")
+  expect_equal(html_to_docbook("<foo>Text</foo>"), "Text")
 })
 
 test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
