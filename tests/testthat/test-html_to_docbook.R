@@ -3,10 +3,12 @@ test_that("html_to_docbook() handles empty character string", {
 })
 
 test_that("html_to_docbook() converts HTML to DocBook", {
+  # Title
+  expect_equal(html_to_docbook("<h1>Text</h1>"), "<title>Text</title>")
+
   # Para
   expect_equal(html_to_docbook("<p>Text</p>"), "<para>Text</para>")
   expect_equal(html_to_docbook("<div>Text</div>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<h1>Text</h1>"), "<title>Text</title>")
   expect_equal(html_to_docbook("<h2>Text</h2>"), "<para>Text</para>")
   expect_equal(html_to_docbook("<h3>Text</h3>"), "<para>Text</para>")
   expect_equal(html_to_docbook("<h4>Text</h4>"), "<para>Text</para>")

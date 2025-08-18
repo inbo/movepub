@@ -19,13 +19,14 @@ other HTML syntax is removed.
 }
 \section{Transformation details}{
 
-The function only converts HTML tags that can be translated to DocBook tags
-supported by EML for the \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{paragraph}
-element, the rest is sanitized:\tabular{ll}{
+The function only converts HTML tags that can be translated to the EML
+element \verb{<title>}, the EML element \verb{<para>} or \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{DocBook tags}
+supported by EML within \verb{<para>}.
+All the rest is sanitized:\tabular{ll}{
    Input \tab Output \cr
+   \verb{<h1>...</h1>} \tab \verb{<title>...</title>} \cr
    \verb{<p>...</p>} \tab \verb{<para>...</para>} \cr
    \verb{<div>...</div>} \tab \verb{<para>...</para>} \cr
-   \verb{<h1>...</h1>} \tab \verb{<title>...</title>} \cr
    \verb{<h2>...</h2>} \tab \verb{<para>...</para>} \cr
    \verb{<h3>...</h3>} \tab \verb{<para>...</para>} \cr
    \verb{<h4>...</h4>} \tab \verb{<para>...</para>} \cr

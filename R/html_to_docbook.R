@@ -9,16 +9,17 @@
 #' @family support functions
 #' @export
 #' @section Transformation details:
-#' The function only converts HTML tags that can be translated to DocBook tags
-#' supported by EML for the [paragraph](
+#' The function only converts HTML tags that can be translated to the EML
+#' element `<title>`, the EML element `<para>` or [DocBook tags](
 #' https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para)
-#' element, the rest is sanitized:
+#' supported by EML within `<para>`.
+#' All the rest is sanitized.
 #'
 #' Input | Output
 #' --- | ---
+#' `<h1>...</h1>` | `<title>...</title>`
 #' `<p>...</p>` | `<para>...</para>`
 #' `<div>...</div>` | `<para>...</para>`
-#' `<h1>...</h1>` | `<title>...</title>`
 #' `<h2>...</h2>` | `<para>...</para>`
 #' `<h3>...</h3>` | `<para>...</para>`
 #' `<h4>...</h4>` | `<para>...</para>`
