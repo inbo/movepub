@@ -49,10 +49,39 @@ html_to_docbook <- function(string) {
   # Necessary for empty values and non-HTML text
   doc <- xml2::read_html(paste0("<root>", string, "</root>"))
   root <- xml2::xml_find_first(doc, ".//body/root")
-  paste(
+  output <- paste(
     purrr::map_chr(xml2::xml_contents(root), convert_xml_node),
     collapse = ""
   )
+
+  # Make sure <itemizedlist> and <orderedlist> are within one element
+  itemized_pattern <- "<itemizedlist>[\\s\\S]*?</itemizedlist>"
+  ordered_pattern <- "<orderedlist>[\\s\\S]*?</orderedlist>"
+  output_cleaned <-
+    output |>
+    stringr::str_replace_all(
+      itemized_pattern,
+      function(x) gsub("(<split>|\\||\\n)", "", x)
+    ) |>
+    stringr::str_replace_all(
+      ordered_pattern,
+      function(x) gsub("(<split>|\\||\\n)", "", x)
+    )
+
+  paragraphs <-
+    output_cleaned |>
+    strsplit("<split>|</split>|\\n") |>
+    purrr::map(~ purrr::discard(.x, ~ .x == ""))
+
+  if (length(paragraphs) == 1) {
+    paragraphs <- unlist(paragraphs)
+  }
+
+  if (length(paragraphs) == 0) {
+    paragraphs <- ""
+  }
+
+  return(paragraphs)
 }
 
 #' Convert XML node to DocBook.
@@ -64,14 +93,14 @@ html_to_docbook <- function(string) {
 #' @noRd
 convert_xml_node <- function(node) {
   tag_map <- list(
-    p = "para",
-    div = "para",
-    h1 = "title",
-    h2 = "para",
-    h3 = "para",
-    h4 = "para",
-    h5 = "para",
-    h6 = "para",
+    p = "split",
+    div = "split",
+    h1 = "split",
+    h2 = "split",
+    h3 = "split",
+    h4 = "split",
+    h5 = "split",
+    h6 = "split",
     ul = "itemizedlist",
     ol = "orderedlist",
     li = "listitem",

@@ -3,17 +3,15 @@ test_that("html_to_docbook() handles empty character string", {
 })
 
 test_that("html_to_docbook() converts HTML to DocBook", {
-  # Title
-  expect_equal(html_to_docbook("<h1>Text</h1>"), "<title>Text</title>")
-
-  # Para
-  expect_equal(html_to_docbook("<p>Text</p>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<div>Text</div>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<h2>Text</h2>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<h3>Text</h3>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<h4>Text</h4>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<h5>Text</h5>"), "<para>Text</para>")
-  expect_equal(html_to_docbook("<h6>Text</h6>"), "<para>Text</para>")
+  # None
+  expect_equal(html_to_docbook("<p>Text</p>"), "Text")
+  expect_equal(html_to_docbook("<div>Text</div>"), "Text")
+  expect_equal(html_to_docbook("<h1>Text</h1>"), "Text")
+  expect_equal(html_to_docbook("<h2>Text</h2>"), "Text")
+  expect_equal(html_to_docbook("<h3>Text</h3>"), "Text")
+  expect_equal(html_to_docbook("<h4>Text</h4>"), "Text")
+  expect_equal(html_to_docbook("<h5>Text</h5>"), "Text")
+  expect_equal(html_to_docbook("<h6>Text</h6>"), "Text")
 
   # itemizedlist, orderedlist
   expect_equal(
@@ -61,11 +59,21 @@ test_that("html_to_docbook() converts HTML to DocBook", {
   expect_equal(html_to_docbook("<code>Text</code>"), "Text")
   expect_equal(html_to_docbook("<foo>Text</foo>"), "Text")
   expect_equal(html_to_docbook("<span class=\"small\">Text</span>"), "Text")
-  expect_equal(
-    html_to_docbook("<p class=\"small\">Text</p>"),
-    "<para>Text</para>"
-  )
+  expect_equal(html_to_docbook("<p class=\"small\">Text</p>"), "Text")
   expect_equal(html_to_docbook("<img src=\"file.png\">"), "")
+})
+
+test_that("html_to_docbook() returns a vector for each title/para", {
+  string <- paste0("<h1>Title</h1><p>Paragraph 1</p>\nParagraph 2\n\n",
+                   "Paragraph 3 with <em>italic</em>")
+  expected <- c(
+    "Title",
+    "Paragraph 1",
+    "Paragraph 2",
+    "Paragraph 3 with <emphasis>italic</emphasis>"
+  )
+  html_to_docbook(string)
+  expect_equal(html_to_docbook(string), expected)
 })
 
 test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
