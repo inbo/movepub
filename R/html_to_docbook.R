@@ -5,28 +5,31 @@
 #' other HTML syntax is removed.
 #'
 #' @param string Text that may contain HTML.
-#' @return Text with HTML converted to DocBook.
+#' @return A character vector of DocBook strings; typically, each element is a
+#' paragraph or block element in DocBook format.
 #' @family support functions
 #' @export
 #' @section Transformation details:
-#' The function only converts HTML tags that can be translated to the EML
-#' element `<title>`, the EML element `<para>` or [DocBook tags](
+#' The function only converts HTML tags to [DocBook tags](
 #' https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para)
-#' supported by EML within `<para>`.
-#' All the rest is sanitized.
+#' supported by EML.
+#' It splits the output into elements (paragraphs) and also ensures that
+#' itemized and ordered lists are wrapped properly as single elements.
+#'
+#' All the rest (including existing DocBook tags) is sanitized.
 #'
 #' Input | Output
 #' --- | ---
-#' `<h1>...</h1>` | `<title>...</title>`
-#' `<p>...</p>` | `<para>...</para>`
-#' `<div>...</div>` | `<para>...</para>`
-#' `<h2>...</h2>` | `<para>...</para>`
-#' `<h3>...</h3>` | `<para>...</para>`
-#' `<h4>...</h4>` | `<para>...</para>`
-#' `<h5>...</h4>` | `<para>...</para>`
-#' `<h6>...</h4>` | `<para>...</para>`
-#' `<ul>...</ul>` | `<itemizedlist>...</itemizedlist>`
-#' `<ol>...</ol>` | `<orderedlist>...</orderedlist>`
+#' `<h1>...</h1>` | `...` (seperate element)
+#' `<p>...</p>` | `...` (seperate element)
+#' `<div>...</div>` | `...` (seperate element)
+#' `<h2>...</h2>` | `...` (seperate element)
+#' `<h3>...</h3>` | `...` (seperate element)
+#' `<h4>...</h4>` | `...` (seperate element)
+#' `<h5>...</h4>` | `...` (seperate element)
+#' `<h6>...</h4>` | `...` (seperate element)
+#' `<ul>...</ul>` | `<itemizedlist>...</itemizedlist>` (seperate element)
+#' `<ol>...</ol>` | `<orderedlist>...</orderedlist>` (seperate element)
 #' `<li>...</li>` | `<listitem><para>...</para></listitem>`
 #' `<em>...</em>` | `<emphasis>...</emphasis>`
 #' `<i>...</i>` | `<emphasis>...</emphasis>`
@@ -40,11 +43,36 @@
 #' `<code>...</code>` | `...`
 #' `<foo>...</foo>` | `...`
 #' `<span class="small">...</span>` | `...`
-#' `<p class="small">...</p>` | `<para>...</para>`
+#' `<p class="small">...</p>` | `...`
 #' `<img src="file.png">` | empty string
+#' `<emphasis>...</emphasis>` | `...`
+#'
+#' @section Use:
+#' - Read a EML file with `EML::read_eml()` or create an EML list.
+#' - Assign the output of `html_to_docbook()` to `eml$dataset$abstract$para`.
+#' - Write the EML list to a file with `EML::write_eml()`. `EML::write_eml()`
+#' will wrap each element in `eml$dataset$abstract$para` with
+#' `<para>...</para>`.
 #'
 #' @examples
-#' html_to_docbook("<div>My <b>bold</b> text.</div>")
+#' html_to_docbook(
+#' "<p>My <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul>"
+#' )
+#' \dontrun{
+#' # How to use this function for the abstract in EML:
+#' # Create and write EML
+#' eml <- movepub::write_eml("10.5281/zenodo.10053903", "my_directory")
+#' # Get abstract with HTML content
+#' zenodo_export <-
+#'   jsonlite::read_json("https://zenodo.org/records/10053903/export/json")
+#' description_full <- zenodo_export$metadata$description
+#' # Convert HTML to DocBook
+#' eml$dataset$abstract$para <- html_to_docbook(description_full)
+#' # Write EML (again)
+#' EML::write_eml(eml, file = file.path("my_directory", "eml.xml"))
+#' # Clean up (don't do this if you want to keep your files)
+#' unlink("my_directory", recursive = TRUE)
+#' }
 html_to_docbook <- function(string) {
   # Necessary for empty values and non-HTML text
   doc <- xml2::read_html(paste0("<root>", string, "</root>"))
@@ -61,13 +89,14 @@ html_to_docbook <- function(string) {
     output |>
     stringr::str_replace_all(
       itemized_pattern,
-      function(x) gsub("(<split>|\\||\\n)", "", x)
+      function(x) gsub("<split>|</split>|\\n", "", x)
     ) |>
     stringr::str_replace_all(
       ordered_pattern,
-      function(x) gsub("(<split>|\\||\\n)", "", x)
+      function(x) gsub("<split>|</split>|\\n", "", x)
     )
 
+  # Split into elements (paragraphs)
   paragraphs <-
     output_cleaned |>
     strsplit("<split>|</split>|\\n") |>

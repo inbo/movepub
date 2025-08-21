@@ -10,7 +10,8 @@ html_to_docbook(string)
 \item{string}{Text that may contain HTML.}
 }
 \value{
-Text with HTML converted to DocBook.
+A character vector of DocBook strings; typically, each element is a
+paragraph or block element in DocBook format.
 }
 \description{
 Converts text with HTML syntax to \href{https://docbook.org/}{DocBook}.
@@ -19,21 +20,23 @@ other HTML syntax is removed.
 }
 \section{Transformation details}{
 
-The function only converts HTML tags that can be translated to the EML
-element \verb{<title>}, the EML element \verb{<para>} or \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{DocBook tags}
-supported by EML within \verb{<para>}.
-All the rest is sanitized:\tabular{ll}{
+The function only converts HTML tags to \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{DocBook tags}
+supported by EML.
+It splits the output into elements (paragraphs) and also ensures that
+itemized and ordered lists are wrapped properly as single elements.
+
+All the rest (including existing DocBook tags) is sanitized.\tabular{ll}{
    Input \tab Output \cr
-   \verb{<h1>...</h1>} \tab \verb{<title>...</title>} \cr
-   \verb{<p>...</p>} \tab \verb{<para>...</para>} \cr
-   \verb{<div>...</div>} \tab \verb{<para>...</para>} \cr
-   \verb{<h2>...</h2>} \tab \verb{<para>...</para>} \cr
-   \verb{<h3>...</h3>} \tab \verb{<para>...</para>} \cr
-   \verb{<h4>...</h4>} \tab \verb{<para>...</para>} \cr
-   \verb{<h5>...</h4>} \tab \verb{<para>...</para>} \cr
-   \verb{<h6>...</h4>} \tab \verb{<para>...</para>} \cr
-   \verb{<ul>...</ul>} \tab \verb{<itemizedlist>...</itemizedlist>} \cr
-   \verb{<ol>...</ol>} \tab \verb{<orderedlist>...</orderedlist>} \cr
+   \verb{<h1>...</h1>} \tab \code{...} (seperate element) \cr
+   \verb{<p>...</p>} \tab \code{...} (seperate element) \cr
+   \verb{<div>...</div>} \tab \code{...} (seperate element) \cr
+   \verb{<h2>...</h2>} \tab \code{...} (seperate element) \cr
+   \verb{<h3>...</h3>} \tab \code{...} (seperate element) \cr
+   \verb{<h4>...</h4>} \tab \code{...} (seperate element) \cr
+   \verb{<h5>...</h4>} \tab \code{...} (seperate element) \cr
+   \verb{<h6>...</h4>} \tab \code{...} (seperate element) \cr
+   \verb{<ul>...</ul>} \tab \verb{<itemizedlist>...</itemizedlist>} (seperate element) \cr
+   \verb{<ol>...</ol>} \tab \verb{<orderedlist>...</orderedlist>} (seperate element) \cr
    \verb{<li>...</li>} \tab \verb{<listitem><para>...</para></listitem>} \cr
    \verb{<em>...</em>} \tab \verb{<emphasis>...</emphasis>} \cr
    \verb{<i>...</i>} \tab \verb{<emphasis>...</emphasis>} \cr
@@ -47,13 +50,42 @@ All the rest is sanitized:\tabular{ll}{
    \verb{<code>...</code>} \tab \code{...} \cr
    \verb{<foo>...</foo>} \tab \code{...} \cr
    \verb{<span class="small">...</span>} \tab \code{...} \cr
-   \verb{<p class="small">...</p>} \tab \verb{<para>...</para>} \cr
+   \verb{<p class="small">...</p>} \tab \code{...} \cr
    \verb{<img src="file.png">} \tab empty string \cr
+   \verb{<emphasis>...</emphasis>} \tab \code{...} \cr
+}
+}
+
+\section{Use}{
+
+\itemize{
+\item Read a EML file with \code{EML::read_eml()} or create an EML list.
+\item Assign the output of \code{html_to_docbook()} to \code{eml$dataset$abstract$para}.
+\item Write the EML list to a file with \code{EML::write_eml()}. \code{EML::write_eml()}
+will wrap each element in \code{eml$dataset$abstract$para} with
+\verb{<para>...</para>}.
 }
 }
 
 \examples{
-html_to_docbook("<div>My <b>bold</b> text.</div>")
+html_to_docbook(
+"<p>My <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul>"
+)
+\dontrun{
+# How to use this function for the abstract in EML:
+# Create and write EML
+eml <- movepub::write_eml("10.5281/zenodo.10053903", "my_directory")
+# Get abstract with HTML content
+zenodo_export <-
+  jsonlite::read_json("https://zenodo.org/records/10053903/export/json")
+description_full <- zenodo_export$metadata$description
+# Convert HTML to DocBook
+eml$dataset$abstract$para <- html_to_docbook(description_full)
+# Write EML (again)
+EML::write_eml(eml, file = file.path("my_directory", "eml.xml"))
+# Clean up (don't do this if you want to keep your files)
+unlink("my_directory", recursive = TRUE)
+}
 }
 \seealso{
 Other support functions: 
