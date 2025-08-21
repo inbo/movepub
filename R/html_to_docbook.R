@@ -74,6 +74,16 @@
 #' unlink("my_directory", recursive = TRUE)
 #' }
 html_to_docbook <- function(strings) {
+  if (!is.character(strings)) {
+    cli::cli_abort(
+      c(
+        "{.arg strings} must be a character or character vector",
+        "x" = "{.arg string} has class {.val {class(strings)}}."
+      ),
+      class = "movepub_error_strings_invalid"
+    )
+  }
+
   purrr::map(strings, convert_one_string) |>
     purrr::flatten_chr()
 }

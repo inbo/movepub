@@ -1,3 +1,18 @@
+test_that("html_to_docbook() returns error on invalid input", {
+  expect_error(
+    html_to_docbook(123),
+    class = "movepub_error_strings_invalid"
+  )
+  expect_error(
+    html_to_docbook(list("a", "b")),
+    class = "movepub_error_strings_invalid"
+  )
+  expect_error(
+    html_to_docbook(data.frame("a", "b")),
+    class = "movepub_error_strings_invalid"
+  )
+})
+
 test_that("html_to_docbook() handles empty character string", {
   expect_equal(html_to_docbook(""), "")
 })
