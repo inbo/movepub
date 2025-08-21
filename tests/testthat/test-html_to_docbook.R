@@ -26,7 +26,7 @@ test_that("html_to_docbook() returns a charachter", {
 })
 
 test_that("html_to_docbook() converts HTML to DocBook", {
-  # None
+  # paragraphs and headers
   expect_equal(html_to_docbook("<p>Text</p>"), "Text")
   expect_equal(html_to_docbook("<div>Text</div>"), "Text")
   expect_equal(html_to_docbook("<h1>Text</h1>"), "Text")
@@ -86,30 +86,38 @@ test_that("html_to_docbook() converts HTML to DocBook", {
   expect_equal(html_to_docbook("<img src=\"file.png\">"), "")
 })
 
-test_that("html_to_docbook() returns a vector for each title/para", {
-  string <- paste0("<h1>Title</h1><p>Paragraph 1</p>\nParagraph 2\n\n",
-                   "Paragraph 3 with <em>italic</em>")
-  expected <- c(
-    "Title",
-    "Paragraph 1",
-    "Paragraph 2",
-    "Paragraph 3 with <emphasis>italic</emphasis>"
+test_that("html_to_docbook() splits paragraphs, headers and newlines,
+           removing empty elements", {
+  expect_equal(
+    html_to_docbook(
+      "Start  <h1>Title</h1>Para 1\nPara 2\n\n\nPara 3<p>Para 4</p><p></p>"
+    ),
+    c(
+      "Start  ",
+      "Title",
+      "Para 1",
+      "Para 2",
+      "Para 3",
+      "Para 4"
+    )
   )
-  expect_equal(html_to_docbook(string), expected)
 })
 
 test_that("html_to_docbook() can handle vectorized strings", {
-  strings <- c(
-    "<h1>Title</h1><p>Paragraph 1</p>\nParagraph 2\n\n",
-    "<p>Paragraph 3 with <em>italic</em></p>"
+  expect_equal(
+    html_to_docbook(
+      c(
+        "This is <b>bold</b>.\nParagraph 1\n\nParagraph 2<p></p>",
+        "What follows is a code block: <pre>my code</pre>"
+      )
+    ),
+    c(
+      "This is <emphasis>bold</emphasis>.",
+      "Paragraph 1",
+      "Paragraph 2",
+      "What follows is a code block: <literalLayout>my code</literalLayout>"
+    )
   )
-  expected <- c(
-    "Title",
-    "Paragraph 1",
-    "Paragraph 2",
-    "Paragraph 3 with <emphasis>italic</emphasis>"
-  )
-  expect_equal(html_to_docbook(strings), expected)
 })
 
 test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
