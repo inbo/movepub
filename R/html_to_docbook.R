@@ -1,35 +1,35 @@
 #' Convert text with HTML to DocBook
 #'
-#' Converts text with HTML syntax to [DocBook](https://docbook.org/).
+#' Converts text with HTML syntax to [DocBook](https://docbook.org/), splitting
+#' paragraphs and headers into separate elements.
 #' Only a subset of HTML tags are supported (see transformation details), all
 #' other HTML syntax is removed.
 #'
-#' @param strings Character or character vector with text that may contain HTML.
-#' @return A character vector of DocBook strings; typically, each element is a
-#' paragraph or block element in DocBook format.
+#' @param string Character (vector) that may contain HTML syntax.
+#' @return A character vector with HTML converted to DocBook.
 #' @family support functions
 #' @export
 #' @section Transformation details:
-#' The function only converts HTML tags to [DocBook tags](
-#' https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para)
-#' supported by EML.
-#' It splits the output into elements (paragraphs) and also ensures that
-#' itemized and ordered lists are wrapped properly as single elements.
-#'
-#' All the rest (including existing DocBook tags) is sanitized.
+#' The function splits text into a character vector, with one element for each
+#' paragraph, header or line break (`\n`).
+#' The remaining HTML is converted to DocBook, but only tags those supported by
+#' EML for [paragraphs](
+#' https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para).
+#' All other HTML/DocBook syntax is sanitized and empty elements are removed.
 #'
 #' Input | Output
 #' --- | ---
-#' `<h1>...</h1>` | `...` (seperate element)
-#' `<p>...</p>` | `...` (seperate element)
-#' `<div>...</div>` | `...` (seperate element)
-#' `<h2>...</h2>` | `...` (seperate element)
-#' `<h3>...</h3>` | `...` (seperate element)
-#' `<h4>...</h4>` | `...` (seperate element)
-#' `<h5>...</h4>` | `...` (seperate element)
-#' `<h6>...</h4>` | `...` (seperate element)
-#' `<ul>...</ul>` | `<itemizedlist>...</itemizedlist>` (seperate element)
-#' `<ol>...</ol>` | `<orderedlist>...</orderedlist>` (seperate element)
+#' `<h1>...</h1>` | `...` (separate element)
+#' `<p>...</p>` | `...` (separate element)
+#' `<div>...</div>` | `...` (separate element)
+#' `<h2>...</h2>` | `...` (separate element)
+#' `<h3>...</h3>` | `...` (separate element)
+#' `<h4>...</h4>` | `...` (separate element)
+#' `<h5>...</h4>` | `...` (separate element)
+#' `<h6>...</h4>` | `...` (separate element)
+#' `...\n` | `...` (separate element)
+#' `<ul>...</ul>` | `<itemizedlist>...</itemizedlist>`
+#' `<ol>...</ol>` | `<orderedlist>...</orderedlist>`
 #' `<li>...</li>` | `<listitem><para>...</para></listitem>`
 #' `<em>...</em>` | `<emphasis>...</emphasis>`
 #' `<i>...</i>` | `<emphasis>...</emphasis>`
@@ -39,52 +39,37 @@
 #' `<sup>...</sup>` | `<superscript>...</superscript>`
 #' `<pre>...</pre>` | `<literalLayout>...</literalLayout>`
 #' `<a href="http://example.com">...</a>` | `<ulink url="https://example.com"><citetitle>...</citetitle></ulink>`
-#' `...` | `...`
-#' `<code>...</code>` | `...`
-#' `<foo>...</foo>` | `...`
-#' `<span class="small">...</span>` | `...`
-#' `<p class="small">...</p>` | `...`
-#' `<img src="file.png">` | empty string
-#' `<emphasis>...</emphasis>` | `...`
+#' `<code>...</code>` | `...` (HTML element sanitized)
+#' `<foo>...</foo>` | `...` (HTML element sanitized)
+#' `<span class="small">...</span>` | `...` (HTML property sanitized)
+#' `<p class="small">...</p>` | `...` (HTML property sanitized)
+#' `<img src="file.png">` | empty string (HTML element sanitized)
+#' `<emphasis>...</emphasis>` | `...` (DocBook element sanitized)
 #'
-#' @section Use:
-#' - Read a EML file with `EML::read_eml()` or create an EML list.
-#' - Assign the output of `html_to_docbook()` to `eml$dataset$abstract$para`.
-#' - Write the EML list to a file with `EML::write_eml()`. `EML::write_eml()`
-#' will wrap each element in `eml$dataset$abstract$para` with
-#' `<para>...</para>`.
+#' @section Use with EML:
+#' 1. Create or read EML with `EML::read_eml()`.
+#' 2. Assign output of `html_to_docbook()` to `eml$dataset$abstract$para`.
+#' 3. Write EML with `EML::write_eml()`.
 #'
 #' @examples
 #' html_to_docbook(
-#' "<p>My <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul>"
+#'   c(
+#'     "This is <b>bold</b>.\nParagraph 1\n\nParagraph 2<p></p>",
+#'     "What follows is a list: <ul><li>Item 1</li><li>Item 2</li></ul>"
+#'   )
 #' )
-#' \dontrun{
-#' # How to use this function for the abstract in EML:
-#' # Create and write EML
-#' eml <- movepub::write_eml("10.5281/zenodo.10053903", "my_directory")
-#' # Get abstract with HTML content
-#' zenodo_export <-
-#'   jsonlite::read_json("https://zenodo.org/records/10053903/export/json")
-#' description_full <- zenodo_export$metadata$description
-#' # Convert HTML to DocBook
-#' eml$dataset$abstract$para <- html_to_docbook(description_full)
-#' # Write EML (again)
-#' EML::write_eml(eml, file = file.path("my_directory", "eml.xml"))
-#' # Clean up (don't do this if you want to keep your files)
-#' unlink("my_directory", recursive = TRUE)
-#' }
-html_to_docbook <- function(strings) {
-  if (!is.character(strings)) {
+html_to_docbook <- function(string) {
+  if (!is.character(string)) {
     cli::cli_abort(
       c(
-        "{.arg strings} must be a character or character vector",
-        "x" = "{.arg string} has class {.val {class(strings)}}."
+        "{.arg string} must be a character (vector)",
+        "x" = "{.arg string} has class {.val {class(string)}}."
       ),
-      class = "movepub_error_strings_invalid"
+      class = "movepub_error_string_invalid"
     )
   }
 
-  purrr::map(strings, convert_one_string) |>
+  purrr::map(string, convert_one_string) |>
     purrr::flatten_chr()
 }
 
@@ -93,13 +78,11 @@ html_to_docbook <- function(strings) {
 #' Helper function to convert a single string with HTML syntax to DocBook.
 #'
 #' @param string Text that may contain HTML.
-#' @return A character vector of DocBook strings; typically, each element is a
+#' @return A character vector of DocBook string; typically, each element is a
 #' paragraph or block element in DocBook format.
 #' @noRd
 #' @examples
-#' convert_one_string(
-#' "<p>My <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul>"
-#' )
+#' convert_one_string("This is <b>bold</b>.\nParagraph 1\n\nParagraph 2<p></p>")
 convert_one_string <- function(string) {
   # Necessary for empty values and non-HTML text
   doc <- xml2::read_html(paste0("<root>", string, "</root>"))
@@ -157,6 +140,7 @@ convert_xml_node <- function(node) {
     h4 = "split",
     h5 = "split",
     h6 = "split",
+    "\n" = "split",
     ul = "itemizedlist",
     ol = "orderedlist",
     li = "listitem",

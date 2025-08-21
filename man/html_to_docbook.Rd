@@ -4,39 +4,39 @@
 \alias{html_to_docbook}
 \title{Convert text with HTML to DocBook}
 \usage{
-html_to_docbook(strings)
+html_to_docbook(string)
 }
 \arguments{
-\item{strings}{Character or character vector with text that may contain HTML.}
+\item{string}{Character (vector) that may contain HTML syntax.}
 }
 \value{
-A character vector of DocBook strings; typically, each element is a
-paragraph or block element in DocBook format.
+A character vector with HTML converted to DocBook.
 }
 \description{
-Converts text with HTML syntax to \href{https://docbook.org/}{DocBook}.
+Converts text with HTML syntax to \href{https://docbook.org/}{DocBook}, splitting
+paragraphs and headers into separate elements.
 Only a subset of HTML tags are supported (see transformation details), all
 other HTML syntax is removed.
 }
 \section{Transformation details}{
 
-The function only converts HTML tags to \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{DocBook tags}
-supported by EML.
-It splits the output into elements (paragraphs) and also ensures that
-itemized and ordered lists are wrapped properly as single elements.
-
-All the rest (including existing DocBook tags) is sanitized.\tabular{ll}{
+The function splits text into a character vector, with one element for each
+paragraph, header or line break (\verb{\\n}).
+The remaining HTML is converted to DocBook tags, but only those supported by
+EML for \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{paragraphs}.
+All other HTML/DocBook syntax is sanitized and empty elements are removed.\tabular{ll}{
    Input \tab Output \cr
-   \verb{<h1>...</h1>} \tab \code{...} (seperate element) \cr
-   \verb{<p>...</p>} \tab \code{...} (seperate element) \cr
-   \verb{<div>...</div>} \tab \code{...} (seperate element) \cr
-   \verb{<h2>...</h2>} \tab \code{...} (seperate element) \cr
-   \verb{<h3>...</h3>} \tab \code{...} (seperate element) \cr
-   \verb{<h4>...</h4>} \tab \code{...} (seperate element) \cr
-   \verb{<h5>...</h4>} \tab \code{...} (seperate element) \cr
-   \verb{<h6>...</h4>} \tab \code{...} (seperate element) \cr
-   \verb{<ul>...</ul>} \tab \verb{<itemizedlist>...</itemizedlist>} (seperate element) \cr
-   \verb{<ol>...</ol>} \tab \verb{<orderedlist>...</orderedlist>} (seperate element) \cr
+   \verb{<h1>...</h1>} \tab \code{...} (separate element) \cr
+   \verb{<p>...</p>} \tab \code{...} (separate element) \cr
+   \verb{<div>...</div>} \tab \code{...} (separate element) \cr
+   \verb{<h2>...</h2>} \tab \code{...} (separate element) \cr
+   \verb{<h3>...</h3>} \tab \code{...} (separate element) \cr
+   \verb{<h4>...</h4>} \tab \code{...} (separate element) \cr
+   \verb{<h5>...</h4>} \tab \code{...} (separate element) \cr
+   \verb{<h6>...</h4>} \tab \code{...} (separate element) \cr
+   \verb{...\\n} \tab \code{...} (separate element) \cr
+   \verb{<ul>...</ul>} \tab \verb{<itemizedlist>...</itemizedlist>} \cr
+   \verb{<ol>...</ol>} \tab \verb{<orderedlist>...</orderedlist>} \cr
    \verb{<li>...</li>} \tab \verb{<listitem><para>...</para></listitem>} \cr
    \verb{<em>...</em>} \tab \verb{<emphasis>...</emphasis>} \cr
    \verb{<i>...</i>} \tab \verb{<emphasis>...</emphasis>} \cr
@@ -46,46 +46,31 @@ All the rest (including existing DocBook tags) is sanitized.\tabular{ll}{
    \verb{<sup>...</sup>} \tab \verb{<superscript>...</superscript>} \cr
    \verb{<pre>...</pre>} \tab \verb{<literalLayout>...</literalLayout>} \cr
    \verb{<a href="http://example.com">...</a>} \tab \verb{<ulink url="https://example.com"><citetitle>...</citetitle></ulink>} \cr
-   \code{...} \tab \code{...} \cr
-   \verb{<code>...</code>} \tab \code{...} \cr
-   \verb{<foo>...</foo>} \tab \code{...} \cr
-   \verb{<span class="small">...</span>} \tab \code{...} \cr
-   \verb{<p class="small">...</p>} \tab \code{...} \cr
-   \verb{<img src="file.png">} \tab empty string \cr
-   \verb{<emphasis>...</emphasis>} \tab \code{...} \cr
+   \verb{<code>...</code>} \tab \code{...} (HTML element sanitized) \cr
+   \verb{<foo>...</foo>} \tab \code{...} (HTML element sanitized) \cr
+   \verb{<span class="small">...</span>} \tab \code{...} (HTML property sanitized) \cr
+   \verb{<p class="small">...</p>} \tab \code{...} (HTML property sanitized) \cr
+   \verb{<img src="file.png">} \tab empty string HTML (element sanitized) \cr
+   \verb{<emphasis>...</emphasis>} \tab \code{...} (DocBook element sanitized) \cr
 }
 }
 
-\section{Use}{
+\section{Use with EML}{
 
-\itemize{
-\item Read a EML file with \code{EML::read_eml()} or create an EML list.
-\item Assign the output of \code{html_to_docbook()} to \code{eml$dataset$abstract$para}.
-\item Write the EML list to a file with \code{EML::write_eml()}. \code{EML::write_eml()}
-will wrap each element in \code{eml$dataset$abstract$para} with
-\verb{<para>...</para>}.
+\enumerate{
+\item Create or read EML with \code{EML::read_eml()}.
+\item Assign output of \code{html_to_docbook()} to \code{eml$dataset$abstract$para}.
+\item Write EML with \code{EML::write_eml()}.
 }
 }
 
 \examples{
 html_to_docbook(
-"<p>My <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul>"
+  c(
+    "This is <b>bold</b>.\nParagraph 1\n\nParagraph 2<p></p>",
+    "What follows is a list: <ul><li>Item 1</li><li>Item 2</li></ul>"
+  )
 )
-\dontrun{
-# How to use this function for the abstract in EML:
-# Create and write EML
-eml <- movepub::write_eml("10.5281/zenodo.10053903", "my_directory")
-# Get abstract with HTML content
-zenodo_export <-
-  jsonlite::read_json("https://zenodo.org/records/10053903/export/json")
-description_full <- zenodo_export$metadata$description
-# Convert HTML to DocBook
-eml$dataset$abstract$para <- html_to_docbook(description_full)
-# Write EML (again)
-EML::write_eml(eml, file = file.path("my_directory", "eml.xml"))
-# Clean up (don't do this if you want to keep your files)
-unlink("my_directory", recursive = TRUE)
-}
 }
 \seealso{
 Other support functions: 
