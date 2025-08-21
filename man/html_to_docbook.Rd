@@ -4,10 +4,10 @@
 \alias{html_to_docbook}
 \title{Convert text with HTML to DocBook}
 \usage{
-html_to_docbook(string)
+html_to_docbook(strings)
 }
 \arguments{
-\item{string}{Text that may contain HTML.}
+\item{strings}{Character or character vector with text that may contain HTML.}
 }
 \value{
 A character vector of DocBook strings; typically, each element is a
