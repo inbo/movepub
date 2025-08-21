@@ -93,6 +93,9 @@ test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
   description_full <- zenodo_export$metadata$description
   # Convert HTML to DocBook
   eml$dataset$abstract$para <- html_to_docbook(description_full)
+  # Test for valid EML
+  expect_true(EML::eml_validate(eml))
+
   # Write EML (again)
   EML::write_eml(eml, file = file.path(temp_dir, "eml.xml"))
 
