@@ -17,6 +17,14 @@ test_that("html_to_docbook() handles empty character string", {
   expect_equal(html_to_docbook(""), "")
 })
 
+test_that("html_to_docbook() returns a charachter", {
+  expect_type(html_to_docbook("Text"), "character")
+  expect_type(html_to_docbook("<b>Bold</b>"), "character")
+  expect_type(html_to_docbook(c("<div>Text1</div>", "Text2")), "character")
+  expect_type(html_to_docbook(""), "character")
+  expect_type(html_to_docbook("<img src=\"file.png\">"), "character")
+})
+
 test_that("html_to_docbook() converts HTML to DocBook", {
   # None
   expect_equal(html_to_docbook("<p>Text</p>"), "Text")
