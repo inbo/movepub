@@ -4,7 +4,7 @@
 #' Only a subset of HTML tags are supported (see transformation details), all
 #' other HTML syntax is removed.
 #'
-#' @param string Text that may contain HTML.
+#' @param strings Character or character vector with text that may contain HTML.
 #' @return A character vector of DocBook strings; typically, each element is a
 #' paragraph or block element in DocBook format.
 #' @family support functions
@@ -73,7 +73,24 @@
 #' # Clean up (don't do this if you want to keep your files)
 #' unlink("my_directory", recursive = TRUE)
 #' }
-html_to_docbook <- function(string) {
+html_to_docbook <- function(strings) {
+  purrr::map(strings, convert_one_string) |>
+    purrr::flatten_chr()
+}
+
+#' Convert a single string
+#'
+#' Helper function to convert a single string with HTML syntax to DocBook.
+#'
+#' @param string Text that may contain HTML.
+#' @return A character vector of DocBook strings; typically, each element is a
+#' paragraph or block element in DocBook format.
+#' @noRd
+#' @examples
+#' convert_one_string(
+#' "<p>My <b>bold</b> text.</p><ul><li>Item 1</li><li>Item 2</li></ul>"
+#' )
+convert_one_string <- function(string) {
   # Necessary for empty values and non-HTML text
   doc <- xml2::read_html(paste0("<root>", string, "</root>"))
   root <- xml2::xml_find_first(doc, ".//body/root")

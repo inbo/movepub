@@ -72,8 +72,21 @@ test_that("html_to_docbook() returns a vector for each title/para", {
     "Paragraph 2",
     "Paragraph 3 with <emphasis>italic</emphasis>"
   )
-  html_to_docbook(string)
   expect_equal(html_to_docbook(string), expected)
+})
+
+test_that("html_to_docbook() can handle vectorized strings", {
+  strings <- c(
+    "<h1>Title</h1><p>Paragraph 1</p>\nParagraph 2\n\n",
+    "<p>Paragraph 3 with <em>italic</em></p>"
+  )
+  expected <- c(
+    "Title",
+    "Paragraph 1",
+    "Paragraph 2",
+    "Paragraph 3 with <emphasis>italic</emphasis>"
+  )
+  expect_equal(html_to_docbook(strings), expected)
 })
 
 test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
