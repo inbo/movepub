@@ -4,7 +4,7 @@
 
 * `write_eml()` is now a separate function from `write_dwc()` (#57).
 * `write_eml()` now formats the `derived_paragraph` as DocBook (rather than HTML), a format supported by EML and the GBIF IPT (#102). The paragraph is also shorter and added at the end of the abstract (#76).
-* New `html_to_docbook()` allows to convert a string from HTML to DocBook. You can use this to convert descriptions in order to have valid EML (#101).
+* New `html_to_docbook()` allows to convert a string or character vector from HTML to DocBook. You can use this to convert descriptions in order to have valid EML (#101).
 * `write_eml()` and `write_dwc()` no longer add `[subsampled representation]` to the dataset title (#76).
 
 ## write_dwc
