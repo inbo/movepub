@@ -22,7 +22,7 @@ other HTML syntax is removed.
 
 The function splits text into a character vector, with one element for each
 paragraph, header or line break (\verb{\\n}).
-The remaining HTML is converted to DocBook tags, but only those supported by
+The remaining HTML is converted to DocBook, but only tags those supported by
 EML for \href{https://eml.ecoinformatics.org/schema/eml-text_xsd.html#TextType_para}{paragraphs}.
 All other HTML/DocBook syntax is sanitized and empty elements are removed.\tabular{ll}{
    Input \tab Output \cr
@@ -50,7 +50,7 @@ All other HTML/DocBook syntax is sanitized and empty elements are removed.\tabul
    \verb{<foo>...</foo>} \tab \code{...} (HTML element sanitized) \cr
    \verb{<span class="small">...</span>} \tab \code{...} (HTML property sanitized) \cr
    \verb{<p class="small">...</p>} \tab \code{...} (HTML property sanitized) \cr
-   \verb{<img src="file.png">} \tab empty string HTML (element sanitized) \cr
+   \verb{<img src="file.png">} \tab empty string (HTML element sanitized) \cr
    \verb{<emphasis>...</emphasis>} \tab \code{...} (DocBook element sanitized) \cr
 }
 }
@@ -58,7 +58,8 @@ All other HTML/DocBook syntax is sanitized and empty elements are removed.\tabul
 \section{Use with EML}{
 
 \enumerate{
-\item Create or read EML with \code{EML::read_eml()}.
+\item Capture EML with \code{eml <- movepub::write_eml()} or read with
+\code{EML::read_eml()}.
 \item Assign output of \code{html_to_docbook()} to \code{eml$dataset$abstract$para}.
 \item Write EML with \code{EML::write_eml()}.
 }

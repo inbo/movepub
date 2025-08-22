@@ -47,7 +47,8 @@
 #' `<emphasis>...</emphasis>` | `...` (DocBook element sanitized)
 #'
 #' @section Use with EML:
-#' 1. Create or read EML with `EML::read_eml()`.
+#' 1. Capture EML with `eml <- movepub::write_eml()` or read with
+#'   `EML::read_eml()`.
 #' 2. Assign output of `html_to_docbook()` to `eml$dataset$abstract$para`.
 #' 3. Write EML with `EML::write_eml()`.
 #'
