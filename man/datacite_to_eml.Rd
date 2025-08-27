@@ -16,6 +16,10 @@ EML list that can be extended and/or written to file with
 \description{
 Get metadata from \href{https://datacite.org/}{DataCite} and transform to EML.
 }
+\examples{
+datacite_to_eml("10.5281/zenodo.10053903")
+
+}
 \seealso{
 Other support functions: 
 \code{\link{get_aphia_id}()},
