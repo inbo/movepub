@@ -1,7 +1,7 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
 Version: 0.3.0.9000
-Date: 2024-04-24
+Date: 2025-08-27
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
@@ -49,8 +49,7 @@ Suggests:
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
-Remotes:
-    https://github.com/frictionlessdata/frictionless-r
+Remotes: frictionlessdata/frictionless-r
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

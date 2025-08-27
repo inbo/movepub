@@ -8,7 +8,7 @@
 An object of class \code{datapackage} (inherits from \code{list}) of length 7.
 }
 \source{
-https://doi.org/10.5281/zenodo.10053903
+\doi{10.5281/zenodo.10053903}
 }
 \usage{
 o_assen
