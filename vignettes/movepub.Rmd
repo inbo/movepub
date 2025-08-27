@@ -59,7 +59,7 @@ Here's what we did:
 
 - Initiate a package with `create_package()`. This and other functions are reexported in movepub from the [frictionless][frictionless-r] R package.
 - Add the DOI as package ID.
-- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the generic `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current).
+- Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the generic `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/).
 
 Here's an example of how a field is documented:
 
@@ -151,8 +151,7 @@ write_dwc(
 #> ── Reading data ──
 #> 
 #> ℹ Taxa found in reference data and their WoRMS AphiaID:
-#> Haematopus ostralegus: 147436
-#> (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
+#> Haematopus ostralegus: 147436 (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
 #> 
 #> ── Transforming data to Darwin Core ──
 #> 
@@ -220,7 +219,7 @@ The resulting `eml.xml` file includes the metadata. **See the `write_eml()` func
 ``` r
 eml
 #> $packageId
-#> [1] "1934f9eb-ce0a-4a60-81b9-78d091c45571"
+#> [1] "887f5f8b-f3df-40b8-8220-04ed865691a5"
 #> 
 #> $system
 #> [1] "uuid"
@@ -242,9 +241,8 @@ eml
 #> [1] "n/a"
 #> 
 #> $dataset$keywordSet[[1]]$keyword
-#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   
-#>  [5] "altitude"         "temperature"      "biologging"       "birds"           
-#>  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"
+#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     
+#>  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"
 #> 
 #> 
 #> 

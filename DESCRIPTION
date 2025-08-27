@@ -17,13 +17,13 @@ Authors@R: c(
            comment = "https://doi.org/10.3030/101112823")
   )
 Description: Prepare animal tracking data from 'Movebank'
-    (<https://movebank.org>) for publication in a research repository. With
+    (<https://www.movebank.org/>) for publication in a research repository. With
     'movepub' you can document data with metadata following the Data Package
     standard and transform these to Darwin Core and Ecological Metadata Language
     ('EML') for publication to the Global Biodiversity Information Facility
     ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
 License: MIT + file LICENSE
-URL: https://github.com/inbo/movepub, https://inbo.github.io/movepub
+URL: https://github.com/inbo/movepub, https://inbo.github.io/movepub/
 BugReports: https://github.com/inbo/movepub/issues
 Depends: 
     R (>= 4.1.0)
