@@ -63,6 +63,179 @@
 <code><a href="html_to_docbook.html">html_to_docbook</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">datacite_to_eml</span><span class="op">(</span><span class="st">"10.5281/zenodo.10053903"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $packageId</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "da746c17-1aa4-401f-a362-0edb33f8ab57"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $system</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "uuid"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$abstract</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$abstract$para</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.\n\nSee van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset.\n\nFiles\n\nData in this package are exported from Movebank study 1605797471. Fields in the data follow the Movebank Attribute Dictionary and are described in datapackage.json. Files are structured as a Frictionless Data Package. You can access all data in R via https://zenodo.org/records/10053903/files/datapackage.json using frictionless.\n\n\n\ndatapackage.json: technical description of the data files.\n\nO_ASSEN-reference-data.csv: reference data about the animals, tags and deployments.\n\nO_ASSEN-gps-yyyy.csv.gz: GPS data recorded by the tags, grouped by year.\n\nO_ASSEN-acceleration-yyyy.csv.gz: acceleration data recorded by the tags, grouped by year.\n\n\nAcknowledgements\n\nThese data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Changelog\n\n\n\nAdd alt-project-id to the reference-data.\n\nReference the latest Movebank Attribute Dictionary."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$keywordSet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$keywordSet[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$keywordSet[[1]]$keywordThesaurus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "n/a"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$keywordSet[[1]]$keyword</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "altitude"         "temperature"      "biologging"       "birds"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Bert</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Dijkstra</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Rinus</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Dillerop</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Kees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Oosterbeek</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[4]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Willem</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Bouten</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   directory: https://orcid.org/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   '': 0000-0002-5250-8872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[5]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Peter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Desmet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   directory: https://orcid.org/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   '': 0000-0002-8442-8025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[6]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Henk-Jan</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: van der Kolk</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   directory: https://orcid.org/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   '': 0000-0002-8023-379X</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$creator[[7]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Bruno J.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Ens</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   directory: https://orcid.org/</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   '': 0000-0002-4659-4807</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$contact</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> '@id': ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> address: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> electronicMailAddress: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> individualName:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   givenName: Bert</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   surName: Dijkstra</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> onlineUrl: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> organizationName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> phone: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> positionName: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> userId: ~</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$pubDate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2023-10-30"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$intellectualRights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$intellectualRights$rights</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Creative Commons Zero v1.0 Universal"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$intellectualRights$rightsUri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://creativecommons.org/publicdomain/zero/1.0/legalcode"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$intellectualRights$schemeUri</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://spdx.org/licenses/"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$intellectualRights$rightsIdentifier</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cc0-1.0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$intellectualRights$rightsIdentifierScheme</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "SPDX"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $dataset$alternateIdentifier</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://doi.org/10.5281/zenodo.10053903"                                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
