@@ -30,6 +30,6 @@ latest version of the \href{http://vocab.nerc.ac.uk/collection/MVB/current}{Move
 Schema of the resource.
 }
 \details{
-See \code{vignette("frictionless")} for examples.
+See \code{vignette("movepub")} for examples.
 }
 \concept{frictionless functions}
