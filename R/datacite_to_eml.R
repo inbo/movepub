@@ -7,6 +7,9 @@
 #'   [EML::write_eml()].
 #' @family support functions
 #' @export
+#' @examples
+#' datacite_to_eml("10.5281/zenodo.10053903")
+#'
 datacite_to_eml <- function(doi) {
   # Read metadata from DataCite
   doi <- gsub("https://doi.org/", "", doi, fixed = TRUE)

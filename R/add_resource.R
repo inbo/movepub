@@ -8,7 +8,7 @@
 #' http://vocab.nerc.ac.uk/collection/MVB/current) and included in the Table
 #' Schema of the resource.
 #'
-#' See `vignette("frictionless")` for examples.
+#' See `vignette("movepub")` for examples.
 #'
 #' @inheritParams frictionless::read_resource
 #' @param files One or more paths to CSV file(s) that contain the data for
