@@ -20,8 +20,8 @@ A sample Movebank dataset with GPS tracking data, formatted as a
 }
 \details{
 This sample is derived from the Zenodo-deposited dataset
-\href{https://doi.org/10.5281/zenodo.10053903}{Dijkstra et al. (2022)}, but
-excludes the acceleration data.
+\href{https://zenodo.org/records/10053903}{Dijkstra et al. (2023)}, but excludes
+the acceleration data.
 }
 \examples{
 \dontrun{
