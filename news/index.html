@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">movepub</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,9 +34,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="movepub-development-version">movepub (development version)<a class="anchor" aria-label="anchor" href="#movepub-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.4.0" id="movepub-040">movepub 0.4.0<a class="anchor" aria-label="anchor" href="#movepub-040"></a></h2>
 <div class="section level3">
-<h3 id="write_eml-development-version">write_eml<a class="anchor" aria-label="anchor" href="#write_eml-development-version"></a></h3>
+<h3 id="write_eml-0-4-0">write_eml<a class="anchor" aria-label="anchor" href="#write_eml-0-4-0"></a></h3>
 <ul><li>
 <code><a href="../reference/write_eml.html">write_eml()</a></code> is now a separate function from <code><a href="../reference/write_dwc.html">write_dwc()</a></code> (<a href="https://github.com/inbo/movepub/issues/57" class="external-link">#57</a>).</li>
 <li>
@@ -46,7 +46,7 @@
 <code><a href="../reference/write_eml.html">write_eml()</a></code> and <code><a href="../reference/write_dwc.html">write_dwc()</a></code> no longer add <code>[subsampled representation]</code> to the dataset title (<a href="https://github.com/inbo/movepub/issues/76" class="external-link">#76</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="write_dwc-development-version">write_dwc<a class="anchor" aria-label="anchor" href="#write_dwc-development-version"></a></h3>
+<h3 id="write_dwc-0-4-0">write_dwc<a class="anchor" aria-label="anchor" href="#write_dwc-0-4-0"></a></h3>
 <ul><li>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> can now be used for an unpublished dataset (i.e. without metadata on DataCite, which was required for the previously build-in <code><a href="../reference/write_eml.html">write_eml()</a></code> functionality). Some record-level terms (e.g. <code>dwc:datasetName</code>) can be provided as arguments (<a href="https://github.com/inbo/movepub/issues/57" class="external-link">#57</a>, <a href="https://github.com/inbo/movepub/issues/72" class="external-link">#72</a>).</li>
 <li>
@@ -59,7 +59,7 @@
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> is now more modular, facilitating extension for non-GPS tracking data (<a href="https://github.com/inbo/movepub/issues/66" class="external-link">#66</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="other-development-version">Other<a class="anchor" aria-label="anchor" href="#other-development-version"></a></h3>
+<h3 id="other-0-4-0">Other<a class="anchor" aria-label="anchor" href="#other-0-4-0"></a></h3>
 <ul><li>movepub now relies on R &gt;= 4.1.0 (because of move2 dependency) and uses base pipes (<code>|&gt;</code> rather than <code>%&gt;%</code>) (<a href="https://github.com/inbo/movepub/issues/98" class="external-link">#98</a>).</li>
 <li>Many functions of <a href="https://docs.ropensci.org/frictionless/" class="external-link">frictionless</a> are now reexported by movepub, so you no longer have to load that package to create Data Packages (<a href="https://github.com/inbo/movepub/issues/54" class="external-link">#54</a>).</li>
 <li>

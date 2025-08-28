@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">movepub</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,8 +113,8 @@ R package.</li>
 <code>gps</code>. These names are standardized. By using the
 <code><a href="../reference/add_resource.html">movepub::add_resource()</a></code> (rather than the generic
 <code><a href="https://docs.ropensci.org/frictionless/reference/add_resource.html" class="external-link">frictionless::add_resource()</a></code>) we also looked up the
-definition for each field in the <a href="http://vocab.nerc.ac.uk/collection/MVB/current" class="external-link">Movebank Attribute
-Dictionary</a>.</li>
+definition for each field in the <a href="http://vocab.nerc.ac.uk/collection/MVB/current/" class="external-link">Movebank
+Attribute Dictionary</a>.</li>
 </ul>
 <p>Here’s an example of how a field is documented:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -202,8 +202,7 @@ those as parameters in <code><a href="../reference/write_dwc.html">write_dwc()</
 <span><span class="co">#&gt; ── Reading data ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Taxa found in reference data and their WoRMS AphiaID:</span></span>
-<span><span class="co">#&gt; Haematopus ostralegus: 147436</span></span>
-<span><span class="co">#&gt; (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
+<span><span class="co">#&gt; Haematopus ostralegus: 147436 (&lt;https://www.marinespecies.org/aphia.php?p=taxdetails&amp;id=147436&gt;)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Transforming data to Darwin Core ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -268,7 +267,7 @@ transformation details.</strong></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eml</span></span>
 <span><span class="co">#&gt; $packageId</span></span>
-<span><span class="co">#&gt; [1] "1934f9eb-ce0a-4a60-81b9-78d091c45571"</span></span>
+<span><span class="co">#&gt; [1] "887f5f8b-f3df-40b8-8220-04ed865691a5"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $system</span></span>
 <span><span class="co">#&gt; [1] "uuid"</span></span>
@@ -290,9 +289,8 @@ transformation details.</strong></p>
 <span><span class="co">#&gt; [1] "n/a"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $dataset$keywordSet[[1]]$keyword</span></span>
-<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"   </span></span>
-<span><span class="co">#&gt;  [5] "altitude"         "temperature"      "biologging"       "birds"           </span></span>
-<span><span class="co">#&gt;  [9] "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
+<span><span class="co">#&gt;  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     </span></span>
+<span><span class="co">#&gt;  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
