@@ -8,19 +8,26 @@ message: 'To cite package "movepub" in publications use:'
 type: software
 license: MIT
 title: 'movepub: Prepare Movebank Data for Publication'
-version: 0.3.0
-abstract: Prepare animal tracking data from 'Movebank' (<https://movebank.org>) for
-  publication in a research repository or the Global Biodiversity Information Facility
-  ('GBIF' <https://www.gbif.org>).
+version: 0.4.0
+abstract: Prepare animal tracking data from 'Movebank' (<https://www.movebank.org/>)
+  for publication in a research repository. With 'movepub' you can document data with
+  metadata following the Data Package standard and transform these to Darwin Core
+  and Ecological Metadata Language ('EML') for publication to the Global Biodiversity
+  Information Facility ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
 authors:
 - family-names: Desmet
   given-names: Peter
   email: peter.desmet@inbo.be
   orcid: https://orcid.org/0000-0002-8442-8025
   affiliation: Research Institute for Nature and Forest (INBO)
+- family-names: Govaert
+  given-names: Sanne
+  email: sanne.govaert@inbo.be
+  orcid: https://orcid.org/0000-0002-8939-1305
+  affiliation: Research Institute for Nature and Forest (INBO)
 repository-code: https://github.com/inbo/movepub
-url: https://github.com/inbo/movepub
-date-released: '2024-04-24'
+url: https://inbo.github.io/movepub/
+date-released: '2025-08-27'
 contact:
 - family-names: Desmet
   given-names: Peter
@@ -42,8 +49,8 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2024'
-  version: '>= 2.10'
+  year: '2025'
+  version: '>= 4.1.0'
 - type: software
   title: cli
   abstract: 'cli: Helpers for Developing Command Line Interfaces'
@@ -53,8 +60,8 @@ references:
   authors:
   - family-names: Csárdi
     given-names: Gábor
-    email: csardi.gabor@gmail.com
-  year: '2024'
+    email: gabor@posit.co
+  year: '2025'
   doi: 10.32614/CRAN.package.cli
 - type: software
   title: dplyr
@@ -79,7 +86,7 @@ references:
     given-names: Davis
     email: davis@posit.co
     orcid: https://orcid.org/0000-0003-4777-038X
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.dplyr
 - type: software
   title: EML
@@ -95,7 +102,7 @@ references:
   - family-names: Jones
     given-names: Matthew B.
     orcid: https://orcid.org/0000-0003-0077-4738
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.EML
 - type: software
   title: frictionless
@@ -106,17 +113,25 @@ references:
   authors:
   - family-names: Desmet
     given-names: Peter
-    email: peter.desmet.work@gmail.com
+    email: peter.desmet@inbo.be
     orcid: https://orcid.org/0000-0002-8442-8025
+    affiliation: Research Institute for Nature and Forest (INBO)
   - family-names: Oldoni
     given-names: Damiano
     email: damiano.oldoni@inbo.be
     orcid: https://orcid.org/0000-0003-3445-7562
+    affiliation: Research Institute for Nature and Forest (INBO)
   - family-names: Huybrechts
     given-names: Pieter
     email: pieter.huybrechts@inbo.be
     orcid: https://orcid.org/0000-0002-6658-6062
-  year: '2024'
+    affiliation: Research Institute for Nature and Forest (INBO)
+  - family-names: Govaert
+    given-names: Sanne
+    email: sanne.govaert@inbo.be
+    orcid: https://orcid.org/0000-0002-8939-1305
+    affiliation: Research Institute for Nature and Forest (INBO)
+  year: '2025'
   doi: 10.32614/CRAN.package.frictionless
 - type: software
   title: jsonlite
@@ -127,10 +142,46 @@ references:
   authors:
   - family-names: Ooms
     given-names: Jeroen
-    email: jeroen@berkeley.edu
+    email: jeroenooms@gmail.com
     orcid: https://orcid.org/0000-0002-4035-0289
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.jsonlite
+- type: software
+  title: lifecycle
+  abstract: 'lifecycle: Manage the Life Cycle of your Package Functions'
+  notes: Imports
+  url: https://lifecycle.r-lib.org/
+  repository: https://CRAN.R-project.org/package=lifecycle
+  authors:
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+    orcid: https://orcid.org/0000-0003-4757-117X
+  year: '2025'
+  doi: 10.32614/CRAN.package.lifecycle
+- type: software
+  title: move2
+  abstract: 'move2: Processing and Analysing Animal Trajectories'
+  notes: Imports
+  url: https://bartk.gitlab.io/move2/
+  repository: https://CRAN.R-project.org/package=move2
+  authors:
+  - family-names: Kranstauber
+    given-names: Bart
+    email: b.kranstauber@uva.nl
+    orcid: https://orcid.org/0000-0001-8303-780X
+  - family-names: Safi
+    given-names: Kamran
+    orcid: https://orcid.org/0000-0002-8418-6759
+  - family-names: Scharf
+    given-names: Anne K.
+    orcid: https://orcid.org/0000-0002-3357-8533
+  year: '2025'
+  doi: 10.32614/CRAN.package.move2
+  version: '>= 0.4.0'
 - type: software
   title: purrr
   abstract: 'purrr: Functional Programming Tools'
@@ -140,12 +191,12 @@ references:
   authors:
   - family-names: Wickham
     given-names: Hadley
-    email: hadley@rstudio.com
+    email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
   - family-names: Henry
     given-names: Lionel
-    email: lionel@rstudio.com
-  year: '2024'
+    email: lionel@posit.co
+  year: '2025'
   doi: 10.32614/CRAN.package.purrr
 - type: software
   title: readr
@@ -163,7 +214,7 @@ references:
     given-names: Jennifer
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.readr
 - type: software
   title: rlang
@@ -178,7 +229,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.rlang
 - type: software
   title: tidyr
@@ -195,7 +246,7 @@ references:
     email: davis@posit.co
   - family-names: Girlich
     given-names: Maximilian
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.tidyr
 - type: software
   title: uuid
@@ -211,7 +262,7 @@ references:
   - family-names: Ts'o
     given-names: Theodore
     email: tytso@thunk.org
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.uuid
 - type: software
   title: worrms
@@ -227,8 +278,24 @@ references:
   - family-names: Vanhoorne.
     given-names: Bart
     email: bart.vanhoorne@vliz.be
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.worrms
+- type: software
+  title: xml2
+  abstract: 'xml2: Parse XML'
+  notes: Imports
+  url: https://xml2.r-lib.org
+  repository: https://CRAN.R-project.org/package=xml2
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroenooms@gmail.com
+  year: '2025'
+  doi: 10.32614/CRAN.package.xml2
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
@@ -240,7 +307,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.knitr
 - type: software
   title: rmarkdown
@@ -284,7 +351,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: stringr
@@ -296,7 +363,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.stringr
 - type: software
   title: testthat
@@ -308,23 +375,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2024'
+  year: '2025'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
-- type: software
-  title: xml2
-  abstract: 'xml2: Parse XML'
-  notes: Suggests
-  url: https://xml2.r-lib.org/
-  repository: https://CRAN.R-project.org/package=xml2
-  authors:
-  - family-names: Wickham
-    given-names: Hadley
-    email: hadley@posit.co
-  - family-names: Hester
-    given-names: Jim
-  - family-names: Ooms
-    given-names: Jeroen
-  year: '2024'
-  doi: 10.32614/CRAN.package.xml2
 

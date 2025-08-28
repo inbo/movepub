@@ -5,7 +5,7 @@
 #' The function extends [frictionless::add_resource()].
 #' The title, definition, format and URI of each field are looked up in the
 #' latest version of the [Movebank Attribute Dictionary](
-#' http://vocab.nerc.ac.uk/collection/MVB/current) and included in the Table
+#' http://vocab.nerc.ac.uk/collection/MVB/current/) and included in the Table
 #' Schema of the resource.
 #'
 #' See `vignette("movepub")` for examples.

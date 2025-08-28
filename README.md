@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/movepub)](https://CRAN.R-project.org/package=movepub)
+![CRAN status](https://www.r-pkg.org/badges/version/movepub)
 [![R-CMD-check](https://github.com/inbo/movepub/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/inbo/movepub/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/gh/inbo/movepub/branch/main/graph/badge.svg)](https://app.codecov.io/gh/inbo/movepub/)
 [![repo
@@ -15,7 +14,7 @@ status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repost
 <!-- badges: end -->
 
 Movepub is an R package to prepare animal tracking data from
-[Movebank](https://movebank.org) for publication in a research
+[Movebank](https://www.movebank.org/) for publication in a research
 repository. With movepub you can document data with metadata following
 the [Data Package](https://specs.frictionlessdata.io/) standard and
 transform these to [Darwin Core](https://dwc.tdwg.org) and Ecological

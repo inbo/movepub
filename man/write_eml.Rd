@@ -53,7 +53,7 @@ If \code{derived_paragraph = TRUE} a generated paragraph is added, e.g.:
 
 Data have been standardized to Darwin Core using the \href{https://inbo.github.io/movepub/}{movepub} R package and are downsampled to the first
 GPS position per hour. The original data are available in Dijkstra et al.
-(2023, \url{https://doi.org/10.5281/zenodo.10053903}), a deposit of Movebank
+(2023, \doi{10.5281/zenodo.10053903}), a deposit of Movebank
 study \href{https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471}{1605797471}.
 \item \strong{license}: License of the original dataset.
 \item \strong{creators}: Creators of the original dataset.

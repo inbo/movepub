@@ -6,13 +6,13 @@
 \alias{movepub-package}
 \title{movepub: Prepare Movebank Data for Publication}
 \description{
-Prepare animal tracking data from 'Movebank' (\url{https://movebank.org}) for publication in a research repository. With 'movepub' you can document data with metadata following the Data Package standard and transform these to Darwin Core and Ecological Metadata Language ('EML') for publication to the Global Biodiversity Information Facility ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
+Prepare animal tracking data from 'Movebank' (\url{https://www.movebank.org/}) for publication in a research repository. With 'movepub' you can document data with metadata following the Data Package standard and transform these to Darwin Core and Ecological Metadata Language ('EML') for publication to the Global Biodiversity Information Facility ('GBIF') and the Ocean Biodiversity Information System ('OBIS').
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/inbo/movepub}
-  \item \url{https://inbo.github.io/movepub}
+  \item \url{https://inbo.github.io/movepub/}
   \item Report bugs at \url{https://github.com/inbo/movepub/issues}
 }
 

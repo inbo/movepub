@@ -2,18 +2,19 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "movepub",
-  "description": "Prepare animal tracking data from 'Movebank' (<https://movebank.org>) for publication in a research repository or the Global Biodiversity Information Facility ('GBIF' <https://www.gbif.org>).",
+  "description": "Prepare animal tracking data from 'Movebank' (<https://www.movebank.org/>) for publication in a research repository. With 'movepub' you can document data with metadata following the Data Package standard and transform these to Darwin Core and Ecological Metadata Language ('EML') for publication to the Global Biodiversity Information Facility ('GBIF') and the Ocean Biodiversity Information System ('OBIS').",
   "name": "movepub: Prepare Movebank Data for Publication",
+  "relatedLink": "https://inbo.github.io/movepub/",
   "codeRepository": "https://github.com/inbo/movepub",
   "issueTracker": "https://github.com/inbo/movepub/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.3 (2023-03-15)",
+  "runtimePlatform": "R version 4.4.3 (2025-02-28)",
   "author": [
     {
       "@type": "Person",
@@ -21,16 +22,16 @@
       "familyName": "Desmet",
       "email": "peter.desmet@inbo.be",
       "@id": "https://orcid.org/0000-0002-8442-8025"
-    }
-  ],
-  "contributor": [
+    },
     {
       "@type": "Person",
       "givenName": "Sanne",
       "familyName": "Govaert",
       "email": "sanne.govaert@inbo.be",
       "@id": "https://orcid.org/0000-0002-8939-1305"
-    },
+    }
+  ],
+  "contributor": [
     {
       "@type": "Person",
       "givenName": "Sarah",
@@ -49,6 +50,10 @@
     {
       "@type": "Organization",
       "name": "NLBIF"
+    },
+    {
+      "@type": "Organization",
+      "name": "European Union"
     }
   ],
   "maintainer": [
@@ -116,7 +121,7 @@
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
-      "version": ">= 2.10"
+      "version": ">= 4.1.0"
     },
     "2": {
       "@type": "SoftwareApplication",
@@ -180,6 +185,31 @@
     },
     "7": {
       "@type": "SoftwareApplication",
+      "identifier": "lifecycle",
+      "name": "lifecycle",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=lifecycle"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "move2",
+      "name": "move2",
+      "version": ">= 0.4.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=move2"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
       "identifier": "purrr",
       "name": "purrr",
       "provider": {
@@ -190,7 +220,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=purrr"
     },
-    "8": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "readr",
       "name": "readr",
@@ -202,7 +232,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=readr"
     },
-    "9": {
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "rlang",
+      "name": "rlang",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "tidyr",
       "name": "tidyr",
@@ -214,7 +256,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyr"
     },
-    "10": {
+    "13": {
       "@type": "SoftwareApplication",
       "identifier": "uuid",
       "name": "uuid",
@@ -226,7 +268,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=uuid"
     },
-    "11": {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "worrms",
       "name": "worrms",
@@ -238,10 +280,22 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=worrms"
     },
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "xml2",
+      "name": "xml2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=xml2"
+    },
     "SystemRequirements": null
   },
-  "fileSize": "9035.81KB",
-  "releaseNotes": "https://github.com/inbo/movepub/blob/master/NEWS.md",
+  "fileSize": "4231.147KB",
+  "releaseNotes": "https://github.com/inbo/movepub/blob/main/NEWS.md",
   "readme": "https://github.com/inbo/movepub/blob/main/README.md",
   "contIntegration": ["https://github.com/inbo/movepub/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/inbo/movepub/"],
   "developmentStatus": "https://www.repostatus.org/#active",
