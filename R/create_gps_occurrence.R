@@ -81,12 +81,12 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       eventRemarks = dplyr::coalesce(.data$`comments`, ""),
       # LOCATION
       minimumElevationInMeters = dplyr::coalesce(
-        .data$`height-above-msl`,
+        as.numeric(.data$`height-above-msl`),
         as.numeric(.data$`height-above-ellipsoid`),
         NA_real_
       ),
       maximumElevationInMeters = dplyr::coalesce(
-        .data$`height-above-msl`,
+        as.numeric(.data$`height-above-msl`),
         as.numeric(.data$`height-above-ellipsoid`),
         NA_real_
       ),
