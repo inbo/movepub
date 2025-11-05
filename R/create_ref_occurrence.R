@@ -7,13 +7,12 @@
 #' @family dwc functions
 #' @noRd
 create_ref_occurrence <- function(ref, taxa) {
-  # Expand data with all columns used in Darwin Core transformation
+  # Expand data with non-required columns used in Darwin Core transformation
   ref_cols <- c(
-    "animal-id", "animal-life-stage", "animal-nickname",
-    "animal-reproductive-condition", "animal-sex", "animal-taxon",
-    "attachment-type", "deploy-on-date", "deploy-on-latitude",
-    "deploy-on-longitude", "deployment-comments", "manipulation-type", "tag-id",
-    "tag-manufacturer-name", "tag-model"
+    "animal-life-stage", "animal-nickname", "animal-reproductive-condition",
+    "animal-sex", "animal-taxon", "attachment-type", "deploy-on-date",
+    "deploy-on-latitude", "deploy-on-longitude", "deployment-comments",
+    "manipulation-type", "tag-id", "tag-manufacturer-name", "tag-model"
   )
   ref <- expand_cols(ref, ref_cols)
 
