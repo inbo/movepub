@@ -1,9 +1,7 @@
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
-  x_no_ref_data <-
-    remove_resource(o_assen, "reference-data")
-  x_no_gps <-
-    remove_resource(o_assen, "gps")
+  x_no_ref_data <- remove_resource(o_assen, "reference-data")
+  x_no_gps <- remove_resource(o_assen, "gps")
   temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
 
@@ -11,7 +9,7 @@ test_that("write_dwc() returns error on missing resources", {
     suppressMessages(
       write_dwc(x_no_ref_data, temp_dir)
     ),
-    class = "movepub_error_reference_data_missing"
+    class = "movepub_error_ref_data_missing"
   )
   expect_error(
     suppressMessages(
