@@ -20,7 +20,7 @@ create_gps_occurrence <- function(gps, ref, taxa) {
   occurrence <-
     gps |>
     # Exclude outliers & (rare) empty coordinates
-    dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) |>
+    dplyr::filter(as.logical(.data$visible) & !is.na(.data$`location-lat`)) |>
     dplyr::mutate(
       time_per_hour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
     ) |>
@@ -81,12 +81,12 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       eventRemarks = dplyr::coalesce(.data$`comments`, ""),
       # LOCATION
       minimumElevationInMeters = dplyr::coalesce(
-        .data$`height-above-msl`,
+        as.numeric(.data$`height-above-msl`),
         as.numeric(.data$`height-above-ellipsoid`),
         NA_real_
       ),
       maximumElevationInMeters = dplyr::coalesce(
-        .data$`height-above-msl`,
+        as.numeric(.data$`height-above-msl`),
         as.numeric(.data$`height-above-ellipsoid`),
         NA_real_
       ),
