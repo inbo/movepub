@@ -1,5 +1,7 @@
 # movepub (development version)
 
+* `write_dwc()` will now return an error if required fields are missing in the source data (#120).
+
 # movepub 0.4.0
 
 ## write_eml
