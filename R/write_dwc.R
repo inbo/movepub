@@ -59,6 +59,16 @@
 #'     (e.g. `CC0-1.0`) in `package$licenses`.
 #'   - `dcterms:rightsHolder`: `rights_holder`, defaulting to the first
 #'     contributor in `package$contributors` with role `rightsHolder`.
+#'
+#' @section Required data:
+#' The source data should have the following resources and fields:
+#' - **reference-data** with at least the fields `animal-id`, `animal-taxon`,
+#'   and `tag-id`.
+#'   Records must have a `deploy-on-date` to be retained.
+#' - **gps** with at least the fields `individual-local-identifier`,
+#'   `tag-local-identifier`, and `timestamp`.
+#'   Records must have a `location-lat`, `visible = TRUE` and a link with the
+#'   reference data to be retained.
 #' @examples
 #' write_dwc(o_assen, directory = "my_directory")
 #'
