@@ -1,6 +1,6 @@
 # movepub (development version)
 
-* `write_dwc()` will now return an error if required fields are missing in the source data (#120).
+* `write_dwc()` now requires some fields in the source data. It also gracefully handles any non-required missing fields (#120).
 
 # movepub 0.4.0
 
