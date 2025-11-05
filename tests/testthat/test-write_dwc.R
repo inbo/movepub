@@ -1,9 +1,11 @@
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
-  x_no_ref_data <- remove_resource(o_assen, "reference-data")
-  x_no_gps <- remove_resource(o_assen, "gps")
   temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
+
+  # Create datasets with missing resource
+  x_no_ref_data <- remove_resource(o_assen, "reference-data")
+  x_no_gps <- remove_resource(o_assen, "gps")
 
   expect_error(
     suppressMessages(
@@ -21,9 +23,12 @@ test_that("write_dwc() returns error on missing resources", {
 
 test_that("write_dwc() returns error on missing required fields", {
   skip_if_offline()
+  temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  # Create dataset with missing cols
   ref <- read_resource(o_assen, "reference-data")
   gps <- read_resource(o_assen, "gps")
-  # Create package, use frictionless::add_resource() to add df rather than csv
   x_missing_ref_cols <-
     create_package() |>
     frictionless::add_resource("reference-data", iris) |>
