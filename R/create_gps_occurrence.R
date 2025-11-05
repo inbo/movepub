@@ -10,9 +10,9 @@ create_gps_occurrence <- function(gps, ref, taxa) {
   # Expand data with all columns used in Darwin Core transformation
   gps_cols <- c(
     "comments", "event-id", "height-above-ellipsoid", "height-above-msl",
-    "individual-local-identifier", "individual-taxon-canonical-name",
-    "location-error-numerical", "location-lat", "location-long", "sensor-type",
-    "tag-local-identifier", "timestamp", "visible"
+    "individual-local-identifier", "location-error-numerical", "location-lat",
+    "location-long", "sensor-type", "tag-local-identifier", "timestamp",
+    "visible"
   )
   gps <- expand_cols(gps, gps_cols)
 
