@@ -1,9 +1,11 @@
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
-  x_no_ref_data <- remove_resource(o_assen, "reference-data")
-  x_no_gps <- remove_resource(o_assen, "gps")
   temp_dir <- tempdir()
   on.exit(unlink(temp_dir, recursive = TRUE))
+
+  # Create datasets with missing resource
+  x_no_ref_data <- remove_resource(o_assen, "reference-data")
+  x_no_gps <- remove_resource(o_assen, "gps")
 
   expect_error(
     suppressMessages(
@@ -21,9 +23,12 @@ test_that("write_dwc() returns error on missing resources", {
 
 test_that("write_dwc() returns error on missing required fields", {
   skip_if_offline()
+  temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  # Create dataset with missing cols
   ref <- read_resource(o_assen, "reference-data")
   gps <- read_resource(o_assen, "gps")
-  # Create package, use frictionless::add_resource() to add df rather than csv
   x_missing_ref_cols <-
     create_package() |>
     frictionless::add_resource("reference-data", iris) |>
@@ -176,4 +181,27 @@ test_that("write_dwc() supports custom dataset id, name, license, rights_holder"
 
   # Note: if not set, the function will default to package properties.
   # Those are present in o_assen and tested with the snapshot file.
+})
+
+test_that("write_dwc() supports datasets that only have the required fields", {
+  skip_if_offline()
+  x <- o_assen
+  temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  # Create minimal dataset
+  ref <- tibble::tribble(
+    ~"animal-id", ~"animal-taxon", ~"tag-id",
+    5515867, "Haematopus ostralegus", 5635
+  )
+  gps <- tibble::tribble(
+    ~"individual-local-identifier", ~"tag-local-identifier", ~"timestamp",
+    5515867, 5635, as.POSIXct("2018-05-09 14:59:05", "UTC")
+  )
+  x_minimal <-
+    create_package() |>
+    frictionless::add_resource("reference-data", ref) |>
+    frictionless::add_resource("gps", gps)
+
+  expect_no_error(suppressMessages(write_dwc(x_minimal, temp_dir)))
 })

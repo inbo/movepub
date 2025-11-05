@@ -20,13 +20,13 @@ create_ref_emof <- function(ref_occurrence) {
       measurementTypeID =
         "http://vocab.nerc.ac.uk/collection/P01/current/ENTSEX01/",
       measurementValue = .data$sex, # Value as is
-      measurementValueID = dplyr::recode(
+      measurementValueID = dplyr::case_match(
         .data$sex,
-        "female" = "http://vocab.nerc.ac.uk/collection/S10/current/S102/",
-        "male" = "https://vocab.nerc.ac.uk/collection/S10/current/S103/",
-        "unknown" = "https://vocab.nerc.ac.uk/collection/S10/current/S105/", # indeterminate
-        .default = NA_character_, # Don't map other values
-        .missing = "https://vocab.nerc.ac.uk/collection/S10/current/S104/" # not specified
+        "female" ~ "http://vocab.nerc.ac.uk/collection/S10/current/S102/",
+        "male" ~ "https://vocab.nerc.ac.uk/collection/S10/current/S103/",
+        "unknown" ~ "https://vocab.nerc.ac.uk/collection/S10/current/S105/", # indeterminate
+        NA ~ "https://vocab.nerc.ac.uk/collection/S10/current/S104/", # not specified
+        .default = NA_character_ # Don't map other values
       ),
       measurementUnit = NA_character_,
       measurementUnitID = "http://vocab.nerc.ac.uk/collection/P06/current/XXXX/"
@@ -41,14 +41,14 @@ create_ref_emof <- function(ref_occurrence) {
       measurementTypeID =
         "http://vocab.nerc.ac.uk/collection/P01/current/LSTAGE01/",
       measurementValue = .data$lifeStage, # Value as is
-      measurementValueID = dplyr::recode(
+      measurementValueID = dplyr::case_match(
         .data$lifeStage,
-        "adult" = "http://vocab.nerc.ac.uk/collection/S11/current/S1116/",
-        "subadult" = "https://vocab.nerc.ac.uk/collection/S11/current/S120/", # sub-adult
-        "juvenile" = "https://vocab.nerc.ac.uk/collection/S11/current/S1127/",
-        "unknown" = "http://vocab.nerc.ac.uk/collection/S11/current/S1152/", # indeterminate
-        .default = NA_character_, # Don't map other values
-        .missing = "http://vocab.nerc.ac.uk/collection/S11/current/S1131/" # not specified
+        "adult" ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1116/",
+        "subadult" ~ "https://vocab.nerc.ac.uk/collection/S11/current/S120/", # sub-adult
+        "juvenile" ~ "https://vocab.nerc.ac.uk/collection/S11/current/S1127/",
+        "unknown" ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1152/", # indeterminate
+        NA ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1131/", # not specified
+        .default = NA_character_ # Don't map other values
       ),
       measurementUnit = NA_character_,
       measurementUnitID = "http://vocab.nerc.ac.uk/collection/P06/current/XXXX/"
