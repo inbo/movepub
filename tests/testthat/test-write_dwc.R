@@ -190,11 +190,11 @@ test_that("write_dwc() supports datasets that only have the required fields", {
   on.exit(unlink(temp_dir, recursive = TRUE))
 
   # Create minimal dataset
-  ref <- tibble::tribble(
+  ref <- dplyr::tribble(
     ~"animal-id", ~"animal-taxon", ~"tag-id",
     5515867, "Haematopus ostralegus", 5635
   )
-  gps <- tibble::tribble(
+  gps <- dplyr::tribble(
     ~"individual-local-identifier", ~"tag-local-identifier", ~"timestamp",
     5515867, 5635, as.POSIXct("2018-05-09 14:59:05", "UTC")
   )
