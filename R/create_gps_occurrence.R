@@ -55,11 +55,11 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       ),
       # OCCURRENCE
       occurrenceID = as.character(.data$`event-id`),
-      sex = dplyr::recode(
+      sex = dplyr::case_match(
         .data$`animal-sex`,
-        "m" = "male",
-        "f" = "female",
-        "u" = "unknown"
+        "m" ~ "male",
+        "f" ~ "female",
+        "u" ~ "unknown"
       ),
       # Value at start of deployment might not apply to all records
       lifeStage = NA_character_,
