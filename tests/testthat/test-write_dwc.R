@@ -19,6 +19,36 @@ test_that("write_dwc() returns error on missing resources", {
   )
 })
 
+test_that("write_dwc() returns error on missing required fields", {
+  skip_if_offline()
+  ref <- read_resource(o_assen, "reference-data")
+  gps <- read_resource(o_assen, "gps")
+  # Create package, use frictionless::add_resource() to add df rather than csv
+  x_missing_ref_cols <-
+    create_package() |>
+    frictionless::add_resource("reference-data", iris) |>
+    frictionless::add_resource("gps", gps)
+  x_missing_gps_cols <-
+    create_package() |>
+    frictionless::add_resource("reference-data", ref) |>
+    frictionless::add_resource("gps", iris)
+  temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  expect_error(
+    suppressMessages(
+      write_dwc(x_missing_ref_cols, temp_dir)
+    ),
+    class = "movepub_error_ref_cols_missing"
+  )
+  expect_error(
+    suppressMessages(
+      write_dwc(x_missing_gps_cols, temp_dir)
+    ),
+    class = "movepub_error_gps_cols_missing"
+  )
+})
+
 test_that("write_dwc() writes CSV and meta.xml files to a directory and
            a list of data frames invisibly", {
   skip_if_offline()

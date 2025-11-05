@@ -90,14 +90,19 @@ write_dwc <- function(package, directory, dataset_id = package$id,
       class = "movepub_error_ref_data_missing"
     )
   }
+  ref <-
+    read_resource(package, "reference-data") |>
+    check_ref()
+
   if (!"gps" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val gps}.",
       class = "movepub_error_gps_data_missing"
     )
   }
-  ref <- read_resource(package, "reference-data")
-  gps <- read_resource(package, "gps")
+  gps <-
+    read_resource(package, "gps") |>
+    check_gps()
 
   # Lookup AphiaIDs for taxa
   names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))
