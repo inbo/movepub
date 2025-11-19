@@ -7,13 +7,12 @@
 #' @family dwc functions
 #' @noRd
 create_ref_occurrence <- function(ref, taxa) {
-  # Expand data with all columns used in Darwin Core transformation
+  # Expand data with non-required columns used in Darwin Core transformation
   ref_cols <- c(
-    "animal-id", "animal-life-stage", "animal-nickname",
-    "animal-reproductive-condition", "animal-sex", "animal-taxon",
-    "attachment-type", "deploy-on-date", "deploy-on-latitude",
-    "deploy-on-longitude", "deployment-comments", "manipulation-type", "tag-id",
-    "tag-manufacturer-name", "tag-model"
+    "animal-life-stage", "animal-nickname", "animal-reproductive-condition",
+    "animal-sex", "animal-taxon", "attachment-type", "deploy-on-date",
+    "deploy-on-latitude", "deploy-on-longitude", "deployment-comments",
+    "manipulation-type", "tag-id", "tag-manufacturer-name", "tag-model"
   )
   ref <- expand_cols(ref, ref_cols)
 
@@ -31,11 +30,11 @@ create_ref_occurrence <- function(ref, taxa) {
       occurrenceID = paste(
         .data$`animal-id`, .data$`tag-id`, "start", sep = "_" # Same as eventID
       ),
-      sex = dplyr::recode(
+      sex = dplyr::case_match(
         .data$`animal-sex`,
-        "m" = "male",
-        "f" = "female",
-        "u" = "unknown"
+        "m" ~ "male",
+        "f" ~ "female",
+        "u" ~ "unknown"
       ),
       lifeStage = .data$`animal-life-stage`,
       reproductiveCondition = .data$`animal-reproductive-condition`,
@@ -64,14 +63,14 @@ create_ref_occurrence <- function(ref, taxa) {
           paste("attached by", .data$`attachment-type`, "to "),
           "attached to "
         ),
-        dplyr::recode(
+        dplyr::case_match(
           .data$`manipulation-type`,
-          "none" = "free-ranging animal",
-          "confined" = "confined animal",
-          "recolated" = "relocated animal",
-          "manipulated other" = "manipulated animal",
-          .default = "likely free-ranging animal",
-          .missing = "likely free-ranging animal"
+          "none" ~ "free-ranging animal",
+          "confined" ~ "confined animal",
+          "recolated" ~ "relocated animal",
+          "manipulated other" ~ "manipulated animal",
+          NA ~ "likely free-ranging animal",
+          .default = "likely free-ranging animal"
         ),
         dplyr::if_else(
           !is.na(.data$`deployment-comments`),

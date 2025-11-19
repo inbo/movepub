@@ -1,5 +1,7 @@
 # movepub (development version)
 
+* `write_dwc()` now requires some fields in the source data. It also gracefully handles any non-required missing fields (#120).
+
 # movepub 0.4.0
 
 ## write_eml

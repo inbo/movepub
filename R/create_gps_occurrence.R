@@ -7,12 +7,15 @@
 #' @family dwc functions
 #' @noRd
 create_gps_occurrence <- function(gps, ref, taxa) {
-  # Expand data with all columns used in Darwin Core transformation
+  # Expand data with non-required columns used in Darwin Core transformation
+  ref_cols <- c(
+    "animal-nickname", "animal-sex"
+  )
+  ref <- expand_cols(ref, ref_cols)
   gps_cols <- c(
     "comments", "event-id", "height-above-ellipsoid", "height-above-msl",
-    "individual-local-identifier", "individual-taxon-canonical-name",
     "location-error-numerical", "location-lat", "location-long", "sensor-type",
-    "tag-local-identifier", "timestamp", "visible"
+    "visible"
   )
   gps <- expand_cols(gps, gps_cols)
 
@@ -20,7 +23,7 @@ create_gps_occurrence <- function(gps, ref, taxa) {
   occurrence <-
     gps |>
     # Exclude outliers & (rare) empty coordinates
-    dplyr::filter(.data$visible & !is.na(.data$`location-lat`)) |>
+    dplyr::filter(as.logical(.data$visible) & !is.na(.data$`location-lat`)) |>
     dplyr::mutate(
       time_per_hour = strftime(.data$timestamp, "%y-%m-%d %H %Z", tz = "UTC")
     ) |>
@@ -55,11 +58,11 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       ),
       # OCCURRENCE
       occurrenceID = as.character(.data$`event-id`),
-      sex = dplyr::recode(
+      sex = dplyr::case_match(
         .data$`animal-sex`,
-        "m" = "male",
-        "f" = "female",
-        "u" = "unknown"
+        "m" ~ "male",
+        "f" ~ "female",
+        "u" ~ "unknown"
       ),
       # Value at start of deployment might not apply to all records
       lifeStage = NA_character_,
@@ -81,12 +84,12 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       eventRemarks = dplyr::coalesce(.data$`comments`, ""),
       # LOCATION
       minimumElevationInMeters = dplyr::coalesce(
-        .data$`height-above-msl`,
+        as.numeric(.data$`height-above-msl`),
         as.numeric(.data$`height-above-ellipsoid`),
         NA_real_
       ),
       maximumElevationInMeters = dplyr::coalesce(
-        .data$`height-above-msl`,
+        as.numeric(.data$`height-above-msl`),
         as.numeric(.data$`height-above-ellipsoid`),
         NA_real_
       ),

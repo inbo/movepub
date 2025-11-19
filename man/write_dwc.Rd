@@ -86,6 +86,20 @@ contributor in \code{package$contributors} with role \code{rightsHolder}.
 }
 }
 
+\section{Required data}{
+
+The source data should have the following resources and fields:
+\itemize{
+\item \strong{reference-data} with at least the fields \code{animal-id}, \code{animal-taxon},
+and \code{tag-id}.
+Records must have a \code{deploy-on-date} to be retained.
+\item \strong{gps} with at least the fields \code{individual-local-identifier},
+\code{tag-local-identifier}, and \code{timestamp}.
+Records must have a \code{location-lat}, \code{visible = TRUE} and a link with the
+reference data to be retained.
+}
+}
+
 \examples{
 write_dwc(o_assen, directory = "my_directory")
 

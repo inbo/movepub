@@ -59,6 +59,16 @@
 #'     (e.g. `CC0-1.0`) in `package$licenses`.
 #'   - `dcterms:rightsHolder`: `rights_holder`, defaulting to the first
 #'     contributor in `package$contributors` with role `rightsHolder`.
+#'
+#' @section Required data:
+#' The source data should have the following resources and fields:
+#' - **reference-data** with at least the fields `animal-id`, `animal-taxon`,
+#'   and `tag-id`.
+#'   Records must have a `deploy-on-date` to be retained.
+#' - **gps** with at least the fields `individual-local-identifier`,
+#'   `tag-local-identifier`, and `timestamp`.
+#'   Records must have a `location-lat`, `visible = TRUE` and a link with the
+#'   reference data to be retained.
 #' @examples
 #' write_dwc(o_assen, directory = "my_directory")
 #'
@@ -87,17 +97,22 @@ write_dwc <- function(package, directory, dataset_id = package$id,
   if (!"reference-data" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val reference-data}.",
-      class = "movepub_error_reference_data_missing"
+      class = "movepub_error_ref_data_missing"
     )
   }
+  ref <-
+    read_resource(package, "reference-data") |>
+    check_ref()
+
   if (!"gps" %in% resources(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val gps}.",
       class = "movepub_error_gps_data_missing"
     )
   }
-  ref <- read_resource(package, "reference-data")
-  gps <- read_resource(package, "gps")
+  gps <-
+    read_resource(package, "gps") |>
+    check_gps()
 
   # Lookup AphiaIDs for taxa
   names <- dplyr::pull(dplyr::distinct(ref, .data$`animal-taxon`))
