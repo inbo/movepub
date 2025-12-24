@@ -33,9 +33,10 @@
     <field index="26" term="http://rs.tdwg.org/dwc/terms/decimalLongitude"/>
     <field index="27" term="http://rs.tdwg.org/dwc/terms/geodeticDatum"/>
     <field index="28" term="http://rs.tdwg.org/dwc/terms/coordinateUncertaintyInMeters"/>
-    <field index="29" term="http://rs.tdwg.org/dwc/terms/scientificNameID"/>
-    <field index="30" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
-    <field index="31" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
+    <field index="29" term="http://rs.tdwg.org/dwc/terms/identificationVerificationStatus"/>
+    <field index="30" term="http://rs.tdwg.org/dwc/terms/scientificNameID"/>
+    <field index="31" term="http://rs.tdwg.org/dwc/terms/scientificName"/>
+    <field index="32" term="http://rs.tdwg.org/dwc/terms/kingdom"/>
   </core>
     <extension encoding="UTF-8" fieldsTerminatedBy="," linesTerminatedBy="\n" fieldsEnclosedBy="&quot;" ignoreHeaderLines="1" rowType="http://rs.iobis.org/obis/terms/ExtendedMeasurementOrFact">
     <files>

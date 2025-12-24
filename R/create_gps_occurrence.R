@@ -104,6 +104,8 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       geodeticDatum = "EPSG:4326",
       coordinateUncertaintyInMeters =
         as.numeric(.data$`location-error-numerical`),
+      # IDENTIFICATION
+      identificationVerificationStatus = "verified by expert",
       # TAXON
       scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
