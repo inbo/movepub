@@ -1,7 +1,9 @@
 # movepub (development version)
 
 * `write_dwc()` now requires some fields in the source data. It also gracefully handles any non-required missing fields (#120).
-* `write_dwc()` now has `identificationVerificationStatus`, set to "verified by expert" (#125).
+* `write_dwc()` now has 2 new terms (#125):
+    - `identificationVerificationStatus` set to "verified by expert".
+    - `georeferenceSources`
 
 # movepub 0.4.0
 
