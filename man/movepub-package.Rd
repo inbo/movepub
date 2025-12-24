@@ -28,7 +28,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Sarah Davidson \email{sdavidson@ab.mpg.de} (\href{https://orcid.org/0000-0002-2766-9201}{ORCID}) (Max Planck Institute of Animal Behavior) [contributor]
-  \item Research Institute for Nature and Forest (INBO) (00j54wy13) [copyright holder]
+  \item Research Institute for Nature and Forest (INBO) (\href{https://ror.org/00j54wy13}{ROR}) [copyright holder]
   \item NLBIF (https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/) [funder]
   \item European Union (https://doi.org/10.3030/101112823) [funder]
 }
