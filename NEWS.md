@@ -1,6 +1,7 @@
 # movepub (development version)
 
-* `write_dwc()` now requires some fields in the source data. It also gracefully handles any non-required missing fields (#120).
+* `write_dwc()` now requires `animal-taxon`, `animal-id` and `tag-id` in the source data. It also gracefully handles any non-required missing fields (#120).
+* `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `GPS` for GPS sensor data) and [identificationVerificationStatus](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `verified by expert` for all records, since the taxon is assumed to be well-known before the tag was attached).
 
 # movepub 0.4.0
 

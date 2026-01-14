@@ -96,6 +96,9 @@ create_ref_occurrence <- function(ref, taxa) {
         187,
         NA_real_
       ),
+      georeferenceSources = NA_character_,
+      # IDENTIFICATION
+      identificationVerificationStatus = "verified by expert",
       # TAXON
       scientificNameID = .data$aphia_lsid,
       scientificName = .data$`animal-taxon`,
