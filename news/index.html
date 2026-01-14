@@ -35,7 +35,11 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="movepub-development-version">movepub (development version)<a class="anchor" aria-label="anchor" href="#movepub-development-version"></a></h2>
-</div>
+<ul><li>
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now requires <code>animal-taxon</code>, <code>animal-id</code> and <code>tag-id</code> in the source data. It also gracefully handles any non-required missing fields (<a href="https://github.com/inbo/movepub/issues/120" class="external-link">#120</a>).</li>
+<li>
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now adds <a href="http://rs.tdwg.org/dwc/terms/georeferenceSources" class="external-link">georeferenceSources</a> (set to <code>GPS</code> for GPS sensor data) and <a href="http://rs.tdwg.org/dwc/terms/identificationVerificationStatus" class="external-link">identificationVerificationStatus</a> (set to <code>verified by expert</code> for all records, since the taxon is assumed to be well-known before the tag was attached).</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="movepub-040">movepub 0.4.0<a class="anchor" aria-label="anchor" href="#movepub-040"></a></h2>
 <div class="section level3">
@@ -90,7 +94,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -1,0 +1,461 @@
+# Introduction to movepub
+
+``` r
+library(movepub)
+library(dplyr)
+library(readr)
+```
+
+## Make a Movebank dataset “frictionless”
+
+Frictionless Data is an open-source framework designed to remove common
+barriers to reading and understanding data. By transforming a Movebank
+dataset into a “Frictionless Data Package” ([Walsch and Pollock,
+2017](https://specs.frictionlessdata.io/data-package/)), we create a set
+of files that is better documented and easier to read programmatically,
+compared to individual files downloaded from Movebank. It is also a
+necessary step before transforming to Darwin Core with
+[`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md).
+
+Here we build a Frictionless Data Package by starting from a directory
+containing CSV data files in Movebank format (reference data and GPS
+data), and adding a `datapackage.json` file which provides persistent
+human- and machine-readable definitions of the contents of the CSV
+files. Let’s try that on an existing dataset, published in the Movebank
+Data Repository:
+
+> Griffin L (2014) Data from: Forecasting spring from afar? Timing of
+> migration and predictability of phenology along different migration
+> routes of an avian herbivore \[Svalbard data\]. Movebank Data
+> Repository. <https://doi.org/10.5441/001/1.5k6b1364>
+
+It consists of:
+
+``` r
+reference_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content"
+gps_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content"
+```
+
+And its DOI:
+
+``` r
+doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL and exclude "www."
+```
+
+Let’s bundle that into a Frictionless Data Package:
+
+``` r
+package <-
+  create_package() |>
+  append(c(id = doi), after = 0) |>
+  create_package() |> # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
+  add_resource("reference-data", reference_data) |>
+  add_resource("gps", gps_data)
+```
+
+Here’s what we did:
+
+- Initiate a package with
+  [`create_package()`](https://docs.ropensci.org/frictionless/reference/create_package.html).
+  This and other functions are reexported in movepub from the
+  [frictionless](https://frictionlessdata.github.io/frictionless-r/) R
+  package.
+- Add the DOI as package ID.
+- Add our data as two resources: `reference-data` and `gps`. These names
+  are standardized. By using the
+  [`movepub::add_resource()`](https://inbo.github.io/movepub/reference/add_resource.md)
+  (rather than the generic
+  [`frictionless::add_resource()`](https://docs.ropensci.org/frictionless/reference/add_resource.html))
+  we also looked up the definition for each field in the [Movebank
+  Attribute
+  Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/).
+
+Here’s an example of how a field is documented:
+
+``` r
+package$resources[[1]]$schema$fields[[2]]
+#> $name
+#> [1] "animal-id"
+#> 
+#> $title
+#> [1] "animal ID"
+#> 
+#> $description
+#> [1] "An individual identifier for the animal, provided by the data owner. Values are unique within the study. If the data owner does not provide an Animal ID, an internal Movebank animal identifier is sometimes shown. Example: 'TUSC_CV5'; Units: none; Entity described: individual"
+#> 
+#> $type
+#> [1] "string"
+#> 
+#> $format
+#> [1] "default"
+#> 
+#> $`skos:exactMatch`
+#> [1] "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000016/3/"
+```
+
+`package` can now be used to transform to Darwin Core (in the next step)
+or saved as a `datapackage.json` file for other uses:
+
+``` r
+write_package(package, "data/my_dataset")
+```
+
+## Transform a Movebank dataset to Darwin Core
+
+A Movebank dataset can be converted to Darwin Core using
+[`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md).
+Let’s try it out with the small dataset **O_ASSEN**. It is a bird GPS
+tracking study and dataset, available on
+[Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)
+and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
+
+[`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
+requires the dataset to be structured as a [Frictionless Data
+Package](https://specs.frictionlessdata.io/data-package/) (recognizable
+by the presence of a `datapackage.json` file). That is the case for
+O_ASSEN on Zenodo. See the previous section to create your own
+Frictionless Data Package.
+
+Let’s create two directories:
+
+``` r
+dir_source <- "data/o_assen/source" # Local directory for the source dataset
+dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darwin Core dataset
+```
+
+And download the dataset from Zenodo to the local directory. Using a
+local package avoids having to download the data again when you
+encounter an issue:
+
+``` r
+read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
+  # Remove the large acceleration resource we won't use (and thus won't download)
+  remove_resource("acceleration") |>
+  write_package(dir_source)
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
+```
+
+We then create a `package` variable pointing to the local dataset:
+
+``` r
+package <- read_package(file.path(dir_source, "datapackage.json"))
+```
+
+That covers the data. The Darwin Core transformation also needs some
+metadata for record-level terms (e.g. `dwc:datasetName`,
+`dcterms:license`, etc.). By default, these are derived from the package
+metadata (i.e. [Data
+Package](https://specs.frictionlessdata.io/data-package/) properties).
+O_ASSEN for example, has the DOI in `package$id`, which will be used for
+`dwc:datasetID`:
+
+``` r
+package$id
+#> [1] "https://doi.org/10.5281/zenodo.10053903"
+```
+
+O_ASSEN doesn’t have any other package metadata, meaning other
+record-level terms like `dwc:datasetName` and `dcterms:license` would be
+left empty. But we can provide those as parameters in
+[`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md).
+
+Let’s transform the data to Darwin Core:
+
+``` r
+write_dwc(
+  package = package,
+  directory = dir_dwc,
+  dataset_name = "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)",
+  license = "CC0-1.0",
+  rights_holder = "Vogelwerkgroep Assen"
+)
+#> 
+#> ── Reading data ──
+#> 
+#> ℹ Taxa found in reference data and their WoRMS AphiaID:
+#> Haematopus ostralegus: 147436 (<https://www.marinespecies.org/aphia.php?p=taxdetails&id=147436>)
+#> 
+#> ── Transforming data to Darwin Core ──
+#> 
+#> ── Writing files ──
+#> 
+#> • 'data/o_assen/dwc/occurrence.csv'
+#> • 'data/o_assen/dwc/meta.xml'
+#> • 'data/o_assen/dwc/emof.csv'
+```
+
+This results in 3 files: `occurrence.csv`, `emof.csv` and `meta.xml`.
+**See the
+[`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
+function documentation for transformation details.**
+
+``` r
+list.files(dir_dwc)
+#> [1] "emof.csv"       "meta.xml"       "occurrence.csv"
+```
+
+These files can be uploaded to a GBIF IPT for publication. If you also
+want to generate an `eml.xml` file, see the next section.
+
+## Transform a Movebank dataset to Ecological Metadata Language (EML)
+
+A Movebank dataset can be converted to Ecological Metadata Language
+(EML) using
+[`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md).
+Let’s try with the same O_ASSEN dataset used in the previous section.
+
+This time, the dataset does not need to be a Frictionless Data Package.
+The only requirement is that it is published and has a DOI:
+
+``` r
+doi <- "https://doi.org/10.5281/zenodo.10053903"
+```
+
+Datasets (on Zenodo, GBIF, Movebank) get their DOI from
+[DataCite](https://datacite.org/), which also stores some of the
+metadata of the dataset.
+[`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
+will use DataCite to retrieve that metadata and convert it to EML. Since
+some non-mandatory metadata might not be present, the function allows
+you to explicitely provide a **contact** (used for contact and metadata
+provider) and the **Movebank Study ID** (used for external link and
+alternative identifier):
+
+``` r
+contact <- person(
+  given = "Peter",
+  family = "Desmet",
+  email = "peter.desmet@inbo.be",
+  comment = c(ORCID = "0000-0002-8442-8025")
+)
+study_id <- 1605797471
+```
+
+Let’s transform the metadata to EML:
+
+``` r
+eml <- write_eml(
+  doi = doi,
+  directory = dir_dwc,
+  contact = contact,
+  study_id = study_id,
+  derived_paragraph = TRUE
+)
+#> 
+#> ── Writing file ──
+#> 
+#> • 'data/o_assen/dwc/eml.xml'
+```
+
+The resulting `eml.xml` file includes the metadata. **See the
+[`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
+function documentation for transformation details.**
+
+``` r
+eml
+#> $packageId
+#> [1] "887f5f8b-f3df-40b8-8220-04ed865691a5"
+#> 
+#> $system
+#> [1] "uuid"
+#> 
+#> $dataset
+#> $dataset$title
+#> [1] "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands)"
+#> 
+#> $dataset$abstract
+#> $dataset$abstract$para
+#> [1] "O_ASSEN - Eurasian oystercatchers (Haematopus ostralegus, Haematopodidae) breeding in Assen (the Netherlands) is a bird tracking dataset published by the Vogelwerkgroep Assen, Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University, the University of Amsterdam and the Research Institute for Nature and Forest (INBO). It contains animal tracking data collected for the study O_ASSEN using trackers developed by the University of Amsterdam Bird Tracking System (UvA-BiTS, http://www.uva-bits.nl). The study was operational from 2018 to 2019. In total 6 individuals of Eurasian oystercatchers (Haematopus ostralegus) have been tagged as a breeding bird in the city of Assen (the Netherlands), mainly to study space use of oystercatchers breeding in urban areas. Data are uploaded from the UvA-BiTS database to Movebank and from there archived on Zenodo (see https://github.com/inbo/bird-tracking). No new data are expected.\n\nSee van der Kolk et al. (2022, https://doi.org/10.3897/zookeys.1123.90623) for a more detailed description of this dataset.\n\nFiles\n\nData in this package are exported from Movebank study 1605797471. Fields in the data follow the Movebank Attribute Dictionary and are described in datapackage.json. Files are structured as a Frictionless Data Package. You can access all data in R via https://zenodo.org/records/10053903/files/datapackage.json using frictionless.\n\n\n\ndatapackage.json: technical description of the data files.\n\nO_ASSEN-reference-data.csv: reference data about the animals, tags and deployments.\n\nO_ASSEN-gps-yyyy.csv.gz: GPS data recorded by the tags, grouped by year.\n\nO_ASSEN-acceleration-yyyy.csv.gz: acceleration data recorded by the tags, grouped by year.\n\n\nAcknowledgements\n\nThese data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroep Assen, in collaboration with the Netherlands Institute of Ecology (NIOO-KNAW), Sovon, Radboud University and the University of Amsterdam (UvA). Funding was provided by the Prins Bernard Cultuurfonds Drenthe, municipality of Assen, IJsvogelfonds (from Birdlife Netherlands and Nationale Postcodeloterij) and the Waterleiding Maatschappij Drenthe. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility."
+#> [2] "Changelog\n\n\n\nAdd alt-project-id to the reference-data.\n\nReference the latest Movebank Attribute Dictionary."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+#> [3] "Data have been standardized to Darwin Core using the <ulink url=\"https://inbo.github.io/movepub/\"><citetitle>movepub</citetitle></ulink> R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <ulink url=\"https://doi.org/10.5281/zenodo.10053903\"><citetitle>https://doi.org/10.5281/zenodo.10053903</citetitle></ulink>), a deposit of Movebank study <ulink url=\"https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471\"><citetitle>1605797471</citetitle></ulink>."                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+#> 
+#> 
+#> $dataset$keywordSet
+#> $dataset$keywordSet[[1]]
+#> $dataset$keywordSet[[1]]$keywordThesaurus
+#> [1] "n/a"
+#> 
+#> $dataset$keywordSet[[1]]$keyword
+#>  [1] "animal movement"  "animal tracking"  "gps tracking"     "accelerometer"    "altitude"         "temperature"     
+#>  [7] "biologging"       "birds"            "UvA-BiTS"         "Movebank"         "frictionlessdata"
+#> 
+#> 
+#> 
+#> $dataset$creator
+#> $dataset$creator[[1]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Bert
+#>   surName: Dijkstra
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId: ~
+#> 
+#> $dataset$creator[[2]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Rinus
+#>   surName: Dillerop
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId: ~
+#> 
+#> $dataset$creator[[3]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Kees
+#>   surName: Oosterbeek
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId: ~
+#> 
+#> $dataset$creator[[4]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Willem
+#>   surName: Bouten
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId:
+#>   directory: https://orcid.org/
+#>   '': 0000-0002-5250-8872
+#> 
+#> $dataset$creator[[5]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Peter
+#>   surName: Desmet
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId:
+#>   directory: https://orcid.org/
+#>   '': 0000-0002-8442-8025
+#> 
+#> $dataset$creator[[6]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Henk-Jan
+#>   surName: van der Kolk
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId:
+#>   directory: https://orcid.org/
+#>   '': 0000-0002-8023-379X
+#> 
+#> $dataset$creator[[7]]
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: ~
+#> individualName:
+#>   givenName: Bruno J.
+#>   surName: Ens
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId:
+#>   directory: https://orcid.org/
+#>   '': 0000-0002-4659-4807
+#> 
+#> 
+#> $dataset$contact
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: peter.desmet@inbo.be
+#> individualName:
+#>   givenName: Peter
+#>   surName: Desmet
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId:
+#>   directory: https://orcid.org/
+#>   '': 0000-0002-8442-8025
+#> 
+#> $dataset$pubDate
+#> [1] "2023-10-30"
+#> 
+#> $dataset$alternateIdentifier
+#> [1] "https://doi.org/10.5281/zenodo.10053903"                                           
+#> [2] "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"
+#> 
+#> $dataset$intellectualRights
+#> $dataset$intellectualRights$para
+#> [1] "cc0-1.0"
+#> 
+#> 
+#> $dataset$metadataProvider
+#> '@id': ~
+#> address: ~
+#> electronicMailAddress: peter.desmet@inbo.be
+#> individualName:
+#>   givenName: Peter
+#>   surName: Desmet
+#> onlineUrl: ~
+#> organizationName: ~
+#> phone: ~
+#> positionName: ~
+#> userId:
+#>   directory: https://orcid.org/
+#>   '': 0000-0002-8442-8025
+#> 
+#> $dataset$distribution
+#> $dataset$distribution$scope
+#> [1] "document"
+#> 
+#> $dataset$distribution$online
+#> $dataset$distribution$online$url
+#> $dataset$distribution$online$url$`function`
+#> [1] "information"
+#> 
+#> $dataset$distribution$online$url[[2]]
+#> [1] "https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"
+```
+
+This `eml.xml` file can be uploaded to a GBIF IPT for publication.
+Notice that by default,
+[`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
+will add an extra paragraph explaining that data have been transformed
+to Darwin Core. You can turn this off with `derived_paragraph = FALSE`:
+
+``` r
+eml$dataset$abstract$para[[3]]
+#> [1] "Data have been standardized to Darwin Core using the <ulink url=\"https://inbo.github.io/movepub/\"><citetitle>movepub</citetitle></ulink> R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <ulink url=\"https://doi.org/10.5281/zenodo.10053903\"><citetitle>https://doi.org/10.5281/zenodo.10053903</citetitle></ulink>), a deposit of Movebank study <ulink url=\"https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471\"><citetitle>1605797471</citetitle></ulink>."
+```
+
+## Example dataset
+
+See the O_ASSEN example on an
+[IPT](https://ipt.inbo.be/resource?r=o_assen) and at
+[GBIF](https://www.gbif.org/dataset/226421f2-1d29-4950-901c-aba9d0e8f2bc)
+for an example of a dataset that was published using
+[`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
+and
+[`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md).
