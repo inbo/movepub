@@ -22,8 +22,8 @@
 
 ## Other
 
-* movepub now relies on R >= 4.1.0 (because of move2 dependency) and uses base pipes (`|>` rather than `%>%`) (#98).
-* Many functions of [frictionless](https://docs.ropensci.org/frictionless/) are now reexported by movepub, so you no longer have to load that package to create Data Packages (#54).
+* movepub now relies on R >= 4.1.0 (because of `{move2}` dependency) and uses base pipes (`|>` rather than `%>%`) (#98).
+* Many functions of `{frictionless}` are now reexported by movepub, so you no longer have to load that package to create Data Packages (#54).
 * `get_mvb_term()` is deprecated in favour of `move2::movebank_get_vocabulary()` (#60).
 * [Sanne Govaert](https://orcid.org/0000-0002-8939-1305) is added as author.
 
