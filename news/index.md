@@ -74,13 +74,14 @@
 
 ### Other
 
-- movepub now relies on R \>= 4.1.0 (because of move2 dependency) and
-  uses base pipes (`|>` rather than `%>%`)
+- movepub now relies on R \>= 4.1.0 (because of
+  [move2](https://bartk.gitlab.io/move2/) dependency) and uses base
+  pipes (`|>` rather than `%>%`)
   ([\#98](https://github.com/inbo/movepub/issues/98)).
 - Many functions of
-  [frictionless](https://docs.ropensci.org/frictionless/) are now
-  reexported by movepub, so you no longer have to load that package to
-  create Data Packages
+  [frictionless](https://github.com/frictionlessdata/frictionless-r) are
+  now reexported by movepub, so you no longer have to load that package
+  to create Data Packages
   ([\#54](https://github.com/inbo/movepub/issues/54)).
 - [`get_mvb_term()`](https://inbo.github.io/movepub/reference/get_mvb_term.md)
   is deprecated in favour of
