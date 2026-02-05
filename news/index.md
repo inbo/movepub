@@ -93,8 +93,8 @@
 ## movepub 0.3.0
 
 - [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
-  now makes use of dplyr rather than SQL for its transformation. This
-  reduces the number of dependencies
+  now makes use of [dplyr](https://dplyr.tidyverse.org) rather than SQL
+  for its transformation. This reduces the number of dependencies
   ([\#61](https://github.com/inbo/movepub/issues/61)).
 
 ## movepub 0.2.0

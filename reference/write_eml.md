@@ -136,7 +136,7 @@ Other dwc functions:
 #> 
 #> • my_directory/eml.xml
 #> $packageId
-#> [1] "9decfc06-09df-41e7-8775-66276eeb7f46"
+#> [1] "1a0c7bfe-bb88-45fe-b45a-bea4084fbe97"
 #> 
 #> $system
 #> [1] "uuid"
