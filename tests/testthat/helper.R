@@ -48,25 +48,24 @@ expect_meta_match <- function(file, core = "occurrence.csv", ...) {
   xml_file_fields <-
     xml_list |>
     purrr::chuck("archive", core_or_extension) |>
-    purrr::map_dfr(~ dplyr::tibble(
+    purrr::map(~ dplyr::tibble(
       index = as.numeric(attr(.x, which = "index")),
       term = attr(.x, which = "term")
     )) |>
+    purrr::list_rbind() |>
     dplyr::filter(!is.na(term)) |>
     dplyr::mutate(field = basename(term), .keep = "unused")
 
   # Get fields from csv
   csv_file_cols <-
-    readr::read_csv(file, show_col_types = FALSE) |>
-    colnames() |>
-    purrr::map_chr(~ sub("^[A-Za-z]+:", "", .x)) # Remove namespace like "dcterms:"
+    readr::read_csv(file, show_col_types = FALSE, n_max = 0) |>
+    names() |>
+    purrr::map_chr(~ stringr::str_remove(.x, "^[A-Za-z]+:")) # Remove namespace like "dcterms:"
   csv_file_fields <-
-    dplyr::tibble(
-      index = 1:length(csv_file_cols) - 1,
-      field = csv_file_cols
-    )
+    dplyr::tibble(field = csv_file_cols) |>
+    dplyr::mutate(index = seq_len(length(csv_file_cols)) - 1, .before = field) # Add index
 
   # Compare
-  testthat::expect_identical(csv_file_fields, xml_file_fields, )
+  testthat::expect_identical(csv_file_fields, xml_file_fields)
   testthat::expect_identical(basename(file), xml_file_location)
 }
