@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15017582.svg)](https://doi.org/10.5281/zenodo.15017582)
 <!-- badges: end -->
 
-Movepub is an R package to prepare animal tracking data from [Movebank](https://www.movebank.org/) for publication in a research repository. With movepub you can document data with metadata following the [Data Package](https://specs.frictionlessdata.io/) standard and transform these to [Darwin Core](https://dwc.tdwg.org) and Ecological Metadata Language ([EML](https://eml.ecoinformatics.org/)) for publication to the Global Biodiversity Information Facility ([GBIF](https://www.gbif.org)) and the Ocean Biodiversity Information System ([OBIS](https://obis.org)).
+movepub is an R package to prepare animal tracking data from [Movebank](https://www.movebank.org/) for publication in a research repository. With movepub you can document data with metadata following the [Data Package](https://specs.frictionlessdata.io/) standard and transform these to [Darwin Core](https://dwc.tdwg.org) and Ecological Metadata Language ([EML](https://eml.ecoinformatics.org/)) for publication to the Global Biodiversity Information Facility ([GBIF](https://www.gbif.org)) and the Ocean Biodiversity Information System ([OBIS](https://obis.org)).
 
 To get started, see:
 
@@ -37,9 +37,9 @@ Note that Movebank users retain ownership of their data, and use should follow t
 
 You can install the development version of movepub from [GitHub](https://github.com/) with:
 
-```{r, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("inbo/movepub")
+``` r
+# install.packages("pak")
+pak::pak("inbo/movepub")
 ```
 
 ## Usage
@@ -47,7 +47,7 @@ devtools::install_github("inbo/movepub")
 This package supports two use cases:
 
 - [Make a Movebank dataset "frictionless"](https://inbo.github.io/movepub/articles/movepub.html#frictionless) with `add_resource()`. This is useful when publishing a dataset on e.g. [Zenodo](https://zenodo.org).
-- [Transform a Movebank dataset to Darwin Core](https://inbo.github.io/movepub/articles/movepub.html#dwc) with `write_dwc()`. This is necessary when publishing a dataset to [GBIF](https://www.gbif.org).
+- [Transform a Movebank dataset to Darwin Core](https://inbo.github.io/movepub/articles/movepub.html#dwc) with `write_dwc()`. This is necessary when publishing a dataset to [GBIF](https://www.gbif.org) and/or [OBIS](https://obis.org).
 
 ## Meta
 

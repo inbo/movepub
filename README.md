@@ -13,7 +13,7 @@ status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repost
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15017582.svg)](https://doi.org/10.5281/zenodo.15017582)
 <!-- badges: end -->
 
-Movepub is an R package to prepare animal tracking data from
+movepub is an R package to prepare animal tracking data from
 [Movebank](https://www.movebank.org/) for publication in a research
 repository. With movepub you can document data with metadata following
 the [Data Package](https://specs.frictionlessdata.io/) standard and
@@ -46,8 +46,8 @@ You can install the development version of movepub from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("inbo/movepub")
+# install.packages("pak")
+pak::pak("inbo/movepub")
 ```
 
 ## Usage
@@ -61,7 +61,7 @@ This package supports two use cases:
 - [Transform a Movebank dataset to Darwin
   Core](https://inbo.github.io/movepub/articles/movepub.html#dwc) with
   `write_dwc()`. This is necessary when publishing a dataset to
-  [GBIF](https://www.gbif.org).
+  [GBIF](https://www.gbif.org) and/or [OBIS](https://obis.org).
 
 ## Meta
 
