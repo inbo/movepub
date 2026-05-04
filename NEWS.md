@@ -1,7 +1,7 @@
 # movepub (development version)
 
 * `write_dwc()` now requires `animal-taxon`, `animal-id` and `tag-id` in the source data. It also gracefully handles any non-required missing fields (#120).
-* `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `GPS` for GPS sensor data) and [identificationVerificationStatus](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `verified by expert` for all records, since the taxon is assumed to be well-known before the tag was attached).
+* `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `"GPS"` for GPS sensor data) and [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `"verified by expert"` for all records, since the taxon is assumed to be well-known before the tag was attached).
 
 # movepub 0.4.0
 
@@ -10,7 +10,7 @@
 * `write_eml()` is now a separate function from `write_dwc()` (#57).
 * `write_eml()` now formats the `derived_paragraph` as DocBook (rather than HTML), a format supported by EML and the GBIF IPT (#102). The paragraph is also shorter and added at the end of the abstract (#76).
 * New `html_to_docbook()` allows to convert a string or character vector from HTML to DocBook. You can use this to convert descriptions in order to have valid EML (#101).
-* `write_eml()` and `write_dwc()` no longer add `[subsampled representation]` to the dataset title (#76).
+* `write_eml()` and `write_dwc()` no longer add `"[subsampled representation]"` to the dataset title (#76).
 
 ## write_dwc
 
