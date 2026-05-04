@@ -1,15 +1,14 @@
-#' Transform Movebank data to a Darwin Core Archive
+#' Transform a Data Package with Movebank data to a Darwin Core Archive
 #'
-#' Transforms a Movebank dataset (formatted as a [Frictionless Data Package](
-#' https://specs.frictionlessdata.io/data-package/)) to a [Darwin Core
-#' Archive](https://dwc.tdwg.org/text/).
+#' Transforms a Data Package with Movebank data to a [Darwin Core Archive](
+#' https://dwc.tdwg.org/text/).
 #'
-#' The resulting files can be uploaded to an [IPT](https://www.gbif.org/ipt)
-#' for publication to GBIF and/or OBIS.
+#' The resulting files can be uploaded to an [IPT](https://www.gbif.org/ipt) for
+#' publication to GBIF and/or OBIS.
 #' A corresponding `eml.xml` metadata file can be created with [write_eml()].
 #' See `vignette("movepub")` for an example.
 #'
-#' @param package A Frictionless Data Package of Movebank data, as returned by
+#' @param package A Data Package with Movebank data, as returned by
 #'   [read_package()].
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
@@ -23,8 +22,8 @@
 #' @family dwc functions
 #' @export
 #' @section Transformation details:
-#' This function **follows recommendations** suggested by Peter Desmet,
-#' Sarah Davidson, John Wieczorek and others and transforms data to:
+#' This function **follows recommendations** suggested by Peter Desmet, Sarah
+#' Davidson, John Wieczorek and others and transforms data to:
 #' - An [Occurrence core](
 #'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
 #' - An [Extended Measurement Or Facts extension](

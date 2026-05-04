@@ -91,7 +91,7 @@ create_ref_occurrence <- function(ref, taxa) {
       ),
       coordinateUncertaintyInMeters = dplyr::if_else(
         !is.na(.data$`deploy-on-latitude`),
-        # Assume coordinate precision of 0.001 degree (157m) and recording
+        # Assume coordinate precision of 0.001 degree (157m) and recorded
         # by GPS (30m)
         187,
         NA_real_

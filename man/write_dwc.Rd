@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_dwc.R
 \name{write_dwc}
 \alias{write_dwc}
-\title{Transform Movebank data to a Darwin Core Archive}
+\title{Transform a Data Package with Movebank data to a Darwin Core Archive}
 \usage{
 write_dwc(
   package,
@@ -14,7 +14,7 @@ write_dwc(
 )
 }
 \arguments{
-\item{package}{A Frictionless Data Package of Movebank data, as returned by
+\item{package}{A Data Package with Movebank data, as returned by
 \code{\link[=read_package]{read_package()}}.
 It is expected to contain a \code{reference-data} and \code{gps} resource.}
 
@@ -34,18 +34,18 @@ CSV and \code{meta.xml} files written to disk.
 And invisibly, a list of data frames with the transformed data.
 }
 \description{
-Transforms a Movebank dataset (formatted as a \href{https://specs.frictionlessdata.io/data-package/}{Frictionless Data Package}) to a \href{https://dwc.tdwg.org/text/}{Darwin Core Archive}.
+Transforms a Data Package with Movebank data to a \href{https://dwc.tdwg.org/text/}{Darwin Core Archive}.
 }
 \details{
-The resulting files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT}
-for publication to GBIF and/or OBIS.
+The resulting files can be uploaded to an \href{https://www.gbif.org/ipt}{IPT} for
+publication to GBIF and/or OBIS.
 A corresponding \code{eml.xml} metadata file can be created with \code{\link[=write_eml]{write_eml()}}.
 See \code{vignette("movepub")} for an example.
 }
 \section{Transformation details}{
 
-This function \strong{follows recommendations} suggested by Peter Desmet,
-Sarah Davidson, John Wieczorek and others and transforms data to:
+This function \strong{follows recommendations} suggested by Peter Desmet, Sarah
+Davidson, John Wieczorek and others and transforms data to:
 \itemize{
 \item An \href{https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml}{Occurrence core}.
 \item An \href{https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml}{Extended Measurement Or Facts extension}
