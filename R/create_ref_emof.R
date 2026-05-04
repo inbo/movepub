@@ -23,9 +23,9 @@ create_ref_emof <- function(ref_occurrence) {
       measurementValueID = dplyr::case_match(
         .data$sex,
         "female" ~ "http://vocab.nerc.ac.uk/collection/S10/current/S102/",
-        "male" ~ "https://vocab.nerc.ac.uk/collection/S10/current/S103/",
-        "unknown" ~ "https://vocab.nerc.ac.uk/collection/S10/current/S105/", # indeterminate
-        NA ~ "https://vocab.nerc.ac.uk/collection/S10/current/S104/", # not specified
+        "male" ~ "http://vocab.nerc.ac.uk/collection/S10/current/S103/",
+        "unknown" ~ "http://vocab.nerc.ac.uk/collection/S10/current/S105/", # indeterminate
+        NA ~ "http://vocab.nerc.ac.uk/collection/S10/current/S104/", # not specified
         .default = NA_character_ # Don't map other values
       ),
       measurementUnit = NA_character_,
@@ -44,8 +44,8 @@ create_ref_emof <- function(ref_occurrence) {
       measurementValueID = dplyr::case_match(
         .data$lifeStage,
         "adult" ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1116/",
-        "subadult" ~ "https://vocab.nerc.ac.uk/collection/S11/current/S120/", # sub-adult
-        "juvenile" ~ "https://vocab.nerc.ac.uk/collection/S11/current/S1127/",
+        "subadult" ~ "http://vocab.nerc.ac.uk/collection/S11/current/S120/", # sub-adult
+        "juvenile" ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1127/",
         "unknown" ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1152/", # indeterminate
         NA ~ "http://vocab.nerc.ac.uk/collection/S11/current/S1131/", # not specified
         .default = NA_character_ # Don't map other values
