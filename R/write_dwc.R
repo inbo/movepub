@@ -19,7 +19,7 @@
 #'   rights over the data.
 #' @return CSV and `meta.xml` files written to disk.
 #'   And invisibly, a list of data frames with the transformed data.
-#' @family dwc functions
+#' @family transformation functions
 #' @export
 #' @section Transformation details:
 #' This function **follows recommendations** suggested by Peter Desmet, Sarah

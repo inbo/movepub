@@ -9,7 +9,7 @@ reference:
   - has_concept("frictionless functions")
 - title: Transform a Movebank dataset to Darwin Core
   contents:
-  - has_concept("dwc functions")
+  - has_concept("transformation functions")
 - title: Support functions
   contents:
   - has_concept("support functions")

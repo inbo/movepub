@@ -19,7 +19,7 @@
 #'   abstract, indicating that data have been transformed using [write_dwc()].
 #' @return `eml.xml` file written to disk.
 #'   And invisibly, an [EML::eml] object.
-#' @family dwc functions
+#' @family transformation functions
 #' @export
 #' @section Transformation details:
 #' Metadata are derived from the original dataset by looking up its `doi` in
