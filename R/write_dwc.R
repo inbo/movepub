@@ -27,8 +27,8 @@
 #' Sarah Davidson, John Wieczorek and others and transforms data to:
 #' - An [Occurrence core](
 #'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
-#' - An [Extended Measurements Or Facts extension](
-#' https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
+#' - An [Extended Measurement Or Facts extension](
+#'   https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
 #' - A `meta.xml` file.
 #'
 #' Key features of the Darwin Core transformation:
@@ -40,8 +40,8 @@
 #'   observation and `parentEventID` shared by all occurrences in a deployment.
 #' - The tag attachment event often contains metadata about the animal (sex,
 #'   life stage, comments) and deployment as a whole.
-#'   The sex and life stage are additionally provided in an Extended Measurement
-#'   Or Facts extension, where values are mapped to a controlled vocabulary
+#'   Sex and life stage are additionally provided in an Extended Measurement Or
+#'   Facts extension, where values are mapped to a controlled vocabulary
 #'   recommended by [OBIS](https://obis.org/).
 #' - No event/occurrence is created for the deployment end, since the end date
 #'   is often undefined, unreliable and/or does not represent an animal
@@ -168,6 +168,7 @@ write_dwc <- function(package, directory, dataset_id = package$id,
   # Return list with Darwin Core data invisibly
   return <- list(
     occurrence = dplyr::as_tibble(occurrence),
-    emof = dplyr::as_tibble(emof))
+    emof = dplyr::as_tibble(emof)
+  )
   invisible(return)
 }

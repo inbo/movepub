@@ -1,4 +1,4 @@
-#' Create Extended Measurements Or Facts from Darwin Core Occurrence data
+#' Create Extended Measurement Or Facts from Darwin Core Occurrence data
 #'
 #' Pulls the **sex** and **life stage** information from the Darwin Core
 #' Occurrence data created with `create_ref_occurrence()` and maps these values
