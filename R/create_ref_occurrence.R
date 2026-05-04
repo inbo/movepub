@@ -30,7 +30,7 @@ create_ref_occurrence <- function(ref, taxa) {
       occurrenceID = paste(
         .data$`animal-id`, .data$`tag-id`, "start", sep = "_" # Same as eventID
       ),
-      sex = dplyr::case_match(
+      sex = dplyr::recode_values(
         .data$`animal-sex`,
         "m" ~ "male",
         "f" ~ "female",
@@ -63,14 +63,14 @@ create_ref_occurrence <- function(ref, taxa) {
           paste("attached by", .data$`attachment-type`, "to "),
           "attached to "
         ),
-        dplyr::case_match(
+        dplyr::recode_values(
           .data$`manipulation-type`,
           "none" ~ "free-ranging animal",
           "confined" ~ "confined animal",
           "recolated" ~ "relocated animal",
           "manipulated other" ~ "manipulated animal",
           NA ~ "likely free-ranging animal",
-          .default = "likely free-ranging animal"
+          default = "likely free-ranging animal"
         ),
         dplyr::if_else(
           !is.na(.data$`deployment-comments`),

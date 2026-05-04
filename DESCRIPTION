@@ -29,7 +29,7 @@ Depends:
     R (>= 4.1.0)
 Imports:
     cli,
-    dplyr,
+    dplyr (>= 1.2.0),
     EML,
     frictionless,
     jsonlite,
