@@ -66,7 +66,7 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
     list.files(temp_dir),
     c("emof.csv", "meta.xml", "occurrence.csv")
   )
-  expect_identical(names(result), c("occurrence", "emof"))
+  expect_named(result, c("occurrence", "emof"))
   expect_s3_class(result$occurrence, "tbl")
   expect_s3_class(result$emof, "tbl")
   expect_invisible(suppressMessages(write_dwc(x, temp_dir)))
