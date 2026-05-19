@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_resource.R
 \name{add_resource}
 \alias{add_resource}
-\title{Add Movebank data to a Frictionless Data Package}
+\title{Add Movebank data to a Data Package}
 \usage{
 add_resource(package, resource_name, files, keys = TRUE)
 }
@@ -19,15 +19,18 @@ this resource, as a character (vector).}
 the Table Schema.}
 }
 \value{
-Provided \code{package} with one additional resource.
+\code{package} with one additional resource.
 }
 \description{
 Adds Movebank data (\code{reference-data}, \code{gps}, \code{acceleration},
-\code{accessory-measurements}) as a  Data Resource to a Frictionless Data Package.
-The function extends \code{\link[frictionless:add_resource]{frictionless::add_resource()}}.
-The title, definition, format and URI of each field are looked up in the
-latest version of the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary} and included in the Table
-Schema of the resource.
+\code{accessory-measurements}) as a Data Resource to a Data Package.
+The function extends \code{\link[frictionless:add_resource]{frictionless::add_resource()}} by adding the following
+to the Table Schema of the resource:
+\itemize{
+\item The title, definition, format and URI for each field, from the latest
+version of the \href{http://vocab.nerc.ac.uk/collection/MVB/current/}{Movebank Attribute Dictionary}.
+\item The primary key of the resource and foreign keys between resources.
+}
 }
 \details{
 See \code{vignette("movepub")} for examples.

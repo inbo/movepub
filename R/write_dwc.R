@@ -1,15 +1,14 @@
-#' Transform Movebank data to a Darwin Core Archive
+#' Transform a Data Package with Movebank data to a Darwin Core Archive
 #'
-#' Transforms a Movebank dataset (formatted as a [Frictionless Data Package](
-#' https://specs.frictionlessdata.io/data-package/)) to a [Darwin Core
-#' Archive](https://dwc.tdwg.org/text/).
+#' Transforms a Data Package with Movebank data to a [Darwin Core Archive](
+#' https://dwc.tdwg.org/text/).
 #'
-#' The resulting files can be uploaded to an [IPT](https://www.gbif.org/ipt)
-#' for publication to GBIF and/or OBIS.
+#' The resulting files can be uploaded to an [IPT](https://www.gbif.org/ipt) for
+#' publication to GBIF and/or OBIS.
 #' A corresponding `eml.xml` metadata file can be created with [write_eml()].
 #' See `vignette("movepub")` for an example.
 #'
-#' @param package A Frictionless Data Package of Movebank data, as returned by
+#' @param package A Data Package with Movebank data, as returned by
 #'   [read_package()].
 #'   It is expected to contain a `reference-data` and `gps` resource.
 #' @param directory Path to local directory to write files to.
@@ -20,15 +19,15 @@
 #'   rights over the data.
 #' @return CSV and `meta.xml` files written to disk.
 #'   And invisibly, a list of data frames with the transformed data.
-#' @family dwc functions
+#' @family transformation functions
 #' @export
 #' @section Transformation details:
-#' This function **follows recommendations** suggested by Peter Desmet,
-#' Sarah Davidson, John Wieczorek and others and transforms data to:
+#' This function **follows recommendations** suggested by Peter Desmet, Sarah
+#' Davidson, John Wieczorek and others and transforms data to:
 #' - An [Occurrence core](
 #'   https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
-#' - An [Extended Measurements Or Facts extension](
-#' https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
+#' - An [Extended Measurement Or Facts extension](
+#'   https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
 #' - A `meta.xml` file.
 #'
 #' Key features of the Darwin Core transformation:
@@ -40,8 +39,8 @@
 #'   observation and `parentEventID` shared by all occurrences in a deployment.
 #' - The tag attachment event often contains metadata about the animal (sex,
 #'   life stage, comments) and deployment as a whole.
-#'   The sex and life stage are additionally provided in an Extended Measurement
-#'   Or Facts extension, where values are mapped to a controlled vocabulary
+#'   Sex and life stage are additionally provided in an Extended Measurement Or
+#'   Facts extension, where values are mapped to a controlled vocabulary
 #'   recommended by [OBIS](https://obis.org/).
 #' - No event/occurrence is created for the deployment end, since the end date
 #'   is often undefined, unreliable and/or does not represent an animal
@@ -168,6 +167,7 @@ write_dwc <- function(package, directory, dataset_id = package$id,
   # Return list with Darwin Core data invisibly
   return <- list(
     occurrence = dplyr::as_tibble(occurrence),
-    emof = dplyr::as_tibble(emof))
+    emof = dplyr::as_tibble(emof)
+  )
   invisible(return)
 }
