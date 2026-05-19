@@ -3,12 +3,12 @@
 ## Make a Movebank dataset “frictionless”
 
 - [`add_resource()`](https://inbo.github.io/movepub/reference/add_resource.md)
-  : Add Movebank data to a Frictionless Data Package
+  : Add Movebank data to a Data Package
 
 ## Transform a Movebank dataset to Darwin Core
 
 - [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
-  : Transform Movebank data to a Darwin Core Archive
+  : Transform a Data Package with Movebank data to a Darwin Core Archive
 - [`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
   : Transform Movebank metadata to EML
 

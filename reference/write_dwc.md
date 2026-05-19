@@ -1,8 +1,7 @@
-# Transform Movebank data to a Darwin Core Archive
+# Transform a Data Package with Movebank data to a Darwin Core Archive
 
-Transforms a Movebank dataset (formatted as a [Frictionless Data
-Package](https://specs.frictionlessdata.io/data-package/)) to a [Darwin
-Core Archive](https://dwc.tdwg.org/text/).
+Transforms a Data Package with Movebank data to a [Darwin Core
+Archive](https://dwc.tdwg.org/text/).
 
 ## Usage
 
@@ -21,7 +20,7 @@ write_dwc(
 
 - package:
 
-  A Frictionless Data Package of Movebank data, as returned by
+  A Data Package with Movebank data, as returned by
   [`read_package()`](https://docs.ropensci.org/frictionless/reference/read_package.html).
   It is expected to contain a `reference-data` and `gps` resource.
 
@@ -69,7 +68,7 @@ Sarah Davidson, John Wieczorek and others and transforms data to:
 - An [Occurrence
   core](https://rs.gbif.org/core/dwc_occurrence_2022-02-02.xml).
 
-- An [Extended Measurements Or Facts
+- An [Extended Measurement Or Facts
   extension](https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml)
 
 - A `meta.xml` file.
@@ -84,9 +83,9 @@ Key features of the Darwin Core transformation:
   shared by all occurrences in a deployment.
 
 - The tag attachment event often contains metadata about the animal
-  (sex, life stage, comments) and deployment as a whole. The sex and
-  life stage are additionally provided in an Extended Measurement Or
-  Facts extension, where values are mapped to a controlled vocabulary
+  (sex, life stage, comments) and deployment as a whole. Sex and life
+  stage are additionally provided in an Extended Measurement Or Facts
+  extension, where values are mapped to a controlled vocabulary
   recommended by [OBIS](https://obis.org/).
 
 - No event/occurrence is created for the deployment end, since the end
@@ -129,7 +128,7 @@ The source data should have the following resources and fields:
 
 ## See also
 
-Other dwc functions:
+Other transformation functions:
 [`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
 
 ## Examples

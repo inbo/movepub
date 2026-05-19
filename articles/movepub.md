@@ -1,6 +1,7 @@
 # Introduction to movepub
 
 ``` r
+
 library(movepub)
 library(dplyr)
 library(readr)
@@ -10,19 +11,18 @@ library(readr)
 
 Frictionless Data is an open-source framework designed to remove common
 barriers to reading and understanding data. By transforming a Movebank
-dataset into a “Frictionless Data Package” ([Walsch and Pollock,
+dataset into a “Data Package” ([Walsch and Pollock,
 2017](https://specs.frictionlessdata.io/data-package/)), we create a set
 of files that is better documented and easier to read programmatically,
 compared to individual files downloaded from Movebank. It is also a
 necessary step before transforming to Darwin Core with
 [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md).
 
-Here we build a Frictionless Data Package by starting from a directory
-containing CSV data files in Movebank format (reference data and GPS
-data), and adding a `datapackage.json` file which provides persistent
-human- and machine-readable definitions of the contents of the CSV
-files. Let’s try that on an existing dataset, published in the Movebank
-Data Repository:
+Here we build a Data Package by starting from a directory containing CSV
+data files in Movebank format (reference data and GPS data), and adding
+a `datapackage.json` file which provides persistent human- and
+machine-readable definitions of the contents of the CSV files. Let’s try
+that on an existing dataset, published in the Movebank Data Repository:
 
 > Griffin L (2014) Data from: Forecasting spring from afar? Timing of
 > migration and predictability of phenology along different migration
@@ -32,6 +32,7 @@ Data Repository:
 It consists of:
 
 ``` r
+
 reference_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content"
 gps_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content"
 ```
@@ -39,12 +40,14 @@ gps_data <- "https://datarepository.movebank.org/server/api/core/bitstreams/df28
 And its DOI:
 
 ``` r
+
 doi <- "https://doi.org/10.5441/001/1.5k6b1364" # Don't use a http://dx.doi URL and exclude "www."
 ```
 
-Let’s bundle that into a Frictionless Data Package:
+Let’s bundle that into a Data Package:
 
 ``` r
+
 package <-
   create_package() |>
   append(c(id = doi), after = 0) |>
@@ -73,6 +76,7 @@ Here’s what we did:
 Here’s an example of how a field is documented:
 
 ``` r
+
 package$resources[[1]]$schema$fields[[2]]
 #> $name
 #> [1] "animal-id"
@@ -97,6 +101,7 @@ package$resources[[1]]$schema$fields[[2]]
 or saved as a `datapackage.json` file for other uses:
 
 ``` r
+
 write_package(package, "data/my_dataset")
 ```
 
@@ -110,15 +115,16 @@ tracking study and dataset, available on
 and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
 
 [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
-requires the dataset to be structured as a [Frictionless Data
+requires the dataset to be structured as a [Data
 Package](https://specs.frictionlessdata.io/data-package/) (recognizable
 by the presence of a `datapackage.json` file). That is the case for
-O_ASSEN on Zenodo. See the previous section to create your own
-Frictionless Data Package.
+O_ASSEN on Zenodo. See the previous section to create your own Data
+Package.
 
 Let’s create two directories:
 
 ``` r
+
 dir_source <- "data/o_assen/source" # Local directory for the source dataset
 dir_dwc    <- "data/o_assen/dwc"    # Local directory for the Darwin Core dataset
 ```
@@ -128,6 +134,7 @@ local package avoids having to download the data again when you
 encounter an issue:
 
 ``` r
+
 read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
   # Remove the large acceleration resource we won't use (and thus won't download)
   remove_resource("acceleration") |>
@@ -140,6 +147,7 @@ read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
 We then create a `package` variable pointing to the local dataset:
 
 ``` r
+
 package <- read_package(file.path(dir_source, "datapackage.json"))
 ```
 
@@ -152,6 +160,7 @@ O_ASSEN for example, has the DOI in `package$id`, which will be used for
 `dwc:datasetID`:
 
 ``` r
+
 package$id
 #> [1] "https://doi.org/10.5281/zenodo.10053903"
 ```
@@ -164,6 +173,7 @@ left empty. But we can provide those as parameters in
 Let’s transform the data to Darwin Core:
 
 ``` r
+
 write_dwc(
   package = package,
   directory = dir_dwc,
@@ -192,6 +202,7 @@ This results in 3 files: `occurrence.csv`, `emof.csv` and `meta.xml`.
 function documentation for transformation details.**
 
 ``` r
+
 list.files(dir_dwc)
 #> [1] "emof.csv"       "meta.xml"       "occurrence.csv"
 ```
@@ -206,10 +217,11 @@ A Movebank dataset can be converted to Ecological Metadata Language
 [`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md).
 Let’s try with the same O_ASSEN dataset used in the previous section.
 
-This time, the dataset does not need to be a Frictionless Data Package.
-The only requirement is that it is published and has a DOI:
+This time, the dataset does not need to be a Data Package. The only
+requirement is that it is published and has a DOI:
 
 ``` r
+
 doi <- "https://doi.org/10.5281/zenodo.10053903"
 ```
 
@@ -224,6 +236,7 @@ provider) and the **Movebank Study ID** (used for external link and
 alternative identifier):
 
 ``` r
+
 contact <- person(
   given = "Peter",
   family = "Desmet",
@@ -236,6 +249,7 @@ study_id <- 1605797471
 Let’s transform the metadata to EML:
 
 ``` r
+
 eml <- write_eml(
   doi = doi,
   directory = dir_dwc,
@@ -254,6 +268,7 @@ The resulting `eml.xml` file includes the metadata. **See the
 function documentation for transformation details.**
 
 ``` r
+
 eml
 #> $packageId
 #> [1] "887f5f8b-f3df-40b8-8220-04ed865691a5"
@@ -446,6 +461,7 @@ will add an extra paragraph explaining that data have been transformed
 to Darwin Core. You can turn this off with `derived_paragraph = FALSE`:
 
 ``` r
+
 eml$dataset$abstract$para[[3]]
 #> [1] "Data have been standardized to Darwin Core using the <ulink url=\"https://inbo.github.io/movepub/\"><citetitle>movepub</citetitle></ulink> R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <ulink url=\"https://doi.org/10.5281/zenodo.10053903\"><citetitle>https://doi.org/10.5281/zenodo.10053903</citetitle></ulink>), a deposit of Movebank study <ulink url=\"https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471\"><citetitle>1605797471</citetitle></ulink>."
 ```

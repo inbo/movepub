@@ -124,7 +124,7 @@ The following properties are not set:
 
 ## See also
 
-Other dwc functions:
+Other transformation functions:
 [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
 
 ## Examples
@@ -136,7 +136,7 @@ Other dwc functions:
 #> 
 #> • my_directory/eml.xml
 #> $packageId
-#> [1] "1a0c7bfe-bb88-45fe-b45a-bea4084fbe97"
+#> [1] "4f89766c-f5cc-4b1f-8b4b-249566f61427"
 #> 
 #> $system
 #> [1] "uuid"

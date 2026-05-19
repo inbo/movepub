@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to movepub • movepub</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to movepub">
 </head>
@@ -71,17 +71,17 @@ Desmet</h4>
 </h2>
 <p>Frictionless Data is an open-source framework designed to remove
 common barriers to reading and understanding data. By transforming a
-Movebank dataset into a “Frictionless Data Package” (<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Walsch and
+Movebank dataset into a “Data Package” (<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Walsch and
 Pollock, 2017</a>), we create a set of files that is better documented
 and easier to read programmatically, compared to individual files
 downloaded from Movebank. It is also a necessary step before
 transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>.</p>
-<p>Here we build a Frictionless Data Package by starting from a
-directory containing CSV data files in Movebank format (reference data
-and GPS data), and adding a <code>datapackage.json</code> file which
-provides persistent human- and machine-readable definitions of the
-contents of the CSV files. Let’s try that on an existing dataset,
-published in the Movebank Data Repository:</p>
+<p>Here we build a Data Package by starting from a directory containing
+CSV data files in Movebank format (reference data and GPS data), and
+adding a <code>datapackage.json</code> file which provides persistent
+human- and machine-readable definitions of the contents of the CSV
+files. Let’s try that on an existing dataset, published in the Movebank
+Data Repository:</p>
 <blockquote>
 <p>Griffin L (2014) Data from: Forecasting spring from afar? Timing of
 migration and predictability of phenology along different migration
@@ -95,7 +95,7 @@ routes of an avian herbivore [Svalbard data]. Movebank Data Repository.
 <p>And its DOI:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5441/001/1.5k6b1364"</span> <span class="co"># Don't use a http://dx.doi URL and exclude "www."</span></span></code></pre></div>
-<p>Let’s bundle that into a Frictionless Data Package:</p>
+<p>Let’s bundle that into a Data Package:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -151,11 +151,10 @@ other uses:</p>
 available on <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471" class="external-link">Movebank</a>
 and deposited on <a href="https://doi.org/10.5281/zenodo.10053903" class="external-link">Zenodo</a>.</p>
 <p><code><a href="../reference/write_dwc.html">write_dwc()</a></code> requires the dataset to be structured as a
-<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Frictionless
-Data Package</a> (recognizable by the presence of a
+<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Data
+Package</a> (recognizable by the presence of a
 <code>datapackage.json</code> file). That is the case for O_ASSEN on
-Zenodo. See the previous section to create your own Frictionless Data
-Package.</p>
+Zenodo. See the previous section to create your own Data Package.</p>
 <p>Let’s create two directories:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir_source</span> <span class="op">&lt;-</span> <span class="st">"data/o_assen/source"</span> <span class="co"># Local directory for the source dataset</span></span>
@@ -229,8 +228,8 @@ section.</p>
 <p>A Movebank dataset can be converted to Ecological Metadata Language
 (EML) using <code><a href="../reference/write_eml.html">write_eml()</a></code>. Let’s try with the same O_ASSEN
 dataset used in the previous section.</p>
-<p>This time, the dataset does not need to be a Frictionless Data
-Package. The only requirement is that it is published and has a DOI:</p>
+<p>This time, the dataset does not need to be a Data Package. The only
+requirement is that it is published and has a DOI:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">doi</span> <span class="op">&lt;-</span> <span class="st">"https://doi.org/10.5281/zenodo.10053903"</span></span></code></pre></div>
 <p>Datasets (on Zenodo, GBIF, Movebank) get their DOI from <a href="https://datacite.org/" class="external-link">DataCite</a>, which also stores some of the

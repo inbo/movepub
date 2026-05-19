@@ -9,10 +9,14 @@
 - [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
   now adds
   [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources)
-  (set to `GPS` for GPS sensor data) and
-  [identificationVerificationStatus](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus)
-  (set to `verified by expert` for all records, since the taxon is
+  (set to `"GPS"` for GPS sensor data) and
+  [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus)
+  (set to `"verified by expert"` for all records, since the taxon is
   assumed to be well-known before the tag was attached).
+- [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
+  now always uses the canonical URI (with `http`) for
+  `dwc:measurementTypeID`
+  ([\#128](https://github.com/inbo/movepub/issues/128)).
 
 ## movepub 0.4.0
 
@@ -36,7 +40,7 @@
 - [`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
   and
   [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
-  no longer add `[subsampled representation]` to the dataset title
+  no longer add `"[subsampled representation]"` to the dataset title
   ([\#76](https://github.com/inbo/movepub/issues/76)).
 
 ### write_dwc
@@ -59,8 +63,8 @@
   now writes the output file as `occurrence.csv` (previously
   `dwc_occurrence.csv`) and adds a `meta.xml` file. The sex and life
   stage of the animal are - in addition to `dwc:sex` and `dwc:lifeStage`
-  in `occurrence.csv` - expressed in an extended measurement or facts
-  file (`emof.csv`), for better support with OBIS
+  in `occurrence.csv` - expressed in an Extended Measurement Or Facts
+  extension file (`emof.csv`), for better support with OBIS
   ([\#71](https://github.com/inbo/movepub/issues/71),
   [\#77](https://github.com/inbo/movepub/issues/77),
   [\#78](https://github.com/inbo/movepub/issues/78)).

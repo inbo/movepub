@@ -1,13 +1,16 @@
-# Add Movebank data to a Frictionless Data Package
+# Add Movebank data to a Data Package
 
 Adds Movebank data (`reference-data`, `gps`, `acceleration`,
-`accessory-measurements`) as a Data Resource to a Frictionless Data
-Package. The function extends
-[`frictionless::add_resource()`](https://docs.ropensci.org/frictionless/reference/add_resource.html).
-The title, definition, format and URI of each field are looked up in the
-latest version of the [Movebank Attribute
-Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/) and
-included in the Table Schema of the resource.
+`accessory-measurements`) as a Data Resource to a Data Package. The
+function extends
+[`frictionless::add_resource()`](https://docs.ropensci.org/frictionless/reference/add_resource.html)
+by adding the following to the Table Schema of the resource:
+
+- The title, definition, format and URI for each field, from the latest
+  version of the [Movebank Attribute
+  Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/).
+
+- The primary key of the resource and foreign keys between resources.
 
 ## Usage
 
@@ -40,7 +43,7 @@ add_resource(package, resource_name, files, keys = TRUE)
 
 ## Value
 
-Provided `package` with one additional resource.
+`package` with one additional resource.
 
 ## Details
 
