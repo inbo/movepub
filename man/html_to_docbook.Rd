@@ -74,8 +74,8 @@ html_to_docbook(
 )
 }
 \seealso{
-Other support functions: 
-\code{\link{datacite_to_eml}()},
-\code{\link{get_aphia_id}()}
+Other support functions:
+\code{\link[=datacite_to_eml]{datacite_to_eml()}},
+\code{\link[=get_aphia_id]{get_aphia_id()}}
 }
 \concept{support functions}

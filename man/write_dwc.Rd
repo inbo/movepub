@@ -107,7 +107,7 @@ write_dwc(o_assen, directory = "my_directory")
 unlink("my_directory", recursive = TRUE)
 }
 \seealso{
-Other transformation functions: 
-\code{\link{write_eml}()}
+Other transformation functions:
+\code{\link[=write_eml]{write_eml()}}
 }
 \concept{transformation functions}

@@ -21,8 +21,8 @@ datacite_to_eml("10.5281/zenodo.10053903")
 
 }
 \seealso{
-Other support functions: 
-\code{\link{get_aphia_id}()},
-\code{\link{html_to_docbook}()}
+Other support functions:
+\code{\link[=get_aphia_id]{get_aphia_id()}},
+\code{\link[=html_to_docbook]{html_to_docbook()}}
 }
 \concept{support functions}

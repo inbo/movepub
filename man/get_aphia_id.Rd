@@ -13,7 +13,7 @@ get_aphia_id(x)
 Data frame with \code{name}, \code{aphia_id}, \code{aphia_lsid} and \code{aphia_url}.
 }
 \description{
-This function wraps \code{\link[worrms:wm_name2id]{worrms::wm_name2id_()}} so that it returns a data frame
+This function wraps \code{\link[worrms:wm_name2id_]{worrms::wm_name2id_()}} so that it returns a data frame
 rather than a list.
 It also silences "not found" warnings, returning \code{NA} instead.
 }
@@ -22,8 +22,8 @@ get_aphia_id("Mola mola")
 get_aphia_id(c("Mola mola", "not_a_name"))
 }
 \seealso{
-Other support functions: 
-\code{\link{datacite_to_eml}()},
-\code{\link{html_to_docbook}()}
+Other support functions:
+\code{\link[=datacite_to_eml]{datacite_to_eml()}},
+\code{\link[=html_to_docbook]{html_to_docbook()}}
 }
 \concept{support functions}

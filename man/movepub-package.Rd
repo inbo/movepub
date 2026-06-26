@@ -18,16 +18,17 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (Research Institute for Nature and Forest (INBO))
+\strong{Maintainer}: Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
 
 Authors:
 \itemize{
-  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (Research Institute for Nature and Forest (INBO))
+  \item Peter Desmet \email{peter.desmet@inbo.be} (\href{https://orcid.org/0000-0002-8442-8025}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
+  \item Sanne Govaert \email{sanne.govaert@inbo.be} (\href{https://orcid.org/0000-0002-8939-1305}{ORCID}) (affiliation: Research Institute for Nature and Forest (INBO))
 }
 
 Other contributors:
 \itemize{
-  \item Sarah Davidson \email{sdavidson@ab.mpg.de} (\href{https://orcid.org/0000-0002-2766-9201}{ORCID}) (Max Planck Institute of Animal Behavior) [contributor]
+  \item Sarah Davidson \email{sdavidson@ab.mpg.de} (\href{https://orcid.org/0000-0002-2766-9201}{ORCID}) (affiliation: Max Planck Institute of Animal Behavior) [contributor]
   \item Research Institute for Nature and Forest (INBO) (\href{https://ror.org/00j54wy13}{ROR}) [copyright holder]
   \item NLBIF (https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/) [funder]
   \item European Union (https://doi.org/10.3030/101112823) [funder]

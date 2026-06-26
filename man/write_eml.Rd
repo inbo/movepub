@@ -91,7 +91,7 @@ The following properties are not set:
 unlink("my_directory", recursive = TRUE)
 }
 \seealso{
-Other transformation functions: 
-\code{\link{write_dwc}()}
+Other transformation functions:
+\code{\link[=write_dwc]{write_dwc()}}
 }
 \concept{transformation functions}
