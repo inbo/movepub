@@ -11,7 +11,7 @@
 #' @param x A list or vector.
 #' @param fun Function returning `TRUE` for elements that should be removed.
 #' @param recursive Whether list should be cleaned recursively.
-#' @return Cleaned list.
+#' @returns Cleaned list.
 #' @family helper functions
 #' @noRd
 clean_list <- function(x, fun = is.null, recursive = FALSE) {
@@ -34,7 +34,7 @@ clean_list <- function(x, fun = is.null, recursive = FALSE) {
 #'
 #' @param df A data frame.
 #' @param colnames A character vector of column names.
-#' @return Data frame expanded with columns that were not yet present.
+#' @returns Data frame expanded with columns that were not yet present.
 #' @family helper functions
 #' @noRd
 expand_cols <- function(df, colnames) {

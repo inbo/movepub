@@ -5,7 +5,7 @@
 #' It also silences "not found" warnings, returning `NA` instead.
 #'
 #' @param x A (vector with) taxonomic name(s).
-#' @return Data frame with `name`, `aphia_id`, `aphia_lsid` and `aphia_url`.
+#' @returns Data frame with `name`, `aphia_id`, `aphia_lsid` and `aphia_url`.
 #' @family support functions
 #' @export
 #' @examples

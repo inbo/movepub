@@ -6,7 +6,7 @@
 #' other HTML syntax is removed.
 #'
 #' @param string Character (vector) that may contain HTML syntax.
-#' @return A character vector with HTML converted to DocBook.
+#' @returns A character vector with HTML converted to DocBook.
 #' @family support functions
 #' @export
 #' @section Transformation details:
@@ -79,7 +79,7 @@ html_to_docbook <- function(string) {
 #' Helper function to convert a single string with HTML syntax to DocBook.
 #'
 #' @param string Text that may contain HTML.
-#' @return A character vector of DocBook string; typically, each element is a
+#' @returns A character vector of DocBook string; typically, each element is a
 #' paragraph or block element in DocBook format.
 #' @noRd
 #' @examples

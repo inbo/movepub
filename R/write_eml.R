@@ -17,7 +17,7 @@
 #'   https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471)).
 #' @param derived_paragraph If `TRUE`, a paragraph will be added to the
 #'   abstract, indicating that data have been transformed using [write_dwc()].
-#' @return `eml.xml` file written to disk.
+#' @returns `eml.xml` file written to disk.
 #'   And invisibly, an [EML::eml] object.
 #' @family transformation functions
 #' @export

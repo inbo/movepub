@@ -13,7 +13,7 @@
 #'
 #' @param label Label of the term to look for. Case will be ignored and `-`,
 #'   `_`, `.` and `:` interpreted as space.
-#' @return List with term information.
+#' @returns List with term information.
 #' @keywords internal
 #' @export
 #' @examples

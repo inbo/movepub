@@ -3,7 +3,7 @@
 #' @param gps A data frame derived from a `gps` resource.
 #' @param ref A data frame derived from a `reference-data` resource.
 #' @param taxa A data frame with taxa and their Aphia ID.
-#' @return A data frame with Darwin Core occurrences derived from GPS positions.
+#' @returns A data frame with Darwin Core occurrences derived from GPS positions.
 #' @family dwc functions
 #' @noRd
 create_gps_occurrence <- function(gps, ref, taxa) {

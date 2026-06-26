@@ -3,7 +3,7 @@
 #' Get metadata from [DataCite](https://datacite.org/) and transform to EML.
 #'
 #' @param doi DOI of a dataset.
-#' @return EML list that can be extended and/or written to file with
+#' @returns EML list that can be extended and/or written to file with
 #'   [EML::write_eml()].
 #' @family support functions
 #' @export

@@ -16,7 +16,7 @@
 #'   this resource, as a character (vector).
 #' @param keys If `TRUE`, `primaryKey` and `foreignKey` properties are added to
 #'   the Table Schema.
-#' @return `package` with one additional resource.
+#' @returns `package` with one additional resource.
 #' @family frictionless functions
 #' @export
 add_resource <- function(package, resource_name, files, keys = TRUE) {

@@ -1,7 +1,7 @@
 #' Check GPS data
 #'
 #' @param gps A data frame derived from a `gps` resource.
-#' @return The provided data frame or an error if required fields are missing.
+#' @returns The provided data frame or an error if required fields are missing.
 #' @family dwc functions
 #' @noRd
 check_gps <- function(gps) {
