@@ -21,20 +21,24 @@ Useful links:
 ## Author
 
 **Maintainer**: Peter Desmet <peter.desmet@inbo.be>
-([ORCID](https://orcid.org/0000-0002-8442-8025)) (Research Institute for
-Nature and Forest (INBO))
+([ORCID](https://orcid.org/0000-0002-8442-8025)) (affiliation: Research
+Institute for Nature and Forest (INBO))
 
 Authors:
 
+- Peter Desmet <peter.desmet@inbo.be>
+  ([ORCID](https://orcid.org/0000-0002-8442-8025)) (affiliation:
+  Research Institute for Nature and Forest (INBO))
+
 - Sanne Govaert <sanne.govaert@inbo.be>
-  ([ORCID](https://orcid.org/0000-0002-8939-1305)) (Research Institute
-  for Nature and Forest (INBO))
+  ([ORCID](https://orcid.org/0000-0002-8939-1305)) (affiliation:
+  Research Institute for Nature and Forest (INBO))
 
 Other contributors:
 
 - Sarah Davidson <sdavidson@ab.mpg.de>
-  ([ORCID](https://orcid.org/0000-0002-2766-9201)) (Max Planck Institute
-  of Animal Behavior) \[contributor\]
+  ([ORCID](https://orcid.org/0000-0002-2766-9201)) (affiliation: Max
+  Planck Institute of Animal Behavior) \[contributor\]
 
 - Research Institute for Nature and Forest (INBO)
   ([ROR](https://ror.org/00j54wy13)) \[copyright holder\]
