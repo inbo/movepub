@@ -6,7 +6,7 @@
 #'
 #' @param ref_occurrence Data frame with Darwin Core occurrences derived from
 #'   tag attachments, as returned by `create_ref_occurrence()`.
-#' @return Data frame with [Extended Measurement Or Facts](
+#' @returns Data frame with [Extended Measurement Or Facts](
 #'   https://rs.gbif.org/extension/obis/extended_measurement_or_fact_2023-08-28.xml).
 #' @family dwc functions
 #' @noRd

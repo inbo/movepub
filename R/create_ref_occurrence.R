@@ -2,7 +2,7 @@
 #'
 #' @param ref A data frame derived from a `reference-data` resource.
 #' @param taxa A data frame with taxa and their Aphia ID.
-#' @return A data frame with Darwin Core occurrences derived from tag
+#' @returns A data frame with Darwin Core occurrences derived from tag
 #'   attachments.
 #' @family dwc functions
 #' @noRd

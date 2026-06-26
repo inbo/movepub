@@ -1,7 +1,7 @@
 #' Check reference data
 #'
 #' @param ref A data frame derived from a `ref` resource.
-#' @return The provided data frame or an error if required fields are missing.
+#' @returns The provided data frame or an error if required fields are missing.
 #' @family dwc functions
 #' @noRd
 check_ref <- function(ref) {
