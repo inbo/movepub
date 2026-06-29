@@ -70,7 +70,7 @@ is often undefined, unreliable and/or does not represent an animal
 occurrence.
 \item Only \code{visible} (non-outlier) GPS records that fall within a deployment are
 included.
-\item GPS positions are downsampled to the \strong{first GPS position per hour}, to
+\item GPS positions are subsampled to the \strong{first GPS position per hour}, to
 reduce the size of high-frequency data.
 It is possible for a deployment to contain no GPS positions, e.g. if the
 tag malfunctioned right after deployment.
