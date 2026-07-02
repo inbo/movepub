@@ -31,7 +31,7 @@
 #'   If `derived_paragraph = TRUE` a generated paragraph is added, e.g.:
 #'
 #'   Data have been standardized to Darwin Core using the [movepub](
-#'   https://inbo.github.io/movepub/) R package and are downsampled to the first
+#'   https://inbo.github.io/movepub/) R package and are subsampled to the first
 #'   GPS position per hour. The original data are available in Dijkstra et al.
 #'   (2023, \doi{10.5281/zenodo.10053903}), a deposit of Movebank
 #'   study [1605797471](
@@ -132,7 +132,7 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
     last_para <- paste0(
       "Data have been standardized to Darwin Core using the ",
       "<ulink url=\"https://inbo.github.io/movepub/\">",
-      "<citetitle>movepub</citetitle></ulink> R package and are downsampled ",
+      "<citetitle>movepub</citetitle></ulink> R package and are subsampled ",
       "to the first GPS position per hour. ",
       "The original data are available in ", first_author, " et al. (",
       pub_year, ", <ulink url=\"", doi_url, "\"><citetitle>", doi_url,

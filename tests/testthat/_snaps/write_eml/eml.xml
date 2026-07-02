@@ -87,7 +87,7 @@ These data were collected by Bert Dijkstra and Rinus Dillerop from Vogelwerkgroe
 Add alt-project-id to the reference-data.
 
 Reference the latest Movebank Attribute Dictionary.</para>
-      <para>Data have been standardized to Darwin Core using the <ulink url="https://inbo.github.io/movepub/"><citetitle>movepub</citetitle></ulink> R package and are downsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <ulink url="https://doi.org/10.5281/zenodo.10053903"><citetitle>https://doi.org/10.5281/zenodo.10053903</citetitle></ulink>), a deposit of Movebank study <ulink url="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"><citetitle>1605797471</citetitle></ulink>.</para>
+      <para>Data have been standardized to Darwin Core using the <ulink url="https://inbo.github.io/movepub/"><citetitle>movepub</citetitle></ulink> R package and are subsampled to the first GPS position per hour. The original data are available in Dijkstra et al. (2023, <ulink url="https://doi.org/10.5281/zenodo.10053903"><citetitle>https://doi.org/10.5281/zenodo.10053903</citetitle></ulink>), a deposit of Movebank study <ulink url="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471"><citetitle>1605797471</citetitle></ulink>.</para>
     </abstract>
     <keywordSet>
       <keyword>animal movement</keyword>
