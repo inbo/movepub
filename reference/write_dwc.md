@@ -95,7 +95,7 @@ Key features of the Darwin Core transformation:
 - Only `visible` (non-outlier) GPS records that fall within a deployment
   are included.
 
-- GPS positions are downsampled to the **first GPS position per hour**,
+- GPS positions are subsampled to the **first GPS position per hour**,
   to reduce the size of high-frequency data. It is possible for a
   deployment to contain no GPS positions, e.g. if the tag malfunctioned
   right after deployment.
