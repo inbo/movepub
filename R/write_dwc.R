@@ -93,7 +93,7 @@ write_dwc <- function(package, directory, dataset_id = package$id,
 
   # Read data from package
   cli::cli_h2("Reading data")
-  if (!"reference-data" %in% resources(package)) {
+  if (!"reference-data" %in% resource_names(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val reference-data}.",
       class = "movepub_error_ref_data_missing"
@@ -103,7 +103,7 @@ write_dwc <- function(package, directory, dataset_id = package$id,
     read_resource(package, "reference-data") |>
     check_ref()
 
-  if (!"gps" %in% resources(package)) {
+  if (!"gps" %in% resource_names(package)) {
     cli::cli_abort(
       "{.arg package} must contain resource {.val gps}.",
       class = "movepub_error_gps_data_missing"
