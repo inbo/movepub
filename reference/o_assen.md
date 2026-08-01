@@ -12,7 +12,7 @@ o_assen
 
 ## Format
 
-An object of class `datapackage` (inherits from `list`) of length 7.
+An object of class `datapackage` (inherits from `list`) of length 6.
 
 ## Source
 

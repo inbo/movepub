@@ -17,6 +17,9 @@
   now always uses the canonical URI (with `http`) for
   `dwc:measurementTypeID`
   ([\#128](https://github.com/inbo/movepub/issues/128)).
+- movepub now relies on
+  [frictionless](https://github.com/frictionlessdata/frictionless-r) \>=
+  1.3.0 ([\#134](https://github.com/inbo/movepub/issues/134)).
 
 ## movepub 0.4.0
 

@@ -57,12 +57,12 @@ This package supports two use cases:
 ## Meta
 
 - We welcome
-  [contributions](https://inbo.github.io/movepub/CONTRIBUTING.md)
+  [contributions](https://inbo.github.io/movepub/CONTRIBUTING.html)
   including bug reports.
 - License: MIT
 - Get citation information for movepub in R with `citation("movepub")`.
 - Please note that this project is released with a [Contributor Code of
-  Conduct](https://inbo.github.io/movepub/CODE_OF_CONDUCT.md). By
+  Conduct](https://inbo.github.io/movepub/CODE_OF_CONDUCT.html). By
   participating in this project you agree to abide by its terms.
 
 # Package index
