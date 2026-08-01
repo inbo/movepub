@@ -1,6 +1,5 @@
 # movepub (development version)
 
-* camtrapdp now relies on `{frictionless}` >= 1.3.0 (#134).
 * `write_dwc()` now requires `animal-taxon`, `animal-id` and `tag-id` in the source data. It also gracefully handles any non-required missing fields (#120).
 * `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `"GPS"` for GPS sensor data) and [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `"verified by expert"` for all records, since the taxon is assumed to be well-known before the tag was attached).
 * `write_dwc()` now always uses the canonical URI (with `http`) for `dwc:measurementTypeID` (#128).
