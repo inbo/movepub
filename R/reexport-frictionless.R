@@ -10,9 +10,9 @@ frictionless::read_package
 #' @export
 frictionless::write_package
 
-#' @importFrom frictionless resources
+#' @importFrom frictionless resource_names
 #' @export
-frictionless::resources
+frictionless::resource_names
 
 #' @importFrom frictionless read_resource
 #' @export

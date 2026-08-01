@@ -5,7 +5,7 @@
 \alias{o_assen}
 \title{Sample Movebank dataset with GPS tracking data}
 \format{
-An object of class \code{datapackage} (inherits from \code{list}) of length 7.
+An object of class \code{datapackage} (inherits from \code{list}) of length 6.
 }
 \source{
 \doi{10.5281/zenodo.10053903}

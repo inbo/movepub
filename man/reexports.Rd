@@ -6,7 +6,7 @@
 \alias{create_package}
 \alias{read_package}
 \alias{write_package}
-\alias{resources}
+\alias{resource_names}
 \alias{read_resource}
 \alias{remove_resource}
 \title{Objects exported from other packages}
@@ -16,6 +16,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{frictionless}{\code{\link[frictionless:create_package]{create_package()}}, \code{\link[frictionless:read_package]{read_package()}}, \code{\link[frictionless:read_resource]{read_resource()}}, \code{\link[frictionless:remove_resource]{remove_resource()}}, \code{\link[frictionless:resources]{resources()}}, \code{\link[frictionless:write_package]{write_package()}}}
+  \item{frictionless}{\code{\link[frictionless:create_package]{create_package()}}, \code{\link[frictionless:read_package]{read_package()}}, \code{\link[frictionless:read_resource]{read_resource()}}, \code{\link[frictionless:remove_resource]{remove_resource()}}, \code{\link[frictionless:resource_names]{resource_names()}}, \code{\link[frictionless:write_package]{write_package()}}}
 }}
 
