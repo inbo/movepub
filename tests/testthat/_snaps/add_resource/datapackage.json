@@ -1,13 +1,16 @@
 {
+  "$schema": "https://datapackage.org/profiles/2.0/datapackage.json",
   "resources": [
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "reference-data",
       "path": "https://datarepository.movebank.org/server/api/core/bitstreams/a6e123b0-7588-40da-8f06-73559bb3ff6b/content",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "UTF-8",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "tag-id",
@@ -174,13 +177,15 @@
       }
     },
     {
+      "$schema": "https://datapackage.org/profiles/2.0/dataresource.json",
       "name": "gps",
       "path": "https://datarepository.movebank.org/server/api/core/bitstreams/df28a80e-e0c4-49fb-aa87-76ceb2d2b76f/content",
-      "profile": "tabular-data-resource",
+      "type": "table",
       "format": "csv",
       "mediatype": "text/csv",
       "encoding": "windows-1252",
       "schema": {
+        "$schema": "https://datapackage.org/profiles/2.0/tableschema.json",
         "fields": [
           {
             "name": "event-id",
