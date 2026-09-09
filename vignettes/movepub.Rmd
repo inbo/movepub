@@ -17,12 +17,9 @@ library(dplyr)
 library(readr)
 ```
 
-[fdp]: https://specs.frictionlessdata.io/data-package/
-[frictionless-r]: https://frictionlessdata.github.io/frictionless-r/
-
 ## Make a Movebank dataset "frictionless" {#frictionless}
 
-Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a "Data Package" ([Walsch and Pollock, 2017][fdp]), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`.
+Frictionless Data is an open-source framework designed to remove common barriers to reading and understanding data. By transforming a Movebank dataset into a [Data Package](https://datapackage.org/), we create a set of files that is better documented and easier to read programmatically, compared to individual files downloaded from Movebank. It is also a necessary step before transforming to Darwin Core with `write_dwc()`.
 
 Here we build a Data Package by starting from a directory containing CSV data files in Movebank format (reference data and GPS data), and adding a `datapackage.json` file which provides persistent human- and machine-readable definitions of the contents of the CSV files. Let's try that on an existing dataset, published in the Movebank Data Repository:
 
@@ -57,7 +54,7 @@ package <-
 
 Here's what we did:
 
-- Initiate a package with `create_package()`. This and other functions are reexported in movepub from the [frictionless][frictionless-r] R package.
+- Initiate a package with `create_package()`. This and other functions are reexported in movepub from the [frictionless](https://docs.ropensci.org/frictionless/) R package.
 - Add the DOI as package ID.
 - Add our data as two resources: `reference-data` and `gps`. These names are standardized. By using the `movepub::add_resource()` (rather than the generic `frictionless::add_resource()`) we also looked up the definition for each field in the [Movebank Attribute Dictionary](http://vocab.nerc.ac.uk/collection/MVB/current/).
 
@@ -96,7 +93,7 @@ write_package(package, "data/my_dataset")
 
 A Movebank dataset can be converted to Darwin Core using `write_dwc()`. Let's try it out with the small dataset **O_ASSEN**. It is a bird GPS tracking study and dataset, available on [Movebank](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471) and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
 
-`write_dwc()` requires the dataset to be structured as a [Data Package][fdp] (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo. See the previous section to create your own Data Package.
+`write_dwc()` requires the dataset to be structured as a [Data Package](https://datapackage.org/) (recognizable by the presence of a `datapackage.json` file). That is the case for O_ASSEN on Zenodo. See the previous section to create your own Data Package.
 
 Let's create two directories:
 
@@ -114,12 +111,9 @@ read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
   # Remove the large acceleration resource we won't use (and thus won't download)
   remove_resource("acceleration") |>
   write_package(dir_source)
-#> Downloading file from
-#> 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
-#> Downloading file from
-#> 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
-#> Downloading file from
-#> 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
 ```
 
 We then create a `package` variable pointing to the local dataset:
@@ -129,7 +123,7 @@ We then create a `package` variable pointing to the local dataset:
 package <- read_package(file.path(dir_source, "datapackage.json"))
 ```
 
-That covers the data. The Darwin Core transformation also needs some metadata for record-level terms (e.g. `dwc:datasetName`, `dcterms:license`, etc.). By default, these are derived from the package metadata (i.e. [Data Package][fdp] properties). O_ASSEN for example, has the DOI in `package$id`, which will be used for `dwc:datasetID`:
+That covers the data. The Darwin Core transformation also needs some metadata for record-level terms (e.g. `dwc:datasetName`, `dcterms:license`, etc.). By default, these are derived from the package metadata (i.e. [Data Package properties](https://datapackage.org/standard/data-package)). O_ASSEN for example, has the DOI in `package$id`, which will be used for `dwc:datasetID`:
 
 
 ``` r
