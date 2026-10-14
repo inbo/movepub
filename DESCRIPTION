@@ -38,6 +38,7 @@ Imports:
     purrr,
     readr,
     rlang,
+    stringr,
     tidyr,
     uuid,
     worrms,
@@ -45,7 +46,6 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    stringr,
     testthat (>= 3.0.0)
 VignetteBuilder: 
     knitr
