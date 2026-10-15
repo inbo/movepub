@@ -115,7 +115,7 @@ write_eml <- function(doi, directory, contact = NULL, study_id = NULL,
       NA_character_
     }
   }
-  if (!grepl("^\\d+$", study_id)) { # Works for non 32 bit integers
+  if (!stringr::str_detect(study_id, "^\\d+$")) { # Works for non 32 bit integer
     cli::cli_abort(
       c(
         "{.arg study_id} must be an integer.",
