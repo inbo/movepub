@@ -31,7 +31,7 @@ Other support functions:
 ``` r
 datacite_to_eml("10.5281/zenodo.10053903")
 #> $packageId
-#> [1] "2b5d6ffb-abd1-43f7-9d54-5a284d2f9992"
+#> [1] "3dada248-f248-4407-9414-e33305f2c80b"
 #> 
 #> $system
 #> [1] "uuid"

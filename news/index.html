@@ -40,6 +40,8 @@
 <li>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now adds <a href="http://rs.tdwg.org/dwc/terms/georeferenceSources" class="external-link">georeferenceSources</a> (set to <code>"GPS"</code> for GPS sensor data) and <a href="http://rs.tdwg.org/dwc/terms/identificationVerificationStatus" class="external-link"><code>dwc:identificationVerificationStatus</code></a> (set to <code>"verified by expert"</code> for all records, since the taxon is assumed to be well-known before the tag was attached).</li>
 <li>
+<code><a href="../reference/write_dwc.html">write_dwc()</a></code> now parses <code>location-error-text</code> (in addition to <code>location-error-numerical</code>) for <code>dwc:coordinateUncertaintyInMeters</code> (<a href="https://github.com/inbo/movepub/issues/139" class="external-link">#139</a>).</li>
+<li>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now always uses the canonical URI (with <code>http</code>) for <code>dwc:measurementTypeID</code> (<a href="https://github.com/inbo/movepub/issues/128" class="external-link">#128</a>).</li>
 <li>movepub now relies on <a href="https://github.com/frictionlessdata/frictionless-r" class="external-link">frictionless</a> &gt;= 1.3.0 (<a href="https://github.com/inbo/movepub/issues/134" class="external-link">#134</a>).</li>
 </ul></div>

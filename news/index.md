@@ -14,6 +14,10 @@
   (set to `"verified by expert"` for all records, since the taxon is
   assumed to be well-known before the tag was attached).
 - [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
+  now parses `location-error-text` (in addition to
+  `location-error-numerical`) for `dwc:coordinateUncertaintyInMeters`
+  ([\#139](https://github.com/inbo/movepub/issues/139)).
+- [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
   now always uses the canonical URI (with `http`) for
   `dwc:measurementTypeID`
   ([\#128](https://github.com/inbo/movepub/issues/128)).
