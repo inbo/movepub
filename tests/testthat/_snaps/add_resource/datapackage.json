@@ -173,7 +173,10 @@
             "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000188/4/"
           }
         ],
-        "primaryKey": ["animal-id", "tag-id"]
+        "primaryKey": [
+          "animal-id",
+          "tag-id"
+        ]
       }
     },
     {
@@ -324,13 +327,21 @@
             "skos:exactMatch": "http://vocab.nerc.ac.uk/collection/MVB/current/MVB000140/3/"
           }
         ],
-        "primaryKey": "event-id",
+        "primaryKey": [
+          "event-id"
+        ],
         "foreignKeys": [
           {
-            "fields": ["individual-local-identifier", "tag-local-identifier"],
+            "fields": [
+              "individual-local-identifier",
+              "tag-local-identifier"
+            ],
             "reference": {
               "resource": "reference-data",
-              "fields": ["animal-id", "tag-id"]
+              "fields": [
+                "animal-id",
+                "tag-id"
+              ]
             }
           }
         ]
