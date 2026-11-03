@@ -124,10 +124,10 @@ test_that("html_to_docbook() converts an abstract with HTML to DocBook", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
   temp_dir <- withr::local_tempdir()
-  eml <- movepub::write_eml(
+  eml <- suppressMessages(movepub::write_eml(
     doi = paste0("https://doi.org/", doi),
     directory = temp_dir
-  )
+  ))
   # Create and write EML
   eml <- suppressMessages(movepub::write_eml(doi, temp_dir))
   # Get abstract with HTML content
