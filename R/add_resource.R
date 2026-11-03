@@ -88,15 +88,15 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
   # Add keys
   if (keys) {
     if (resource_name == "reference-data") {
-      schema$primaryKey <- c("animal-id", "tag-id")
+      schema$primaryKey <- list("animal-id", "tag-id")
     } else {
-      schema$primaryKey <- "event-id"
+      schema$primaryKey <- list("event-id")
       schema$foreignKeys <- list(
         list(
-          fields = c("individual-local-identifier", "tag-local-identifier"),
+          fields = list("individual-local-identifier", "tag-local-identifier"),
           reference = list(
             resource = "reference-data",
-            fields = c("animal-id", "tag-id")
+            fields = list("animal-id", "tag-id")
           )
         )
       )
