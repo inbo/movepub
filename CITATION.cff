@@ -1,14 +1,14 @@
-# --------------------------------------------
-# CITATION file created with {cffr} R package
+# ------------------------------------------------
+# CITATION.cff file created with {cffr} R package
 # See also: https://docs.ropensci.org/cffr/
-# --------------------------------------------
+# ------------------------------------------------
  
 cff-version: 1.2.0
 message: 'To cite package "movepub" in publications use:'
 type: software
 license: MIT
 title: 'movepub: Prepare Movebank Data for Publication'
-version: 0.4.0
+version: 0.4.0.9000
 abstract: Prepare animal tracking data from 'Movebank' (<https://www.movebank.org/>)
   for publication in a research repository. With 'movepub' you can document data with
   metadata following the Data Package standard and transform these to Darwin Core
@@ -35,6 +35,9 @@ contact:
   orcid: https://orcid.org/0000-0002-8442-8025
   affiliation: Research Institute for Nature and Forest (INBO)
 keywords:
+- animal-movement
+- animal-tracking
+- biologging
 - oscibio
 - r
 - r-package
@@ -49,7 +52,7 @@ references:
   institution:
     name: R Foundation for Statistical Computing
     address: Vienna, Austria
-  year: '2025'
+  year: '2026'
   version: '>= 4.1.0'
 - type: software
   title: cli
@@ -61,7 +64,7 @@ references:
   - family-names: Csárdi
     given-names: Gábor
     email: gabor@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.cli
 - type: software
   title: dplyr
@@ -86,8 +89,9 @@ references:
     given-names: Davis
     email: davis@posit.co
     orcid: https://orcid.org/0000-0003-4777-038X
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.dplyr
+  version: '>= 1.2.0'
 - type: software
   title: EML
   abstract: 'EML: Read and Write Ecological Metadata Language Files'
@@ -102,7 +106,7 @@ references:
   - family-names: Jones
     given-names: Matthew B.
     orcid: https://orcid.org/0000-0003-0077-4738
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.EML
 - type: software
   title: frictionless
@@ -131,8 +135,9 @@ references:
     email: sanne.govaert@inbo.be
     orcid: https://orcid.org/0000-0002-8939-1305
     affiliation: Research Institute for Nature and Forest (INBO)
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.frictionless
+  version: '>= 2.0.1'
 - type: software
   title: jsonlite
   abstract: 'jsonlite: A Simple and Robust JSON Parser and Generator for R'
@@ -144,7 +149,7 @@ references:
     given-names: Jeroen
     email: jeroenooms@gmail.com
     orcid: https://orcid.org/0000-0002-4035-0289
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.jsonlite
 - type: software
   title: lifecycle
@@ -160,7 +165,7 @@ references:
     given-names: Hadley
     email: hadley@posit.co
     orcid: https://orcid.org/0000-0003-4757-117X
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.lifecycle
 - type: software
   title: move2
@@ -179,7 +184,7 @@ references:
   - family-names: Scharf
     given-names: Anne K.
     orcid: https://orcid.org/0000-0002-3357-8533
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.move2
   version: '>= 0.4.0'
 - type: software
@@ -196,7 +201,7 @@ references:
   - family-names: Henry
     given-names: Lionel
     email: lionel@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.purrr
 - type: software
   title: readr
@@ -214,7 +219,7 @@ references:
     given-names: Jennifer
     email: jenny@posit.co
     orcid: https://orcid.org/0000-0002-6983-2759
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.readr
 - type: software
   title: rlang
@@ -229,7 +234,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.rlang
 - type: software
   title: tidyr
@@ -246,7 +251,7 @@ references:
     email: davis@posit.co
   - family-names: Girlich
     given-names: Maximilian
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.tidyr
 - type: software
   title: uuid
@@ -262,7 +267,7 @@ references:
   - family-names: Ts'o
     given-names: Theodore
     email: tytso@thunk.org
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.uuid
 - type: software
   title: worrms
@@ -278,7 +283,7 @@ references:
   - family-names: Vanhoorne.
     given-names: Bart
     email: bart.vanhoorne@vliz.be
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.worrms
 - type: software
   title: xml2
@@ -294,7 +299,7 @@ references:
   - family-names: Ooms
     given-names: Jeroen
     email: jeroenooms@gmail.com
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.xml2
 - type: software
   title: knitr
@@ -307,7 +312,7 @@ references:
     given-names: Yihui
     email: xie@yihui.name
     orcid: https://orcid.org/0000-0003-0645-5666
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.knitr
 - type: software
   title: rmarkdown
@@ -351,7 +356,7 @@ references:
     given-names: Richard
     email: rich@posit.co
     orcid: https://orcid.org/0000-0003-3925-190X
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.rmarkdown
 - type: software
   title: stringr
@@ -363,7 +368,7 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.stringr
 - type: software
   title: testthat
@@ -375,7 +380,32 @@ references:
   - family-names: Wickham
     given-names: Hadley
     email: hadley@posit.co
-  year: '2025'
+  year: '2026'
   doi: 10.32614/CRAN.package.testthat
   version: '>= 3.0.0'
+- type: software
+  title: withr
+  abstract: 'withr: Run Code ''With'' Temporarily Modified Global State'
+  notes: Suggests
+  url: https://withr.r-lib.org
+  repository: https://CRAN.R-project.org/package=withr
+  authors:
+  - family-names: Hester
+    given-names: Jim
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Müller
+    given-names: Kirill
+    email: krlmlr+r@mailbox.org
+  - family-names: Ushey
+    given-names: Kevin
+    email: kevinushey@gmail.com
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Chang
+    given-names: Winston
+  year: '2026'
+  doi: 10.32614/CRAN.package.withr
 
