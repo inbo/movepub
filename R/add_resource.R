@@ -74,7 +74,7 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
       description = definition,
       type = type,
       format = ifelse(
-        grepl("Format: yyyy-MM-dd HH:mm:ss.SSS;", definition),
+        stringr::str_detect(definition, "Format: yyyy-MM-dd HH:mm:ss.SSS;"),
         "%Y-%m-%d %H:%M:%S.%f",
         "default"
       ),

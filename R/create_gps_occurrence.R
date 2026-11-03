@@ -14,8 +14,8 @@ create_gps_occurrence <- function(gps, ref, taxa) {
   ref <- expand_cols(ref, ref_cols)
   gps_cols <- c(
     "comments", "event-id", "height-above-ellipsoid", "height-above-msl",
-    "location-error-numerical", "location-lat", "location-long", "sensor-type",
-    "visible"
+    "location-error-numerical", "location-error-text", "location-lat",
+    "location-long", "sensor-type", "visible"
   )
   gps <- expand_cols(gps, gps_cols)
 
@@ -102,8 +102,16 @@ create_gps_occurrence <- function(gps, ref, taxa) {
       decimalLatitude = as.numeric(.data$`location-lat`),
       decimalLongitude = as.numeric(.data$`location-long`),
       geodeticDatum = "EPSG:4326",
-      coordinateUncertaintyInMeters =
-        as.numeric(.data$`location-error-numerical`),
+      coordinateUncertaintyInMeters = dplyr::case_when(
+        !is.na(.data$`location-error-numerical`) ~
+          as.numeric(.data$`location-error-numerical`),
+        !is.na(.data$`location-error-text`) ~
+          as.numeric(stringr::str_extract(
+            .data$`location-error-text`,
+            "(\\d*\\.?\\d+)(?=m$)" # Extract e.g. "5.3" from "<= 5.3m"
+          )),
+        .default = NA_real_
+      ),
       georeferenceSources =
         dplyr::if_else(.data$`sensor-type` == "gps", "GPS", NA_character_),
       # IDENTIFICATION
