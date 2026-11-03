@@ -65,8 +65,7 @@ test_that("add_resource() adds resource with skos:exactMatch references to the
     create_package() |>
     add_resource("reference-data", reference_data) |>
     add_resource("gps", gps_data)
-  temp_dir <- file.path(tempdir(), "package")
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   write_package(package, temp_dir)
 
   expect_snapshot_file(file.path(temp_dir, "datapackage.json"))
