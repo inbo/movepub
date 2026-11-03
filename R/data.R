@@ -1,8 +1,7 @@
 #' Sample Movebank dataset with GPS tracking data
 #'
 #' A sample Movebank dataset with GPS tracking data, formatted as a
-#' [Data Package](https://specs.frictionlessdata.io/data-package/) and read by
-#' [read_package()].
+#' [Data Package](https://datapackage.org) and read by [read_package()].
 #'
 #' This sample is derived from the Zenodo-deposited dataset
 #' [Dijkstra et al. (2023)](https://zenodo.org/records/10053903), but excludes

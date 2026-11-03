@@ -11,7 +11,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-2766-9201", affiliation = "Max Planck Institute of Animal Behavior")),
     person("Research Institute for Nature and Forest (INBO)", role = "cph",
            comment = c(ROR = "00j54wy13")),
-    person("NLBIF", role = "fnd",
+    person("Netherlands Biodiversity Information Facility (NLBIF)", role = "fnd",
            comment = "https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/"),
     person("European Union", role = "fnd",
            comment = "https://doi.org/10.3030/101112823")
@@ -31,7 +31,7 @@ Imports:
     cli,
     dplyr (>= 1.2.0),
     EML,
-    frictionless (>= 1.3.0),
+    frictionless (>= 2.0.1),
     jsonlite,
     lifecycle,
     move2 (>= 0.4.0),
@@ -46,7 +46,9 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    stringr,
+    testthat (>= 3.0.0),
+    withr
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

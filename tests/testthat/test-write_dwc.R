@@ -1,7 +1,6 @@
 test_that("write_dwc() returns error on missing resources", {
   skip_if_offline()
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
 
   # Create datasets with missing resource
   x_no_ref_data <- remove_resource(o_assen, "reference-data")
@@ -23,8 +22,7 @@ test_that("write_dwc() returns error on missing resources", {
 
 test_that("write_dwc() returns error on missing required fields", {
   skip_if_offline()
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
 
   # Create dataset with missing cols
   ref <- read_resource(o_assen, "reference-data")
@@ -37,8 +35,7 @@ test_that("write_dwc() returns error on missing required fields", {
     create_package() |>
     frictionless::add_resource("reference-data", ref) |>
     frictionless::add_resource("gps", iris)
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
 
   expect_error(
     suppressMessages(
@@ -58,8 +55,7 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
            a list of data frames invisibly", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_dwc(x, temp_dir))
 
   expect_contains(
@@ -75,8 +71,7 @@ test_that("write_dwc() writes CSV and meta.xml files to a directory and
 test_that("write_dwc() returns the expected Darwin Core terms as columns", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_dwc(x, temp_dir))
 
   expect_identical(
@@ -136,8 +131,7 @@ test_that("write_dwc() returns the expected Darwin Core mapping for the example
            dataset", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   suppressMessages(write_dwc(x, temp_dir))
 
   expect_snapshot_file(file.path(temp_dir, "occurrence.csv"))
@@ -148,8 +142,7 @@ test_that("write_dwc() returns the expected Darwin Core mapping for the example
 test_that("write_dwc() returns files that comply with the info in meta.xml", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   suppressMessages(write_dwc(x, temp_dir))
 
   # Use helper function to compare
@@ -160,8 +153,7 @@ test_that("write_dwc() returns files that comply with the info in meta.xml", {
 test_that("write_dwc() supports custom dataset id, name, license, rights_holder", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_dwc(
     x,
     temp_dir,
@@ -188,8 +180,7 @@ test_that("write_dwc() supports custom dataset id, name, license, rights_holder"
 test_that("write_dwc() supports datasets that only have the required fields", {
   skip_if_offline()
   x <- o_assen
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
 
   # Create minimal dataset
   ref <- dplyr::tribble(

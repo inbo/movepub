@@ -1,10 +1,14 @@
 # movepub (development version)
 
+* movepub now relies on `{frictionless}` >= 2.0.1. When using `create_package()` or `add_resource()` it will follow the Data Package [v2](https://datapackage.org/) specification (#136). The main changes in a `datapackage.json` will be:
+    1. `$schema` is added to package, resources and schemas.
+    2. `type` is used instead of `profile` for resources.
+    3. `primaryKey` and `foreignKeys.fields` in resources are always arrays.
+* movepub now reexports `add_properties()` from `{frictionless}` (#136).
 * `write_dwc()` now requires `animal-taxon`, `animal-id` and `tag-id` in the source data. It also gracefully handles any non-required missing fields (#120).
 * `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `"GPS"` for GPS sensor data) and [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `"verified by expert"` for all records, since the taxon is assumed to be well-known before the tag was attached).
 * `write_dwc()` now parses `location-error-text` (in addition to `location-error-numerical`) for `dwc:coordinateUncertaintyInMeters` (#139).
 * `write_dwc()` now always uses the canonical URI (with `http`) for `dwc:measurementTypeID` (#128).
-* movepub now relies on `{frictionless}` >= 1.3.0 (#134).
 
 # movepub 0.4.0
 
