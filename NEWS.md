@@ -1,5 +1,6 @@
 # movepub (development version)
 
+* movepub now relies on `{frictionless}` >= 2.0.1, supporting Data Packages using the [v2](https://datapackage.org/) specification. When creating a package, resource or schema, it uses the v2 specification (#136).
 * `write_dwc()` now requires `animal-taxon`, `animal-id` and `tag-id` in the source data. It also gracefully handles any non-required missing fields (#120).
 * `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `"GPS"` for GPS sensor data) and [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `"verified by expert"` for all records, since the taxon is assumed to be well-known before the tag was attached).
 * `write_dwc()` now always uses the canonical URI (with `http`) for `dwc:measurementTypeID` (#128).
