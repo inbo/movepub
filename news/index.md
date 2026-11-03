@@ -2,6 +2,24 @@
 
 ## movepub (development version)
 
+- movepub now relies on
+  [frictionless](https://github.com/frictionlessdata/frictionless-r) \>=
+  2.0.1. When using
+  [`create_package()`](https://docs.ropensci.org/frictionless/reference/create_package.html)
+  or
+  [`add_resource()`](https://inbo.github.io/movepub/reference/add_resource.md)
+  it will follow the Data Package [v2](https://datapackage.org/)
+  specification ([\#136](https://github.com/inbo/movepub/issues/136)).
+  The main changes in a `datapackage.json` will be:
+  1.  `$schema` is added to package, resources and schemas.
+  2.  `type` is used instead of `profile` for resources.
+  3.  `primaryKey` and `foreignKeys.fields` in resources are always
+      arrays.
+- movepub now reexports
+  [`add_properties()`](https://docs.ropensci.org/frictionless/reference/add_properties.html)
+  from
+  [frictionless](https://github.com/frictionlessdata/frictionless-r)
+  ([\#136](https://github.com/inbo/movepub/issues/136)).
 - [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
   now requires `animal-taxon`, `animal-id` and `tag-id` in the source
   data. It also gracefully handles any non-required missing fields
@@ -21,9 +39,6 @@
   now always uses the canonical URI (with `http`) for
   `dwc:measurementTypeID`
   ([\#128](https://github.com/inbo/movepub/issues/128)).
-- movepub now relies on
-  [frictionless](https://github.com/frictionlessdata/frictionless-r) \>=
-  1.3.0 ([\#134](https://github.com/inbo/movepub/issues/134)).
 
 ## movepub 0.4.0
 

@@ -5,6 +5,7 @@ to see their documentation.
 
 - frictionless:
 
+  [`add_properties()`](https://docs.ropensci.org/frictionless/reference/add_properties.html),
   [`create_package()`](https://docs.ropensci.org/frictionless/reference/create_package.html),
   [`read_package()`](https://docs.ropensci.org/frictionless/reference/read_package.html),
   [`read_resource()`](https://docs.ropensci.org/frictionless/reference/read_resource.html),

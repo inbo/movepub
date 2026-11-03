@@ -71,11 +71,11 @@ Desmet</h4>
 </h2>
 <p>Frictionless Data is an open-source framework designed to remove
 common barriers to reading and understanding data. By transforming a
-Movebank dataset into a “Data Package” (<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Walsch and
-Pollock, 2017</a>), we create a set of files that is better documented
-and easier to read programmatically, compared to individual files
-downloaded from Movebank. It is also a necessary step before
-transforming to Darwin Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>.</p>
+Movebank dataset into a <a href="https://datapackage.org/" class="external-link">Data
+Package</a>, we create a set of files that is better documented and
+easier to read programmatically, compared to individual files downloaded
+from Movebank. It is also a necessary step before transforming to Darwin
+Core with <code><a href="../reference/write_dwc.html">write_dwc()</a></code>.</p>
 <p>Here we build a Data Package by starting from a directory containing
 CSV data files in Movebank format (reference data and GPS data), and
 adding a <code>datapackage.json</code> file which provides persistent
@@ -99,15 +99,14 @@ routes of an avian herbivore [Svalbard data]. Movebank Data Repository.
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">package</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/append.html" class="external-link">append</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span><span class="op">)</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198</span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/add_properties.html" class="external-link">add_properties</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">doi</span>, after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"reference-data"</span>, <span class="va">reference_data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/add_resource.html">add_resource</a></span><span class="op">(</span><span class="st">"gps"</span>, <span class="va">gps_data</span><span class="op">)</span></span></code></pre></div>
 <p>Here’s what we did:</p>
 <ul>
 <li>Initiate a package with <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package()</a></code>. This and
-other functions are reexported in movepub from the <a href="https://frictionlessdata.github.io/frictionless-r/" class="external-link">frictionless</a>
-R package.</li>
+other functions are reexported in movepub from the <a href="https://docs.ropensci.org/frictionless/" class="external-link">frictionless</a> R
+package.</li>
 <li>Add the DOI as package ID.</li>
 <li>Add our data as two resources: <code>reference-data</code> and
 <code>gps</code>. These names are standardized. By using the
@@ -151,10 +150,10 @@ other uses:</p>
 available on <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1605797471" class="external-link">Movebank</a>
 and deposited on <a href="https://doi.org/10.5281/zenodo.10053903" class="external-link">Zenodo</a>.</p>
 <p><code><a href="../reference/write_dwc.html">write_dwc()</a></code> requires the dataset to be structured as a
-<a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Data
-Package</a> (recognizable by the presence of a
-<code>datapackage.json</code> file). That is the case for O_ASSEN on
-Zenodo. See the previous section to create your own Data Package.</p>
+<a href="https://datapackage.org/" class="external-link">Data Package</a> (recognizable by the
+presence of a <code>datapackage.json</code> file). That is the case for
+O_ASSEN on Zenodo. See the previous section to create your own Data
+Package.</p>
 <p>Let’s create two directories:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dir_source</span> <span class="op">&lt;-</span> <span class="st">"data/o_assen/source"</span> <span class="co"># Local directory for the source dataset</span></span>
@@ -167,12 +166,9 @@ encounter an issue:</p>
 <span>  <span class="co"># Remove the large acceleration resource we won't use (and thus won't download)</span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/remove_resource.html" class="external-link">remove_resource</a></span><span class="op">(</span><span class="st">"acceleration"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://docs.ropensci.org/frictionless/reference/write_package.html" class="external-link">write_package</a></span><span class="op">(</span><span class="va">dir_source</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Downloading file from</span></span>
-<span><span class="co">#&gt; 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.</span></span>
-<span><span class="co">#&gt; Downloading file from</span></span>
-<span><span class="co">#&gt; 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.</span></span>
-<span><span class="co">#&gt; Downloading file from</span></span>
-<span><span class="co">#&gt; 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.</span></span></code></pre></div>
+<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.</span></span>
+<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.</span></span>
+<span><span class="co">#&gt; Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.</span></span></code></pre></div>
 <p>We then create a <code>package</code> variable pointing to the local
 dataset:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -180,8 +176,8 @@ dataset:</p>
 <p>That covers the data. The Darwin Core transformation also needs some
 metadata for record-level terms (e.g. <code>dwc:datasetName</code>,
 <code>dcterms:license</code>, etc.). By default, these are derived from
-the package metadata (i.e. <a href="https://specs.frictionlessdata.io/data-package/" class="external-link">Data Package</a>
-properties). O_ASSEN for example, has the DOI in
+the package metadata (i.e. <a href="https://datapackage.org/standard/data-package" class="external-link">Data Package
+properties</a>). O_ASSEN for example, has the DOI in
 <code>package$id</code>, which will be used for
 <code>dwc:datasetID</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -475,7 +471,7 @@ for an example of a dataset that was published using
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Peter Desmet, Sanne Govaert, NLBIF, European Union.</p>
+  <p>Developed by Peter Desmet, Sanne Govaert, Netherlands Biodiversity Information Facility (NLBIF), European Union.</p>
 </div>
 
 <div class="pkgdown-footer-right">

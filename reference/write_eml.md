@@ -136,7 +136,7 @@ Other transformation functions:
 #> 
 #> • my_directory/eml.xml
 #> $packageId
-#> [1] "45d1057e-4e7e-47cd-a2a8-d379dac4ef38"
+#> [1] "7ccdb769-0fc3-441b-b246-62c0304eaca8"
 #> 
 #> $system
 #> [1] "uuid"

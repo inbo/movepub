@@ -11,8 +11,7 @@ library(readr)
 
 Frictionless Data is an open-source framework designed to remove common
 barriers to reading and understanding data. By transforming a Movebank
-dataset into a “Data Package” ([Walsch and Pollock,
-2017](https://specs.frictionlessdata.io/data-package/)), we create a set
+dataset into a [Data Package](https://datapackage.org/), we create a set
 of files that is better documented and easier to read programmatically,
 compared to individual files downloaded from Movebank. It is also a
 necessary step before transforming to Darwin Core with
@@ -50,8 +49,7 @@ Let’s bundle that into a Data Package:
 
 package <-
   create_package() |>
-  append(c(id = doi), after = 0) |>
-  create_package() |> # Bug fix for https://github.com/frictionlessdata/frictionless-r/issues/198
+  add_properties(id = doi, after = 0) |>
   add_resource("reference-data", reference_data) |>
   add_resource("gps", gps_data)
 ```
@@ -61,8 +59,7 @@ Here’s what we did:
 - Initiate a package with
   [`create_package()`](https://docs.ropensci.org/frictionless/reference/create_package.html).
   This and other functions are reexported in movepub from the
-  [frictionless](https://frictionlessdata.github.io/frictionless-r/) R
-  package.
+  [frictionless](https://docs.ropensci.org/frictionless/) R package.
 - Add the DOI as package ID.
 - Add our data as two resources: `reference-data` and `gps`. These names
   are standardized. By using the
@@ -116,10 +113,9 @@ and deposited on [Zenodo](https://doi.org/10.5281/zenodo.10053903).
 
 [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
 requires the dataset to be structured as a [Data
-Package](https://specs.frictionlessdata.io/data-package/) (recognizable
-by the presence of a `datapackage.json` file). That is the case for
-O_ASSEN on Zenodo. See the previous section to create your own Data
-Package.
+Package](https://datapackage.org/) (recognizable by the presence of a
+`datapackage.json` file). That is the case for O_ASSEN on Zenodo. See
+the previous section to create your own Data Package.
 
 Let’s create two directories:
 
@@ -139,12 +135,9 @@ read_package("https://zenodo.org/records/10053903/files/datapackage.json") |>
   # Remove the large acceleration resource we won't use (and thus won't download)
   remove_resource("acceleration") |>
   write_package(dir_source)
-#> Downloading file from
-#> 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
-#> Downloading file from
-#> 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
-#> Downloading file from
-#> 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-reference-data.csv'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2018.csv.gz'.
+#> Downloading file from 'https://zenodo.org/records/10053903/files/O_ASSEN-gps-2019.csv.gz'.
 ```
 
 We then create a `package` variable pointing to the local dataset:
@@ -157,9 +150,9 @@ package <- read_package(file.path(dir_source, "datapackage.json"))
 That covers the data. The Darwin Core transformation also needs some
 metadata for record-level terms (e.g. `dwc:datasetName`,
 `dcterms:license`, etc.). By default, these are derived from the package
-metadata (i.e. [Data
-Package](https://specs.frictionlessdata.io/data-package/) properties).
-O_ASSEN for example, has the DOI in `package$id`, which will be used for
+metadata (i.e. [Data Package
+properties](https://datapackage.org/standard/data-package)). O_ASSEN for
+example, has the DOI in `package$id`, which will be used for
 `dwc:datasetID`:
 
 ``` r

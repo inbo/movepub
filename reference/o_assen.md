@@ -1,7 +1,7 @@
 # Sample Movebank dataset with GPS tracking data
 
 A sample Movebank dataset with GPS tracking data, formatted as a [Data
-Package](https://specs.frictionlessdata.io/data-package/) and read by
+Package](https://datapackage.org) and read by
 [`read_package()`](https://docs.ropensci.org/frictionless/reference/read_package.html).
 
 ## Usage

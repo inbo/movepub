@@ -16,7 +16,7 @@
 - **Research Institute for Nature and Forest (INBO)**. Copyright holder.
   [![ROR](https://raw.githubusercontent.com/ror-community/ror-logos/main/ror-icon-rgb.svg)](https://ror.org/00j54wy13)
 
-- **NLBIF**. Funder.  
+- **Netherlands Biodiversity Information Facility (NLBIF)**. Funder.  
   https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/
 
 - **European Union**. Funder.  
