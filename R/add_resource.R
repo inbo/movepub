@@ -72,7 +72,11 @@ add_resource <- function(package, resource_name, files, keys = TRUE) {
       name = field$name,
       title = prefLabel,
       description = definition,
-      type = type,
+      type =  ifelse(
+        stringr::str_detect(definition, "Format: yyyy-MM-dd HH:mm:ss.SSS;"),
+        "datetime",
+        type
+      ),
       format = ifelse(
         stringr::str_detect(definition, "Format: yyyy-MM-dd HH:mm:ss.SSS;"),
         "%Y-%m-%d %H:%M:%S.%f",
