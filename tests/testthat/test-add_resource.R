@@ -50,7 +50,8 @@ test_that("add_resource() returns error on invalid resource name", {
 })
 
 test_that("add_resource() adds resource with skos:exactMatch references to the
-           Movebank Attribute Dictionary, primary keys and foreign keys", {
+           Movebank Attribute Dictionary, primary keys and foreign keys,
+          and also sets format and type of datetimes", {
   skip_if_offline()
   # Dataset: https://doi.org/10.5441/001/1.5k6b1364
   reference_data <- file.path(
