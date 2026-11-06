@@ -9,6 +9,7 @@
 * `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `"GPS"` for GPS sensor data) and [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `"verified by expert"` for all records, since the taxon is assumed to be well-known before the tag was attached).
 * `write_dwc()` now parses `location-error-text` (in addition to `location-error-numerical`) for `dwc:coordinateUncertaintyInMeters` (#139).
 * `write_dwc()` now always uses the canonical URI (with `http`) for `dwc:measurementTypeID` (#128).
+* `get_mvb_term()` is now defunct; it is no longer supported (#143).
 
 # movepub 0.4.0
 
