@@ -142,3 +142,15 @@ test_that("write_eml() writes valid EML", {
   )
   expect_true(EML::eml_validate(result))
 })
+
+test_that("write_eml() can handle multiple `Issued` dates", {
+  # See https://github.com/inbo/movepub/issues/113
+  skip_if_offline()
+  doi <- "10.5441/001/1.3hp3s250"
+  temp_dir <- tempdir()
+  on.exit(unlink(temp_dir, recursive = TRUE))
+
+  expect_no_error(
+    suppressMessages(write_eml(doi, temp_dir, study_id = 2911040))
+  )
+})
