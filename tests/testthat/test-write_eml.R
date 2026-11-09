@@ -1,6 +1,5 @@
 test_that("write_eml() returns error on missing or malformed doi", {
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
 
   expect_error(
     write_eml(doi = NULL, temp_dir),
@@ -47,8 +46,7 @@ test_that("write_eml() writes an eml.xml to a directory and returns eml
            invisibly", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_eml(doi, temp_dir))
 
   expect_identical(list.files(temp_dir), "eml.xml")
@@ -67,8 +65,7 @@ test_that("write_eml() returns the expected eml.xml file for the example
            dataset", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_eml(doi, temp_dir))
 
   expect_snapshot_file(
@@ -80,8 +77,7 @@ test_that("write_eml() returns the expected eml.xml file for the example
 test_that("write_eml() supports a custom study_id", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_eml(doi, temp_dir, study_id = 42))
 
   expect_identical(
@@ -93,8 +89,7 @@ test_that("write_eml() supports a custom study_id", {
 test_that("write_eml() supports a custom contact", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(write_eml(
     doi,
     temp_dir,
@@ -123,8 +118,7 @@ test_that("write_eml() supports a custom contact", {
 test_that("write_eml() supports disabling the derived paragraph", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(
     write_eml(doi, temp_dir, derived_paragraph = FALSE)
   )
@@ -135,8 +129,7 @@ test_that("write_eml() supports disabling the derived paragraph", {
 test_that("write_eml() writes valid EML", {
   skip_if_offline()
   doi <- "10.5281/zenodo.10053903"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
   result <- suppressMessages(
     write_eml(doi, temp_dir, derived_paragraph = FALSE)
   )
@@ -147,8 +140,7 @@ test_that("write_eml() can handle multiple `Issued` dates", {
   # See https://github.com/inbo/movepub/issues/113
   skip_if_offline()
   doi <- "10.5441/001/1.3hp3s250"
-  temp_dir <- tempdir()
-  on.exit(unlink(temp_dir, recursive = TRUE))
+  temp_dir <- withr::local_tempdir()
 
   expect_no_error(
     suppressMessages(write_eml(doi, temp_dir, study_id = 2911040))
