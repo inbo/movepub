@@ -142,7 +142,9 @@ test_that("write_eml() can handle multiple `Issued` dates", {
   doi <- "10.5441/001/1.3hp3s250"
   temp_dir <- withr::local_tempdir()
 
-  expect_no_error(
+  result <- (
     suppressMessages(write_eml(doi, temp_dir, study_id = 2911040))
   )
+
+  expect_identical(result$dataset$pubDate, "2013-07-03")
 })
