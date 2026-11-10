@@ -2,6 +2,8 @@
 
 ## movepub (development version)
 
+### Data Package
+
 - movepub now relies on
   [frictionless](https://github.com/frictionlessdata/frictionless-r) \>=
   2.0.1. When using
@@ -15,11 +17,9 @@
   2.  `type` is used instead of `profile` for resources.
   3.  `primaryKey` and `foreignKeys.fields` in resources are always
       arrays.
-- movepub now reexports
-  [`add_properties()`](https://docs.ropensci.org/frictionless/reference/add_properties.html)
-  from
-  [frictionless](https://github.com/frictionlessdata/frictionless-r)
-  ([\#136](https://github.com/inbo/movepub/issues/136)).
+
+### write_dwc
+
 - [`write_dwc()`](https://inbo.github.io/movepub/reference/write_dwc.md)
   now requires `animal-taxon`, `animal-id` and `tag-id` in the source
   data. It also gracefully handles any non-required missing fields
@@ -39,6 +39,27 @@
   now always uses the canonical URI (with `http`) for
   `dwc:measurementTypeID`
   ([\#128](https://github.com/inbo/movepub/issues/128)).
+
+### Other
+
+- [`get_mvb_term()`](https://inbo.github.io/movepub/reference/get_mvb_term.md)
+  is now defunct and returns an error. Use
+  [`move2::movebank_get_vocabulary()`](https://bartk.gitlab.io/move2/reference/movebank_get_vocabulary.html)
+  instead ([\#143](https://github.com/inbo/movepub/issues/143)).
+- movepub now reexports
+  [`add_properties()`](https://docs.ropensci.org/frictionless/reference/add_properties.html)
+  from
+  [frictionless](https://github.com/frictionlessdata/frictionless-r)
+  ([\#136](https://github.com/inbo/movepub/issues/136)).
+- [`write_eml()`](https://inbo.github.io/movepub/reference/write_eml.md)
+  now handles multiple `Issued` dates in the DataCite metadata
+  ([\#144](https://github.com/inbo/movepub/issues/144)).
+- [`add_resource()`](https://inbo.github.io/movepub/reference/add_resource.md)
+  now automatically sets `type` to `"datetime"` if a field is defined
+  with the format `"yyyy-MM-dd HH:mm:ss.SSS"` in the Movebank Attribute
+  Dictionary. Before it only did this for `format`, which led to
+  validation errors for empty datetime fields
+  ([\#142](https://github.com/inbo/movepub/issues/142)).
 
 ## movepub 0.4.0
 

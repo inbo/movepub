@@ -43,7 +43,7 @@ Other contributors:
 - Research Institute for Nature and Forest (INBO)
   ([ROR](https://ror.org/00j54wy13)) \[copyright holder\]
 
-- NLBIF
+- Netherlands Biodiversity Information Facility (NLBIF)
   (https://www.nlbif.nl/move2gbif-gps-zendergegevens-van-dieren-mobiliseren-naar-movebank-en-gbif/)
   \[funder\]
 
