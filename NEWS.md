@@ -9,8 +9,10 @@
 * `write_dwc()` now adds [georeferenceSources](http://rs.tdwg.org/dwc/terms/georeferenceSources) (set to `"GPS"` for GPS sensor data) and [`dwc:identificationVerificationStatus`](http://rs.tdwg.org/dwc/terms/identificationVerificationStatus) (set to `"verified by expert"` for all records, since the taxon is assumed to be well-known before the tag was attached).
 * `write_dwc()` now parses `location-error-text` (in addition to `location-error-numerical`) for `dwc:coordinateUncertaintyInMeters` (#139).
 * `write_dwc()` now always uses the canonical URI (with `http`) for `dwc:measurementTypeID` (#128).
+* `write_eml()` now handles multiple `Issued` dates in the DataCite metadata (#144).
 * `add_resource()` now automatically sets `type` to `"datetime"` if a field is defined with the format `"yyyy-MM-dd HH:mm:ss.SSS"` in the Movebank Attribute Dictionary. Before it only did this for `format`, which led to validation errors for empty datetime fields (#142).
 * `get_mvb_term()` is now defunct and returns an error. Use `move2::movebank_get_vocabulary()` instead (#143).
+
 
 # movepub 0.4.0
 
