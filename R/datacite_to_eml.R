@@ -43,15 +43,12 @@ datacite_to_eml <- function(doi) {
       NULL
     }
   ))
-  pub_dates <- metadata$dates |>
-    purrr::keep(~ identical(.x$dateType, "Issued")) |>
-    purrr::map_chr("date")
-  # Take the longest date string (e.g., "2023-01-01" instead of "2023")
-  pub_date <- if(length(pub_dates) >= 1) {
-    pub_dates[[which.max(nchar(pub_dates))]]
-  } else {
-    NA_character_
-  }
+  pub_date <-
+    metadata$dates |>
+    purrr::keep(\(x) x$dateType == "Issued") |>
+    purrr::map_chr("date") |>
+    # Take the longest date string (e.g., "2023-01-01" instead of "2023")
+    {\(x) x[which.max(nchar(x))]}()
   source_id <- if (length(metadata$relatedIdentifiers) > 0) {
     unlist(purrr::map(
       metadata$relatedIdentifiers,
