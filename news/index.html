@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">movepub</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,9 +34,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="movepub-development-version">movepub (development version)<a class="anchor" aria-label="anchor" href="#movepub-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.5.0" id="movepub-050">movepub 0.5.0<a class="anchor" aria-label="anchor" href="#movepub-050"></a></h2>
 <div class="section level3">
-<h3 id="data-package-development-version">Data Package<a class="anchor" aria-label="anchor" href="#data-package-development-version"></a></h3>
+<h3 id="data-package-0-5-0">Data Package<a class="anchor" aria-label="anchor" href="#data-package-0-5-0"></a></h3>
 <ul><li>movepub now relies on <a href="https://github.com/frictionlessdata/frictionless-r" class="external-link">frictionless</a> &gt;= 2.0.1. When using <code><a href="https://docs.ropensci.org/frictionless/reference/create_package.html" class="external-link">create_package()</a></code> or <code><a href="../reference/add_resource.html">add_resource()</a></code> it will follow the Data Package <a href="https://datapackage.org/" class="external-link">v2</a> specification (<a href="https://github.com/inbo/movepub/issues/136" class="external-link">#136</a>). The main changes in a <code>datapackage.json</code> will be:
 <ol style="list-style-type: decimal"><li>
 <code>$schema</code> is added to package, resources and schemas.</li>
@@ -47,7 +47,7 @@
 </ol></li>
 </ul></div>
 <div class="section level3">
-<h3 id="write_dwc-development-version">write_dwc<a class="anchor" aria-label="anchor" href="#write_dwc-development-version"></a></h3>
+<h3 id="write_dwc-0-5-0">write_dwc<a class="anchor" aria-label="anchor" href="#write_dwc-0-5-0"></a></h3>
 <ul><li>
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now requires <code>animal-taxon</code>, <code>animal-id</code> and <code>tag-id</code> in the source data. It also gracefully handles any non-required missing fields (<a href="https://github.com/inbo/movepub/issues/120" class="external-link">#120</a>).</li>
 <li>
@@ -58,7 +58,7 @@
 <code><a href="../reference/write_dwc.html">write_dwc()</a></code> now always uses the canonical URI (with <code>http</code>) for <code>dwc:measurementTypeID</code> (<a href="https://github.com/inbo/movepub/issues/128" class="external-link">#128</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="other-development-version">Other<a class="anchor" aria-label="anchor" href="#other-development-version"></a></h3>
+<h3 id="other-0-5-0">Other<a class="anchor" aria-label="anchor" href="#other-0-5-0"></a></h3>
 <ul><li>
 <code><a href="../reference/get_mvb_term.html">get_mvb_term()</a></code> is now defunct and returns an error. Use <code><a href="https://bartk.gitlab.io/move2/reference/movebank_get_vocabulary.html" class="external-link">move2::movebank_get_vocabulary()</a></code> instead (<a href="https://github.com/inbo/movepub/issues/143" class="external-link">#143</a>).</li>
 <li>movepub now reexports <code><a href="https://docs.ropensci.org/frictionless/reference/add_properties.html" class="external-link">add_properties()</a></code> from <a href="https://github.com/frictionlessdata/frictionless-r" class="external-link">frictionless</a> (<a href="https://github.com/inbo/movepub/issues/136" class="external-link">#136</a>).</li>

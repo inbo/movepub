@@ -28,13 +28,13 @@ Source:
 [`DESCRIPTION`](https://github.com/inbo/movepub/blob/main/DESCRIPTION)
 
 Desmet P, Govaert S (2026). *movepub: Prepare Movebank Data for
-Publication*. R package version 0.4.0.9000,
+Publication*. R package version 0.5.0,
 <https://github.com/inbo/movepub>.
 
     @Manual{,
       title = {movepub: Prepare Movebank Data for Publication},
       author = {Peter Desmet and Sanne Govaert},
       year = {2026},
-      note = {R package version 0.4.0.9000},
+      note = {R package version 0.5.0},
       url = {https://github.com/inbo/movepub},
     }
