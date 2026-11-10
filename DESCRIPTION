@@ -1,7 +1,7 @@
 Package: movepub
 Title: Prepare Movebank Data for Publication
 Version: 0.4.0.9000
-Date: 2025-08-27
+Date: 2026-11-10
 Authors@R: c(
     person("Peter", "Desmet", , "peter.desmet@inbo.be", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8442-8025", affiliation = "Research Institute for Nature and Forest (INBO)")),
