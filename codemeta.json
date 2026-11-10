@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/inbo/movepub",
   "issueTracker": "https://github.com/inbo/movepub/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.4.0.9000",
+  "version": "0.5.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.5.3 (2026-03-11)",
+  "runtimePlatform": "R version 4.5.2 (2025-10-31)",
   "author": [
     {
       "@type": "Person",
@@ -89,18 +89,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "stringr",
-      "name": "stringr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=stringr"
     },
     {
       "@type": "SoftwareApplication",
@@ -260,6 +248,18 @@
     },
     "12": {
       "@type": "SoftwareApplication",
+      "identifier": "stringr",
+      "name": "stringr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=stringr"
+    },
+    "13": {
+      "@type": "SoftwareApplication",
       "identifier": "tidyr",
       "name": "tidyr",
       "provider": {
@@ -270,7 +270,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tidyr"
     },
-    "13": {
+    "14": {
       "@type": "SoftwareApplication",
       "identifier": "uuid",
       "name": "uuid",
@@ -282,7 +282,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=uuid"
     },
-    "14": {
+    "15": {
       "@type": "SoftwareApplication",
       "identifier": "worrms",
       "name": "worrms",
@@ -294,7 +294,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=worrms"
     },
-    "15": {
+    "16": {
       "@type": "SoftwareApplication",
       "identifier": "xml2",
       "name": "xml2",
@@ -308,7 +308,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "4377.452KB",
+  "fileSize": "4375.389KB",
   "releaseNotes": "https://github.com/inbo/movepub/blob/main/NEWS.md",
   "readme": "https://github.com/inbo/movepub/blob/main/README.md",
   "contIntegration": ["https://github.com/inbo/movepub/actions/workflows/R-CMD-check.yaml", "https://app.codecov.io/gh/inbo/movepub/"],
